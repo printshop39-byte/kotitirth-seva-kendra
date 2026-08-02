@@ -91,6 +91,78 @@ h2{
 h2::after{content:"";flex:1;height:1px;background:var(--line)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px}
 
+/* ---------- उत्सव व परंपरा ---------- */
+#utsav .row b{font-size:14.5px;line-height:1.45}
+#utsav .row span{font-size:13.5px;white-space:nowrap}
+.guru{margin-top:20px;padding-top:18px;border-top:1px dashed var(--line);text-align:center}
+.gt{font-family:'Tiro Devanagari Marathi',serif;font-size:17px;color:var(--kesari)}
+.gh{font-size:14px;color:var(--shai-soft);margin:2px 0 14px}
+.par{text-align:left;padding-left:2px}
+.par .p{position:relative;padding:7px 0 7px 24px}
+.par .p::before{content:"";position:absolute;left:3px;top:14px;width:10px;height:10px;
+  border-radius:50%;background:var(--card);border:2.5px solid var(--kesari)}
+.par .p::after{content:"";position:absolute;left:7.5px;top:26px;bottom:-7px;width:2px;background:var(--line)}
+.par .p:last-child::after{display:none}
+.par b{display:block;font-size:15px;font-weight:600;color:var(--kumkum);line-height:1.4}
+.par i{font-style:normal;font-size:12.5px;color:var(--shai-soft)}
+
+/* ---------- श्रावण विशेष ---------- */
+.shcard{
+  background:linear-gradient(160deg,#22315C,#161B33);color:#EFE1C4;
+  border-radius:var(--r);padding:16px 18px;margin-bottom:14px;
+  display:flex;align-items:center;gap:16px;
+  box-shadow:0 8px 22px rgba(28,31,59,.22);
+}
+.shiv{width:72px;height:80px;flex:0 0 auto}
+.drop{animation:padati 2.4s linear infinite}
+.d2{animation-delay:.8s}
+.d3{animation-delay:1.6s}
+@keyframes padati{
+  0%{transform:translateY(0);opacity:0}
+  12%{opacity:.95}
+  80%{opacity:.95}
+  100%{transform:translateY(50px);opacity:0}
+}
+.bilva{animation:dol 4.5s ease-in-out infinite;transform-origin:60px 76px}
+@keyframes dol{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+.shtx{min-width:0}
+.shbig{font-size:19px;font-weight:600;line-height:1.35}
+.shsub{font-size:13px;opacity:.8;margin-top:2px}
+
+.acclist{display:grid;gap:9px}
+.acc{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.acc summary{
+  display:flex;align-items:center;gap:12px;padding:14px 15px;cursor:pointer;
+  list-style:none;user-select:none;
+}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary:focus-visible{outline:3px solid var(--haldi);outline-offset:-3px}
+.acc .ai{font-size:21px;flex:0 0 auto;line-height:1}
+.acc .at{flex:1;min-width:0}
+.acc .at b{display:block;font-size:15.5px;font-weight:600;color:var(--kumkum);line-height:1.35}
+.acc .at i{font-style:normal;display:block;font-size:12.5px;color:var(--shai-soft)}
+.acc .ac{
+  flex:0 0 auto;width:22px;height:22px;border-radius:50%;
+  background:rgba(217,83,30,.12);color:var(--kesari);
+  font-size:16px;line-height:21px;text-align:center;
+  transition:transform .2s ease;
+}
+.acc[open] .ac{transform:rotate(45deg)}
+.acc[open] summary{background:rgba(217,83,30,.05)}
+.accbody{padding:2px 16px 16px;font-size:14.5px;line-height:1.75;color:var(--shai)}
+.accbody p{margin-bottom:9px}
+.accbody p:last-child{margin-bottom:0}
+.accbody .vlist,.accbody .ul{margin:0 0 9px 18px}
+.accbody .vlist li,.accbody .ul li{margin-bottom:7px}
+.accbody .vlist b{color:var(--kumkum)}
+.accbody .ref{font-size:12.5px;color:var(--shai-soft);border-top:1px dashed var(--line);padding-top:8px}
+.mq{
+  font-family:'Tiro Devanagari Marathi',serif;font-size:15.5px;line-height:1.75;
+  color:var(--kumkum);text-align:center;
+  background:linear-gradient(180deg,#FFF9EA,#FDF1D8);border:1px solid #EBD9AE;
+  border-radius:12px;padding:14px 12px;margin:10px 0;
+}
+
 /* ---------- वेळापत्रक ---------- */
 /* --tw = वेळेच्या रकान्याची रुंदी, --gap = रकाना व रेषेमधले अंतर.
    रेष व ठिपका यांची जागा या दोन आकड्यांवरून आपोआप ठरते — फक्त --tw बदला. */
@@ -210,6 +282,56 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
       <div class="sub" id="nowSub"></div>
     </div>
   </div>
+
+  <!-- वार्षिक उत्सव -->
+  <section>
+    <h2>केंद्रात साजरे होणारे उत्सव</h2>
+    <div class="card">
+      <div class="rows" id="utsav"></div>
+
+      <div class="guru">
+        <div class="gt">॥ श्री गुरुतत्त्व ॥</div>
+        <div class="gh">दिंडोरी प्रणीत मार्गाची परंपरा</div>
+        <div class="par" id="parampara"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- श्रावण विशेष -->
+  <section>
+    <h2>श्रावण विशेष</h2>
+
+    <div class="shcard">
+      <svg class="shiv" viewBox="0 0 120 132" role="img" aria-label="रुद्राभिषेक">
+        <!-- कलश -->
+        <path d="M44 6 h32 l-5 11 h-22 z" fill="#E9A812"/>
+        <path d="M49 17 h22 v11 a11 9 0 0 1 -22 0 z" fill="#D9531E"/>
+        <!-- अभिषेकाचे थेंब -->
+        <circle class="drop d1" cx="60" cy="32" r="3.2" fill="#8FC4E8"/>
+        <circle class="drop d2" cx="60" cy="32" r="2.4" fill="#B4D9F2"/>
+        <circle class="drop d3" cx="60" cy="32" r="2.8" fill="#8FC4E8"/>
+        <!-- पिंडी -->
+        <ellipse cx="60" cy="114" rx="44" ry="11" fill="#EFE4CF"/>
+        <path d="M16 114 a44 13 0 0 1 88 0 z" fill="#D6C4A6"/>
+        <ellipse cx="60" cy="99" rx="14" ry="17" fill="#7A6A56"/>
+        <ellipse cx="60" cy="84" rx="14" ry="6" fill="#98866E"/>
+        <!-- बिल्वपत्र -->
+        <g class="bilva" fill="#4E8B4A" opacity=".9">
+          <ellipse cx="60" cy="76" rx="4" ry="7"/>
+          <ellipse cx="52" cy="79" rx="3.4" ry="6" transform="rotate(-28 52 79)"/>
+          <ellipse cx="68" cy="79" rx="3.4" ry="6" transform="rotate(28 68 79)"/>
+        </g>
+      </svg>
+
+      <div class="shtx">
+        <div class="lbl">श्रावण मास</div>
+        <div class="shbig" id="shBig">—</div>
+        <div class="shsub" id="shSub"></div>
+      </div>
+    </div>
+
+    <div class="acclist" id="shravan"></div>
+  </section>
 
   <!-- नित्य सेवा -->
   <section>
@@ -340,6 +462,91 @@ const KENDRA = {
     { d:"दर रविवार", v:"सकाळी १०:०० – १२:००" }
   ],
 
+  // ---------- वार्षिक उत्सव ----------
+  utsav: [
+    { n:"श्री स्वामी समर्थ जयंती",              t:"चैत्र शु. २" },
+    { n:"श्री स्वामी समर्थ पुण्यतिथी",           t:"चैत्र कृ. १३ (सप्ताह)" },
+    { n:"सद्गुरु प. पू. मोरेदादा पुण्यतिथी",      t:"वैशाख शु. १२" },
+    { n:"श्री गुरुपौर्णिमा",                    t:"आषाढ शु. १५" },
+    { n:"श्रीपाद श्रीवल्लभ जयंती",              t:"भाद्रपद शु. ४" },
+    { n:"अनंत चतुर्दशी (श्री सत्यनारायण पूजा)",  t:"भाद्रपद शु. १४" },
+    { n:"गायत्री मातोश्रींचा उत्सव",             t:"आश्विन शु. ९" },
+    { n:"कोजागरी पौर्णिमा (लक्ष्मी, इंद्र, चंद्र, कुबेर पूजन)", t:"आश्विन शु. १५" },
+    { n:"श्रीपाद श्रीवल्लभ पुण्यतिथी",           t:"आश्विन कृ. १२" },
+    { n:"श्री दत्तात्रेय जयंती",                t:"मार्गशीर्ष शु. १५ (सप्ताह)" },
+    { n:"श्री नृसिंह सरस्वती पुण्यतिथी",         t:"माघ कृ. १" },
+    { n:"श्री महाशिवरात्री",                   t:"माघ कृ. १४" }
+  ],
+
+  // दिंडोरी प्रणीत मार्गाची परंपरा
+  parampara: [
+    { n:"श्री स्वामी समर्थ",                    y:"इ. स. ११४९ – १८७८" },
+    { n:"सद्गुरु परमपूज्य पिठले महाराज",         y:"इ. स. १८७८ – १९७४" },
+    { n:"तेजोनिधी सद्गुरु परमपूज्य मोरेदादा",     y:"इ. स. १९२२ – १९८८" },
+    { n:"गुरुमाऊली परमपूज्य आण्णासाहेब मोरे",     y:"" }
+  ],
+
+  // ---------- श्रावण विशेष ----------
+  shravanStart: "2026-08-13",   // <-- श्रावण सुरू होण्याची तारीख (दरवर्षी बदला)
+
+  shravan: [
+    { icon:"🌿", title:"श्रावण मासातील व्रत वैकल्ये", tithi:"संपूर्ण महिना", body:
+      `<p>श्रावण महिन्यात अनेक धार्मिक व्रते आचरता येतात.</p>
+       <ol class="vlist">
+         <li><b>नक्तव्रत</b> — दिवसा उपवास करून पूर्ण श्रावणमास दररोज नक्तव्रत, म्हणजे फक्त सायंकाळी आहार घेणे. ज्यांना पूर्ण निरंकार शक्य नाही त्यांनी उपोषणाचा एखादा पदार्थ खाऊन एकदा पाणी घ्यावे. भगवान शिवाबरोबर प्रत्येक वारानुसार त्या-त्या देवतेचेही पूजन करावे.</li>
+         <li><b>दर श्रावण सोमवार उपवास</b> — उपवास सायंकाळी सोडणे.</li>
+         <li><b>दर शनिवार</b> — उपवास सायंकाळी सोडणे.</li>
+         <li><b>दूर्वा गणपती व्रत</b> — हे तीन किंवा पाच वर्षांचे व्रत आहे. सर्वतोभद्र मंडलावर गणपतीची स्थापना (सुपारी) करून त्यांना दूर्वा, बेल, आघाडा, शमी, मंदार वहावे. गणपती स्तोत्र, अथर्वशीर्ष व गणेश मंत्र म्हणावा.</li>
+         <li><b>सुपोदन वर्ण षष्ठी</b> — पानावर तांदूळ व वाल ठेवून स्त्रियांनी वाण द्यावे व जलाशयात सोडावे.</li>
+         <li><b>संकष्टी चतुर्थी</b> — या व्रताचा प्रारंभ श्रावणातील अथवा माघातील संकष्टी चतुर्थीपासून करावा.</li>
+       </ol>` },
+
+    { icon:"🔱", title:"केंद्रातील रुद्राभिषेक सेवा", tithi:"दररोज", body:
+      `<p>सर्व श्री स्वामी समर्थ सेवाकेंद्रांवर भगवान शंकराच्या पिंडीवर दररोज सर्व स्त्री-पुरुष सेवेकरी संस्कृत / मराठी रुद्र, शिवकवच, शिवमहिम्न, स्तोत्र व मंत्र म्हणून, नियमित वेळ ठरवून रुद्राभिषेक करतात. साखळी पद्धतही वापरतात.</p>
+       <p>सायंकाळी सर्वांच्या वतीने बिल्वपत्र एक जण वाहतो. शेवटच्या दिवशी शंकराच्या पिंडीवर दही-भात लेपन करून, प्रत्येक जण १०८ बिल्वपत्र सामुदायिकरित्या १०८ शिवनामावली घेऊन वाहतात.</p>
+       <p>या दिवशी नैवेद्यास चुरम्याचे लाडू असतात. आरतीनंतर नैवेद्य, प्रसाद, लाडू व दहीभात लेपनाचा प्रसादही वाटतात. संपूर्ण महिनाभर अवर्णनीय, स्वर्गतुल्य आनंद देणारी सेवा करायला मिळते.</p>
+       <p class="ref">अधिक माहितीसाठी — ज्ञानदान भाग १</p>` },
+
+    { icon:"🐍", title:"नागपंचमी", tithi:"श्रावण शु. ५", body:
+      `<p>या दिवशी आपल्या कुलाचाराप्रमाणे नाग देवतेची पूजा व नैवेद्य करावा.</p>
+       <ul class="ul">
+         <li>या दिवशी चिरत, दळत, कांडत नाहीत; तवा चुलीवर ठेवत नाहीत.</li>
+         <li>सहसा उकडीचे पदार्थ, मोदक व कानवले खातात.</li>
+         <li>या दिवशी कुणाचीही हिंसा करू नये.</li>
+         <li>नागाच्या प्रतिमेला दूध व लाह्यांचा नैवेद्य दाखवतात.</li>
+       </ul>
+       <p>पृथ्वीवर फक्त एकच दिवस नागाची पूजा होते. इतर वेळी त्याची प्रतिमा किंवा मूर्ती घरात पूजत नाहीत — कारण पृथ्वी शेषनागाने डोक्यावर धारण केली आहे, म्हणून पृथ्वीच्या डोक्यावर नागाला बसवू नये.</p>` },
+
+    { icon:"🎀", title:"नारळी पौर्णिमा (रक्षाबंधन)", tithi:"श्रावण शु. १५", body:
+      `<p>या दिवशी सर्व श्री स्वामी समर्थ सेवाकेंद्रांवर भगिनींनी श्री स्वामी समर्थ महाराजांना राखी अर्पण करून, तेथे जमलेल्या आपल्या प्रत्येक सेवेकरी बंधूंना राखी बांधावी. यामुळे तत्त्वरूपाने एक मोठे संरक्षणाचे नाते तयार होते.</p>
+       <p>राखी बांधत असताना खालील मंत्र म्हणावा —</p>
+       <blockquote class="mq">येन बध्दो बलिराजा दानवेंद्रोमहाबला: ।<br>तेन त्वामहम् (बन्धयामि) रक्षे माचलमाचल ॥</blockquote>
+       <p>ही पौर्णिमा नारळी पौर्णिमा या नावानेही ओळखली जाते. या पौर्णिमेला समुद्रकिनारी राहणारे लोक समुद्रास विधीपूर्वक नारळ अर्पण करतात.</p>` },
+
+    { icon:"🦚", title:"श्रीकृष्ण जन्माष्टमी", tithi:"श्रावण कृ. ८", body:
+      `<p>या दिवशी आपल्या सेवाकेंद्रात रात्री ठीक <b>१२.३९</b> वाजता श्रीकृष्णांचा जन्मोत्सव करावा. एका छोट्या पाळण्यात श्री बाळकृष्णाची मूर्ती ठेवावी व पाळणा म्हणावा.</p>
+       <p>सायंकाळी ६.३० च्या आरतीनंतर केंद्रात सर्व सेवेकऱ्यांनी एकत्र जमून गाणी, कूट प्रश्न, खेळ, श्रीकृष्णांच्या जीवनातील वेगवेगळे प्रसंग, श्री भगवद्‌गीतेचा १५ वा अध्याय व गीतेची १८ नावे सामुदायिकरित्या वाचावीत.</p>
+       <p>रात्री १२.३९ वाजता जन्मोत्सव साजरा करून सुंठ-खडीसाखरेचा नैवेद्य करतात. दुसऱ्या दिवशी दहीहंडी साजरी केली जाते व गोपाळकाल्याचा नैवेद्य दाखवतात.</p>
+       <p>श्रीकृष्णाचा मंत्र १ माळ जपावा —</p>
+       <blockquote class="mq">क्लीं कृष्णाय गोविन्दाय गोपी जन वल्लभाय स्वाहा ॥</blockquote>
+       <p>श्रीकृष्ण किलकम् सुद्धा या दिवशी वाचावे. श्रावण कृष्ण १ ते ८ श्रीकृष्ण नवरात्र उत्सव साजरा करतात; भारतभर पूर्ण पुरुषोत्तम दैवताचे विविध प्रकारांतून स्मरण करतात. याच दिवशी कालिकेचा जन्मदिनही साजरा केला जातो.</p>
+       <p class="ref">श्रीकृष्ण किलकम् — ज्ञानदान भाग ३</p>` },
+
+    { icon:"🇮🇳", title:"१५ ऑगस्ट — स्वातंत्र्य दिन", tithi:"राष्ट्रीय सण", body:
+      `<p>भारतीय स्वातंत्र्याचा मंगलमय दिवस म्हणून १५ ऑगस्ट साजरा केला जातो.</p>
+       <ul class="ul">
+         <li>भारत मातेची सेवा म्हणून सर्व समर्थ सेवा केंद्रांवर दुर्गा सप्तशतीचे सामुदायिक पठण होते.</li>
+         <li>भारत मातेच्या फोटोचे त्या दिवशी पूजन केले जाते.</li>
+         <li>रक्तदान, श्रमदान व ज्ञानदानाचे कार्यक्रम सर्व केंद्रांत सामूहिक स्वरूपात घेतले जातात.</li>
+         <li>श्री गुरुपीठातही ध्वजारोहण सोहळा साजरा केला जातो.</li>
+       </ul>` },
+
+    { icon:"🐂", title:"पोळा", tithi:"श्रावण कृ. अमावास्या", body:
+      `<p>मातृदिन व वृषभ पूजन दिन. भारत हा शेतीप्रधान देश असल्याने या दिवशी बैलास स्वच्छ धुऊन, सजवून, ओवाळून पुरणपोळीचा नैवेद्य खाऊ घालतात. वर्षभर शेतात आपल्यासाठी कष्ट करणाऱ्या बैलांसाठी कृतज्ञतादिन म्हणून हा दिवस साजरा केला जातो.</p>
+       <p>प्रत्येक आत्मा परमेश्वरस्वरूप आहे — हेच आपले सण आपल्याला जाणीव करून देतात.</p>
+       <p>या दिवशी केंद्रात भगवान शंकरांची विशेष सेवा म्हणून दहीभात लेपनाची व बिल्वपत्र वाहण्याची विशेष सेवा घेतली जाते. हा उत्सव सायंकाळी आरतीपूर्वी साजरा केला जातो.</p>` }
+  ],
+
   // धार्मिक ग्रंथ — फक्त नावे. किंमत नाही, दुवा नाही.
   books: [
     "श्री स्वामी चरित्र सारामृत",
@@ -439,6 +646,50 @@ const rowHTML = a => a.map(r=>`<div class="row"><b>${r.d}</b><span>${r.v}</span>
 document.getElementById("mudran").innerHTML     = rowHTML(KENDRA.mudran);
 document.getElementById("balsanskar").innerHTML = rowHTML(KENDRA.balsanskar);
 document.getElementById("vivah").innerHTML      = rowHTML(KENDRA.vivah);
+
+// वार्षिक उत्सव
+document.getElementById("utsav").innerHTML = KENDRA.utsav.map(u =>
+  `<div class="row"><b>${u.n}</b><span>${u.t}</span></div>`).join("");
+
+// परंपरा
+document.getElementById("parampara").innerHTML = KENDRA.parampara.map(p =>
+  `<div class="p"><b>${p.n}</b>${p.y ? `<i>${p.y}</i>` : ""}</div>`).join("");
+
+// श्रावण — किती दिवस बाकी / कितवा दिवस
+(function(){
+  const [y,m,d] = KENDRA.shravanStart.split("-").map(Number);
+  const start = new Date(y, m-1, d);
+  const aaj   = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const baki  = Math.round((start - aaj) / 864e5);
+  const big = document.getElementById("shBig"), sub = document.getElementById("shSub");
+  const tarikh = dev(d) + " " + ["जानेवारी","फेब्रुवारी","मार्च","एप्रिल","मे","जून","जुलै",
+    "ऑगस्ट","सप्टेंबर","ऑक्टोबर","नोव्हेंबर","डिसेंबर"][m-1];
+
+  if(baki > 0){
+    big.textContent = "श्रावण सुरू होण्यास " + dev(baki) + (baki === 1 ? " दिवस" : " दिवस");
+    sub.textContent = tarikh + " पासून प्रारंभ";
+  }else if(baki === 0){
+    big.textContent = "आजपासून श्रावण मास सुरू";
+    sub.textContent = "महिनाभर विशेष सेवा";
+  }else if(baki >= -30){
+    big.textContent = "श्रावण मास सुरू आहे";
+    sub.textContent = "आज " + dev(1 - baki) + "वा दिवस";
+  }else{
+    big.textContent = "श्रावण मास";
+    sub.textContent = "पुढील श्रावणाची तारीख केंद्रात विचारा";
+  }
+})();
+
+// श्रावणातील सण — उघडझाप होणारी यादी
+document.getElementById("shravan").innerHTML = KENDRA.shravan.map(s => `
+  <details class="acc">
+    <summary>
+      <span class="ai">${s.icon}</span>
+      <span class="at"><b>${s.title}</b><i>${s.tithi}</i></span>
+      <span class="ac" aria-hidden="true">+</span>
+    </summary>
+    <div class="accbody">${s.body}</div>
+  </details>`).join("");
 
 // सेवा विभाग
 document.getElementById("bVibhag").href = KENDRA.vibhagUrl;
