@@ -225,6 +225,15 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
     </div>
   </section>
 
+  <!-- विवाह संस्कार -->
+  <section>
+    <h2>विवाह संस्कार</h2>
+    <div class="card">
+      <div class="rows" id="vivah"></div>
+      <p class="note">माहिती व नोंदणीसाठी खाली दिलेल्या क्रमांकावर संपर्क करा.</p>
+    </div>
+  </section>
+
   <!-- आजचे वचन -->
   <section>
     <h2>आजचे स्मरण</h2>
@@ -305,6 +314,11 @@ const KENDRA = {
     { d:"दर रविवार", v:"सकाळी ९:०० – १०:३०" }
   ],
 
+  // विवाह संस्कार
+  vivah: [
+    { d:"दर रविवार", v:"सकाळी १०:०० – १२:००" }
+  ],
+
   // उपयुक्त दुवे — नवा दुवा हवा असल्यास खाली तशीच एक ओळ वाढवा
   links: [
     { icon:"🕉️", name:"श्री स्वामी समर्थ सेवा मार्ग",
@@ -372,6 +386,7 @@ if(live){
 const rowHTML = a => a.map(r=>`<div class="row"><b>${r.d}</b><span>${r.v}</span></div>`).join("");
 document.getElementById("mudran").innerHTML     = rowHTML(KENDRA.mudran);
 document.getElementById("balsanskar").innerHTML = rowHTML(KENDRA.balsanskar);
+document.getElementById("vivah").innerHTML      = rowHTML(KENDRA.vivah);
 
 // सेवा विभाग
 document.getElementById("bVibhag").href = KENDRA.vibhagUrl;
