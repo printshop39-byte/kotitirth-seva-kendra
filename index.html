@@ -92,17 +92,26 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px}
 
 /* ---------- वेळापत्रक ---------- */
-.tl{list-style:none;position:relative;padding-left:6px}
-.tl::before{content:"";position:absolute;left:44px;top:14px;bottom:14px;width:2px;
+/* --tw = वेळेच्या रकान्याची रुंदी, --gap = रकाना व रेषेमधले अंतर.
+   रेष व ठिपका यांची जागा या दोन आकड्यांवरून आपोआप ठरते — फक्त --tw बदला. */
+.tl{--tw:100px;--gap:28px;list-style:none;position:relative;padding-left:0}
+.tl::before{content:"";position:absolute;left:calc(var(--tw) + var(--gap)/2 - 1px);
+  top:14px;bottom:14px;width:2px;
   background:linear-gradient(180deg,var(--kesari),rgba(217,83,30,.15))}
-.tl li{display:flex;gap:16px;align-items:flex-start;padding:11px 0;position:relative}
+.tl li{display:flex;gap:var(--gap);align-items:flex-start;padding:11px 0;position:relative}
 .tl .t{
-  flex:0 0 76px;text-align:right;font-weight:600;font-size:15px;color:var(--kumkum);
-  padding-top:1px;
+  flex:0 0 var(--tw);text-align:right;font-weight:600;font-size:14px;color:var(--kumkum);
+  padding-top:2px;white-space:nowrap;
 }
-.tl .dot{position:absolute;left:39px;top:20px;width:12px;height:12px;border-radius:50%;
+.tl .dot{position:absolute;left:calc(var(--tw) + var(--gap)/2 - 6px);top:18px;
+  width:12px;height:12px;border-radius:50%;
   background:var(--card);border:2.5px solid var(--kesari)}
-.tl .d{padding-left:30px}
+.tl .d{padding-left:14px}
+@media (max-width:360px){
+  .tl{--tw:86px;--gap:24px}
+  .tl .t{font-size:13px}
+  .tl .d{padding-left:10px}
+}
 .tl .d b{display:block;font-weight:600;font-size:16px}
 .tl .d span{font-size:13.5px;color:var(--shai-soft)}
 .tl li.live .dot{background:var(--haldi);border-color:var(--haldi);box-shadow:0 0 0 5px rgba(233,168,18,.2)}
