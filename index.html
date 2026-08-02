@@ -98,6 +98,19 @@ h2{
 h2::after{content:"";flex:1;height:1px;background:var(--line)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px}
 
+/* ---------- मुद्रण विभागाचा संपर्क ---------- */
+.msamp{margin-top:16px;padding-top:16px;border-top:1px dashed var(--line)}
+.mhead{text-align:center}
+.mhead small{display:block;font-size:11.5px;letter-spacing:2px;color:var(--shai-soft)}
+.mhead b{display:block;font-size:17px;font-weight:600;color:var(--kumkum);margin-top:3px}
+.mhead i{font-style:normal;display:block;font-size:15px;color:var(--kesari);
+  font-weight:600;letter-spacing:.5px;margin-top:1px}
+.monly{
+  margin-top:10px;padding:8px 12px;border-radius:9px;
+  background:rgba(233,168,18,.14);color:#8a6208;
+  font-size:12.5px;line-height:1.55;text-align:center;
+}
+
 /* ---------- उत्सव व परंपरा ---------- */
 #utsav .row b{font-size:14.5px;line-height:1.45}
 #utsav .row span{font-size:13.5px;white-space:nowrap}
@@ -304,6 +317,19 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
     <div class="card">
       <div class="rows" id="mudran"></div>
       <p class="note">सेवा साहित्य, पोथी व छपाईकामासाठी याच वेळेत संपर्क करा.</p>
+
+      <div class="msamp">
+        <div class="mhead">
+          <small>मुद्रण विभाग संपर्क</small>
+          <b id="mName"></b>
+          <i id="mNum"></i>
+        </div>
+        <p class="monly" id="mOnly"></p>
+        <div class="btns">
+          <a class="btn btn-call" id="mCall" href="#">📞 फोन करा</a>
+          <a class="btn btn-wa" id="mWa" href="#" target="_blank" rel="noopener">💬 WhatsApp</a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -468,6 +494,15 @@ const KENDRA = {
   vivah: [
     { d:"दर रविवार", v:"सकाळी ९:०० – १०:३०" }
   ],
+
+  // मुद्रण विभागाचा संपर्क — फक्त मुद्रण साहित्य व उत्पादनांसाठी
+  mudranSampark: {
+    naav  : "श्री सचिन वर्णे",
+    phone : "+919890402617",
+    disp  : "+९१ ९८९०४ ०२६१७",
+    onlyF : "हा क्रमांक फक्त मुद्रण साहित्य व उत्पादनांसाठी आहे.",
+    waMsg : "श्री स्वामी समर्थ. मला मुद्रण साहित्याबद्दल माहिती हवी आहे."
+  },
 
   // ---------- वार्षिक उत्सव ----------
   utsav: [
@@ -653,6 +688,17 @@ const rowHTML = a => a.map(r=>`<div class="row"><b>${r.d}</b><span>${r.v}</span>
 document.getElementById("mudran").innerHTML     = rowHTML(KENDRA.mudran);
 document.getElementById("balsanskar").innerHTML = rowHTML(KENDRA.balsanskar);
 document.getElementById("vivah").innerHTML      = rowHTML(KENDRA.vivah);
+
+// मुद्रण विभागाचा संपर्क
+(function(){
+  const m = KENDRA.mudranSampark, num = m.phone.replace(/[^\d+]/g,"");
+  document.getElementById("mName").textContent = m.naav;
+  document.getElementById("mNum").textContent  = m.disp;
+  document.getElementById("mOnly").textContent = m.onlyF;
+  document.getElementById("mCall").href = "tel:" + num;
+  document.getElementById("mWa").href   =
+    "https://wa.me/" + num.replace("+","") + "?text=" + encodeURIComponent(m.waMsg);
+})();
 
 // वार्षिक उत्सव
 document.getElementById("utsav").innerHTML = KENDRA.utsav.map(u =>
