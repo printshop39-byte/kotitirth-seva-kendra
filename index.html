@@ -156,6 +156,18 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 /* ---------- सेवा विभाग ---------- */
 .intro{font-size:14.5px;color:var(--shai-soft);line-height:1.7}
 
+/* ---------- ग्रंथ यादी ---------- */
+.books{display:grid;gap:7px}
+.book{
+  display:flex;gap:11px;align-items:baseline;
+  padding:9px 13px;border-radius:10px;background:rgba(217,83,30,.05);
+  font-size:15px;line-height:1.5;
+}
+.book .n{
+  flex:0 0 26px;text-align:right;
+  font-size:12.5px;font-weight:600;color:var(--kesari);
+}
+
 /* ---------- उपयुक्त दुवे ---------- */
 .links{display:grid;gap:10px}
 .lnk{
@@ -272,6 +284,15 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
     </div>
   </section>
 
+  <!-- धार्मिक ग्रंथ -->
+  <section>
+    <h2>धार्मिक ग्रंथ</h2>
+    <div class="card">
+      <div class="books" id="books"></div>
+      <p class="note">उपलब्धतेसाठी केंद्रात विचारणा करा.</p>
+    </div>
+  </section>
+
   <!-- उपयुक्त दुवे -->
   <section>
     <h2>उपयुक्त दुवे</h2>
@@ -317,6 +338,39 @@ const KENDRA = {
   // विवाह संस्कार
   vivah: [
     { d:"दर रविवार", v:"सकाळी १०:०० – १२:००" }
+  ],
+
+  // धार्मिक ग्रंथ — फक्त नावे. किंमत नाही, दुवा नाही.
+  books: [
+    "श्री स्वामी चरित्र सारामृत",
+    "श्री गुरुचरित्र",
+    "नित्यसेवा – स्तोत्र व मंत्र",
+    "संक्षिप्त श्रीमद्‌भागवत",
+    "श्री दुर्गा सप्तशती (मराठी)",
+    "श्री दुर्गा सप्तशती (संस्कृत)",
+    "श्री विष्णुसहस्रनाम",
+    "श्री गीताई",
+    "श्री ललिता सहस्रनाम स्तोत्र",
+    "सेवा श्री गायत्री मातोश्रींची",
+    "श्री नवनाथ भक्तिसार",
+    "श्री सत्यनारायण पूजा विधी",
+    "श्री मल्हारी सप्तशती",
+    "श्री मनाचे श्लोक",
+    "सेवा श्री बटुक भैरवाची",
+    "सेवा भगवान शंकरांची",
+    "सेवा श्री दत्तमहाराजांची",
+    "श्री गुरुगीता",
+    "श्री श्रीपाद श्रीवल्लभ चरित्र",
+    "क्षात्रधर्म – गोत्र, प्रवर, कुल, जाति, कुलदेवता",
+    "कुलदेवतेचा मानसन्मान व कुंकुमार्चन विधी",
+    "षोडशोपचार पूजा विधी",
+    "सण – वार – व्रत – वैकल्ये",
+    "विवाह संस्कार (भाग १)",
+    "मनोवांछित संतती – गर्भसंस्कार व पालकत्व",
+    "कल्पवृक्ष संस्कार चित्रमाला",
+    "पंचामृत – हस्त रेखा शास्त्र",
+    "अनुभूतीची प्रकाशवाटा",
+    "तेजोनिधी"
   ],
 
   // उपयुक्त दुवे — नवा दुवा हवा असल्यास खाली तशीच एक ओळ वाढवा
@@ -390,6 +444,10 @@ document.getElementById("vivah").innerHTML      = rowHTML(KENDRA.vivah);
 
 // सेवा विभाग
 document.getElementById("bVibhag").href = KENDRA.vibhagUrl;
+
+// धार्मिक ग्रंथ — फक्त नावे, दुवा नाही
+document.getElementById("books").innerHTML = KENDRA.books.map((b,i) =>
+  `<div class="book"><span class="n">${dev(i+1)}</span><span>${b}</span></div>`).join("");
 
 // उपयुक्त दुवे
 document.getElementById("links").innerHTML = KENDRA.links.map(l =>
