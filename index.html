@@ -144,6 +144,9 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 .person{text-align:center;font-size:17px;font-weight:600}
 .person small{display:block;font-size:12px;letter-spacing:2px;color:var(--shai-soft);font-weight:400;margin-bottom:2px}
 
+/* ---------- सेवा विभाग ---------- */
+.intro{font-size:14.5px;color:var(--shai-soft);line-height:1.7}
+
 /* ---------- उपयुक्त दुवे ---------- */
 .links{display:grid;gap:10px}
 .lnk{
@@ -236,6 +239,21 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
     </div>
   </section>
 
+  <!-- सेवा विभाग -->
+  <section>
+    <h2>सेवा विभाग</h2>
+    <div class="card">
+      <p class="intro">श्री स्वामी समर्थ सेवा मार्गात समाजाच्या वेगवेगळ्या गरजांसाठी
+        स्वतंत्र सेवा विभाग कार्यरत आहेत. प्रत्येक विभागाचे स्वतःचे कार्य,
+        सेवा व मार्गदर्शन आहे.</p>
+      <div class="btns">
+        <a class="btn btn-map" id="bVibhag" href="#" target="_blank" rel="noopener">
+          📋 विभागांची सविस्तर माहिती पहा
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- उपयुक्त दुवे -->
   <section>
     <h2>उपयुक्त दुवे</h2>
@@ -258,6 +276,7 @@ const KENDRA = {
   sevekari : "श्री सुनील तावरे",
   phone    : "+91XXXXXXXXXX",              // <-- खरा नंबर टाका (उदा. +919822012345)
   mapQuery : "कोटितीर्थ तलाव, कोल्हापूर",   // <-- Google Maps चा नेमका पत्ता/लिंक
+  vibhagUrl: "https://dindoripranit.org/#/vibhag",   // सेवा विभागांची अधिकृत माहिती
   waMsg    : "श्री स्वामी समर्थ. मला सेवा केंद्राबद्दल माहिती हवी आहे.",
 
   // नित्य सेवा — २४ तासांच्या फॉरमॅटमध्ये वेळ
@@ -346,6 +365,9 @@ if(live){
 const rowHTML = a => a.map(r=>`<div class="row"><b>${r.d}</b><span>${r.v}</span></div>`).join("");
 document.getElementById("mudran").innerHTML     = rowHTML(KENDRA.mudran);
 document.getElementById("balsanskar").innerHTML = rowHTML(KENDRA.balsanskar);
+
+// सेवा विभाग
+document.getElementById("bVibhag").href = KENDRA.vibhagUrl;
 
 // उपयुक्त दुवे
 document.getElementById("links").innerHTML = KENDRA.links.map(l =>
