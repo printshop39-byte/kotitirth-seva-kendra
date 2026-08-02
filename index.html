@@ -326,8 +326,7 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
         </div>
         <p class="monly" id="mOnly"></p>
         <div class="btns">
-          <a class="btn btn-call" id="mCall" href="#">📞 फोन करा</a>
-          <a class="btn btn-wa" id="mWa" href="#" target="_blank" rel="noopener">💬 WhatsApp</a>
+          <a class="btn btn-wa" id="mWa" href="#" target="_blank" rel="noopener">💬 WhatsApp वर विचारा</a>
         </div>
       </div>
     </div>
@@ -500,7 +499,7 @@ const KENDRA = {
     naav  : "श्री सचिन वर्णे",
     phone : "+919890402617",
     disp  : "+९१ ९८९०४ ०२६१७",
-    onlyF : "हा क्रमांक फक्त मुद्रण साहित्य व उत्पादनांसाठी आहे.",
+    onlyF : "फक्त WhatsApp — मुद्रण साहित्य व उत्पादनांसाठी.",
     waMsg : "श्री स्वामी समर्थ. मला मुद्रण साहित्याबद्दल माहिती हवी आहे."
   },
 
@@ -695,7 +694,6 @@ document.getElementById("vivah").innerHTML      = rowHTML(KENDRA.vivah);
   document.getElementById("mName").textContent = m.naav;
   document.getElementById("mNum").textContent  = m.disp;
   document.getElementById("mOnly").textContent = m.onlyF;
-  document.getElementById("mCall").href = "tel:" + num;
   document.getElementById("mWa").href   =
     "https://wa.me/" + num.replace("+","") + "?text=" + encodeURIComponent(m.waMsg);
 })();
