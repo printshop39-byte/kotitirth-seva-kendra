@@ -3,262 +3,341 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>श्री स्वामी समर्थ सेवा केंद्र, कोटितीर्थ</title>
-<meta name="description" content="श्री स्वामी समर्थ सेवा केंद्र, कोटितीर्थ — सेवा वेळापत्रक, उपक्रम आणि संपर्क माहिती.">
+<title>श्री स्वामी समर्थ सेवा केंद्र, कोटितीर्थ – कोल्हापूर</title>
+<meta name="description" content="श्री स्वामी समर्थ सेवा व अध्यात्मिक सेवा व बाल संस्कार केंद्र, कोटितीर्थ, कोल्हापूर – नित्य सेवा वेळापत्रक, मुद्रण विभाग वेळ व संपर्क.">
+<meta name="theme-color" content="#8C1D2B">
+<meta property="og:title" content="श्री स्वामी समर्थ सेवा केंद्र, कोटितीर्थ – कोल्हापूर">
+<meta property="og:description" content="नित्य सेवा वेळापत्रक व संपर्क माहिती">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Anek+Devanagari:wght@300..700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bhagva:#e0651a;
-    --bhagva-dark:#b34a0e;
-    --maroon:#6d1f1f;
-    --cream:#fdf6ec;
-    --ink:#2b2118;
-    --muted:#6b5c4d;
-    --line:#e8dcc9;
-    --card:#ffffff;
-  }
-  *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{
-    margin:0;
-    background:var(--cream);
-    color:var(--ink);
-    font-family:"Nirmala UI","Noto Sans Devanagari","Mangal",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-    line-height:1.75;
-    font-size:17px;
-  }
-  .wrap{max-width:980px;margin:0 auto;padding:0 20px}
+/* ============================================================
+   रंग व अंतर (इथे बदल केला की पूर्ण साइटचा रंग बदलतो)
+   ============================================================ */
+:root{
+  --kumkum:#8C1D2B;      /* गडद कुंकवाचा लाल – हेडर */
+  --kesari:#D9531E;      /* भगवा – वेळेचे चिप्स */
+  --haldi:#E9A812;       /* हळद – हायलाइट */
+  --ratra:#1C1F3B;       /* गडद निळा – "आत्ता" पट्टी */
+  --kagad:#FCF5E8;       /* कागदी पार्श्वभूमी */
+  --card:#FFFDF7;
+  --shai:#2C2317;        /* मजकुराचा रंग */
+  --shai-soft:#6E5F4C;
+  --line:#E7DCC6;
+  --r:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Anek Devanagari',system-ui,sans-serif;
+  background:var(--kagad);
+  color:var(--shai);
+  line-height:1.65;
+  background-image:radial-gradient(circle at 1px 1px, rgba(140,29,43,.07) 1px, transparent 0);
+  background-size:22px 22px;
+}
+.wrap{max-width:520px;margin:0 auto;padding:0 16px 40px}
 
-  /* ---- top bar ---- */
-  header{
-    background:linear-gradient(135deg,var(--bhagva) 0%,var(--bhagva-dark) 60%,var(--maroon) 100%);
-    color:#fff;
-    text-align:center;
-    padding:44px 20px 38px;
-    border-bottom:5px solid #ffcf8b;
-  }
-  header .om{font-size:2.6rem;line-height:1;opacity:.9}
-  header h1{margin:10px 0 6px;font-size:clamp(1.6rem,5vw,2.5rem);font-weight:700;letter-spacing:.3px}
-  header .place{margin:0;font-size:1.05rem;opacity:.95}
-  .jaap{
-    display:inline-block;margin-top:18px;padding:9px 22px;
-    background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.45);
-    border-radius:999px;font-size:1.05rem;
-  }
+/* ---------- हेडर पट्टी ---------- */
+.band{
+  background:linear-gradient(180deg,#8C1D2B,#6E1522);
+  color:#FDEFD2;text-align:center;
+  padding:18px 16px 22px;
+  position:relative;
+}
+.band::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;
+  background:linear-gradient(90deg,var(--kesari),var(--haldi),var(--kesari));}
+.mantra{
+  font-family:'Tiro Devanagari Marathi',serif;
+  font-size:clamp(22px,6.5vw,30px);
+  letter-spacing:.5px;
+}
+.mantra small{display:block;font-size:12px;letter-spacing:3px;opacity:.7;margin-top:6px;font-family:'Anek Devanagari',sans-serif}
 
-  /* ---- nav ---- */
-  nav{
-    background:#fff;border-bottom:1px solid var(--line);
-    position:sticky;top:0;z-index:10;
-    box-shadow:0 1px 6px rgba(0,0,0,.05);
-  }
-  nav ul{
-    list-style:none;margin:0;padding:0;
-    display:flex;flex-wrap:wrap;justify-content:center;gap:4px;
-  }
-  nav a{
-    display:block;padding:13px 16px;color:var(--maroon);
-    text-decoration:none;font-weight:600;font-size:.98rem;
-  }
-  nav a:hover{background:var(--cream);color:var(--bhagva-dark)}
+/* ---------- नाव ---------- */
+.hero{text-align:center;padding:26px 4px 18px}
+.hero h1{
+  font-family:'Tiro Devanagari Marathi',serif;
+  font-size:clamp(21px,5.6vw,27px);
+  line-height:1.45;color:var(--kumkum);font-weight:400;
+}
+.place{
+  margin-top:10px;display:inline-flex;gap:6px;align-items:center;
+  font-size:15px;color:var(--shai-soft);
+  border-top:1px solid var(--line);padding-top:10px;
+}
 
-  /* ---- sections ---- */
-  section{padding:46px 0 10px}
-  h2{
-    font-size:1.5rem;color:var(--maroon);margin:0 0 6px;
-    display:flex;align-items:center;gap:10px;
-  }
-  h2::before{content:"";width:6px;height:26px;background:var(--bhagva);border-radius:3px}
-  .lead{color:var(--muted);margin:0 0 22px}
+/* ---------- "आत्ता" पट्टी (मुख्य वैशिष्ट्य) ---------- */
+.now{
+  background:var(--ratra);color:#F6E9CC;border-radius:var(--r);
+  padding:16px 18px;display:flex;gap:14px;align-items:center;
+  box-shadow:0 8px 22px rgba(28,31,59,.22);
+}
+.diya{width:12px;height:12px;border-radius:50%;background:var(--haldi);flex:0 0 auto;
+  box-shadow:0 0 0 0 rgba(233,168,18,.6);animation:jyot 2.4s ease-out infinite}
+@keyframes jyot{70%{box-shadow:0 0 0 12px rgba(233,168,18,0)}100%{box-shadow:0 0 0 0 rgba(233,168,18,0)}}
+.now .lbl{font-size:12px;letter-spacing:2px;opacity:.6}
+.now .txt{font-size:17px;font-weight:600;line-height:1.4}
+.now .sub{font-size:13px;opacity:.75}
 
-  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
-  .card{
-    background:var(--card);border:1px solid var(--line);border-radius:12px;
-    padding:20px 22px;
-  }
-  .card h3{margin:0 0 8px;font-size:1.12rem;color:var(--bhagva-dark)}
-  .card p{margin:0;color:var(--muted);font-size:.97rem}
+/* ---------- सेक्शन ---------- */
+section{margin-top:26px}
+h2{
+  font-size:13px;letter-spacing:2.5px;font-weight:600;color:var(--kesari);
+  text-transform:none;margin-bottom:12px;display:flex;align-items:center;gap:10px;
+}
+h2::after{content:"";flex:1;height:1px;background:var(--line)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px}
 
-  /* ---- table ---- */
-  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:#fff}
-  table{border-collapse:collapse;width:100%;min-width:460px}
-  th,td{padding:13px 18px;text-align:right;border-bottom:1px solid var(--line)}
-  th:first-child,td:first-child{text-align:left}
-  thead th{background:#fff4e6;color:var(--maroon);font-weight:700}
-  tbody tr:last-child td{border-bottom:none}
+/* ---------- वेळापत्रक ---------- */
+.tl{list-style:none;position:relative;padding-left:6px}
+.tl::before{content:"";position:absolute;left:44px;top:14px;bottom:14px;width:2px;
+  background:linear-gradient(180deg,var(--kesari),rgba(217,83,30,.15))}
+.tl li{display:flex;gap:16px;align-items:flex-start;padding:11px 0;position:relative}
+.tl .t{
+  flex:0 0 76px;text-align:right;font-weight:600;font-size:15px;color:var(--kumkum);
+  padding-top:1px;
+}
+.tl .dot{position:absolute;left:39px;top:20px;width:12px;height:12px;border-radius:50%;
+  background:var(--card);border:2.5px solid var(--kesari)}
+.tl .d{padding-left:30px}
+.tl .d b{display:block;font-weight:600;font-size:16px}
+.tl .d span{font-size:13.5px;color:var(--shai-soft)}
+.tl li.live .dot{background:var(--haldi);border-color:var(--haldi);box-shadow:0 0 0 5px rgba(233,168,18,.2)}
+.tl li.live .d b{color:var(--kesari)}
+.tag{display:inline-block;font-size:11px;letter-spacing:1px;background:rgba(233,168,18,.18);
+  color:#8a6208;border-radius:20px;padding:1px 9px;margin-left:6px;vertical-align:middle}
 
-  /* ---- contact ---- */
-  .contact{
-    background:#fff;border:1px solid var(--line);border-radius:12px;
-    padding:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px;
-  }
-  .contact dt{font-weight:700;color:var(--maroon);font-size:.95rem;margin-bottom:2px}
-  .contact dd{margin:0 0 14px;color:var(--muted)}
-  .contact a{color:var(--bhagva-dark)}
-  .todo{color:#9b7a3a;background:#fff7e3;padding:2px 8px;border-radius:6px;font-size:.9rem}
+/* ---------- साध्या ओळी ---------- */
+.rows{display:grid;gap:10px}
+.row{display:flex;justify-content:space-between;gap:12px;align-items:baseline;
+  padding:11px 14px;background:rgba(217,83,30,.055);border-radius:11px}
+.row b{font-weight:600;font-size:15px}
+.row span{font-size:15px;color:var(--kumkum);font-weight:600;text-align:right}
+.note{font-size:13px;color:var(--shai-soft);margin-top:12px}
 
-  footer{
-    margin-top:56px;background:var(--maroon);color:#f6e5d5;
-    text-align:center;padding:26px 20px;font-size:.94rem;
-  }
-  footer p{margin:4px 0}
+/* ---------- वचन ---------- */
+.vachan{
+  background:linear-gradient(180deg,#FFF9EA,#FDF1D8);
+  border:1px solid #EBD9AE;border-radius:var(--r);padding:22px 20px;text-align:center;
+}
+.vachan p{font-family:'Tiro Devanagari Marathi',serif;font-size:20px;line-height:1.6;color:var(--kumkum)}
+.vachan .k{font-size:12px;letter-spacing:2px;color:var(--shai-soft);margin-bottom:8px}
 
-  @media (max-width:520px){
-    body{font-size:16px}
-    header{padding:34px 16px 30px}
-    section{padding:36px 0 6px}
-  }
+/* ---------- बटणे ---------- */
+.btns{display:grid;gap:10px;margin-top:14px}
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  padding:14px;border-radius:12px;text-decoration:none;font-weight:600;font-size:16px;
+  border:1px solid transparent;cursor:pointer;font-family:inherit;width:100%;
+  transition:transform .12s ease, filter .12s ease;
+}
+.btn:active{transform:scale(.985)}
+.btn-call{background:var(--kumkum);color:#FFF3DA}
+.btn-wa{background:#128C7E;color:#fff}
+.btn-map{background:var(--card);color:var(--shai);border-color:var(--line)}
+.btn-share{background:transparent;color:var(--kesari);border:1px dashed rgba(217,83,30,.5)}
+.btn:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
+.btn.todo{opacity:.55}
+.person{text-align:center;font-size:17px;font-weight:600}
+.person small{display:block;font-size:12px;letter-spacing:2px;color:var(--shai-soft);font-weight:400;margin-bottom:2px}
+
+footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft);line-height:1.8}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 
-<header>
-  <div class="om">॥ ॐ ॥</div>
-  <h1>श्री स्वामी समर्थ सेवा केंद्र</h1>
-  <p class="place">कोटितीर्थ</p>
-  <div class="jaap">॥ श्री स्वामी समर्थ जय जय स्वामी समर्थ ॥</div>
-</header>
+<div class="band">
+  <div class="mantra">॥ श्री स्वामी समर्थ ॥<small>भिऊ नकोस, मी तुझ्या पाठीशी आहे</small></div>
+</div>
 
-<nav>
-  <div class="wrap">
-    <ul>
-      <li><a href="#parichay">परिचय</a></li>
-      <li><a href="#seva">सेवा</a></li>
-      <li><a href="#velapatrak">वेळापत्रक</a></li>
-      <li><a href="#upakram">उपक्रम</a></li>
-      <li><a href="#sampark">संपर्क</a></li>
-    </ul>
+<div class="wrap">
+
+  <div class="hero">
+    <h1>श्री स्वामी समर्थ सेवा व<br>अध्यात्मिक सेवा व बाल संस्कार केंद्र</h1>
+    <div class="place">📍 कोटितीर्थ, कोल्हापूर</div>
   </div>
-</nav>
 
-<main class="wrap">
+  <!-- आत्ताची स्थिती -->
+  <div class="now">
+    <span class="diya"></span>
+    <div>
+      <div class="lbl">आत्ता</div>
+      <div class="txt" id="nowTxt">वेळापत्रक पाहत आहे…</div>
+      <div class="sub" id="nowSub"></div>
+    </div>
+  </div>
 
-  <section id="parichay">
-    <h2>परिचय</h2>
-    <p class="lead">
-      श्री स्वामी समर्थ सेवा केंद्र, कोटितीर्थ येथे नित्य सेवा, जप, आरती आणि
-      सामाजिक उपक्रम चालतात. भाविकांना सेवेत सहभागी होण्यासाठी केंद्र सदैव खुले आहे.
-    </p>
-    <div class="cards">
-      <div class="card">
-        <h3>नित्य सेवा</h3>
-        <p>दररोज सकाळ-संध्याकाळ आरती, जप आणि पोथी वाचन.</p>
-      </div>
-      <div class="card">
-        <h3>सर्वांसाठी खुले</h3>
-        <p>जात-पंथ भेद न करता प्रत्येक भाविकाचे स्वागत.</p>
-      </div>
-      <div class="card">
-        <h3>सामाजिक कार्य</h3>
-        <p>अन्नदान, आरोग्य शिबिरे आणि गरजूंना मदत.</p>
-      </div>
+  <!-- नित्य सेवा -->
+  <section>
+    <h2>नित्य सेवा वेळापत्रक</h2>
+    <div class="card">
+      <ul class="tl" id="tl"></ul>
     </div>
   </section>
 
-  <section id="seva">
-    <h2>सेवा</h2>
-    <p class="lead">केंद्रात नियमितपणे चालणाऱ्या सेवा —</p>
-    <div class="cards">
-      <div class="card">
-        <h3>काकड आरती</h3>
-        <p>पहाटेची आरती व स्वामी चरित्र वाचन.</p>
-      </div>
-      <div class="card">
-        <h3>जप सेवा</h3>
-        <p>सामूहिक नामजप — "श्री स्वामी समर्थ".</p>
-      </div>
-      <div class="card">
-        <h3>गुरुवार सेवा</h3>
-        <p>साप्ताहिक विशेष पूजा, भजन व प्रसाद.</p>
-      </div>
-      <div class="card">
-        <h3>अन्नदान</h3>
-        <p>महाप्रसाद व गरजूंसाठी अन्नदान सेवा.</p>
-      </div>
-      <div class="card">
-        <h3>पालखी व दिंडी</h3>
-        <p>विशेष तिथींना पालखी सोहळा आणि दिंडी.</p>
-      </div>
-      <div class="card">
-        <h3>वाचनालय</h3>
-        <p>अध्यात्मिक ग्रंथ व पोथ्या वाचनासाठी उपलब्ध.</p>
-      </div>
+  <!-- मुद्रण विभाग -->
+  <section>
+    <h2>मुद्रण विभाग</h2>
+    <div class="card">
+      <div class="rows" id="mudran"></div>
+      <p class="note">सेवा साहित्य, पोथी व छपाईकामासाठी याच वेळेत संपर्क करा.</p>
     </div>
   </section>
 
-  <section id="velapatrak">
-    <h2>सेवा वेळापत्रक</h2>
-    <p class="lead">
-      खालील वेळा नमुना आहेत — केंद्राच्या प्रत्यक्ष वेळेनुसार बदलून घ्या.
-    </p>
-    <div class="tablewrap">
-      <table>
-        <thead>
-          <tr><th>सेवा</th><th>दिवस</th><th>वेळ</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>काकड आरती</td><td>दररोज</td><td>सकाळी ६:००</td></tr>
-          <tr><td>नामजप</td><td>दररोज</td><td>सकाळी ७:००</td></tr>
-          <tr><td>पोथी वाचन</td><td>दररोज</td><td>संध्याकाळी ६:००</td></tr>
-          <tr><td>धूप आरती</td><td>दररोज</td><td>संध्याकाळी ७:००</td></tr>
-          <tr><td>विशेष पूजा व भजन</td><td>गुरुवार</td><td>संध्याकाळी ६:३०</td></tr>
-          <tr><td>महाप्रसाद</td><td>पौर्णिमा</td><td>दुपारी १२:००</td></tr>
-        </tbody>
-      </table>
+  <!-- बाल संस्कार वर्ग -->
+  <section>
+    <h2>बाल संस्कार वर्ग</h2>
+    <div class="card">
+      <div class="rows" id="balsanskar"></div>
+      <p class="note">वय ६ ते १४ वर्षे. प्रवेश विनामूल्य — नाव नोंदणीसाठी खाली संपर्क करा.</p>
     </div>
   </section>
 
-  <section id="upakram">
-    <h2>उपक्रम</h2>
-    <p class="lead">वर्षभर चालणारे विशेष उपक्रम —</p>
-    <div class="cards">
-      <div class="card">
-        <h3>श्री स्वामी समर्थ प्रकट दिन</h3>
-        <p>दिवसभर पूजा, कीर्तन आणि महाप्रसाद.</p>
-      </div>
-      <div class="card">
-        <h3>आरोग्य शिबिर</h3>
-        <p>मोफत तपासणी व औषध वाटप शिबिर.</p>
-      </div>
-      <div class="card">
-        <h3>बालसंस्कार वर्ग</h3>
-        <p>मुलांसाठी श्लोक, संस्कार आणि सेवा प्रशिक्षण.</p>
-      </div>
-      <div class="card">
-        <h3>वृक्षारोपण व स्वच्छता</h3>
-        <p>परिसर स्वच्छता आणि वृक्षारोपण मोहीम.</p>
-      </div>
+  <!-- आजचे वचन -->
+  <section>
+    <h2>आजचे स्मरण</h2>
+    <div class="vachan">
+      <div class="k">श्री स्वामी वचन</div>
+      <p id="vachan"></p>
     </div>
   </section>
 
-  <section id="sampark">
+  <!-- संपर्क -->
+  <section>
     <h2>संपर्क</h2>
-    <p class="lead">खालील माहिती तुमच्या केंद्राच्या खऱ्या तपशिलाने भरा.</p>
-    <dl class="contact">
-      <div>
-        <dt>पत्ता</dt>
-        <dd>श्री स्वामी समर्थ सेवा केंद्र, कोटितीर्थ,<br><span class="todo">पूर्ण पत्ता येथे भरा</span></dd>
+    <div class="card">
+      <div class="person"><small>सेवेकरी</small><span id="pname"></span></div>
+      <div class="btns">
+        <a class="btn btn-call" id="bCall" href="#">📞 फोन करा</a>
+        <a class="btn btn-wa"   id="bWa"   href="#" target="_blank" rel="noopener">💬 WhatsApp वर विचारा</a>
+        <a class="btn btn-map"  id="bMap"  href="#" target="_blank" rel="noopener">🗺️ केंद्राचा रस्ता दाखवा</a>
+        <button class="btn btn-share" id="bShare">🔗 ही माहिती पाठवा</button>
       </div>
-      <div>
-        <dt>दूरध्वनी</dt>
-        <dd><span class="todo">संपर्क क्रमांक येथे भरा</span></dd>
-      </div>
-      <div>
-        <dt>ईमेल</dt>
-        <dd><a href="mailto:printshop39@gmail.com">printshop39@gmail.com</a></dd>
-      </div>
-      <div>
-        <dt>केंद्र वेळ</dt>
-        <dd>दररोज सकाळी ६:०० ते रात्री ८:००</dd>
-      </div>
-    </dl>
+    </div>
   </section>
 
-</main>
+  <footer>
+    QR स्कॅन करून ही माहिती कधीही पाहता येईल.<br>
+    वेळेत बदल झाल्यास केंद्रात विचारून खात्री करा.
+  </footer>
+</div>
 
-<footer>
-  <p>॥ श्री स्वामी समर्थ ॥</p>
-  <p>श्री स्वामी समर्थ सेवा केंद्र, कोटितीर्थ</p>
-</footer>
+<script>
+/* ============================================================
+   १. सर्व माहिती इथे — फक्त हा भाग बदला, बाकी काही नको
+   ============================================================ */
+const KENDRA = {
+  sevekari : "श्री सुनील तावरे",
+  phone    : "+91XXXXXXXXXX",              // <-- खरा नंबर टाका (उदा. +919822012345)
+  mapQuery : "कोटितीर्थ तलाव, कोल्हापूर",   // <-- Google Maps चा नेमका पत्ता/लिंक
+  waMsg    : "श्री स्वामी समर्थ. मला सेवा केंद्राबद्दल माहिती हवी आहे.",
 
+  // नित्य सेवा — २४ तासांच्या फॉरमॅटमध्ये वेळ
+  seva: [
+    { t:"08:00", name:"भूपाळी व आरती",       sub:"दिवसाची सुरुवात" },
+    { t:"10:30", name:"आरती",                 sub:"मध्यान्ह सेवा" },
+    { t:"18:00", name:"आरती व नित्यसेवा",     sub:"सायंकाळची सेवा" }
+  ],
+
+  // मुद्रण विभाग
+  mudran: [
+    { d:"सोमवार ते शनिवार", v:"सायं. ६:०० – ८:००" },
+    { d:"रविवार",           v:"सकाळी १०:०० – १२:००" }
+  ],
+
+  // बाल संस्कार वर्ग  (नमुना — तुमच्या खऱ्या वेळा टाका)
+  balsanskar: [
+    { d:"दर रविवार",   v:"सकाळी ९:०० – १०:३०" },
+    { d:"विशेष वर्ग",  v:"सुट्टीत रोज सकाळी" }
+  ],
+
+  vachane: [
+    "भिऊ नकोस, मी तुझ्या पाठीशी आहे.",
+    "जो जे वांछील, तो ते लाहो.",
+    "श्रद्धा आणि सबुरी हेच खरे धन.",
+    "अन्नदान हे सर्वश्रेष्ठ दान.",
+    "नामस्मरणात कधीही खंड पडू देऊ नका."
+  ]
+};
+
+/* ============================================================
+   २. खाली फक्त काम करणारा कोड — बदलायची गरज नाही
+   ============================================================ */
+const dev = s => String(s).replace(/[0-9]/g, d => "०१२३४५६७८९"[d]);
+const mins = t => (+t.split(":")[0])*60 + (+t.split(":")[1]);
+const show = t => { let [h,m]=t.split(":").map(Number);
+  const ap = h<12 ? "सकाळी" : (h<16 ? "दुपारी" : (h<20 ? "सायं." : "रात्री"));
+  let h12 = h%12 || 12;
+  return ap+" "+dev(h12)+":"+dev(String(m).padStart(2,"0")); };
+
+// वेळापत्रक तयार करा
+const now = new Date();
+const nowM = now.getHours()*60 + now.getMinutes();
+const tl = document.getElementById("tl");
+let live = null, next = null;
+
+KENDRA.seva.forEach(s=>{
+  const m = mins(s.t);
+  const isLive = nowM >= m && nowM < m+45;          // सेवा ४५ मिनिटे चालू धरली
+  if(isLive) live = s;
+  if(!next && m > nowM) next = s;
+  tl.insertAdjacentHTML("beforeend",
+    `<li class="${isLive?'live':''}">
+       <span class="t">${show(s.t)}</span>
+       <span class="dot"></span>
+       <span class="d"><b>${s.name}${isLive?'<span class="tag">चालू</span>':''}</b><span>${s.sub||""}</span></span>
+     </li>`);
+});
+
+// "आत्ता" पट्टी
+const nowTxt = document.getElementById("nowTxt"), nowSub = document.getElementById("nowSub");
+if(live){
+  nowTxt.textContent = live.name + " सुरू आहे";
+  nowSub.textContent = "वेळ — " + show(live.t);
+}else if(next){
+  const baki = mins(next.t) - nowM;
+  const h = Math.floor(baki/60), m = baki%60;
+  nowTxt.textContent = "पुढील सेवा — " + next.name;
+  nowSub.textContent = show(next.t) + " · अजून " + (h? dev(h)+" तास ":"") + dev(m) + " मिनिटे";
+}else{
+  nowTxt.textContent = "आजच्या सेवा पूर्ण झाल्या";
+  nowSub.textContent = "उद्या " + show(KENDRA.seva[0].t) + " पासून पुन्हा सेवा";
+}
+
+// साध्या ओळी
+const rowHTML = a => a.map(r=>`<div class="row"><b>${r.d}</b><span>${r.v}</span></div>`).join("");
+document.getElementById("mudran").innerHTML     = rowHTML(KENDRA.mudran);
+document.getElementById("balsanskar").innerHTML = rowHTML(KENDRA.balsanskar);
+
+// आजचे वचन (तारखेनुसार बदलते)
+const day = Math.floor(now / 864e5);
+document.getElementById("vachan").textContent = KENDRA.vachane[day % KENDRA.vachane.length];
+
+// संपर्क बटणे
+document.getElementById("pname").textContent = KENDRA.sevekari;
+const clean = KENDRA.phone.replace(/[^\d+]/g,"");
+const call = document.getElementById("bCall"), wa = document.getElementById("bWa");
+if(KENDRA.phone.includes("X")){
+  [call,wa].forEach(b=>{ b.classList.add("todo"); b.removeAttribute("href");
+    b.textContent = b.textContent.trim()+" — नंबर टाका"; });
+}else{
+  call.href = "tel:"+clean;
+  wa.href = "https://wa.me/"+clean.replace("+","")+"?text="+encodeURIComponent(KENDRA.waMsg);
+}
+document.getElementById("bMap").href =
+  "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(KENDRA.mapQuery);
+
+// शेअर
+document.getElementById("bShare").addEventListener("click", async ()=>{
+  const data = { title:"श्री स्वामी समर्थ सेवा केंद्र, कोटितीर्थ", url:location.href };
+  if(navigator.share){ try{ await navigator.share(data); }catch(e){} }
+  else { await navigator.clipboard.writeText(location.href);
+         document.getElementById("bShare").textContent = "✅ लिंक कॉपी झाली"; }
+});
+</script>
 </body>
 </html>

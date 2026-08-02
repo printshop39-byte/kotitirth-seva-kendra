@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QR तयार करा – सेवा केंद्र</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Anek+Devanagari:wght@300..700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<style>
+:root{--kumkum:#8C1D2B;--kesari:#D9531E;--haldi:#E9A812;--kagad:#FCF5E8;--card:#FFFDF7;--shai:#2C2317;--soft:#6E5F4C;--line:#E7DCC6}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Anek Devanagari',system-ui,sans-serif;background:var(--kagad);color:var(--shai);line-height:1.6;padding:0 0 50px}
+.band{background:linear-gradient(180deg,#8C1D2B,#6E1522);color:#FDEFD2;text-align:center;padding:16px;font-family:'Tiro Devanagari Marathi',serif;font-size:22px}
+.wrap{max-width:520px;margin:0 auto;padding:22px 16px}
+h2{font-size:13px;letter-spacing:2.5px;color:var(--kesari);font-weight:600;margin:24px 0 10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+label{display:block;font-size:13.5px;color:var(--soft);margin-bottom:6px}
+input{width:100%;padding:13px;border:1px solid var(--line);border-radius:11px;font-family:inherit;font-size:15px;background:#fff;color:var(--shai)}
+input:focus{outline:2px solid var(--haldi);outline-offset:1px}
+.hint{font-size:12.5px;color:var(--soft);margin-top:8px}
+#preview{display:flex;justify-content:center;padding:20px 0}
+#preview svg{width:230px;height:230px;background:#fff;padding:12px;border-radius:12px;border:1px solid var(--line)}
+.btns{display:grid;gap:10px;margin-top:16px}
+.btn{padding:14px;border-radius:12px;border:1px solid transparent;font-family:inherit;font-weight:600;font-size:15.5px;cursor:pointer;text-align:center}
+.b1{background:var(--kumkum);color:#FFF3DA}
+.b2{background:var(--kesari);color:#fff}
+.b3{background:var(--card);color:var(--shai);border-color:var(--line)}
+.btn:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
+ol{margin:10px 0 0 18px;font-size:14.5px}
+ol li{margin-bottom:7px}
+code{background:rgba(140,29,43,.08);padding:1px 6px;border-radius:5px;font-size:13px}
+</style>
+</head>
+<body>
+<div class="band">॥ श्री स्वामी समर्थ ॥</div>
+<div class="wrap">
+
+  <h2>१. लिंक टाका</h2>
+  <div class="card">
+    <label for="url">केंद्राच्या पेजची लिंक (GitHub Pages)</label>
+    <input id="url" type="url" value="https://printshop39-byte.github.io/kotitirth-seva-kendra/">
+    <p class="hint">केंद्राच्या पेजची लिंक आधीच भरलेली आहे. बदलायची असल्यास इथे नवी लिंक चिकटवा — QR आपोआप बदलतो.</p>
+  </div>
+
+  <h2>२. QR पहा</h2>
+  <div class="card">
+    <div id="preview"></div>
+    <p class="hint" style="text-align:center">प्रिंटआधी मोबाईलने एकदा स्कॅन करून खात्री करा.</p>
+  </div>
+
+  <h2>३. फाईल घ्या</h2>
+  <div class="card">
+    <div class="btns">
+      <button class="btn b1" id="dSvg">SVG डाउनलोड (प्रिंटसाठी – कितीही मोठा)</button>
+      <button class="btn b2" id="dPng">PNG डाउनलोड (२०००px)</button>
+      <button class="btn b3" id="dPoster">फलक/स्टिकर PDF प्रिंट करा</button>
+    </div>
+    <p class="hint">फ्लेक्स, स्टिकर किंवा बोर्डसाठी नेहमी <b>SVG</b> वापरा — तो कितीही मोठा केला तरी फुटत नाही.</p>
+  </div>
+
+  <h2>प्रिंटचे नियम</h2>
+  <div class="card">
+    <ol>
+      <li>QR ची कमीत कमी साइज <b>३ × ३ सेमी</b> ठेवा; बोर्डवर ८–१० सेमी.</li>
+      <li>चारही बाजूंनी पांढरी जागा (quiet zone) सोडा — QR ला चिकटून मजकूर नको.</li>
+      <li>गडद QR पांढऱ्या पार्श्वभूमीवर. उलटा (पांढरा QR, गडद बॅक) स्कॅन होत नाही.</li>
+      <li>वर <code>स्कॅन करा – सेवा वेळापत्रक</code> अशी ओळ टाका, नाहीतर लोक स्कॅन करत नाहीत.</li>
+    </ol>
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const NAME = "श्री स्वामी समर्थ सेवा केंद्र, कोटितीर्थ – कोल्हापूर";
+let qr = null, text = "";
+
+function build(){
+  text = $("url").value.trim() || " ";
+  qr = qrcode(0, 'H');            // H = सर्वात जास्त error correction
+  qr.addData(text);
+  qr.make();
+  $("preview").innerHTML = qr.createSvgTag({cellSize:8, margin:2, scalable:true});
+}
+$("url").addEventListener("input", build);
+build();
+
+function save(blob, name){
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = name; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 2000);
+}
+
+$("dSvg").addEventListener("click", ()=>{
+  const svg = qr.createSvgTag({cellSize:10, margin:2, scalable:true});
+  save(new Blob(['<?xml version="1.0" encoding="UTF-8"?>\n'+svg], {type:"image/svg+xml"}), "seva-kendra-qr.svg");
+});
+
+function canvas(size){
+  const n = qr.getModuleCount(), m = 4, total = n + m*2;
+  const c = document.createElement("canvas"); c.width = c.height = size;
+  const g = c.getContext("2d"); const s = size/total;
+  g.fillStyle = "#fff"; g.fillRect(0,0,size,size);
+  g.fillStyle = "#000";
+  for(let r=0;r<n;r++) for(let col=0;col<n;col++)
+    if(qr.isDark(r,col)) g.fillRect(Math.round((col+m)*s), Math.round((r+m)*s), Math.ceil(s), Math.ceil(s));
+  return c;
+}
+$("dPng").addEventListener("click", ()=>{
+  canvas(2000).toBlob(b => save(b, "seva-kendra-qr.png"), "image/png");
+});
+
+$("dPoster").addEventListener("click", ()=>{
+  const img = canvas(1200).toDataURL("image/png");
+  const w = window.open("", "_blank");
+  w.document.write(`<!DOCTYPE html><html lang="mr"><head><meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Anek+Devanagari:wght@400..700&display=swap" rel="stylesheet">
+  <style>
+    @page{size:A5;margin:12mm}
+    body{font-family:'Anek Devanagari',sans-serif;text-align:center;color:#2C2317;margin:0}
+    .m{font-family:'Tiro Devanagari Marathi',serif;font-size:26px;color:#8C1D2B}
+    h1{font-family:'Tiro Devanagari Marathi',serif;font-size:20px;font-weight:400;line-height:1.5;margin:10px 0 4px}
+    .p{font-size:14px;color:#6E5F4C;margin-bottom:16px}
+    img{width:62mm;height:62mm}
+    .cta{margin-top:12px;font-size:17px;font-weight:600;color:#D9531E}
+    .sub{font-size:13px;color:#6E5F4C;margin-top:4px}
+    hr{border:none;border-top:2px solid #E9A812;width:40mm;margin:14px auto}
+  </style></head><body>
+    <div class="m">॥ श्री स्वामी समर्थ ॥</div>
+    <h1>${NAME}</h1>
+    <hr>
+    <img src="${img}">
+    <div class="cta">स्कॅन करा</div>
+    <div class="sub">सेवा वेळापत्रक · मुद्रण विभाग · संपर्क</div>
+  </body></html>`);
+  w.document.close();
+  setTimeout(()=>w.print(), 900);
+});
+</script>
+</body>
+</html>
