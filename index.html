@@ -144,6 +144,22 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 .person{text-align:center;font-size:17px;font-weight:600}
 .person small{display:block;font-size:12px;letter-spacing:2px;color:var(--shai-soft);font-weight:400;margin-bottom:2px}
 
+/* ---------- उपयुक्त दुवे ---------- */
+.links{display:grid;gap:10px}
+.lnk{
+  display:flex;align-items:center;gap:13px;
+  padding:13px 15px;border:1px solid var(--line);border-radius:12px;
+  background:rgba(217,83,30,.045);text-decoration:none;color:var(--shai);
+  transition:transform .12s ease;
+}
+.lnk:active{transform:scale(.99)}
+.lnk:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
+.lnk .ic{font-size:21px;flex:0 0 auto;line-height:1}
+.lnk .tx{flex:1;min-width:0}
+.lnk b{display:block;font-size:15.5px;font-weight:600;color:var(--kumkum);line-height:1.35}
+.lnk i{font-style:normal;display:block;font-size:13px;color:var(--shai-soft);line-height:1.4}
+.lnk .go{flex:0 0 auto;color:var(--kesari);font-size:17px}
+
 footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft);line-height:1.8}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -220,6 +236,14 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
     </div>
   </section>
 
+  <!-- उपयुक्त दुवे -->
+  <section>
+    <h2>उपयुक्त दुवे</h2>
+    <div class="card">
+      <div class="links" id="links"></div>
+    </div>
+  </section>
+
   <footer>
     QR स्कॅन करून ही माहिती कधीही पाहता येईल.<br>
     वेळेत बदल झाल्यास केंद्रात विचारून खात्री करा.
@@ -253,6 +277,16 @@ const KENDRA = {
   balsanskar: [
     { d:"दर रविवार",   v:"सकाळी ९:०० – १०:३०" },
     { d:"विशेष वर्ग",  v:"सुट्टीत रोज सकाळी" }
+  ],
+
+  // उपयुक्त दुवे — नवा दुवा हवा असल्यास खाली तशीच एक ओळ वाढवा
+  links: [
+    { icon:"🕉️", name:"श्री स्वामी समर्थ सेवा मार्ग",
+      sub:"दिंडोरी प्रणित — अधिकृत संकेतस्थळ",
+      url:"https://dindoripranit.org/#/" },
+    { icon:"📖", name:"धार्मिक ग्रंथ व पोथी",
+      sub:"श्रीनिवास आयुर्वेदिक भांडार",
+      url:"https://www.shrinivasayurvedicbhandar.link/collections/dharmic-books" }
   ],
 
   vachane: [
@@ -312,6 +346,14 @@ if(live){
 const rowHTML = a => a.map(r=>`<div class="row"><b>${r.d}</b><span>${r.v}</span></div>`).join("");
 document.getElementById("mudran").innerHTML     = rowHTML(KENDRA.mudran);
 document.getElementById("balsanskar").innerHTML = rowHTML(KENDRA.balsanskar);
+
+// उपयुक्त दुवे
+document.getElementById("links").innerHTML = KENDRA.links.map(l =>
+  `<a class="lnk" href="${l.url}" target="_blank" rel="noopener">
+     <span class="ic">${l.icon}</span>
+     <span class="tx"><b>${l.name}</b><i>${l.sub}</i></span>
+     <span class="go" aria-hidden="true">↗</span>
+   </a>`).join("");
 
 // आजचे वचन (तारखेनुसार बदलते)
 const day = Math.floor(now / 864e5);
