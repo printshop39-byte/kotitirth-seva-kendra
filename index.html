@@ -11,7 +11,11 @@
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Anek+Devanagari:wght@300..700&display=swap" rel="stylesheet">
+<!-- फॉन्ट नंतर येतात; तोपर्यंत मोबाईलमधल्या देवनागरी फॉन्टने मजकूर लगेच दिसतो -->
+<link rel="stylesheet" media="print" onload="this.media='all'"
+      href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Anek+Devanagari:wght@300..700&display=swap">
+<noscript><link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Anek+Devanagari:wght@300..700&display=swap"></noscript>
 <style>
 /* ============================================================
    रंग व अंतर (इथे बदल केला की पूर्ण साइटचा रंग बदलतो)
@@ -27,11 +31,14 @@
   --shai-soft:#6E5F4C;
   --line:#E7DCC6;
   --r:16px;
+  /* मोबाईलमधले देवनागरी फॉन्ट आधी, Google फॉन्ट आल्यावर आपोआप बदलतात */
+  --f-body:'Anek Devanagari','Nirmala UI','Noto Sans Devanagari','Mangal',system-ui,-apple-system,sans-serif;
+  --f-head:'Tiro Devanagari Marathi','Nirmala UI','Noto Serif Devanagari','Mangal',Georgia,serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
 body{
-  font-family:'Anek Devanagari',system-ui,sans-serif;
+  font-family:var(--f-body);
   background:var(--kagad);
   color:var(--shai);
   line-height:1.65;
@@ -50,16 +57,16 @@ body{
 .band::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;
   background:linear-gradient(90deg,var(--kesari),var(--haldi),var(--kesari));}
 .mantra{
-  font-family:'Tiro Devanagari Marathi',serif;
+  font-family:var(--f-head);
   font-size:clamp(22px,6.5vw,30px);
   letter-spacing:.5px;
 }
-.mantra small{display:block;font-size:12px;letter-spacing:3px;opacity:.7;margin-top:6px;font-family:'Anek Devanagari',sans-serif}
+.mantra small{display:block;font-size:12px;letter-spacing:3px;opacity:.7;margin-top:6px;font-family:var(--f-body)}
 
 /* ---------- नाव ---------- */
 .hero{text-align:center;padding:26px 4px 18px}
 .hero h1{
-  font-family:'Tiro Devanagari Marathi',serif;
+  font-family:var(--f-head);
   font-size:clamp(21px,5.6vw,27px);
   line-height:1.45;color:var(--kumkum);font-weight:400;
 }
@@ -95,7 +102,7 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 #utsav .row b{font-size:14.5px;line-height:1.45}
 #utsav .row span{font-size:13.5px;white-space:nowrap}
 .guru{margin-top:20px;padding-top:18px;border-top:1px dashed var(--line);text-align:center}
-.gt{font-family:'Tiro Devanagari Marathi',serif;font-size:17px;color:var(--kesari)}
+.gt{font-family:var(--f-head);font-size:17px;color:var(--kesari)}
 .gh{font-size:14px;color:var(--shai-soft);margin:2px 0 14px}
 .par{text-align:left;padding-left:2px}
 .par .p{position:relative;padding:7px 0 7px 24px}
@@ -157,7 +164,7 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 .accbody .vlist b{color:var(--kumkum)}
 .accbody .ref{font-size:12.5px;color:var(--shai-soft);border-top:1px dashed var(--line);padding-top:8px}
 .mq{
-  font-family:'Tiro Devanagari Marathi',serif;font-size:15.5px;line-height:1.75;
+  font-family:var(--f-head);font-size:15.5px;line-height:1.75;
   color:var(--kumkum);text-align:center;
   background:linear-gradient(180deg,#FFF9EA,#FDF1D8);border:1px solid #EBD9AE;
   border-radius:12px;padding:14px 12px;margin:10px 0;
@@ -204,7 +211,7 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
   background:linear-gradient(180deg,#FFF9EA,#FDF1D8);
   border:1px solid #EBD9AE;border-radius:var(--r);padding:22px 20px;text-align:center;
 }
-.vachan p{font-family:'Tiro Devanagari Marathi',serif;font-size:20px;line-height:1.6;color:var(--kumkum)}
+.vachan p{font-family:var(--f-head);font-size:20px;line-height:1.6;color:var(--kumkum)}
 .vachan .k{font-size:12px;letter-spacing:2px;color:var(--shai-soft);margin-bottom:8px}
 
 /* ---------- बटणे ---------- */
@@ -283,6 +290,41 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
     </div>
   </div>
 
+  <!-- नित्य सेवा -->
+  <section>
+    <h2>नित्य सेवा वेळापत्रक</h2>
+    <div class="card">
+      <ul class="tl" id="tl"></ul>
+    </div>
+  </section>
+
+  <!-- मुद्रण विभाग -->
+  <section>
+    <h2>मुद्रण विभाग</h2>
+    <div class="card">
+      <div class="rows" id="mudran"></div>
+      <p class="note">सेवा साहित्य, पोथी व छपाईकामासाठी याच वेळेत संपर्क करा.</p>
+    </div>
+  </section>
+
+  <!-- बाल संस्कार वर्ग -->
+  <section>
+    <h2>बाल संस्कार वर्ग</h2>
+    <div class="card">
+      <div class="rows" id="balsanskar"></div>
+      <p class="note">वय ६ ते १४ वर्षे. प्रवेश विनामूल्य — नाव नोंदणीसाठी खाली संपर्क करा.</p>
+    </div>
+  </section>
+
+  <!-- विवाह संस्कार -->
+  <section>
+    <h2>विवाह संस्कार</h2>
+    <div class="card">
+      <div class="rows" id="vivah"></div>
+      <p class="note">माहिती व नोंदणीसाठी खाली दिलेल्या क्रमांकावर संपर्क करा.</p>
+    </div>
+  </section>
+
   <!-- वार्षिक उत्सव -->
   <section>
     <h2>केंद्रात साजरे होणारे उत्सव</h2>
@@ -331,41 +373,6 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
     </div>
 
     <div class="acclist" id="shravan"></div>
-  </section>
-
-  <!-- नित्य सेवा -->
-  <section>
-    <h2>नित्य सेवा वेळापत्रक</h2>
-    <div class="card">
-      <ul class="tl" id="tl"></ul>
-    </div>
-  </section>
-
-  <!-- मुद्रण विभाग -->
-  <section>
-    <h2>मुद्रण विभाग</h2>
-    <div class="card">
-      <div class="rows" id="mudran"></div>
-      <p class="note">सेवा साहित्य, पोथी व छपाईकामासाठी याच वेळेत संपर्क करा.</p>
-    </div>
-  </section>
-
-  <!-- बाल संस्कार वर्ग -->
-  <section>
-    <h2>बाल संस्कार वर्ग</h2>
-    <div class="card">
-      <div class="rows" id="balsanskar"></div>
-      <p class="note">वय ६ ते १४ वर्षे. प्रवेश विनामूल्य — नाव नोंदणीसाठी खाली संपर्क करा.</p>
-    </div>
-  </section>
-
-  <!-- विवाह संस्कार -->
-  <section>
-    <h2>विवाह संस्कार</h2>
-    <div class="card">
-      <div class="rows" id="vivah"></div>
-      <p class="note">माहिती व नोंदणीसाठी खाली दिलेल्या क्रमांकावर संपर्क करा.</p>
-    </div>
   </section>
 
   <!-- आजचे वचन -->
