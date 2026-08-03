@@ -519,9 +519,9 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
     <div class="card">
       <div class="person"><small>सेवेकरी</small><span id="pname"></span></div>
       <div class="btns">
-        <a class="btn btn-call" id="bCall" href="#">📞 फोन करा</a>
-        <a class="btn btn-wa"   id="bWa"   href="#" target="_blank" rel="noopener">💬 WhatsApp वर विचारा</a>
-        <a class="btn btn-map"  id="bMap"  href="#" target="_blank" rel="noopener">🗺️ केंद्राचा रस्ता दाखवा</a>
+        <a class="btn btn-call" id="bCall" href="#" hidden>📞 फोन करा</a>
+        <a class="btn btn-wa"   id="bWa"   href="#" target="_blank" rel="noopener" hidden>💬 WhatsApp वर विचारा</a>
+        <a class="btn btn-map"  id="bMap"  href="#" target="_blank" rel="noopener" hidden>🗺️ केंद्राचा रस्ता दाखवा</a>
         <button class="btn btn-share" id="bShare">🔗 ही माहिती पाठवा</button>
       </div>
     </div>
@@ -573,9 +573,9 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
 
 <!-- तळाचे टॅब -->
 <nav class="tabs" id="tabs" role="tablist">
-  <button type="button" data-tab="aarti"  class="on"><span class="ti">🪔</span>आरती</button>
-  <button type="button" data-tab="karya"><span class="ti">📅</span>कार्यक्रम</button>
-  <button type="button" data-tab="mahiti"><span class="ti">ℹ️</span>माहिती</button>
+  <button type="button" role="tab" aria-selected="true"  aria-controls="t-aarti"  data-tab="aarti" class="on"><span class="ti" aria-hidden="true">🪔</span>आरती</button>
+  <button type="button" role="tab" aria-selected="false" aria-controls="t-karya" data-tab="karya"><span class="ti" aria-hidden="true">📅</span>कार्यक्रम</button>
+  <button type="button" role="tab" aria-selected="false" aria-controls="t-mahiti" data-tab="mahiti"><span class="ti" aria-hidden="true">ℹ️</span>माहिती</button>
 </nav>
 
 <script>
@@ -585,7 +585,7 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
 const KENDRA = {
   sevekari : "श्री सुनील तावरे",
   phone    : "+91XXXXXXXXXX",              // <-- खरा नंबर टाका (उदा. +919822012345)
-  mapQuery : "कोटितीर्थ तलाव, कोल्हापूर",   // <-- Google Maps चा नेमका पत्ता/लिंक
+  mapUrl   : "",   // <-- केंद्राचा नेमका Google Maps दुवा टाका; रिकामा असेल तर बटण दिसत नाही
   vibhagUrl: "https://dindoripranit.org/#/vibhag",   // सेवा विभागांची अधिकृत माहिती
   waMsg    : "श्री स्वामी समर्थ. मला सेवा केंद्राबद्दल माहिती हवी आहे.",
 
@@ -599,15 +599,16 @@ const KENDRA = {
 
   seva: [
     { t:"08:00", e:"08:20", name:"भूपाळी व सकाळच्या आरत्या",
-      sub:"भूपाळीसह सकाळच्या तीन आरत्या",
-      shravan:{ e:"08:40", sub:"तीन आरत्या, नंतर शिवमहिम्न स्तोत्र व जप" } },
+      sub:"भूपाळीसह सकाळच्या तीन आरत्या" },
+    { t:"08:20", e:"08:40", name:"श्री शंकराची सेवा", sub:"शिवमहिम्न स्तोत्र व जप",
+      only:"shivseva", kadhi:"श्रावणात रोज · एरवी फक्त सोमवारी" },
     { t:"10:30", e:"10:40", name:"नैवेद्य आरती",
       sub:"श्री स्वामी समर्थ महाराजांची आरती",
       utsav:{ e:"11:00", sub:"उत्सव — सर्व आरती होतात" },
       kadhi:"उत्सवाच्या दिवशी सर्व आरत्या · ११:०० पर्यंत" },
-    { t:"18:00", e:"18:20", name:"आरती व नित्यसेवा", sub:"सायंकाळची सेवा",
+    { t:"18:00", e:"18:15", name:"आरती व नित्यसेवा", sub:"सायंकाळची सेवा",
       kadhi:"आरतीनंतर सर्वप्रथम नित्यध्यान — दररोज" },
-    { t:"18:20", e:"19:00", name:"श्री शंकराची सेवा", sub:"आरतीनंतर",
+    { t:"18:15", e:"19:00", name:"श्री शंकराची सेवा", sub:"आरतीनंतर",
       only:"shivseva", kadhi:"श्रावणात रोज · एरवी फक्त सोमवारी" }
   ],
 
@@ -882,7 +883,7 @@ const KENDRA = {
 
   // बाल संस्कार वर्ग  (नमुना — तुमच्या खऱ्या वेळा टाका)
   balsanskar: [
-    { d:"दर रविवार", v:"सकाळी ९:०० – १०:३०" }
+    { d:"दर रविवार", v:"सकाळी ९:०० – ११:००" }
   ],
 
   // विवाह संस्कार
@@ -977,7 +978,7 @@ const KENDRA = {
 
     { icon:"🦚", title:"श्रीकृष्ण जन्माष्टमी", tithi:"श्रावण कृ. ८ · ४ सप्टेंबर २०२६", body:
       `<p>या दिवशी आपल्या सेवाकेंद्रात रात्री ठीक <b>१२.३९</b> वाजता श्रीकृष्णांचा जन्मोत्सव करावा. एका छोट्या पाळण्यात श्री बाळकृष्णाची मूर्ती ठेवावी व पाळणा म्हणावा.</p>
-       <p>सायंकाळी ६.३० च्या आरतीनंतर केंद्रात सर्व सेवेकऱ्यांनी एकत्र जमून गाणी, कूट प्रश्न, खेळ, श्रीकृष्णांच्या जीवनातील वेगवेगळे प्रसंग, श्री भगवद्‌गीतेचा १५ वा अध्याय व गीतेची १८ नावे सामुदायिकरित्या वाचावीत.</p>
+       <p>सायंकाळी ६:०० – ६:१५ च्या आरतीनंतर केंद्रात सर्व सेवेकऱ्यांनी एकत्र जमून गाणी, कूट प्रश्न, खेळ, श्रीकृष्णांच्या जीवनातील वेगवेगळे प्रसंग, श्री भगवद्‌गीतेचा १५ वा अध्याय व गीतेची १८ नावे सामुदायिकरित्या वाचावीत.</p>
        <p>रात्री १२.३९ वाजता जन्मोत्सव साजरा करून सुंठ-खडीसाखरेचा नैवेद्य करतात. दुसऱ्या दिवशी दहीहंडी साजरी केली जाते व गोपाळकाल्याचा नैवेद्य दाखवतात.</p>
        <p>श्रीकृष्णाचा मंत्र १ माळ जपावा —</p>
        <blockquote class="mq">क्लीं कृष्णाय गोविन्दाय गोपी जन वल्लभाय स्वाहा ॥</blockquote>
@@ -993,7 +994,7 @@ const KENDRA = {
          <li>श्री गुरुपीठातही ध्वजारोहण सोहळा साजरा केला जातो.</li>
        </ul>` },
 
-    { icon:"🐂", title:"पोळा", tithi:"श्रावण कृ. अमावास्या", body:
+    { icon:"🐂", title:"पोळा", tithi:"श्रावण कृ. अमावास्या · तारीख निश्चित करणे बाकी", body:
       `<p>मातृदिन व वृषभ पूजन दिन. भारत हा शेतीप्रधान देश असल्याने या दिवशी बैलास स्वच्छ धुऊन, सजवून, ओवाळून पुरणपोळीचा नैवेद्य खाऊ घालतात. वर्षभर शेतात आपल्यासाठी कष्ट करणाऱ्या बैलांसाठी कृतज्ञतादिन म्हणून हा दिवस साजरा केला जातो.</p>
        <p>प्रत्येक आत्मा परमेश्वरस्वरूप आहे — हेच आपले सण आपल्याला जाणीव करून देतात.</p>
        <p>या दिवशी केंद्रात भगवान शंकरांची विशेष सेवा म्हणून दहीभात लेपनाची व बिल्वपत्र वाहण्याची विशेष सेवा घेतली जाते. हा उत्सव सायंकाळी आरतीपूर्वी साजरा केला जातो.</p>` }
@@ -1040,9 +1041,6 @@ const KENDRA = {
     { icon:"🏥", name:"जनकल्याण योजना",
       sub:"मोरेदादा हॉस्पिटल",
       url:"https://moredadahospital.in/jankalyan-yojna/" },
-    { icon:"🍚", name:"अन्नदान सेवा",
-      sub:"ऑनलाइन देणगी — Razorpay",
-      url:"https://pages.razorpay.com/AnnadaanSeva" }
   ],
 
   vachane: [
@@ -1069,7 +1067,16 @@ const show = t => { let [h,m]=t.split(":").map(Number);
 const hhmm = t => { let [h,m]=t.split(":").map(Number);
   return dev(h%12 || 12)+":"+dev(String(m).padStart(2,"0")); };
 
-const now  = new Date();
+// फोनची वेळ कोणतीही असो — गणना नेहमी भारतीय प्रमाणवेळेनुसार (Asia/Kolkata)
+const now = (function(){
+  try{
+    const f = new Intl.DateTimeFormat("en-GB", { timeZone:"Asia/Kolkata",
+      year:"numeric", month:"2-digit", day:"2-digit",
+      hour:"2-digit", minute:"2-digit", second:"2-digit", hour12:false });
+    const g = {}; f.formatToParts(new Date()).forEach(x => g[x.type] = x.value);
+    return new Date(+g.year, +g.month - 1, +g.day, +g.hour % 24, +g.minute, +g.second);
+  }catch(e){ return new Date(); }        // जुना ब्राउझर — फोनचीच वेळ
+})();
 const nowM = now.getHours()*60 + now.getMinutes();
 const aaj  = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
@@ -1275,19 +1282,23 @@ document.getElementById("links").innerHTML = KENDRA.links.map(l =>
 const day = Math.floor(now / 864e5);
 document.getElementById("vachan").textContent = KENDRA.vachane[day % KENDRA.vachane.length];
 
-// संपर्क बटणे
+// संपर्क बटणे — माहिती भरलेली असेल तरच बटण दिसते.
+// अर्धवट माहिती दाखवण्यापेक्षा बटण न दाखवणे बरे.
 document.getElementById("pname").textContent = KENDRA.sevekari;
-const clean = KENDRA.phone.replace(/[^\d+]/g,"");
-const call = document.getElementById("bCall"), wa = document.getElementById("bWa");
-if(KENDRA.phone.includes("X")){
-  [call,wa].forEach(b=>{ b.classList.add("todo"); b.removeAttribute("href");
-    b.textContent = b.textContent.trim()+" — नंबर टाका"; });
-}else{
-  call.href = "tel:"+clean;
-  wa.href = "https://wa.me/"+clean.replace("+","")+"?text="+encodeURIComponent(KENDRA.waMsg);
-}
-document.getElementById("bMap").href =
-  "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(KENDRA.mapQuery);
+(function(){
+  const num = (KENDRA.phone || "").replace(/[^\d+]/g,"");
+  const chalu = num && !/X/i.test(KENDRA.phone);
+  if(chalu){
+    const call = document.getElementById("bCall"), wa = document.getElementById("bWa");
+    call.href = "tel:" + num;  call.hidden = false;
+    wa.href = "https://wa.me/" + num.replace("+","") + "?text=" + encodeURIComponent(KENDRA.waMsg);
+    wa.hidden = false;
+  }
+  if(KENDRA.mapUrl){                       // नेमका Google Maps दुवा असेल तरच
+    const m = document.getElementById("bMap");
+    m.href = KENDRA.mapUrl;  m.hidden = false;
+  }
+})();
 
 // ---------- तळाचे टॅब ----------
 (function(){
@@ -1296,7 +1307,11 @@ document.getElementById("bMap").href =
 
   function dakhav(naav){
     vibhag.forEach(v => { v.hidden = v.dataset.tab !== naav; });
-    tabs.querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.tab === naav));
+    tabs.querySelectorAll("button").forEach(b => {
+      const on = b.dataset.tab === naav;
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-selected", on ? "true" : "false");
+    });
     try{ sessionStorage.setItem("tab", naav); }catch(e){}
     window.scrollTo({ top:0, behavior:"smooth" });
   }
@@ -1345,6 +1360,11 @@ document.getElementById("bMap").href =
     if(outcome === "accepted") wrap.hidden = true;
   });
 })();
+
+// service worker — यामुळेच "होम स्क्रीनवर ठेवा" Android वर चालते
+if("serviceWorker" in navigator){
+  addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(()=>{}));
+}
 
 // शेअर
 document.getElementById("bShare").addEventListener("click", async ()=>{
