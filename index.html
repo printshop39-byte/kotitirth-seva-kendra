@@ -215,6 +215,7 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 .accbody p{margin-bottom:9px}
 .accbody p:last-child{margin-bottom:0}
 .accbody .vlist,.accbody .ul{margin:0 0 9px 18px}
+.accbody ol.vlist{list-style-type:devanagari}   /* १, २, ३ … */
 .accbody .vlist li,.accbody .ul li{margin-bottom:7px}
 .accbody .vlist b{color:var(--kumkum)}
 .accbody .ref{font-size:12.5px;color:var(--shai-soft);border-top:1px dashed var(--line);padding-top:8px}
@@ -367,6 +368,12 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
     <div class="card">
       <ul class="tl" id="tl"></ul>
     </div>
+  </section>
+
+  <!-- आरती विभाग -->
+  <section data-tab="aarti">
+    <h2>आरती विभाग</h2>
+    <div class="acclist" id="aartiVibhag"></div>
   </section>
 
   <!-- वारांप्रमाणे नित्यसेवा -->
@@ -570,14 +577,40 @@ const KENDRA = {
   jap: "आरतीनंतर १ माळ श्री स्वामी समर्थ जप",   // प्रत्येक आरतीनंतर
 
   seva: [
-    { t:"08:00", e:"08:20", name:"भूपाळी व आरती", sub:"दिवसाची सुरुवात",
-      shravan:{ e:"08:40", sub:"आरतीनंतर शिवमहिम्न स्तोत्र व जप" } },
-    { t:"10:30", e:"10:40", name:"आरती",           sub:"मध्यान्ह सेवा",
+    { t:"08:00", e:"08:20", name:"भूपाळी व सकाळच्या आरत्या",
+      sub:"भूपाळीसह सकाळच्या तीन आरत्या",
+      shravan:{ e:"08:40", sub:"तीन आरत्या, नंतर शिवमहिम्न स्तोत्र व जप" } },
+    { t:"10:30", e:"10:40", name:"नैवेद्य आरती",
+      sub:"श्री स्वामी समर्थ महाराजांची आरती",
       utsav:{ e:"11:00", sub:"उत्सव — सर्व आरती होतात" },
-      kadhi:"उत्सवाच्या दिवशी ११:०० पर्यंत" },
+      kadhi:"गुरुवारी तिन्ही आरत्या · उत्सवाच्या दिवशी ११:०० पर्यंत" },
     { t:"18:00", e:"18:20", name:"आरती व नित्यसेवा", sub:"सायंकाळची सेवा" },
     { t:"18:20", e:"19:00", name:"श्री शंकराची सेवा", sub:"आरतीनंतर",
       only:"shivseva", kadhi:"श्रावणात रोज · एरवी फक्त सोमवारी" }
+  ],
+
+  // ---------- आरती विभाग ----------
+  // सकाळच्या आरत्या व १०:३० ची नैवेद्य आरती वेगवेगळ्या आहेत
+  aartiVibhag: [
+    { icon:"🌅", title:"सकाळच्या आरत्या", tithi:"सकाळी ठीक ८:०० · भूपाळीसह तीन आरत्या", body:
+      `<p class="ref">सकाळी सूर्योदयापर्यंत केव्हाही स्नान करणे.</p>
+       <blockquote class="mq">श्रीमन् महागणाधिपतये नमः ॥<br>श्री कुलदेवताभ्यो नमः ॥<br>श्री गुरुभ्यो नमः ॥</blockquote>
+       <p><b>भूपाळी</b> — "जागृत होई आत्मयारामा…"</p>
+       <p>त्यानंतर <b>ब्रह्मानंदं परमसुखदं…</b> व <b>गुरुर्ब्रह्मा गुरुर्विष्णुः…</b> हे श्लोक.</p>
+       <blockquote class="mq">श्रीमन् महागणाधिपतये नमः ॥<br>श्री कुलदेवतायै नमः ॥<br>श्री गुरवे नमः ॥<br>श्री स्वामी समर्थ महाराजाय नमः ॥</blockquote>
+       <p><b>सकाळच्या तीन आरत्या —</b></p>
+       <ol class="vlist">
+         <li>श्री गणपतीची आरती — "ओवाळू आरती श्री गणपती ओंकारा…"</li>
+         <li>श्री स्वामी समर्थ महाराजांची आरती — "जय जय सद्गुरु स्वामी समर्था…"</li>
+         <li>श्री दत्तात्रेयांची आरती — "जय अनसूयात्मज श्री दत्तात्रेय…"</li>
+       </ol>` },
+
+    { icon:"🍚", title:"नैवेद्य आरती", tithi:"सकाळी ठीक १०:३० · वेगळी आरती", body:
+      `<p>ही सकाळच्या तीन आरत्यांपेक्षा <b>वेगळी</b> आहे. या वेळी फक्त एकच आरती —</p>
+       <ol class="vlist">
+         <li>श्री स्वामी समर्थ महाराजांची आरती — "जय जय सद्गुरु स्वामी समर्था…"</li>
+       </ol>
+       <p class="ref">फक्त गुरुवारी सकाळच्या तिन्ही आरत्या म्हणाव्यात.</p>` }
   ],
 
   // ---------- वारांप्रमाणे नित्यसेवा ----------
@@ -946,6 +979,17 @@ document.getElementById("mudran").innerHTML     = rowHTML(KENDRA.mudran);
 document.getElementById("balsanskar").innerHTML = rowHTML(KENDRA.balsanskar);
 document.getElementById("vivah").innerHTML      = rowHTML(KENDRA.vivah);
 document.getElementById("prashnottare").innerHTML = rowHTML(KENDRA.prashnottare);
+
+// आरती विभाग
+document.getElementById("aartiVibhag").innerHTML = KENDRA.aartiVibhag.map(a => `
+  <details class="acc">
+    <summary>
+      <span class="ai">${a.icon}</span>
+      <span class="at"><b>${a.title}</b><i>${a.tithi}</i></span>
+      <span class="ac" aria-hidden="true">+</span>
+    </summary>
+    <div class="accbody">${a.body}</div>
+  </details>`).join("");
 
 // वारांप्रमाणे नित्यसेवा — आजचा वार आपोआप उघडा
 (function(){
