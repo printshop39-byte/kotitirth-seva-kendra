@@ -27,7 +27,8 @@
    ============================================================ */
 :root{
   --kumkum:#8C1D2B;      /* गडद कुंकवाचा लाल – हेडर */
-  --kesari:#D9531E;      /* भगवा – वेळेचे चिप्स */
+  --kesari:#B54714;      /* भगवा – मजकुरासाठी पुरेसा गडद (contrast ~5:1) */
+  --kesari-teja:#D9531E; /* उजळ भगवा – फक्त रेषा, पट्ट्या, सजावट */
   --haldi:#E9A812;       /* हळद – हायलाइट */
   --ratra:#1C1F3B;       /* गडद निळा – "आत्ता" पट्टी */
   --kagad:#FCF5E8;       /* कागदी पार्श्वभूमी */
@@ -43,6 +44,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
 body{
+  font-size:16px;
   font-family:var(--f-body);
   background:var(--kagad);
   color:var(--shai);
@@ -51,6 +53,7 @@ body{
   background-size:22px 22px;
 }
 .wrap{max-width:520px;margin:0 auto;padding:0 16px 40px}
+@media (min-width:760px){ .wrap{max-width:780px} }
 body{padding-bottom:calc(64px + env(safe-area-inset-bottom))}  /* तळाच्या टॅबसाठी जागा */
 
 /* ---------- हेडर पट्टी ---------- */
@@ -61,7 +64,7 @@ body{padding-bottom:calc(64px + env(safe-area-inset-bottom))}  /* तळाच�
   position:relative;
 }
 .band::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;
-  background:linear-gradient(90deg,var(--kesari),var(--haldi),var(--kesari));}
+  background:linear-gradient(90deg,var(--kesari-teja),var(--haldi),var(--kesari-teja));}
 .mantra{
   font-family:var(--f-head);
   font-size:clamp(22px,6.5vw,30px);
@@ -91,9 +94,9 @@ body{padding-bottom:calc(64px + env(safe-area-inset-bottom))}  /* तळाच�
 .diya{width:12px;height:12px;border-radius:50%;background:var(--haldi);flex:0 0 auto;
   box-shadow:0 0 0 0 rgba(233,168,18,.6);animation:jyot 2.4s ease-out infinite}
 @keyframes jyot{70%{box-shadow:0 0 0 12px rgba(233,168,18,0)}100%{box-shadow:0 0 0 0 rgba(233,168,18,0)}}
-.now .lbl{font-size:12px;letter-spacing:2px;opacity:.6}
+.now .lbl{font-size:13px;letter-spacing:2px;opacity:.6}
 .now .txt{font-size:17px;font-weight:600;line-height:1.4}
-.now .sub{font-size:13px;opacity:.75}
+.now .sub{font-size:14px;opacity:.75}
 
 /* ---------- केंद्र उघडे / बंद ---------- */
 .khula{
@@ -110,20 +113,34 @@ body{padding-bottom:calc(64px + env(safe-area-inset-bottom))}  /* तळाच�
 .khula.ughade .ktx b{color:#22683A}
 .khula.lavkar .ktx b{color:#8a6208}
 .khula.bandh  .ktx b{color:#8C1D2B}
-.ktx i{font-style:normal;display:block;font-size:12.5px;color:var(--shai-soft);line-height:1.55;margin-top:2px}
+.ktx i{font-style:normal;display:block;font-size:14px;color:var(--shai-soft);line-height:1.55;margin-top:2px}
 
 /* पत्ता */
-.patta{margin-top:10px;text-align:center;font-size:14.5px;line-height:1.6;color:var(--shai-soft)}
+.patta{margin-top:10px;text-align:center;font-size:15.5px;line-height:1.6;color:var(--shai-soft)}
 .person i{font-style:normal;display:block;font-size:15px;font-weight:600;color:var(--kesari);margin-top:2px}
 
 /* ---------- सेक्शन ---------- */
 section{margin-top:26px}
 h2{
-  font-size:13px;letter-spacing:2.5px;font-weight:600;color:var(--kesari);
+  font-size:15px;letter-spacing:2px;font-weight:600;color:var(--kesari);
   text-transform:none;margin-bottom:12px;display:flex;align-items:center;gap:10px;
 }
 h2::after{content:"";flex:1;height:1px;background:var(--line)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+
+/* ---------- आरतीमधले उपटॅब ---------- */
+.subtabs{
+  display:flex;gap:8px;margin-top:18px;
+  background:var(--card);border:1px solid var(--line);border-radius:14px;padding:5px;
+}
+.subtabs button{
+  flex:1;border:0;background:none;cursor:pointer;font-family:inherit;
+  font-size:14.5px;font-weight:600;color:var(--shai-soft);
+  padding:11px 6px;border-radius:10px;
+}
+.subtabs button.on{background:rgba(181,71,20,.12);color:var(--kumkum)}
+.subtabs button:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
+.pane:focus{outline:none}
 
 /* ---------- तळाचे टॅब ---------- */
 .tabs{
@@ -135,7 +152,7 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 }
 .tabs button{
   flex:1;border:0;background:none;cursor:pointer;
-  font-family:inherit;font-size:12.5px;font-weight:600;color:var(--shai-soft);
+  font-family:inherit;font-size:13.5px;font-weight:600;color:var(--shai-soft);
   padding:9px 4px 10px;display:flex;flex-direction:column;align-items:center;gap:2px;
   border-top:3px solid transparent;margin-top:-1px;
 }
@@ -146,7 +163,7 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 /* होम स्क्रीन बटण */
 .instwrap{margin-top:26px}
 .btn-inst{background:var(--card);color:var(--kumkum);border:1px dashed rgba(140,29,43,.45)}
-.insthint{margin-top:9px;font-size:12.5px;line-height:1.6;color:var(--shai-soft);text-align:center}
+.insthint{margin-top:9px;font-size:14px;line-height:1.6;color:var(--shai-soft);text-align:center}
 
 /* ---------- आरत्यांचा पाठ ---------- */
 .ovi{
@@ -162,32 +179,32 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
   display:flex;gap:10px;align-items:baseline;
   padding:8px 12px;border-radius:9px;background:rgba(217,83,30,.045);
 }
-.nn{flex:0 0 20px;text-align:right;font-size:12px;font-weight:600;color:var(--kesari)}
+.nn{flex:0 0 22px;text-align:right;font-size:13px;font-weight:600;color:var(--kesari)}
 .nt{flex:1;min-width:0}
-.nt b{display:block;font-size:14.5px;font-weight:600;line-height:1.45}
-.nt i{font-style:normal;font-size:11.5px;color:var(--shai-soft)}
-.nc{flex:0 0 auto;font-size:13px;font-weight:600;color:var(--kumkum);white-space:nowrap}
-.vsnote{margin-top:10px;font-size:12.5px;color:var(--shai-soft);text-align:center}
+.nt b{display:block;font-size:15.5px;font-weight:600;line-height:1.45}
+.nt i{font-style:normal;font-size:13px;color:var(--shai-soft)}
+.nc{flex:0 0 auto;font-size:14px;font-weight:600;color:var(--kumkum);white-space:nowrap}
+.vsnote{margin-top:10px;font-size:14px;color:var(--shai-soft);text-align:center}
 
 /* ---------- मुद्रण विभागाचा संपर्क ---------- */
 .msamp{margin-top:16px;padding-top:16px;border-top:1px dashed var(--line)}
 .mhead{text-align:center}
-.mhead small{display:block;font-size:11.5px;letter-spacing:2px;color:var(--shai-soft)}
+.mhead small{display:block;font-size:13px;letter-spacing:2px;color:var(--shai-soft)}
 .mhead b{display:block;font-size:17px;font-weight:600;color:var(--kumkum);margin-top:3px}
 .mhead i{font-style:normal;display:block;font-size:15px;color:var(--kesari);
   font-weight:600;letter-spacing:.5px;margin-top:1px}
 .monly{
-  margin-top:10px;padding:8px 12px;border-radius:9px;
-  background:rgba(233,168,18,.14);color:#8a6208;
-  font-size:12.5px;line-height:1.55;text-align:center;
+  margin-top:10px;padding:9px 13px;border-radius:9px;
+  background:rgba(233,168,18,.16);color:#7a5606;
+  font-size:14px;line-height:1.55;text-align:center;
 }
 
 /* ---------- उत्सव व परंपरा ---------- */
 #utsav .row b{font-size:14.5px;line-height:1.45}
-#utsav .row span{font-size:13.5px;white-space:nowrap}
+#utsav .row span{font-size:14px;white-space:nowrap}
 .guru{margin-top:20px;padding-top:18px;border-top:1px dashed var(--line);text-align:center}
 .gt{font-family:var(--f-head);font-size:17px;color:var(--kesari)}
-.gh{font-size:14px;color:var(--shai-soft);margin:2px 0 14px}
+.gh{font-size:15px;color:var(--shai-soft);margin:2px 0 14px}
 .par{text-align:left;padding-left:2px}
 .par .p{position:relative;padding:7px 0 7px 24px}
 .par .p::before{content:"";position:absolute;left:3px;top:14px;width:10px;height:10px;
@@ -195,7 +212,7 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 .par .p::after{content:"";position:absolute;left:7.5px;top:26px;bottom:-7px;width:2px;background:var(--line)}
 .par .p:last-child::after{display:none}
 .par b{display:block;font-size:15px;font-weight:600;color:var(--kumkum);line-height:1.4}
-.par i{font-style:normal;font-size:12.5px;color:var(--shai-soft)}
+.par i{font-style:normal;font-size:14px;color:var(--shai-soft)}
 
 /* ---------- श्रावण विशेष ---------- */
 .shcard{
@@ -218,7 +235,7 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 @keyframes dol{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
 .shtx{min-width:0}
 .shbig{font-size:19px;font-weight:600;line-height:1.35}
-.shsub{font-size:13px;opacity:.8;margin-top:2px}
+.shsub{font-size:14px;opacity:.8;margin-top:2px}
 
 .acclist{display:grid;gap:9px}
 .acc{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
@@ -231,7 +248,7 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 .acc .ai{font-size:21px;flex:0 0 auto;line-height:1}
 .acc .at{flex:1;min-width:0}
 .acc .at b{display:block;font-size:15.5px;font-weight:600;color:var(--kumkum);line-height:1.35}
-.acc .at i{font-style:normal;display:block;font-size:12.5px;color:var(--shai-soft)}
+.acc .at i{font-style:normal;display:block;font-size:14px;color:var(--shai-soft)}
 .acc .ac{
   flex:0 0 auto;width:22px;height:22px;border-radius:50%;
   background:rgba(217,83,30,.12);color:var(--kesari);
@@ -240,20 +257,20 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 }
 .acc[open] .ac{transform:rotate(45deg)}
 .acc[open] summary{background:rgba(217,83,30,.05)}
-.accbody{padding:2px 16px 16px;font-size:14.5px;line-height:1.75;color:var(--shai)}
+.accbody{padding:2px 16px 16px;font-size:15.5px;line-height:1.75;color:var(--shai)}
 .accbody p{margin-bottom:9px}
 .accbody p:last-child{margin-bottom:0}
 .accbody .vlist,.accbody .ul{margin:0 0 9px 18px}
 .accbody ol.vlist{list-style-type:devanagari}   /* १, २, ३ … */
-.accbody .oli{display:block;font-style:normal;font-size:12.5px;color:var(--shai-soft);line-height:1.55}
+.accbody .oli{display:block;font-style:normal;font-size:13.5px;color:var(--shai-soft);line-height:1.55}
 .accbody .atit{
-  display:inline-block;margin-top:4px;padding:2px 9px;border-radius:20px;
-  background:rgba(233,168,18,.16);color:#8a6208;font-size:11.5px;line-height:1.6;
+  display:inline-block;margin-top:5px;padding:3px 10px;border-radius:20px;
+  background:rgba(233,168,18,.18);color:#7a5606;font-size:13px;line-height:1.6;
 }
 .mq small{display:block;font-family:var(--f-body);font-size:12px;color:var(--shai-soft);margin-top:5px}
 .accbody .vlist li,.accbody .ul li{margin-bottom:7px}
 .accbody .vlist b{color:var(--kumkum)}
-.accbody .ref{font-size:12.5px;color:var(--shai-soft);border-top:1px dashed var(--line);padding-top:8px}
+.accbody .ref{font-size:13.5px;color:var(--shai-soft);border-top:1px dashed var(--line);padding-top:8px}
 .mq{
   font-family:var(--f-head);font-size:15.5px;line-height:1.75;
   color:var(--kumkum);text-align:center;
@@ -267,10 +284,10 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 .tl{--tw:100px;--gap:28px;list-style:none;position:relative;padding-left:0}
 .tl::before{content:"";position:absolute;left:calc(var(--tw) + var(--gap)/2 - 1px);
   top:14px;bottom:14px;width:2px;
-  background:linear-gradient(180deg,var(--kesari),rgba(217,83,30,.15))}
+  background:linear-gradient(180deg,var(--kesari-teja),rgba(217,83,30,.15))}
 .tl li{display:flex;gap:var(--gap);align-items:flex-start;padding:11px 0;position:relative}
 .tl .t{
-  flex:0 0 var(--tw);text-align:right;font-weight:600;font-size:14px;color:var(--kumkum);
+  flex:0 0 var(--tw);text-align:right;font-weight:600;font-size:15px;color:var(--kumkum);
   padding-top:2px;white-space:nowrap;
 }
 .tl .dot{position:absolute;left:calc(var(--tw) + var(--gap)/2 - 6px);top:18px;
@@ -283,7 +300,7 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
   .tl .d{padding-left:10px}
 }
 .tl .d b{display:block;font-weight:600;font-size:16px}
-.tl .d span{font-size:13.5px;color:var(--shai-soft)}
+.tl .d span{font-size:14.5px;color:var(--shai-soft)}
 .tl li.live .dot{background:var(--haldi);border-color:var(--haldi);box-shadow:0 0 0 5px rgba(233,168,18,.2)}
 .tl li.live .d b{color:var(--kesari)}
 .tag{display:inline-block;font-size:11px;letter-spacing:1px;background:rgba(233,168,18,.18);
@@ -291,7 +308,7 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 
 /* तीन स्थिती — लवकरच / चालू आहे / झाली */
 .chip{
-  display:inline-block;font-size:11px;font-weight:600;letter-spacing:.6px;
+  display:inline-block;font-size:12.5px;font-weight:600;letter-spacing:.6px;
   border-radius:20px;padding:2px 10px;margin-left:7px;vertical-align:middle;
   white-space:nowrap;
 }
@@ -300,8 +317,8 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
   box-shadow:0 0 0 0 rgba(233,168,18,.7);animation:jyot 2.2s ease-out infinite}
 .c-zal{background:rgba(110,95,76,.13);color:var(--shai-soft);font-weight:500}
 .c-zal::before{content:"✓ "}
-.tl .kadhi{display:block;font-size:12px;color:var(--kesari);margin-top:2px}
-.tl .jap{display:block;font-size:12px;color:var(--shai-soft);margin-top:3px}
+.tl .kadhi{display:block;font-size:13.5px;color:var(--kesari);margin-top:2px}
+.tl .jap{display:block;font-size:13.5px;color:var(--shai-soft);margin-top:3px}
 .tl li.off .t,.tl li.off .d b{opacity:.55}
 .tl li.off .dot{border-color:var(--line)}
 
@@ -311,7 +328,7 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
   padding:11px 14px;background:rgba(217,83,30,.055);border-radius:11px}
 .row b{font-weight:600;font-size:15px}
 .row span{font-size:15px;color:var(--kumkum);font-weight:600;text-align:right}
-.note{font-size:13px;color:var(--shai-soft);margin-top:12px}
+.note{font-size:14px;color:var(--shai-soft);margin-top:12px}
 
 /* ---------- वचन ---------- */
 .vachan{
@@ -337,21 +354,21 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 .btn:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
 .btn.todo{opacity:.55}
 .person{text-align:center;font-size:17px;font-weight:600}
-.person small{display:block;font-size:12px;letter-spacing:2px;color:var(--shai-soft);font-weight:400;margin-bottom:2px}
+.person small{display:block;font-size:13px;letter-spacing:2px;color:var(--shai-soft);font-weight:400;margin-bottom:2px}
 
 /* ---------- सेवा विभाग ---------- */
-.intro{font-size:14.5px;color:var(--shai-soft);line-height:1.7}
+.intro{font-size:15.5px;color:var(--shai-soft);line-height:1.7}
 
 /* ---------- ग्रंथ यादी ---------- */
 .books{display:grid;gap:7px}
 .book{
   display:flex;gap:11px;align-items:baseline;
-  padding:9px 13px;border-radius:10px;background:rgba(217,83,30,.05);
-  font-size:15px;line-height:1.5;
+  padding:10px 13px;border-radius:10px;background:rgba(217,83,30,.05);
+  font-size:15.5px;line-height:1.5;
 }
 .book .n{
   flex:0 0 26px;text-align:right;
-  font-size:12.5px;font-weight:600;color:var(--kesari);
+  font-size:13.5px;font-weight:600;color:var(--kesari);
 }
 
 /* ---------- उपयुक्त दुवे ---------- */
@@ -367,20 +384,20 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 .lnk .ic{font-size:21px;flex:0 0 auto;line-height:1}
 .lnk .tx{flex:1;min-width:0}
 .lnk b{display:block;font-size:15.5px;font-weight:600;color:var(--kumkum);line-height:1.35}
-.lnk i{font-style:normal;display:block;font-size:13px;color:var(--shai-soft);line-height:1.4}
+.lnk i{font-style:normal;display:block;font-size:14px;color:var(--shai-soft);line-height:1.4}
 .lnk .go{flex:0 0 auto;color:var(--kesari);font-size:17px}
 
-footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft);line-height:1.8}
+footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);line-height:1.8}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 
-<div class="band">
+<header class="band">
   <div class="mantra">॥ श्री स्वामी समर्थ ॥<small>भिऊ नकोस, मी तुझ्या पाठीशी आहे</small></div>
-</div>
+</header>
 
-<div class="wrap">
+<main class="wrap">
 
   <div class="hero">
     <h1>श्री स्वामी समर्थ सेवा व<br>अध्यात्मिक सेवा व बाल संस्कार केंद्र</h1>
@@ -403,75 +420,58 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
     <span class="ktx"><b id="kTxt"></b><i id="kSub"></i></span>
   </div>
 
+  <nav class="subtabs" id="subtabs" role="tablist" aria-label="आरती विभाग">
+    <button type="button" role="tab" data-sub="aaj"   class="on" aria-selected="true">आज</button>
+    <button type="button" role="tab" data-sub="paath"          aria-selected="false">आरत्यांचा पाठ</button>
+    <button type="button" role="tab" data-sub="var"            aria-selected="false">वार सेवा</button>
+  </nav>
+
+  <div class="pane" role="tabpanel" id="t-aarti" aria-labelledby="tb-aarti" tabindex="0">
   <!-- नित्य सेवा -->
-  <section data-tab="aarti">
+  <section data-sub="aaj">
     <h2>नित्य सेवा वेळापत्रक</h2>
     <div class="card">
       <ul class="tl" id="tl"></ul>
     </div>
   </section>
-
   <!-- आरती विभाग -->
-  <section data-tab="aarti">
+  <section data-sub="aaj">
     <h2>आरती विभाग</h2>
     <div class="acclist" id="aartiVibhag"></div>
   </section>
-
   <!-- आरत्यांचा पाठ -->
-  <section data-tab="aarti">
+  <section data-sub="paath">
     <h2>आरत्यांचा पाठ</h2>
     <div class="acclist" id="paath"></div>
     <p class="vsnote">पोथी नसली तरी इथून वाचता येईल.</p>
   </section>
-
   <!-- वारांप्रमाणे नित्यसेवा -->
-  <section data-tab="aarti">
+  <section data-sub="var">
     <h2>वारांप्रमाणे नित्यसेवा</h2>
     <div class="acclist" id="varSeva"></div>
     <p class="vsnote">पान क्रमांक नित्यसेवा पोथीतील आहेत.</p>
   </section>
+  </div>
 
-  <!-- मुद्रण विभाग -->
-  <section data-tab="mahiti">
-    <h2>मुद्रण विभाग</h2>
-    <div class="card">
-      <div class="rows" id="mudran"></div>
-      <p class="note">सेवा साहित्य, पोथी व मुद्रण साहित्य खरेदीसाठी याच वेळेत संपर्क करा.</p>
-
-      <div class="msamp">
-        <div class="mhead">
-          <small>मुद्रण विभाग संपर्क</small>
-          <b id="mName"></b>
-          <i id="mNum"></i>
-        </div>
-        <p class="monly" id="mOnly"></p>
-        <div class="btns">
-          <a class="btn btn-wa" id="mWa" href="#" target="_blank" rel="noopener">💬 WhatsApp वर विचारा</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
+  <div class="pane" role="tabpanel" id="t-karya" aria-labelledby="tb-karya" tabindex="0">
   <!-- बाल संस्कार वर्ग -->
-  <section data-tab="karya">
+  <section>
     <h2>बाल संस्कार वर्ग</h2>
     <div class="card">
       <div class="rows" id="balsanskar"></div>
       <p class="note">वय ६ ते १४ वर्षे. प्रवेश विनामूल्य — नाव नोंदणीसाठी खाली संपर्क करा.</p>
     </div>
   </section>
-
   <!-- विवाह संस्कार -->
-  <section data-tab="karya">
+  <section>
     <h2>विवाह संस्कार</h2>
     <div class="card">
       <div class="rows" id="vivah"></div>
       <p class="note">माहिती व नोंदणीसाठी खाली दिलेल्या क्रमांकावर संपर्क करा.</p>
     </div>
   </section>
-
   <!-- प्रश्नोत्तरे विभाग -->
-  <section data-tab="karya">
+  <section>
     <h2>प्रश्नोत्तरे विभाग</h2>
     <div class="card">
       <div class="rows" id="prashnottare"></div>
@@ -480,9 +480,8 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
       <p class="monly">नोंदणी केंद्रात येऊन करावी · सेवा पूर्णतः विनामूल्य</p>
     </div>
   </section>
-
   <!-- वार्षिक उत्सव -->
-  <section data-tab="karya">
+  <section>
     <h2>केंद्रात साजरे होणारे उत्सव</h2>
     <div class="card">
       <div class="rows" id="utsav"></div>
@@ -494,9 +493,8 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
       </div>
     </div>
   </section>
-
   <!-- श्रावण विशेष -->
-  <section data-tab="karya">
+  <section>
     <h2>श्रावण विशेष</h2>
 
     <div class="shcard">
@@ -530,18 +528,40 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
 
     <div class="acclist" id="shravan"></div>
   </section>
+  </div>
 
+  <div class="pane" role="tabpanel" id="t-mahiti" aria-labelledby="tb-mahiti" tabindex="0">
+  <!-- मुद्रण विभाग -->
+  <section>
+    <h2>मुद्रण विभाग</h2>
+    <div class="card">
+      <div class="rows" id="mudran"></div>
+      <p class="note">सेवा साहित्य, पोथी व मुद्रण साहित्य खरेदीसाठी याच वेळेत संपर्क करा.</p>
+
+      <div class="msamp">
+        <div class="mhead">
+          <small>मुद्रण विभाग संपर्क</small>
+          <b id="mName"></b>
+          <i id="mNum"></i>
+        </div>
+        <p class="monly" id="mOnly"></p>
+        <div class="btns">
+          <a class="btn btn-wa" id="mWa" href="#" target="_blank" rel="noopener"
+            aria-label="मुद्रण विभागाला WhatsApp वर विचारा (नवीन टॅबमध्ये उघडेल)">💬 WhatsApp वर विचारा</a>
+        </div>
+      </div>
+    </div>
+  </section>
   <!-- आजचे वचन -->
-  <section data-tab="mahiti">
+  <section>
     <h2>आजचे स्मरण</h2>
     <div class="vachan">
       <div class="k">श्री स्वामी वचन</div>
       <p id="vachan"></p>
     </div>
   </section>
-
   <!-- संपर्क -->
-  <section data-tab="mahiti">
+  <section>
     <h2>संपर्क</h2>
     <div class="card">
       <div class="person"><small>सेवेकरी</small><span id="pname"></span><i id="pnum"></i></div>
@@ -549,43 +569,44 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
       <div class="btns">
         <a class="btn btn-call" id="bCall" href="#" hidden>📞 फोन करा</a>
         <a class="btn btn-wa"   id="bWa"   href="#" target="_blank" rel="noopener" hidden>💬 WhatsApp वर विचारा</a>
-        <a class="btn btn-map"  id="bMap"  href="#" target="_blank" rel="noopener" hidden>🗺️ केंद्राचा रस्ता दाखवा</a>
+        <a class="btn btn-map"  id="bMap"  href="#" target="_blank" rel="noopener" hidden
+            aria-label="केंद्राचा रस्ता दाखवा (Google Maps नवीन टॅबमध्ये उघडेल)">🗺️ केंद्राचा रस्ता दाखवा</a>
         <button class="btn btn-share" id="bShare">🔗 ही माहिती पाठवा</button>
       </div>
     </div>
   </section>
-
   <!-- सेवा विभाग -->
-  <section data-tab="mahiti">
+  <section>
     <h2>सेवा विभाग</h2>
     <div class="card">
       <p class="intro">श्री स्वामी समर्थ सेवा मार्गात समाजाच्या वेगवेगळ्या गरजांसाठी
         स्वतंत्र सेवा विभाग कार्यरत आहेत. प्रत्येक विभागाचे स्वतःचे कार्य,
         सेवा व मार्गदर्शन आहे.</p>
       <div class="btns">
-        <a class="btn btn-map" id="bVibhag" href="#" target="_blank" rel="noopener">
+        <a class="btn btn-map" id="bVibhag" href="#" target="_blank" rel="noopener"
+           aria-label="विभागांची सविस्तर माहिती (नवीन टॅबमध्ये उघडेल)">
           📋 विभागांची सविस्तर माहिती पहा
         </a>
       </div>
     </div>
   </section>
-
   <!-- धार्मिक ग्रंथ -->
-  <section data-tab="mahiti">
+  <section>
     <h2>धार्मिक ग्रंथ</h2>
     <div class="card">
       <div class="books" id="books"></div>
       <p class="note">उपलब्धतेसाठी केंद्रात विचारणा करा.</p>
     </div>
   </section>
-
   <!-- उपयुक्त दुवे -->
-  <section data-tab="mahiti">
+  <section>
     <h2>उपयुक्त दुवे</h2>
     <div class="card">
       <div class="links" id="links"></div>
     </div>
   </section>
+  </div>
+
 
   <!-- होम स्क्रीनवर ठेवा -->
   <div class="instwrap" id="instWrap" hidden>
@@ -597,13 +618,13 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
     QR स्कॅन करून ही माहिती कधीही पाहता येईल.<br>
     वेळेत बदल झाल्यास केंद्रात विचारून खात्री करा.
   </footer>
-</div>
+</main>
 
 <!-- तळाचे टॅब -->
 <nav class="tabs" id="tabs" role="tablist">
-  <button type="button" role="tab" aria-selected="true"  aria-controls="t-aarti"  data-tab="aarti" class="on"><span class="ti" aria-hidden="true">🪔</span>आरती</button>
-  <button type="button" role="tab" aria-selected="false" aria-controls="t-karya" data-tab="karya"><span class="ti" aria-hidden="true">📅</span>कार्यक्रम</button>
-  <button type="button" role="tab" aria-selected="false" aria-controls="t-mahiti" data-tab="mahiti"><span class="ti" aria-hidden="true">ℹ️</span>माहिती</button>
+  <button type="button" role="tab" aria-selected="true"  id="tb-aarti" aria-controls="t-aarti"  data-tab="aarti" class="on"><span class="ti" aria-hidden="true">🪔</span>आरती</button>
+  <button type="button" role="tab" aria-selected="false" id="tb-karya" aria-controls="t-karya" data-tab="karya"><span class="ti" aria-hidden="true">📅</span>कार्यक्रम</button>
+  <button type="button" role="tab" aria-selected="false" id="tb-mahiti" aria-controls="t-mahiti" data-tab="mahiti"><span class="ti" aria-hidden="true">ℹ️</span>माहिती</button>
 </nav>
 
 <script>
@@ -1380,7 +1401,8 @@ document.getElementById("books").innerHTML = KENDRA.books.map((b,i) =>
 
 // उपयुक्त दुवे
 document.getElementById("links").innerHTML = KENDRA.links.map(l =>
-  `<a class="lnk" href="${l.url}" target="_blank" rel="noopener">
+  `<a class="lnk" href="${l.url}" target="_blank" rel="noopener"
+      aria-label="${l.name} — ${l.sub} (नवीन टॅबमध्ये उघडेल)">
      <span class="ic">${l.icon}</span>
      <span class="tx"><b>${l.name}</b><i>${l.sub}</i></span>
      <span class="go" aria-hidden="true">↗</span>
@@ -1413,16 +1435,23 @@ if(KENDRA.patta)     document.getElementById("patta").innerHTML  = "📍 " + KEN
 // ---------- तळाचे टॅब ----------
 (function(){
   const tabs = document.getElementById("tabs");
-  const vibhag = [...document.querySelectorAll("section[data-tab]")];
+  const btns = [...tabs.querySelectorAll("button[data-tab]")];
+  const panes = [...document.querySelectorAll(".pane")];
+  const HASH = { aarti:"#aarti", karya:"#karyakram", mahiti:"#mahiti" };
+  const NAAV = Object.fromEntries(Object.entries(HASH).map(([k,v]) => [v, k]));
 
-  function dakhav(naav){
-    vibhag.forEach(v => { v.hidden = v.dataset.tab !== naav; });
-    tabs.querySelectorAll("button").forEach(b => {
+  function dakhav(naav, hashBadla){
+    panes.forEach(v => { v.hidden = v.id !== "t-" + naav; });
+    document.getElementById("subtabs").hidden = naav !== "aarti";
+    btns.forEach(b => {
       const on = b.dataset.tab === naav;
       b.classList.toggle("on", on);
       b.setAttribute("aria-selected", on ? "true" : "false");
+      b.tabIndex = on ? 0 : -1;                     // roving tabindex
     });
     try{ sessionStorage.setItem("tab", naav); }catch(e){}
+    if(hashBadla !== false && location.hash !== HASH[naav])
+      history.replaceState(null, "", HASH[naav]);
     window.scrollTo({ top:0, behavior:"smooth" });
   }
 
@@ -1431,10 +1460,59 @@ if(KENDRA.patta)     document.getElementById("patta").innerHTML  = "📍 " + KEN
     if(b) dakhav(b.dataset.tab);
   });
 
-  let suru = "aarti";
-  try{ const j = sessionStorage.getItem("tab");
-       if(j && vibhag.some(v => v.dataset.tab === j)) suru = j; }catch(e){}
-  dakhav(suru);
+  // डावी-उजवी बाण कळ
+  tabs.addEventListener("keydown", e => {
+    const i = btns.indexOf(document.activeElement);
+    if(i < 0) return;
+    let n = null;
+    if(e.key === "ArrowRight") n = (i + 1) % btns.length;
+    if(e.key === "ArrowLeft")  n = (i - 1 + btns.length) % btns.length;
+    if(e.key === "Home") n = 0;
+    if(e.key === "End")  n = btns.length - 1;
+    if(n === null) return;
+    e.preventDefault();
+    btns[n].focus(); dakhav(btns[n].dataset.tab);
+  });
+
+  addEventListener("hashchange", () => {
+    const k = NAAV[location.hash];
+    if(k) dakhav(k, false);
+  });
+
+  let suru = NAAV[location.hash];
+  if(!suru){ try{ suru = sessionStorage.getItem("tab"); }catch(e){} }
+  dakhav(panes.some(v => v.id === "t-" + suru) ? suru : "aarti", !!NAAV[location.hash] ? false : true);
+})();
+
+// ---------- आरती टॅबमधले उपटॅब ----------
+(function(){
+  const bar = document.getElementById("subtabs");
+  const btns = [...bar.querySelectorAll("button[data-sub]")];
+  const vibhag = [...document.querySelectorAll("section[data-sub]")];
+
+  function dakhav(naav){
+    vibhag.forEach(v => { v.hidden = v.dataset.sub !== naav; });
+    btns.forEach(b => {
+      const on = b.dataset.sub === naav;
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-selected", on ? "true" : "false");
+      b.tabIndex = on ? 0 : -1;
+    });
+  }
+  bar.addEventListener("click", e => {
+    const b = e.target.closest("button[data-sub]");
+    if(b) dakhav(b.dataset.sub);
+  });
+  bar.addEventListener("keydown", e => {
+    const i = btns.indexOf(document.activeElement);
+    if(i < 0) return;
+    let n = null;
+    if(e.key === "ArrowRight") n = (i + 1) % btns.length;
+    if(e.key === "ArrowLeft")  n = (i - 1 + btns.length) % btns.length;
+    if(n === null) return;
+    e.preventDefault(); btns[n].focus(); dakhav(btns[n].dataset.sub);
+  });
+  dakhav("aaj");
 })();
 
 // ---------- होम स्क्रीनवर ठेवा ----------
