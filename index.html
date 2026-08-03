@@ -9,6 +9,11 @@
 <meta property="og:title" content="श्री स्वामी समर्थ सेवा केंद्र, कोटितीर्थ – कोल्हापूर">
 <meta property="og:description" content="नित्य सेवा वेळापत्रक व संपर्क माहिती">
 <meta property="og:type" content="website">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="सेवा केंद्र">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- फॉन्ट नंतर येतात; तोपर्यंत मोबाईलमधल्या देवनागरी फॉन्टने मजकूर लगेच दिसतो -->
@@ -46,6 +51,7 @@ body{
   background-size:22px 22px;
 }
 .wrap{max-width:520px;margin:0 auto;padding:0 16px 40px}
+body{padding-bottom:calc(64px + env(safe-area-inset-bottom))}  /* तळाच्या टॅबसाठी जागा */
 
 /* ---------- हेडर पट्टी ---------- */
 .band{
@@ -97,6 +103,29 @@ h2{
 }
 h2::after{content:"";flex:1;height:1px;background:var(--line)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+
+/* ---------- तळाचे टॅब ---------- */
+.tabs{
+  position:fixed;left:0;right:0;bottom:0;z-index:20;
+  display:flex;background:var(--card);
+  border-top:1px solid var(--line);
+  box-shadow:0 -4px 18px rgba(44,35,23,.10);
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.tabs button{
+  flex:1;border:0;background:none;cursor:pointer;
+  font-family:inherit;font-size:12.5px;font-weight:600;color:var(--shai-soft);
+  padding:9px 4px 10px;display:flex;flex-direction:column;align-items:center;gap:2px;
+  border-top:3px solid transparent;margin-top:-1px;
+}
+.tabs button .ti{font-size:20px;line-height:1.15}
+.tabs button.on{color:var(--kumkum);border-top-color:var(--kesari);background:rgba(217,83,30,.05)}
+.tabs button:focus-visible{outline:3px solid var(--haldi);outline-offset:-3px}
+
+/* होम स्क्रीन बटण */
+.instwrap{margin-top:26px}
+.btn-inst{background:var(--card);color:var(--kumkum);border:1px dashed rgba(140,29,43,.45)}
+.insthint{margin-top:9px;font-size:12.5px;line-height:1.6;color:var(--shai-soft);text-align:center}
 
 /* ---------- वारांप्रमाणे नित्यसेवा ---------- */
 .vs{display:grid;gap:6px}
@@ -236,6 +265,7 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 .c-zal{background:rgba(110,95,76,.13);color:var(--shai-soft);font-weight:500}
 .c-zal::before{content:"✓ "}
 .tl .kadhi{display:block;font-size:12px;color:var(--kesari);margin-top:2px}
+.tl .jap{display:block;font-size:12px;color:var(--shai-soft);margin-top:3px}
 .tl li.off .t,.tl li.off .d b{opacity:.55}
 .tl li.off .dot{border-color:var(--line)}
 
@@ -332,7 +362,7 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
   </div>
 
   <!-- नित्य सेवा -->
-  <section>
+  <section data-tab="aarti">
     <h2>नित्य सेवा वेळापत्रक</h2>
     <div class="card">
       <ul class="tl" id="tl"></ul>
@@ -340,14 +370,14 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
   </section>
 
   <!-- वारांप्रमाणे नित्यसेवा -->
-  <section>
+  <section data-tab="aarti">
     <h2>वारांप्रमाणे नित्यसेवा</h2>
     <div class="acclist" id="varSeva"></div>
     <p class="vsnote">पान क्रमांक नित्यसेवा पोथीतील आहेत.</p>
   </section>
 
   <!-- मुद्रण विभाग -->
-  <section>
+  <section data-tab="mahiti">
     <h2>मुद्रण विभाग</h2>
     <div class="card">
       <div class="rows" id="mudran"></div>
@@ -368,7 +398,7 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
   </section>
 
   <!-- बाल संस्कार वर्ग -->
-  <section>
+  <section data-tab="karya">
     <h2>बाल संस्कार वर्ग</h2>
     <div class="card">
       <div class="rows" id="balsanskar"></div>
@@ -377,7 +407,7 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
   </section>
 
   <!-- विवाह संस्कार -->
-  <section>
+  <section data-tab="karya">
     <h2>विवाह संस्कार</h2>
     <div class="card">
       <div class="rows" id="vivah"></div>
@@ -386,7 +416,7 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
   </section>
 
   <!-- प्रश्नोत्तरे विभाग -->
-  <section>
+  <section data-tab="karya">
     <h2>प्रश्नोत्तरे विभाग</h2>
     <div class="card">
       <div class="rows" id="prashnottare"></div>
@@ -397,7 +427,7 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
   </section>
 
   <!-- वार्षिक उत्सव -->
-  <section>
+  <section data-tab="karya">
     <h2>केंद्रात साजरे होणारे उत्सव</h2>
     <div class="card">
       <div class="rows" id="utsav"></div>
@@ -411,7 +441,7 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
   </section>
 
   <!-- श्रावण विशेष -->
-  <section>
+  <section data-tab="karya">
     <h2>श्रावण विशेष</h2>
 
     <div class="shcard">
@@ -447,7 +477,7 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
   </section>
 
   <!-- आजचे वचन -->
-  <section>
+  <section data-tab="mahiti">
     <h2>आजचे स्मरण</h2>
     <div class="vachan">
       <div class="k">श्री स्वामी वचन</div>
@@ -456,7 +486,7 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
   </section>
 
   <!-- संपर्क -->
-  <section>
+  <section data-tab="mahiti">
     <h2>संपर्क</h2>
     <div class="card">
       <div class="person"><small>सेवेकरी</small><span id="pname"></span></div>
@@ -470,7 +500,7 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
   </section>
 
   <!-- सेवा विभाग -->
-  <section>
+  <section data-tab="mahiti">
     <h2>सेवा विभाग</h2>
     <div class="card">
       <p class="intro">श्री स्वामी समर्थ सेवा मार्गात समाजाच्या वेगवेगळ्या गरजांसाठी
@@ -485,7 +515,7 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
   </section>
 
   <!-- धार्मिक ग्रंथ -->
-  <section>
+  <section data-tab="mahiti">
     <h2>धार्मिक ग्रंथ</h2>
     <div class="card">
       <div class="books" id="books"></div>
@@ -494,18 +524,31 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
   </section>
 
   <!-- उपयुक्त दुवे -->
-  <section>
+  <section data-tab="mahiti">
     <h2>उपयुक्त दुवे</h2>
     <div class="card">
       <div class="links" id="links"></div>
     </div>
   </section>
 
+  <!-- होम स्क्रीनवर ठेवा -->
+  <div class="instwrap" id="instWrap" hidden>
+    <button class="btn btn-inst" id="btnInst">📱 हे पान मोबाईलच्या होम स्क्रीनवर ठेवा</button>
+    <p class="insthint" id="instHint"></p>
+  </div>
+
   <footer>
     QR स्कॅन करून ही माहिती कधीही पाहता येईल.<br>
     वेळेत बदल झाल्यास केंद्रात विचारून खात्री करा.
   </footer>
 </div>
+
+<!-- तळाचे टॅब -->
+<nav class="tabs" id="tabs" role="tablist">
+  <button type="button" data-tab="aarti"  class="on"><span class="ti">🪔</span>आरती</button>
+  <button type="button" data-tab="karya"><span class="ti">📅</span>कार्यक्रम</button>
+  <button type="button" data-tab="mahiti"><span class="ti">ℹ️</span>माहिती</button>
+</nav>
 
 <script>
 /* ============================================================
@@ -524,6 +567,7 @@ const KENDRA = {
   //   shravan = श्रावण महिन्यात बदलणारी वेळ / मजकूर
   //   only:"shivseva" = श्रावणात रोज, एरवी फक्त सोमवारी
   aartiMin: 20,
+  jap: "आरतीनंतर १ माळ श्री स्वामी समर्थ जप",   // प्रत्येक आरतीनंतर
 
   seva: [
     { t:"08:00", e:"08:20", name:"भूपाळी व आरती", sub:"दिवसाची सुरुवात",
@@ -565,7 +609,8 @@ const KENDRA = {
       ["श्री देवीचे पाच मंत्र","४०","१ वेळ"],
       ["श्री लक्ष्मी गायत्री मंत्र","३४","१६ वेळा"],
       ["श्री नवार्णव मंत्र","३६","९ वेळा"],
-      ["श्री कालभैरवाष्टक","१०९","१ वेळ"]
+      ["श्री कालभैरवाष्टक","१०९","१ वेळ"],
+      ["श्री स्वामी समर्थ जप","३४","१ माळ"]
     ]],
     3: ["बुधवार", [
       ["श्री कालभैरवाष्टक","१०९","१ वेळ"],
@@ -872,6 +917,7 @@ document.getElementById("tl").innerHTML = sevaAaj.map(s => `
       <b>${s.name}${CHIP[s.sthiti]}</b>
       <span>${hhmm(s.t)} – ${hhmm(s.eT)}${s.sub ? " · " + s.sub : ""}</span>
       ${s.kadhi ? `<span class="kadhi">${s.kadhi}</span>` : ""}
+      ${s.name.includes("आरती") ? `<span class="jap">📿 ${KENDRA.jap}</span>` : ""}
     </span>
   </li>`).join("");
 
@@ -1012,6 +1058,63 @@ if(KENDRA.phone.includes("X")){
 }
 document.getElementById("bMap").href =
   "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(KENDRA.mapQuery);
+
+// ---------- तळाचे टॅब ----------
+(function(){
+  const tabs = document.getElementById("tabs");
+  const vibhag = [...document.querySelectorAll("section[data-tab]")];
+
+  function dakhav(naav){
+    vibhag.forEach(v => { v.hidden = v.dataset.tab !== naav; });
+    tabs.querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.tab === naav));
+    try{ sessionStorage.setItem("tab", naav); }catch(e){}
+    window.scrollTo({ top:0, behavior:"smooth" });
+  }
+
+  tabs.addEventListener("click", e => {
+    const b = e.target.closest("button[data-tab]");
+    if(b) dakhav(b.dataset.tab);
+  });
+
+  let suru = "aarti";
+  try{ const j = sessionStorage.getItem("tab");
+       if(j && vibhag.some(v => v.dataset.tab === j)) suru = j; }catch(e){}
+  dakhav(suru);
+})();
+
+// ---------- होम स्क्रीनवर ठेवा ----------
+(function(){
+  const wrap = document.getElementById("instWrap"),
+        btn  = document.getElementById("btnInst"),
+        hint = document.getElementById("instHint");
+  const ubhe = matchMedia("(display-mode: standalone)").matches || navigator.standalone;
+  if(ubhe) return;                                   // आधीच होम स्क्रीनवर आहे
+
+  const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+              (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  let prompt = null;
+
+  addEventListener("beforeinstallprompt", e => {      // Android / Chrome
+    e.preventDefault(); prompt = e; wrap.hidden = false;
+    hint.textContent = "एकदा ठेवलं की ॲपसारखं उघडेल — दरवेळी लिंक शोधावी लागणार नाही.";
+  });
+
+  if(iOS){                                            // iPhone — बटण चालत नाही, सूचना दाखवा
+    wrap.hidden = false;
+    btn.textContent = "📱 होम स्क्रीनवर कसं ठेवायचं?";
+    hint.textContent = "खालचं शेअर 🔗 बटण दाबा → “Add to Home Screen” निवडा.";
+    btn.addEventListener("click", () => hint.scrollIntoView({behavior:"smooth", block:"center"}));
+    return;
+  }
+
+  btn.addEventListener("click", async () => {
+    if(!prompt) return;
+    prompt.prompt();
+    const { outcome } = await prompt.userChoice;
+    prompt = null;
+    if(outcome === "accepted") wrap.hidden = true;
+  });
+})();
 
 // शेअर
 document.getElementById("bShare").addEventListener("click", async ()=>{
