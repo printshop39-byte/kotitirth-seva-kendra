@@ -497,7 +497,9 @@ const KENDRA = {
   seva: [
     { t:"08:00", e:"08:20", name:"भूपाळी व आरती", sub:"दिवसाची सुरुवात",
       shravan:{ e:"08:40", sub:"आरतीनंतर शिवमहिम्न स्तोत्र व जप" } },
-    { t:"10:30",            name:"आरती",           sub:"मध्यान्ह सेवा" },
+    { t:"10:30", e:"10:40", name:"आरती",           sub:"मध्यान्ह सेवा",
+      utsav:{ e:"11:00", sub:"उत्सव — सर्व आरती होतात" },
+      kadhi:"उत्सवाच्या दिवशी ११:०० पर्यंत" },
     { t:"18:00", e:"18:20", name:"आरती व नित्यसेवा", sub:"सायंकाळची सेवा" },
     { t:"18:20", e:"19:00", name:"श्री शंकराची सेवा", sub:"आरतीनंतर",
       only:"shivseva", kadhi:"श्रावणात रोज · एरवी फक्त सोमवारी" }
@@ -554,6 +556,15 @@ const KENDRA = {
   // ---------- श्रावण विशेष ----------
   shravanStart: "2026-08-13",   // <-- श्रावण सुरू होण्याची तारीख (दरवर्षी बदला)
   shravanEnd  : "2026-09-11",   // <-- श्रावण संपण्याची तारीख
+
+  // उत्सवाचे दिवस — या दिवशी मध्यान्ह आरती ११:०० पर्यंत व सर्व आरती होतात.
+  // नवा उत्सव आला की इथे "वर्ष-महिना-दिवस" या रचनेत तारीख वाढवा.
+  utsavDates: [
+    "2026-08-15",   // स्वातंत्र्य दिन
+    "2026-08-17",   // नागपंचमी
+    "2026-08-28",   // नारळी पौर्णिमा
+    "2026-09-04"    // श्रीकृष्ण जन्माष्टमी
+  ],
 
   shravan: [
     { icon:"🌿", title:"श्रावण मासातील व्रत वैकल्ये", tithi:"१३ ऑगस्ट – ११ सप्टेंबर २०२६", body:
@@ -687,12 +698,22 @@ const shStart = taarikh(KENDRA.shravanStart), shEnd = taarikh(KENDRA.shravanEnd)
 const shravanAahe = aaj >= shStart && aaj <= shEnd;
 const somwar = now.getDay() === 1;
 
+// आज उत्सव आहे का?
+const aajISO = aaj.getFullYear() + "-" +
+  String(aaj.getMonth()+1).padStart(2,"0") + "-" + String(aaj.getDate()).padStart(2,"0");
+const utsavAaj = (KENDRA.utsavDates || []).includes(aajISO);
+
 // ---------- आजच्या सेवा ठरवा ----------
 const sevaAaj = KENDRA.seva.map(s => {
   const o = Object.assign({}, s);
   if(shravanAahe && s.shravan){                       // श्रावणात वेळ/मजकूर बदलतो
     if(s.shravan.e)   o.e   = s.shravan.e;
     if(s.shravan.sub) o.sub = s.shravan.sub;
+  }
+  if(utsavAaj && s.utsav){                            // उत्सवाच्या दिवशी आरती लांबते
+    if(s.utsav.e)   o.e   = s.utsav.e;
+    if(s.utsav.sub) o.sub = s.utsav.sub;
+    o.kadhi = "";
   }
   o.st = mins(o.t);
   o.en = o.e ? mins(o.e) : o.st + KENDRA.aartiMin;    // वेळ न दिल्यास गृहीत कालावधी
