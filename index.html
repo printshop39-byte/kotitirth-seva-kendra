@@ -618,12 +618,20 @@ const KENDRA = {
 
   // ---------- केंद्र उघडण्या-बंद होण्याची वेळ ----------
   kendraVel: {
-    ughadte : "08:00",     // रोज उघडते
-    bandh   : "20:00",     // रोज बंद
+    ughadte : "07:00",     // रोज सकाळी ७:०० वाजता उघडते
+    bandh   : "20:00",     // रोज रात्री ८:०० वाजता बंद
     guruwar : "21:00",     // गुरुवारी रात्री ९:०० पर्यंत
-    // सप्ताहाच्या तारखा — या दिवशी केंद्र २४ तास उघडे
-    // (दत्त जयंती व श्री स्वामी समर्थ पुण्यतिथी सप्ताह)
-    saptahDates: [],
+
+    // ---- सप्ताह ----
+    // जयंती / पुण्यतिथीच्या ६ दिवस आधी केंद्र २४ तास उघडे राहते,
+    // आणि जयंतीच्या दुसऱ्या दिवशी रात्री बंद होते.
+    // खाली फक्त मुख्य दिवसाची तारीख टाका — बाकी आपोआप ठरते.
+    agodar : 6,            // किती दिवस आधी सुरू
+    nantar : 1,            // मुख्य दिवसानंतर किती दिवस
+    saptah : [
+      { naav:"श्री दत्तात्रेय जयंती", tarikh:"" },        // <-- तारीख टाका "2026-12-23" अशी
+      { naav:"श्री स्वामी समर्थ पुण्यतिथी", tarikh:"" }   // <--
+    ],
     guruTipa   : "गुरुवारी रात्री ९:०० पर्यंत",
     saptahTipa : "दत्त जयंती व श्री स्वामी समर्थ पुण्यतिथी सप्ताहात २४ तास उघडे"
   },
@@ -1160,9 +1168,23 @@ const sevaAaj = KENDRA.seva.map(s => {
 (function(){
   const K = KENDRA.kendraVel, box = document.getElementById("khula");
   const guruwar = now.getDay() === 4;
-  const saptah  = (K.saptahDates || []).includes(aajISO);
-  const ugh = mins(K.ughadte);
-  const band = saptah ? 24*60 : mins(guruwar ? K.guruwar : K.bandh);
+
+  // आज सप्ताहात आहे का? (मुख्य दिवसाच्या ६ दिवस आधीपासून, दुसऱ्या दिवसापर्यंत)
+  let saptah = null, shevatchaDivas = false;
+  (K.saptah || []).forEach(x => {
+    if(!x.tarikh) return;
+    const [y,m,d] = x.tarikh.split("-").map(Number);
+    const mukhya = new Date(y, m-1, d);
+    const suru   = new Date(y, m-1, d - (K.agodar || 0));
+    const akher  = new Date(y, m-1, d + (K.nantar || 0));
+    if(aaj >= suru && aaj <= akher){
+      saptah = x;
+      shevatchaDivas = aaj.getTime() === akher.getTime();
+    }
+  });
+
+  const ugh  = mins(K.ughadte);
+  const band = (saptah && !shevatchaDivas) ? 24*60 : mins(guruwar ? K.guruwar : K.bandh);
 
   const txt = document.getElementById("kTxt"), sub = document.getElementById("kSub");
   const velDakhav = t => show(String(Math.floor(t/60)).padStart(2,"0") + ":" + String(t%60).padStart(2,"0"));
@@ -1171,10 +1193,17 @@ const sevaAaj = KENDRA.seva.map(s => {
                  .filter(Boolean).join(" · ");
   const jod = t => t + (tipa ? " · " + tipa : "");
 
-  if(saptah){
+  if(saptah && !shevatchaDivas){
     box.classList.add("ughade");
-    txt.textContent = "सप्ताह — केंद्र २४ तास उघडे";
+    txt.textContent = saptah.naav + " सप्ताह — केंद्र २४ तास उघडे";
     sub.textContent = "रात्रभर सेवा सुरू";
+  }else if(saptah && shevatchaDivas && nowM < band){
+    const baki = band - nowM;
+    box.classList.add(baki <= 30 ? "lavkar" : "ughade");
+    txt.textContent = baki <= 30
+      ? "अजून " + dev(baki) + " मिनिटांत केंद्र बंद होईल"
+      : "सप्ताहाचा शेवटचा दिवस — केंद्र उघडे आहे";
+    sub.textContent = "सप्ताह आज " + velDakhav(band) + " वाजता संपेल";
   }else if(nowM < ugh){
     box.classList.add("bandh");
     txt.textContent = "केंद्र बंद आहे";
