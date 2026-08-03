@@ -365,6 +365,17 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
     </div>
   </section>
 
+  <!-- प्रश्नोत्तरे विभाग -->
+  <section>
+    <h2>प्रश्नोत्तरे विभाग</h2>
+    <div class="card">
+      <div class="rows" id="prashnottare"></div>
+      <p class="note">घरगुती व आध्यात्मिक अडचणींसाठी अनुभवी मार्गदर्शकांकडून
+        सल्ला व समुपदेशन. प्रत्येकाची गोपनीयता राखली जाते.</p>
+      <p class="monly">नोंदणी आवश्यक · सेवा पूर्णतः विनामूल्य</p>
+    </div>
+  </section>
+
   <!-- वार्षिक उत्सव -->
   <section>
     <h2>केंद्रात साजरे होणारे उत्सव</h2>
@@ -518,6 +529,11 @@ const KENDRA = {
   // विवाह संस्कार
   vivah: [
     { d:"दर रविवार", v:"सकाळी ९:०० – १०:३०" }
+  ],
+
+  // प्रश्नोत्तरे विभाग
+  prashnottare: [
+    { d:"दर रविवार", v:"सकाळी ९:०० – ११:००" }
   ],
 
   // मुद्रण विभागाचा संपर्क — फक्त मुद्रण साहित्य व उत्पादनांसाठी
@@ -774,6 +790,7 @@ const rowHTML = a => a.map(r=>`<div class="row"><b>${r.d}</b><span>${r.v}</span>
 document.getElementById("mudran").innerHTML     = rowHTML(KENDRA.mudran);
 document.getElementById("balsanskar").innerHTML = rowHTML(KENDRA.balsanskar);
 document.getElementById("vivah").innerHTML      = rowHTML(KENDRA.vivah);
+document.getElementById("prashnottare").innerHTML = rowHTML(KENDRA.prashnottare);
 
 // मुद्रण विभागाचा संपर्क
 (function(){
