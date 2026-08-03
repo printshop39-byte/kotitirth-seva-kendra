@@ -95,6 +95,27 @@ body{padding-bottom:calc(64px + env(safe-area-inset-bottom))}  /* तळाच�
 .now .txt{font-size:17px;font-weight:600;line-height:1.4}
 .now .sub{font-size:13px;opacity:.75}
 
+/* ---------- केंद्र उघडे / बंद ---------- */
+.khula{
+  margin-top:12px;display:flex;align-items:flex-start;gap:11px;
+  padding:12px 16px;border-radius:13px;
+  background:var(--card);border:1px solid var(--line);
+}
+.kdot{flex:0 0 auto;width:11px;height:11px;border-radius:50%;margin-top:7px;background:var(--shai-soft)}
+.khula.ughade .kdot{background:#2E8B45;box-shadow:0 0 0 0 rgba(46,139,69,.55);animation:jyot 2.4s ease-out infinite}
+.khula.lavkar .kdot{background:var(--haldi);box-shadow:0 0 0 0 rgba(233,168,18,.6);animation:jyot 1.6s ease-out infinite}
+.khula.bandh  .kdot{background:#B0392F}
+.ktx{min-width:0}
+.ktx b{display:block;font-size:15.5px;font-weight:600;line-height:1.4}
+.khula.ughade .ktx b{color:#22683A}
+.khula.lavkar .ktx b{color:#8a6208}
+.khula.bandh  .ktx b{color:#8C1D2B}
+.ktx i{font-style:normal;display:block;font-size:12.5px;color:var(--shai-soft);line-height:1.55;margin-top:2px}
+
+/* पत्ता */
+.patta{margin-top:10px;text-align:center;font-size:14.5px;line-height:1.6;color:var(--shai-soft)}
+.person i{font-style:normal;display:block;font-size:15px;font-weight:600;color:var(--kesari);margin-top:2px}
+
 /* ---------- सेक्शन ---------- */
 section{margin-top:26px}
 h2{
@@ -376,6 +397,12 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
     </div>
   </div>
 
+  <!-- केंद्र उघडे आहे का? -->
+  <div class="khula" id="khula">
+    <span class="kdot" id="kDot"></span>
+    <span class="ktx"><b id="kTxt"></b><i id="kSub"></i></span>
+  </div>
+
   <!-- नित्य सेवा -->
   <section data-tab="aarti">
     <h2>नित्य सेवा वेळापत्रक</h2>
@@ -517,7 +544,8 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
   <section data-tab="mahiti">
     <h2>संपर्क</h2>
     <div class="card">
-      <div class="person"><small>सेवेकरी</small><span id="pname"></span></div>
+      <div class="person"><small>सेवेकरी</small><span id="pname"></span><i id="pnum"></i></div>
+      <p class="patta" id="patta"></p>
       <div class="btns">
         <a class="btn btn-call" id="bCall" href="#" hidden>📞 फोन करा</a>
         <a class="btn btn-wa"   id="bWa"   href="#" target="_blank" rel="noopener" hidden>💬 WhatsApp वर विचारा</a>
@@ -584,7 +612,21 @@ footer{text-align:center;margin-top:30px;font-size:12.5px;color:var(--shai-soft)
    ============================================================ */
 const KENDRA = {
   sevekari : "श्री सुनील तावरे",
-  phone    : "+91XXXXXXXXXX",              // <-- खरा नंबर टाका (उदा. +919822012345)
+  phone    : "+919326169010",              // श्री सुनील तावरे
+  phoneDisp: "०९३२६१ ६९०१०",
+  patta    : "उद्यमनगर, छत्रपती शाहू मिलजवळ,<br>कोल्हापूर – ४१६००८",
+
+  // ---------- केंद्र उघडण्या-बंद होण्याची वेळ ----------
+  kendraVel: {
+    ughadte : "08:00",     // रोज उघडते
+    bandh   : "20:00",     // रोज बंद
+    guruwar : "21:00",     // गुरुवारी रात्री ९:०० पर्यंत
+    // सप्ताहाच्या तारखा — या दिवशी केंद्र २४ तास उघडे
+    // (दत्त जयंती व श्री स्वामी समर्थ पुण्यतिथी सप्ताह)
+    saptahDates: [],
+    guruTipa   : "गुरुवारी रात्री ९:०० पर्यंत",
+    saptahTipa : "दत्त जयंती व श्री स्वामी समर्थ पुण्यतिथी सप्ताहात २४ तास उघडे"
+  },
   mapUrl   : "https://maps.google.com/?cid=14920130721297585471",   // केंद्राचे Google Maps ठिकाण
   vibhagUrl: "https://dindoripranit.org/#/vibhag",   // सेवा विभागांची अधिकृत माहिती
   waMsg    : "श्री स्वामी समर्थ. मला सेवा केंद्राबद्दल माहिती हवी आहे.",
@@ -1114,6 +1156,43 @@ const sevaAaj = KENDRA.seva.map(s => {
   return o;
 });
 
+// ---------- केंद्र उघडे आहे का? ----------
+(function(){
+  const K = KENDRA.kendraVel, box = document.getElementById("khula");
+  const guruwar = now.getDay() === 4;
+  const saptah  = (K.saptahDates || []).includes(aajISO);
+  const ugh = mins(K.ughadte);
+  const band = saptah ? 24*60 : mins(guruwar ? K.guruwar : K.bandh);
+
+  const txt = document.getElementById("kTxt"), sub = document.getElementById("kSub");
+  const velDakhav = t => show(String(Math.floor(t/60)).padStart(2,"0") + ":" + String(t%60).padStart(2,"0"));
+  // जे आज लागू नाही तेवढेच खाली आठवण म्हणून दाखवा
+  const tipa = [guruwar ? "" : K.guruTipa, saptah ? "" : K.saptahTipa]
+                 .filter(Boolean).join(" · ");
+  const jod = t => t + (tipa ? " · " + tipa : "");
+
+  if(saptah){
+    box.classList.add("ughade");
+    txt.textContent = "सप्ताह — केंद्र २४ तास उघडे";
+    sub.textContent = "रात्रभर सेवा सुरू";
+  }else if(nowM < ugh){
+    box.classList.add("bandh");
+    txt.textContent = "केंद्र बंद आहे";
+    sub.textContent = jod("आज " + velDakhav(ugh) + " वाजता उघडेल");
+  }else if(nowM >= band){
+    box.classList.add("bandh");
+    txt.textContent = "केंद्र बंद झाले आहे";
+    sub.textContent = jod("उद्या " + velDakhav(ugh) + " वाजता उघडेल");
+  }else{
+    const baki = band - nowM;
+    box.classList.add(baki <= 30 ? "lavkar" : "ughade");
+    txt.textContent = baki <= 30
+      ? "अजून " + dev(baki) + " मिनिटांत केंद्र बंद होईल"
+      : "केंद्र उघडे आहे";
+    sub.textContent = jod("आज " + velDakhav(band) + " पर्यंत");
+  }
+})();
+
 // ---------- वेळापत्रक ----------
 const CHIP = {
   lavkar: '<span class="chip c-lav">लवकरच</span>',
@@ -1285,6 +1364,8 @@ document.getElementById("vachan").textContent = KENDRA.vachane[day % KENDRA.vach
 // संपर्क बटणे — माहिती भरलेली असेल तरच बटण दिसते.
 // अर्धवट माहिती दाखवण्यापेक्षा बटण न दाखवणे बरे.
 document.getElementById("pname").textContent = KENDRA.sevekari;
+if(KENDRA.phoneDisp) document.getElementById("pnum").textContent = KENDRA.phoneDisp;
+if(KENDRA.patta)     document.getElementById("patta").innerHTML  = "📍 " + KENDRA.patta;
 (function(){
   const num = (KENDRA.phone || "").replace(/[^\d+]/g,"");
   const chalu = num && !/X/i.test(KENDRA.phone);
