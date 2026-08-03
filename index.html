@@ -211,6 +211,21 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 .tag{display:inline-block;font-size:11px;letter-spacing:1px;background:rgba(233,168,18,.18);
   color:#8a6208;border-radius:20px;padding:1px 9px;margin-left:6px;vertical-align:middle}
 
+/* तीन स्थिती — लवकरच / चालू आहे / झाली */
+.chip{
+  display:inline-block;font-size:11px;font-weight:600;letter-spacing:.6px;
+  border-radius:20px;padding:2px 10px;margin-left:7px;vertical-align:middle;
+  white-space:nowrap;
+}
+.c-lav{background:rgba(217,83,30,.12);color:#A8420F}
+.c-cha{background:var(--haldi);color:#4A3405;
+  box-shadow:0 0 0 0 rgba(233,168,18,.7);animation:jyot 2.2s ease-out infinite}
+.c-zal{background:rgba(110,95,76,.13);color:var(--shai-soft);font-weight:500}
+.c-zal::before{content:"✓ "}
+.tl .kadhi{display:block;font-size:12px;color:var(--kesari);margin-top:2px}
+.tl li.off .t,.tl li.off .d b{opacity:.55}
+.tl li.off .dot{border-color:var(--line)}
+
 /* ---------- साध्या ओळी ---------- */
 .rows{display:grid;gap:10px}
 .row{display:flex;justify-content:space-between;gap:12px;align-items:baseline;
@@ -473,10 +488,19 @@ const KENDRA = {
   waMsg    : "श्री स्वामी समर्थ. मला सेवा केंद्राबद्दल माहिती हवी आहे.",
 
   // नित्य सेवा — २४ तासांच्या फॉरमॅटमध्ये वेळ
+  //   t = सुरू होण्याची वेळ, e = संपण्याची वेळ
+  //   e दिला नसेल तर खालचा aartiMin वापरला जातो
+  //   shravan = श्रावण महिन्यात बदलणारी वेळ / मजकूर
+  //   only:"shivseva" = श्रावणात रोज, एरवी फक्त सोमवारी
+  aartiMin: 20,
+
   seva: [
-    { t:"08:00", name:"भूपाळी व आरती",       sub:"दिवसाची सुरुवात" },
-    { t:"10:30", name:"आरती",                 sub:"मध्यान्ह सेवा" },
-    { t:"18:00", name:"आरती व नित्यसेवा",     sub:"सायंकाळची सेवा" }
+    { t:"08:00", e:"08:20", name:"भूपाळी व आरती", sub:"दिवसाची सुरुवात",
+      shravan:{ e:"08:40", sub:"आरतीनंतर शिवमहिम्न स्तोत्र व जप" } },
+    { t:"10:30",            name:"आरती",           sub:"मध्यान्ह सेवा" },
+    { t:"18:00", e:"18:20", name:"आरती व नित्यसेवा", sub:"सायंकाळची सेवा" },
+    { t:"18:20", e:"19:00", name:"श्री शंकराची सेवा", sub:"आरतीनंतर",
+      only:"shivseva", kadhi:"श्रावणात रोज · एरवी फक्त सोमवारी" }
   ],
 
   // मुद्रण विभाग
@@ -529,9 +553,10 @@ const KENDRA = {
 
   // ---------- श्रावण विशेष ----------
   shravanStart: "2026-08-13",   // <-- श्रावण सुरू होण्याची तारीख (दरवर्षी बदला)
+  shravanEnd  : "2026-09-11",   // <-- श्रावण संपण्याची तारीख
 
   shravan: [
-    { icon:"🌿", title:"श्रावण मासातील व्रत वैकल्ये", tithi:"संपूर्ण महिना", body:
+    { icon:"🌿", title:"श्रावण मासातील व्रत वैकल्ये", tithi:"१३ ऑगस्ट – ११ सप्टेंबर २०२६", body:
       `<p>श्रावण महिन्यात अनेक धार्मिक व्रते आचरता येतात.</p>
        <ol class="vlist">
          <li><b>नक्तव्रत</b> — दिवसा उपवास करून पूर्ण श्रावणमास दररोज नक्तव्रत, म्हणजे फक्त सायंकाळी आहार घेणे. ज्यांना पूर्ण निरंकार शक्य नाही त्यांनी उपोषणाचा एखादा पदार्थ खाऊन एकदा पाणी घ्यावे. भगवान शिवाबरोबर प्रत्येक वारानुसार त्या-त्या देवतेचेही पूजन करावे.</li>
@@ -548,7 +573,7 @@ const KENDRA = {
        <p>या दिवशी नैवेद्यास चुरम्याचे लाडू असतात. आरतीनंतर नैवेद्य, प्रसाद, लाडू व दहीभात लेपनाचा प्रसादही वाटतात. संपूर्ण महिनाभर अवर्णनीय, स्वर्गतुल्य आनंद देणारी सेवा करायला मिळते.</p>
        <p class="ref">अधिक माहितीसाठी — ज्ञानदान भाग १</p>` },
 
-    { icon:"🐍", title:"नागपंचमी", tithi:"श्रावण शु. ५", body:
+    { icon:"🐍", title:"नागपंचमी", tithi:"श्रावण शु. ५ · १७ ऑगस्ट २०२६", body:
       `<p>या दिवशी आपल्या कुलाचाराप्रमाणे नाग देवतेची पूजा व नैवेद्य करावा.</p>
        <ul class="ul">
          <li>या दिवशी चिरत, दळत, कांडत नाहीत; तवा चुलीवर ठेवत नाहीत.</li>
@@ -558,13 +583,13 @@ const KENDRA = {
        </ul>
        <p>पृथ्वीवर फक्त एकच दिवस नागाची पूजा होते. इतर वेळी त्याची प्रतिमा किंवा मूर्ती घरात पूजत नाहीत — कारण पृथ्वी शेषनागाने डोक्यावर धारण केली आहे, म्हणून पृथ्वीच्या डोक्यावर नागाला बसवू नये.</p>` },
 
-    { icon:"🎀", title:"नारळी पौर्णिमा (रक्षाबंधन)", tithi:"श्रावण शु. १५", body:
+    { icon:"🎀", title:"नारळी पौर्णिमा (रक्षाबंधन)", tithi:"श्रावण शु. १५ · २८ ऑगस्ट २०२६", body:
       `<p>या दिवशी सर्व श्री स्वामी समर्थ सेवाकेंद्रांवर भगिनींनी श्री स्वामी समर्थ महाराजांना राखी अर्पण करून, तेथे जमलेल्या आपल्या प्रत्येक सेवेकरी बंधूंना राखी बांधावी. यामुळे तत्त्वरूपाने एक मोठे संरक्षणाचे नाते तयार होते.</p>
        <p>राखी बांधत असताना खालील मंत्र म्हणावा —</p>
        <blockquote class="mq">येन बध्दो बलिराजा दानवेंद्रोमहाबला: ।<br>तेन त्वामहम् (बन्धयामि) रक्षे माचलमाचल ॥</blockquote>
        <p>ही पौर्णिमा नारळी पौर्णिमा या नावानेही ओळखली जाते. या पौर्णिमेला समुद्रकिनारी राहणारे लोक समुद्रास विधीपूर्वक नारळ अर्पण करतात.</p>` },
 
-    { icon:"🦚", title:"श्रीकृष्ण जन्माष्टमी", tithi:"श्रावण कृ. ८", body:
+    { icon:"🦚", title:"श्रीकृष्ण जन्माष्टमी", tithi:"श्रावण कृ. ८ · ४ सप्टेंबर २०२६", body:
       `<p>या दिवशी आपल्या सेवाकेंद्रात रात्री ठीक <b>१२.३९</b> वाजता श्रीकृष्णांचा जन्मोत्सव करावा. एका छोट्या पाळण्यात श्री बाळकृष्णाची मूर्ती ठेवावी व पाळणा म्हणावा.</p>
        <p>सायंकाळी ६.३० च्या आरतीनंतर केंद्रात सर्व सेवेकऱ्यांनी एकत्र जमून गाणी, कूट प्रश्न, खेळ, श्रीकृष्णांच्या जीवनातील वेगवेगळे प्रसंग, श्री भगवद्‌गीतेचा १५ वा अध्याय व गीतेची १८ नावे सामुदायिकरित्या वाचावीत.</p>
        <p>रात्री १२.३९ वाजता जन्मोत्सव साजरा करून सुंठ-खडीसाखरेचा नैवेद्य करतात. दुसऱ्या दिवशी दहीहंडी साजरी केली जाते व गोपाळकाल्याचा नैवेद्य दाखवतात.</p>
@@ -573,7 +598,7 @@ const KENDRA = {
        <p>श्रीकृष्ण किलकम् सुद्धा या दिवशी वाचावे. श्रावण कृष्ण १ ते ८ श्रीकृष्ण नवरात्र उत्सव साजरा करतात; भारतभर पूर्ण पुरुषोत्तम दैवताचे विविध प्रकारांतून स्मरण करतात. याच दिवशी कालिकेचा जन्मदिनही साजरा केला जातो.</p>
        <p class="ref">श्रीकृष्ण किलकम् — ज्ञानदान भाग ३</p>` },
 
-    { icon:"🇮🇳", title:"१५ ऑगस्ट — स्वातंत्र्य दिन", tithi:"राष्ट्रीय सण", body:
+    { icon:"🇮🇳", title:"१५ ऑगस्ट — स्वातंत्र्य दिन", tithi:"१५ ऑगस्ट २०२६ · राष्ट्रीय सण", body:
       `<p>भारतीय स्वातंत्र्याचा मंगलमय दिवस म्हणून १५ ऑगस्ट साजरा केला जातो.</p>
        <ul class="ul">
          <li>भारत मातेची सेवा म्हणून सर्व समर्थ सेवा केंद्रांवर दुर्गा सप्तशतीचे सामुदायिक पठण होते.</li>
@@ -648,35 +673,70 @@ const show = t => { let [h,m]=t.split(":").map(Number);
   let h12 = h%12 || 12;
   return ap+" "+dev(h12)+":"+dev(String(m).padStart(2,"0")); };
 
-// वेळापत्रक तयार करा
-const now = new Date();
-const nowM = now.getHours()*60 + now.getMinutes();
-const tl = document.getElementById("tl");
-let live = null, next = null;
+// फक्त वेळ (सकाळी/सायं. न लावता) — उदा. ८:२०
+const hhmm = t => { let [h,m]=t.split(":").map(Number);
+  return dev(h%12 || 12)+":"+dev(String(m).padStart(2,"0")); };
 
-KENDRA.seva.forEach(s=>{
-  const m = mins(s.t);
-  const isLive = nowM >= m && nowM < m+45;          // सेवा ४५ मिनिटे चालू धरली
-  if(isLive) live = s;
-  if(!next && m > nowM) next = s;
-  tl.insertAdjacentHTML("beforeend",
-    `<li class="${isLive?'live':''}">
-       <span class="t">${show(s.t)}</span>
-       <span class="dot"></span>
-       <span class="d"><b>${s.name}${isLive?'<span class="tag">चालू</span>':''}</b><span>${s.sub||""}</span></span>
-     </li>`);
+const now  = new Date();
+const nowM = now.getHours()*60 + now.getMinutes();
+const aaj  = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+// ---------- श्रावण चालू आहे का? ----------
+const taarikh = d => { const [y,m,dd]=d.split("-").map(Number); return new Date(y,m-1,dd); };
+const shStart = taarikh(KENDRA.shravanStart), shEnd = taarikh(KENDRA.shravanEnd);
+const shravanAahe = aaj >= shStart && aaj <= shEnd;
+const somwar = now.getDay() === 1;
+
+// ---------- आजच्या सेवा ठरवा ----------
+const sevaAaj = KENDRA.seva.map(s => {
+  const o = Object.assign({}, s);
+  if(shravanAahe && s.shravan){                       // श्रावणात वेळ/मजकूर बदलतो
+    if(s.shravan.e)   o.e   = s.shravan.e;
+    if(s.shravan.sub) o.sub = s.shravan.sub;
+  }
+  o.st = mins(o.t);
+  o.en = o.e ? mins(o.e) : o.st + KENDRA.aartiMin;    // वेळ न दिल्यास गृहीत कालावधी
+  o.eT = String(Math.floor(o.en/60)).padStart(2,"0") + ":" + String(o.en%60).padStart(2,"0");
+  o.lagu = !o.only || (o.only === "shivseva" && (shravanAahe || somwar));
+  o.sthiti = !o.lagu ? "nahi"
+           : nowM <  o.st ? "lavkar"
+           : nowM <  o.en ? "chalu"
+           : "zali";
+  return o;
 });
 
-// "आत्ता" पट्टी
+// ---------- वेळापत्रक ----------
+const CHIP = {
+  lavkar: '<span class="chip c-lav">लवकरच</span>',
+  chalu : '<span class="chip c-cha">चालू आहे</span>',
+  zali  : '<span class="chip c-zal">झाली</span>',
+  nahi  : ''
+};
+document.getElementById("tl").innerHTML = sevaAaj.map(s => `
+  <li class="${s.sthiti === 'chalu' ? 'live' : ''}${s.lagu ? '' : ' off'}">
+    <span class="t">${show(s.t)}</span>
+    <span class="dot"></span>
+    <span class="d">
+      <b>${s.name}${CHIP[s.sthiti]}</b>
+      <span>${hhmm(s.t)} – ${hhmm(s.eT)}${s.sub ? " · " + s.sub : ""}</span>
+      ${s.kadhi ? `<span class="kadhi">${s.kadhi}</span>` : ""}
+    </span>
+  </li>`).join("");
+
+// ---------- "आत्ता" पट्टी ----------
+const lagu   = sevaAaj.filter(s => s.lagu);
+const chalu  = lagu.find(s => s.sthiti === "chalu");
+const pudhil = lagu.find(s => s.sthiti === "lavkar");
 const nowTxt = document.getElementById("nowTxt"), nowSub = document.getElementById("nowSub");
-if(live){
-  nowTxt.textContent = live.name + " सुरू आहे";
-  nowSub.textContent = "वेळ — " + show(live.t);
-}else if(next){
-  const baki = mins(next.t) - nowM;
-  const h = Math.floor(baki/60), m = baki%60;
-  nowTxt.textContent = "पुढील सेवा — " + next.name;
-  nowSub.textContent = show(next.t) + " · अजून " + (h? dev(h)+" तास ":"") + dev(m) + " मिनिटे";
+
+if(chalu){
+  nowTxt.textContent = chalu.name + " चालू आहे";
+  nowSub.textContent = show(chalu.t) + " – " + hhmm(chalu.eT);
+}else if(pudhil){
+  const baki = pudhil.st - nowM, h = Math.floor(baki/60), m = baki%60;
+  nowTxt.textContent = "पुढील सेवा — " + pudhil.name;
+  const baakiTxt = (h ? dev(h) + " तास" : "") + (h && m ? " " : "") + (m ? dev(m) + " मिनिटे" : "");
+  nowSub.textContent = show(pudhil.t) + " · अजून " + (baakiTxt || "थोडाच वेळ");
 }else{
   nowTxt.textContent = "आजच्या सेवा पूर्ण झाल्या";
   nowSub.textContent = "उद्या " + show(KENDRA.seva[0].t) + " पासून पुन्हा सेवा";
@@ -708,23 +768,20 @@ document.getElementById("parampara").innerHTML = KENDRA.parampara.map(p =>
 
 // श्रावण — किती दिवस बाकी / कितवा दिवस
 (function(){
-  const [y,m,d] = KENDRA.shravanStart.split("-").map(Number);
-  const start = new Date(y, m-1, d);
-  const aaj   = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const baki  = Math.round((start - aaj) / 864e5);
+  const MAH = ["जानेवारी","फेब्रुवारी","मार्च","एप्रिल","मे","जून","जुलै",
+               "ऑगस्ट","सप्टेंबर","ऑक्टोबर","नोव्हेंबर","डिसेंबर"];
+  const disp = d => dev(d.getDate()) + " " + MAH[d.getMonth()];
+  const baki = Math.round((shStart - aaj) / 864e5);
   const big = document.getElementById("shBig"), sub = document.getElementById("shSub");
-  const tarikh = dev(d) + " " + ["जानेवारी","फेब्रुवारी","मार्च","एप्रिल","मे","जून","जुलै",
-    "ऑगस्ट","सप्टेंबर","ऑक्टोबर","नोव्हेंबर","डिसेंबर"][m-1];
+  const kaal = disp(shStart) + " ते " + disp(shEnd) + " " + dev(shEnd.getFullYear());
 
   if(baki > 0){
-    big.textContent = "श्रावण सुरू होण्यास " + dev(baki) + (baki === 1 ? " दिवस" : " दिवस");
-    sub.textContent = tarikh + " पासून प्रारंभ";
-  }else if(baki === 0){
-    big.textContent = "आजपासून श्रावण मास सुरू";
-    sub.textContent = "महिनाभर विशेष सेवा";
-  }else if(baki >= -30){
-    big.textContent = "श्रावण मास सुरू आहे";
-    sub.textContent = "आज " + dev(1 - baki) + "वा दिवस";
+    big.textContent = "श्रावण सुरू होण्यास " + dev(baki) + " दिवस";
+    sub.textContent = kaal;
+  }else if(shravanAahe){
+    const divas = Math.round((aaj - shStart) / 864e5) + 1;
+    big.textContent = baki === 0 ? "आजपासून श्रावण मास सुरू" : "श्रावण मास सुरू आहे";
+    sub.textContent = (baki === 0 ? "" : "आज " + dev(divas) + "वा दिवस · ") + kaal;
   }else{
     big.textContent = "श्रावण मास";
     sub.textContent = "पुढील श्रावणाची तारीख केंद्रात विचारा";
