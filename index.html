@@ -216,6 +216,12 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 .accbody p:last-child{margin-bottom:0}
 .accbody .vlist,.accbody .ul{margin:0 0 9px 18px}
 .accbody ol.vlist{list-style-type:devanagari}   /* १, २, ३ … */
+.accbody .oli{display:block;font-style:normal;font-size:12.5px;color:var(--shai-soft);line-height:1.55}
+.accbody .atit{
+  display:inline-block;margin-top:4px;padding:2px 9px;border-radius:20px;
+  background:rgba(233,168,18,.16);color:#8a6208;font-size:11.5px;line-height:1.6;
+}
+.mq small{display:block;font-family:var(--f-body);font-size:12px;color:var(--shai-soft);margin-top:5px}
 .accbody .vlist li,.accbody .ul li{margin-bottom:7px}
 .accbody .vlist b{color:var(--kumkum)}
 .accbody .ref{font-size:12.5px;color:var(--shai-soft);border-top:1px dashed var(--line);padding-top:8px}
@@ -616,17 +622,23 @@ const KENDRA = {
       `<p>फक्त उत्सवाच्या वेळी सर्व आरत्या म्हणाव्यात. <b>सकाळची भूपाळी सोडून</b>,
          खालील क्रमाने —</p>
        <ol class="vlist">
-         <li>श्री गणपतीची आरती</li>
-         <li>श्री देवीची आरती</li>
-         <li>श्री स्वामी समर्थ महाराजांची आरती</li>
-         <li>श्री दत्त महाराजांची आरती</li>
-         <li>श्री नारायणाची आरती</li>
-         <li>श्री गायत्री मातेची आरती</li>
-         <li>श्री शंकराची आरती</li>
+         <li>श्री गणपतीची आरती<i class="oli">ओवाळू आरती श्री गणपती ओंकारा…</i></li>
+         <li>श्री स्वामी समर्थ महाराजांची आरती<i class="oli">आरती ओवाळू श्री सद्गुरु स्वामी समर्था…</i></li>
+         <li>श्री दत्तात्रेयांची आरती<i class="oli">आरती ओवाळू श्रीगुरुसी…</i></li>
+         <li>श्री नारायणांची आरती<i class="oli">ओवाळू नारायण, शुद्ध ज्योति पंचप्राण…</i></li>
+         <li>श्री गायत्री मातेची आरती<i class="oli">जय देवी जय देवी गायत्री माते…</i></li>
+         <li>श्री शंकराची आरती<i class="oli">जय शिव ॐकारा, प्रभु हर शिव ॐकारा…</i>
+             <span class="atit">फक्त सोमवारी सायंकाळी नैवेद्य आरतीसह, तसेच विशेष उत्सवास</span></li>
+         <li>श्री देवीची आरती<i class="oli">जय देवी जय देवी जय महिषासुरमर्दिनी…</i></li>
+         <li>औदुंबर प्रदक्षिणा<i class="oli">धन्य धन्य हो प्रदक्षिणा सद्गुरु रायाची…</i></li>
          <li>मंत्रपुष्पांजली</li>
          <li>जयजयकार</li>
          <li>श्री सद्गुरु प्रार्थना</li>
-       </ol>` }
+       </ol>
+       <p>प्रदक्षिणेपूर्वी —</p>
+       <blockquote class="mq">॥ दिगंबरा दिगंबरा श्रीपाद वल्लभ दिगंबरा ॥<br><small>(तीन वेळा म्हणावे)</small></blockquote>
+       <p class="ref">सकाळच्या स्वामी समर्थ व दत्तात्रेय आरत्या यांहून वेगळ्या आहेत —
+          सकाळी "जय जय सद्गुरु स्वामी समर्था…" व "जय अनसूयात्मज…".</p>` }
   ],
 
   // ---------- वारांप्रमाणे नित्यसेवा ----------
