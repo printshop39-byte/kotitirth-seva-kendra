@@ -201,7 +201,8 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 
 /* ---------- उत्सव व परंपरा ---------- */
 #utsav .row b{font-size:14.5px;line-height:1.45}
-#utsav .row span{font-size:14px;white-space:nowrap}
+#utsav .row span{font-size:14px;white-space:nowrap;text-align:right}
+#utsav .row span i{font-style:normal;display:block;font-size:12.5px;font-weight:500;color:var(--shai-soft);margin-top:1px}
 .guru{margin-top:20px;padding-top:18px;border-top:1px dashed var(--line);text-align:center}
 .gt{font-family:var(--f-head);font-size:17px;color:var(--kesari)}
 .gh{font-size:15px;color:var(--shai-soft);margin:2px 0 14px}
@@ -359,6 +360,21 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 /* ---------- सेवा विभाग ---------- */
 .intro{font-size:15.5px;color:var(--shai-soft);line-height:1.7}
 
+/* ---------- पंचमहायज्ञ ---------- */
+.panch{margin-top:14px}
+.panch h3{font-size:16px;color:var(--kumkum);margin-bottom:12px;text-align:center}
+.yadnya{padding:11px 14px;background:rgba(181,71,20,.05);border-radius:10px}
+.yadnya b{display:block;font-size:15px;font-weight:600;color:var(--kumkum)}
+.yadnya span{display:block;font-size:14.5px;line-height:1.65;color:var(--shai);margin-top:2px}
+
+/* ---------- शिवनामावली ---------- */
+.namavali{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:5px}
+.namavali .nm{
+  display:flex;gap:9px;align-items:baseline;
+  padding:6px 11px;border-radius:8px;background:rgba(181,71,20,.05);font-size:14.5px;
+}
+.namavali .nm span{flex:0 0 30px;text-align:right;font-size:12.5px;font-weight:600;color:var(--kesari)}
+
 /* ---------- सोळा संस्कार ---------- */
 .sintro{font-size:15px;line-height:1.75;color:var(--shai-soft);margin-bottom:13px}
 .acc .ai.sn{
@@ -500,6 +516,7 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
     <h2>केंद्रात साजरे होणारे उत्सव</h2>
     <div class="card">
       <div class="rows" id="utsav"></div>
+      <p class="note">तिथी दरवर्षी तीच राहते; इंग्रजी तारीख बदलते. वर्षात दोन सप्ताह असतात — स्वामी समर्थ पुण्यतिथी व दत्तजयंती.</p>
 
       <div class="guru">
         <div class="gt">॥ श्री गुरुतत्त्व ॥</div>
@@ -605,6 +622,19 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
       </div>
     </div>
   </section>
+  <!-- भिऊ नकोस -->
+  <section>
+    <h2>भिऊ नकोस, मी तुझ्या पाठीशी आहे</h2>
+    <p class="sintro">श्री स्वामी समर्थ सेवामार्गात रोज पाळावयाचे बारा नियम.</p>
+    <div class="books" id="bhiu"></div>
+
+    <div class="card panch">
+      <h3>पंचमहायज्ञ</h3>
+      <div class="rows" id="panchayadnya"></div>
+      <p class="note" id="panchaShevat"></p>
+    </div>
+  </section>
+
   <!-- सोळा संस्कार -->
   <section>
     <h2>सोळा संस्कार</h2>
@@ -1000,19 +1030,20 @@ const KENDRA = {
   },
 
   // ---------- वार्षिक उत्सव ----------
+  // तिथी दरवर्षी तीच; इंग्रजी महिना बदलतो
   utsav: [
-    { n:"श्री स्वामी समर्थ जयंती",              t:"चैत्र शु. २" },
-    { n:"श्री स्वामी समर्थ पुण्यतिथी",           t:"चैत्र कृ. १३ (सप्ताह)" },
-    { n:"सद्गुरु प. पू. मोरेदादा पुण्यतिथी",      t:"वैशाख शु. १२" },
-    { n:"श्री गुरुपौर्णिमा",                    t:"आषाढ शु. १५" },
-    { n:"श्रीपाद श्रीवल्लभ जयंती",              t:"भाद्रपद शु. ४" },
-    { n:"अनंत चतुर्दशी (श्री सत्यनारायण पूजा)",  t:"भाद्रपद शु. १४" },
-    { n:"गायत्री मातोश्रींचा उत्सव",             t:"आश्विन शु. ९" },
-    { n:"कोजागरी पौर्णिमा (लक्ष्मी, इंद्र, चंद्र, कुबेर पूजन)", t:"आश्विन शु. १५" },
-    { n:"श्रीपाद श्रीवल्लभ पुण्यतिथी",           t:"आश्विन कृ. १२" },
-    { n:"श्री दत्तात्रेय जयंती",                t:"मार्गशीर्ष शु. १५ (सप्ताह)" },
-    { n:"श्री नृसिंह सरस्वती पुण्यतिथी",         t:"माघ कृ. १" },
-    { n:"श्री महाशिवरात्री",                   t:"माघ कृ. १४" }
+    { n:"श्री स्वामी समर्थ जयंती",              t:"चैत्र शु. २",            m:"एप्रिल" },
+    { n:"श्री स्वामी समर्थ पुण्यतिथी (सप्ताह)",   t:"चैत्र कृ. १३",           m:"एप्रिल" },
+    { n:"तेजोनिधी सद्गुरु प. पू. मोरेदादा पुण्यतिथी", t:"वैशाख शु. १२",       m:"मे" },
+    { n:"श्री गुरुपौर्णिमा",                    t:"आषाढ शु. १५",           m:"जुलै" },
+    { n:"श्रीपाद श्रीवल्लभ जयंती",              t:"भाद्रपद शु. ४",          m:"सप्टेंबर" },
+    { n:"अनंत चतुर्दशी (श्री सत्यनारायण पूजा)",  t:"भाद्रपद शु. १४",         m:"सप्टेंबर" },
+    { n:"गायत्री मातोश्रींचा उत्सव",             t:"आश्विन शु. ९",           m:"ऑक्टोबर" },
+    { n:"कोजागरी पौर्णिमा (लक्ष्मी, इंद्र, चंद्र, कुबेर पूजन)", t:"आश्विन शु. १५", m:"ऑक्टोबर" },
+    { n:"श्रीपाद श्रीवल्लभ पुण्यतिथी",           t:"आश्विन कृ. १२",          m:"ऑक्टोबर" },
+    { n:"श्री दत्तजयंती (सप्ताह)",              t:"मार्गशीर्ष शु. १५",       m:"डिसेंबर" },
+    { n:"श्री नृसिंहसरस्वती पुण्यतिथी (गुरु प्रतिपदा)", t:"माघ कृ. १",        m:"फेब्रुवारी" },
+    { n:"श्री महाशिवरात्री",                   t:"माघ कृ. १४",            m:"मार्च" }
   ],
 
   // दिंडोरी प्रणीत मार्गाची परंपरा
@@ -1196,9 +1227,49 @@ const KENDRA = {
       `जपेल शिवनाम जो अमर नित्य बाराखरे ।<br>तरी शिवचि पावतो पळती दूर गंडांतरे ॥`,
       `॥ इति श्री द्वादशज्योतिर्लिंग स्तोत्र संपूर्णम् ॥`
     ] },
-    { kr:"३२", naav:"श्री शिवनामावली", kadhi:"फक्त सोमवारी · श्री शिवाष्टोत्तरशतनामानि", ovya:[
+    { kr:"३२", naav:"श्री शिवनामावली", kadhi:"फक्त सोमवारी · श्री शिवाष्टोत्तरशतनामानि",
+      html:`<div class="namavali"><div class='nm'><span>१</span>ॐ शिवाय नमः</div><div class='nm'><span>२</span>ॐ महेश्वराय नमः</div><div class='nm'><span>३</span>ॐ शंभवे नमः</div><div class='nm'><span>४</span>ॐ पिनाकिने नमः</div><div class='nm'><span>५</span>ॐ शशिशेखराय नमः</div><div class='nm'><span>६</span>ॐ वामदेवाय नमः</div><div class='nm'><span>७</span>ॐ विरुपाक्षाय नमः</div><div class='nm'><span>८</span>ॐ कपर्दिने नमः</div><div class='nm'><span>९</span>ॐ नीललोहिताय नमः</div><div class='nm'><span>१०</span>ॐ शंकराय नमः</div><div class='nm'><span>११</span>ॐ शुलपाणये नमः</div><div class='nm'><span>१२</span>ॐ खट्वांगिने नमः</div><div class='nm'><span>१३</span>ॐ विष्णुवल्लभाय नमः</div><div class='nm'><span>१४</span>ॐ शिपिविष्टाय नमः</div><div class='nm'><span>१५</span>ॐ अंबिकानाथाय नमः</div><div class='nm'><span>१६</span>ॐ नीलकंठाय नमः</div><div class='nm'><span>१७</span>ॐ भक्तवत्सलाय नमः</div><div class='nm'><span>१८</span>ॐ भवाय नमः</div><div class='nm'><span>१९</span>ॐ शर्वाय नमः</div><div class='nm'><span>२०</span>ॐ त्रिलोकेशाय नमः</div><div class='nm'><span>२१</span>ॐ शितिकंठाय नमः</div><div class='nm'><span>२२</span>ॐ शिवप्रियाय नमः</div><div class='nm'><span>२३</span>ॐ उग्राय नमः</div><div class='nm'><span>२४</span>ॐ सर्वेश्वराय नमः</div><div class='nm'><span>२५</span>ॐ कामारये नमः</div><div class='nm'><span>२६</span>ॐ अंधकासुरसुदनाय नमः</div><div class='nm'><span>२७</span>ॐ गंगाधराय नमः</div><div class='nm'><span>२८</span>ॐ ललाटाक्षाय नमः</div><div class='nm'><span>२९</span>ॐ कालकालाय नमः</div><div class='nm'><span>३०</span>ॐ कृपानिधये नमः</div><div class='nm'><span>३१</span>ॐ श्रीमया नमः</div><div class='nm'><span>३२</span>ॐ परशुहस्ताय नमः</div><div class='nm'><span>३३</span>ॐ मृगपाणये नमः</div><div class='nm'><span>३४</span>ॐ जटाधराय नमः</div><div class='nm'><span>३५</span>ॐ कैलासवासिने नमः</div><div class='nm'><span>३६</span>ॐ कवचिने नमः</div><div class='nm'><span>३७</span>ॐ कठोराय नमः</div><div class='nm'><span>३८</span>ॐ त्रिपुरांतकाय नमः</div><div class='nm'><span>३९</span>ॐ वृषांकाय नमः</div><div class='nm'><span>४०</span>ॐ वृषभारुढाय नमः</div><div class='nm'><span>४१</span>ॐ भस्मोद्धुलितविग्रहाय नमः</div><div class='nm'><span>४२</span>ॐ सामप्रियाय नमः</div><div class='nm'><span>४३</span>ॐ स्वरमयाय नमः</div><div class='nm'><span>४४</span>ॐ त्रयीमूर्तये नमः</div><div class='nm'><span>४५</span>ॐ अनीश्वराय नमः</div><div class='nm'><span>४६</span>ॐ सर्वज्ञाय नमः</div><div class='nm'><span>४७</span>ॐ परमात्मने नमः</div><div class='nm'><span>४८</span>ॐ सोमसूर्याग्निलोचनाय नमः</div><div class='nm'><span>४९</span>ॐ हविषे नमः</div><div class='nm'><span>५०</span>ॐ यज्ञमयाय नमः</div><div class='nm'><span>५१</span>ॐ सोमाय नमः</div><div class='nm'><span>५२</span>ॐ पंचवक्त्राय नमः</div><div class='nm'><span>५३</span>ॐ सदाशिवाय नमः</div><div class='nm'><span>५४</span>ॐ विश्वेश्वराय नमः</div><div class='nm'><span>५५</span>ॐ वीरभद्राय नमः</div><div class='nm'><span>५६</span>ॐ गणनाथाय नमः</div><div class='nm'><span>५७</span>ॐ प्रजापतये नमः</div><div class='nm'><span>५८</span>ॐ हिरण्यरेतसे नमः</div><div class='nm'><span>५९</span>ॐ दुर्धर्षाय नमः</div><div class='nm'><span>६०</span>ॐ गिरीशाय नमः</div><div class='nm'><span>६१</span>ॐ भालचंद्राय नमः</div><div class='nm'><span>६२</span>ॐ अनघाय नमः</div><div class='nm'><span>६३</span>ॐ भुजंगभूषणाय नमः</div><div class='nm'><span>६४</span>ॐ भगाय नमः</div><div class='nm'><span>६५</span>ॐ गिरिधन्वने नमः</div><div class='nm'><span>६६</span>ॐ गिरिप्रियाय नमः</div><div class='nm'><span>६७</span>ॐ कृत्तिवाससे नमः</div><div class='nm'><span>६८</span>ॐ पुरारातये नमः</div><div class='nm'><span>६९</span>ॐ भगवते नमः</div><div class='nm'><span>७०</span>ॐ प्रमथाधिपाय नमः</div><div class='nm'><span>७१</span>ॐ मृत्युंजयाय नमः</div><div class='nm'><span>७२</span>ॐ सूक्ष्मतनवे नमः</div><div class='nm'><span>७३</span>ॐ जगद्व्यापिने नमः</div><div class='nm'><span>७४</span>ॐ जगद्गुरवे नमः</div><div class='nm'><span>७५</span>ॐ व्योमकेशाय नमः</div><div class='nm'><span>७६</span>ॐ महासेनजनकाय नमः</div><div class='nm'><span>७७</span>ॐ चारुविक्रमाय नमः</div><div class='nm'><span>७८</span>ॐ रुद्राय नमः</div><div class='nm'><span>७९</span>ॐ भूतपतये नमः</div><div class='nm'><span>८०</span>ॐ स्थाणवे नमः</div><div class='nm'><span>८१</span>ॐ अहिर्बुध्न्याय नमः</div><div class='nm'><span>८२</span>ॐ दिगंबराय नमः</div><div class='nm'><span>८३</span>ॐ अष्टमुर्तये नमः</div><div class='nm'><span>८४</span>ॐ अनेकात्मने नमः</div><div class='nm'><span>८५</span>ॐ सात्विकाय नमः</div><div class='nm'><span>८६</span>ॐ शुद्धविग्रहाय नमः</div><div class='nm'><span>८७</span>ॐ शाश्वताय नमः</div><div class='nm'><span>८८</span>ॐ खंडपरशवे नमः</div><div class='nm'><span>८९</span>ॐ अजाय नमः</div><div class='nm'><span>९०</span>ॐ पाशविमोचनाय नमः</div><div class='nm'><span>९१</span>ॐ मृडाय नमः</div><div class='nm'><span>९२</span>ॐ पशुपतये नमः</div><div class='nm'><span>९३</span>ॐ देवाय नमः</div><div class='nm'><span>९४</span>ॐ महादेवाय नमः</div><div class='nm'><span>९५</span>ॐ अव्ययाय नमः</div><div class='nm'><span>९६</span>ॐ हरये नमः</div><div class='nm'><span>९७</span>ॐ पुष्पदंतभिदे नमः</div><div class='nm'><span>९८</span>ॐ अव्यग्राय नमः</div><div class='nm'><span>९९</span>ॐ दक्षाध्वरहराय नमः</div><div class='nm'><span>१००</span>ॐ हराय नमः</div><div class='nm'><span>१०१</span>ॐ भगनेत्रभिदे नमः</div><div class='nm'><span>१०२</span>ॐ अव्यक्ताय नमः</div><div class='nm'><span>१०३</span>ॐ सहस्राक्षाय नमः</div><div class='nm'><span>१०४</span>ॐ सहस्रपदे नमः</div><div class='nm'><span>१०५</span>ॐ अपवर्गप्रदाय नमः</div><div class='nm'><span>१०६</span>ॐ अनंताय नमः</div><div class='nm'><span>१०७</span>ॐ तारकाय नमः</div><div class='nm'><span>१०८</span>ॐ परमेश्वराय नमः</div></div>`, ovya:[
+    ] },
+    { kr:"३३", naav:"रुद्राध्यायः", kadhi:"फक्त सोमवारी", tipa:"यात श्री शिवशंकरध्यान, महामृत्युंजय मंत्र व प्रार्थना (मौलोचंद्र) येतात — ते वर स्वतंत्र दिले आहेत. नमक व चमक अनुवाक ११ + ११ यांचा मजकूर अजून टाकलेला नाही.", ovya:[
+    ] },
+    { kr:"३४", naav:"पुरुषसूक्त", kadhi:"", ovya:[
+    ] },
+    { kr:"३७", naav:"ऐक्य मंत्र", kadhi:"", ovya:[
+      `यं वैदिका मन्त्रदृश: पुराणा: ।<br>इन्द्रं यमं मातरिश्वानमाहु: ॥१॥`,
+      `वेदान्तिनोऽनिर्वचनीयमेकम् ।<br>यं ब्रह्माशब्देन विनिर्दिशन्ति ॥२॥`,
+      `शैवाऽयमीशं शिवइत्यवोचन् ।<br>यं वैष्णवा विष्णुरितिस्तुवन्ति ॥३॥`,
+      `बुध्दस्तथाऽर्हनिति बौध्दजना: ।<br>सत्श्रीअकालेति च शिक्खखंसत: ॥४॥`,
+      `शास्तेति केचित् कतिचित्कुमार: ।<br>स्वामीति मातेति पितेति भक्त्या ॥५॥`,
+      `यं प्रार्थयन्ते जगदीशितारम् ।<br>स एक एव प्रभुरुद्वितीय: ॥६॥`
+    ] },
+    { kr:"—", naav:"शिवप्रार्थना", kadhi:"शिवनामावलीनंतर", html:`<p>शिव हर शंकर । नमामी शंकर, शिव शंकर शंभो ॥<br>हे गिरिजापती । भवानी शंकर, शिव शंकर शंभो ॥</p><p class='ref'>हे पाच वेळा म्हणावे.</p><p>॥ नमः पार्वतीपतये हर हर महादेव ॥<br>॥ श्री त्र्यंबकेश्वर महाराज की जय ॥</p><p class='ref'>हे एक वेळा म्हणावे.</p>`, ovya:[
     ] }
   ],
+
+  // ---------- भिऊ नकोस, मी तुझ्या पाठीशी आहे ----------
+  bhiu: [
+    "रोज श्री स्वामी चरित्र सारामृत या पोथीचे ३ अध्याय वाचावेत.",
+    "रोज ११ माळी ‘श्री स्वामी समर्थ’ या मंत्राचा जप करणे.",
+    "आपण जे जे जेवू, खाऊ ते ते श्री स्वामी समर्थ महाराजांना मनोभावे अर्पण करुन मगच आपण ग्रहण करावे.",
+    "प्रातःकाळी उठतांना, रात्री झोपतांना व एरवी देखील महाराजांचे स्मरण करावे.",
+    "श्री स्वामी समर्थ महाराजांना रोज नैवेद्य व आरती करावी.",
+    "आपले आचार-विचार धर्म-संस्कृतीप्रमाणे असावेत. मद्य व मांस वर्ज्य करावे.",
+    "माता-पिता यांच्याबद्दल आदर व त्यांना संतोष होईल असे वागावे. थोरांचा मान ठेवावा, सर्वांशी नम्रभावाने वागावे.",
+    "सद्गुरुप्रणित मार्गावर अनन्य श्रद्धा ठेवून इतरांनाही या फलदायी व अनमोल मार्गावर जास्तीत जास्त संख्येने सामील होण्यास उत्तेजन द्यावे.",
+    "कुलदेवतेचे रोज स्मरण व नमन करावे. कुलाचार पाळावेत.",
+    "श्री स्वामी समर्थ महाराजांच्या दर्शनास जातांना हार, फुले, उदबत्ती, श्रीफळ व प्रसाद ठेवून यथाविधी दर्शन घ्यावे.",
+    "उपास्य देवतेची आराधना ध्यानपूर्वक करावी. अधिष्ठान श्री स्वामी समर्थ महाराजांचे असावे. काम्य सेवा संकल्पपूर्वक असावी.",
+    "रोजच्या रोज घरी पंचमहायज्ञ करीत जावा."
+  ],
+
+  panchayadnya: [
+    ["देवयज्ञ",   "दररोज सकाळी अग्नीला एक चमचा शुद्ध तूप घालावे."],
+    ["ऋषीयज्ञ",   "दररोज गाईला एक घास अन्न घालावे."],
+    ["पितृयज्ञ",  "कावळ्याला दुपारी १२ नंतर एक घास अन्न द्यावे."],
+    ["मनुष्ययज्ञ","दररोज एक मनुष्यजीव (अतिथी) चहा, पाणी, जेवण, गोळ्या, बिस्किटे व चॉकलेट देऊन संतुष्ट करावा."],
+    ["भूतयज्ञ",   "दररोज मुंग्यांना थोडीशी साखर भिंतीच्या कडेस ठेवावी."]
+  ],
+  panchaShevat: "वरील पाच महायज्ञ केल्याने ऋण, वैर, हत्या वगैरे दोषांचा परिहार होतो.",
 
   // ---------- सोळा संस्कार ----------
   sanskarIntro: "भारतीय संस्कृतीनुसार देहशुद्धी, मनशुद्धी, आत्मशुद्धी व ज्ञानशुद्धीसाठी १६ संस्कार आवश्यक आहेत. या संस्कारांनी व्यक्तिमत्त्व व जीवन उत्कृष्ट बनवता येते.",
@@ -1520,7 +1591,7 @@ document.getElementById("paath").innerHTML = KENDRA.paath.map(a => `
 
 // वार्षिक उत्सव
 document.getElementById("utsav").innerHTML = KENDRA.utsav.map(u =>
-  `<div class="row"><b>${u.n}</b><span>${u.t}</span></div>`).join("");
+  `<div class="row"><b>${u.n}</b><span>${u.t}${u.m ? `<i>${u.m}</i>` : ""}</span></div>`).join("");
 
 // परंपरा
 document.getElementById("parampara").innerHTML = KENDRA.parampara.map(p =>
@@ -1571,11 +1642,21 @@ document.getElementById("visheshSeva").innerHTML = KENDRA.visheshSeva.map(x => `
       <span class="ac" aria-hidden="true">+</span>
     </summary>
     <div class="accbody">${
+      x.html ? x.html :
       x.ovya.length
         ? x.ovya.map(o => `<p class="ovi">${o}</p>`).join("")
         : `<p class="ref">या सेवेचा मजकूर अजून टाकलेला नाही. स्पष्ट फोटो मिळाल्यावर जोडता येईल.</p>`
     }${x.tipa ? `<p class="ref">${x.tipa}</p>` : ""}</div>
   </details>`).join("");
+
+// भिऊ नकोस — बारा नियम
+document.getElementById("bhiu").innerHTML = KENDRA.bhiu.map((t,i) =>
+  `<div class="book"><span class="n">${dev(i+1)}</span><span>${t}</span></div>`).join("");
+
+// पंचमहायज्ञ
+document.getElementById("panchayadnya").innerHTML = KENDRA.panchayadnya.map((y,i) =>
+  `<div class="yadnya"><b>${dev(i+1)}) ${y[0]}</b><span>${y[1]}</span></div>`).join("");
+document.getElementById("panchaShevat").textContent = KENDRA.panchaShevat;
 
 // सोळा संस्कार
 document.getElementById("sanskarIntro").textContent  = KENDRA.sanskarIntro;
