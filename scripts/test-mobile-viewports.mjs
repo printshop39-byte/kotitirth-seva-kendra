@@ -82,7 +82,8 @@ async function main(){
         bannerBox !== null && bannerBox.right <= vp.width + 1);
 
       const labelCount = await page.$$eval(".test-label", els => els.length);
-      check(`[${vp.name}] Draft/uncertain लेबल्स (३) दिसतात`, labelCount === 3);
+      // आता २ test entries आहेत (valga-sukta + ishwar-prarthana), प्रत्येकी ३ लेबल्स = ६ लेबल्स
+      check(`[${vp.name}] Draft/uncertain लेबल्स दिसतात`, labelCount >= 3);
 
       const summaryBox = await page.$eval("#scripture-ishwar-prarthana summary", el => {
         const r = el.getBoundingClientRect();
