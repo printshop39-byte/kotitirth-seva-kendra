@@ -612,6 +612,15 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 }
 .src-badge b{color:inherit}
 
+/* ---------- नवीन verified scripture pipeline (data/scriptures/) ---------- */
+.ovi.sec-heading{font-weight:600;color:var(--kumkum)}
+.ovi.sec-note,.ovi.sec-phalashruti{
+  font-family:var(--f-body);font-size:14px;line-height:1.6;
+  color:var(--shai-soft);text-align:left;
+}
+.scripture-link{font-size:13.5px}
+.scripture-link a{color:var(--kesari);text-decoration:underline dotted;text-underline-offset:3px}
+
 footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);line-height:1.8}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -671,6 +680,8 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
     <h2>आरत्यांचा पाठ</h2>
     <div class="acclist" id="paath"></div>
     <p class="vsnote">पोथी नसली तरी इथून वाचता येईल.</p>
+    <!-- data/scriptures/public-index.json मधून येणारी verified-by-centre रचना (Phase 1+2) -->
+    <div class="acclist" id="scriptureList" aria-live="polite"></div>
   </section>
   <!-- वारांप्रमाणे नित्यसेवा -->
   <section id="panel-var" role="tabpanel" aria-labelledby="st-var" data-subpanel="var">
@@ -2009,6 +2020,128 @@ renderPaath(KENDRA.paath.map(a => Object.assign({ status:"draft", source:"नि
   }catch(e){ /* offline / file:// — एम्बेड मजकूर चालू */ }
 })();
 
+// ---------- नवीन data/scriptures/ रचना (Phase 1+2) ----------
+// नियम: वेबसाइट ONLY public-index.json fetch करते; तिथून मिळालेला प्रत्येक
+// आयटमही (defense-in-depth) पुन्हा verification gate मधून तपासला जातो —
+// draft/second-pass मजकूर चुकूनही इथे render होणार नाही.
+window.__scriptureIndex = new Map();
+
+function renderScriptureSections(container, sections){
+  (sections || []).forEach(sec => {
+    const p = document.createElement("p");
+    p.className = "ovi sec-" + sec.type;
+    (sec.lines || []).forEach((line, i) => {
+      if(i > 0) p.appendChild(document.createElement("br"));
+      p.appendChild(document.createTextNode(line));
+    });
+    container.appendChild(p);
+  });
+}
+
+function buildScriptureSrcBadge(doc){
+  const v = doc.verification || {};
+  const p = document.createElement("p");
+  p.className = "src-badge ok";
+  const b = document.createElement("b");
+  b.textContent = "पडताळलेले";
+  p.appendChild(b);
+  const bits = [" — स्रोत: " + (doc.source?.label || "अधिकृत नित्यसेवा पोथी")];
+  if(v.verifiedBy) bits.push(" · " + v.verifiedBy);
+  if(v.verifiedDate) bits.push(" · " + v.verifiedDate);
+  p.appendChild(document.createTextNode(bits.join("")));
+  return p;
+}
+
+function renderScriptureList(box, docs){
+  while(box.firstChild) box.removeChild(box.firstChild);
+  docs.forEach(doc => {
+    const details = document.createElement("details");
+    details.className = "acc";
+    details.id = "scripture-" + doc.id;
+
+    const summary = document.createElement("summary");
+    const ai = document.createElement("span"); ai.className = "ai"; ai.textContent = "📜";
+    const at = document.createElement("span"); at.className = "at";
+    const b = document.createElement("b"); b.textContent = doc.title;
+    const i = document.createElement("i"); i.textContent = doc.kadhi || "";
+    at.appendChild(b); at.appendChild(i);
+    const ac = document.createElement("span"); ac.className = "ac"; ac.setAttribute("aria-hidden", "true"); ac.textContent = "+";
+    summary.appendChild(ai); summary.appendChild(at); summary.appendChild(ac);
+    details.appendChild(summary);
+
+    const body = document.createElement("div"); body.className = "accbody";
+    renderScriptureSections(body, doc.sections);
+    body.appendChild(buildScriptureSrcBadge(doc));
+
+    const linkP = document.createElement("p"); linkP.className = "ref scripture-link";
+    const a = document.createElement("a");
+    a.href = "#paath/" + doc.id;
+    a.textContent = "🔗 या रचनेचा स्वतंत्र दुवा";
+    linkP.appendChild(a);
+    body.appendChild(linkP);
+
+    details.appendChild(body);
+    box.appendChild(details);
+  });
+}
+
+function scriptureIdFromHash(){
+  const raw = (location.hash || "").replace(/^#/, "");
+  const parts = raw.split("/");
+  return parts.length > 1 && parts[0] === "paath" ? decodeURIComponent(parts[1]) : null;
+}
+
+// अवैध / अप्रकाशित id => शांतपणे साधा #paath दाखवा (crash किंवा भलतीकडे नाही)
+function applyScriptureHashRoute(){
+  const id = scriptureIdFromHash();
+  if(!id) return;
+  const el = document.getElementById("scripture-" + id);
+  if(!el){
+    if(window.__scriptureIndexLoaded && location.hash !== "#paath"){
+      history.replaceState(null, "", "#paath");
+    }
+    return;
+  }
+  el.setAttribute("open", "");
+  requestAnimationFrame(() => el.scrollIntoView({ behavior: "smooth", block: "start" }));
+}
+
+(async function loadPublicScriptures(){
+  const box = document.getElementById("scriptureList");
+  if(!box) return;
+  try{
+    const idxRes = await fetch("data/scriptures/public-index.json");
+    if(!idxRes.ok) return;
+    const idx = await idxRes.json();
+    const items = Array.isArray(idx?.items) ? idx.items : [];
+    const resolved = [];
+    for(const it of items){
+      if(!it || typeof it.file !== "string" || !it.file.startsWith("verified/")){
+        console.warn("scripture manifest: verified/ बाहेरचा मार्ग नाकारला", it);
+        continue;
+      }
+      let doc;
+      try{
+        const r = await fetch("data/scriptures/" + it.file);
+        if(!r.ok) continue;
+        doc = await r.json();
+      }catch(e){ continue; }
+      const v = doc?.verification || {};
+      if(v.status !== "verified-by-centre" || v.sourceCompared !== true){
+        console.warn("scripture manifest: verification gate FAIL, वगळले —", it.id);
+        continue;
+      }
+      resolved.push(doc);
+      window.__scriptureIndex.set(doc.id, doc);
+    }
+    renderScriptureList(box, resolved);
+  }catch(e){ /* offline / file:// — फक्त जुनी embed यादी दिसेल */ }
+  finally{
+    window.__scriptureIndexLoaded = true;
+    applyScriptureHashRoute();
+  }
+})();
+
 // मुद्रण विभागाचा संपर्क
 (function(){
   const m = KENDRA.mudranSampark, num = m.phone.replace(/[^\d+]/g,"");
@@ -2193,7 +2326,10 @@ const aartiSub = (function(){
   const panes = [...document.querySelectorAll(".pane")];
 
   function routeKey(){
-    const h = (location.hash || "#aarti").replace(/^#/, "");
+    // "#paath/<scripture-id>" सारखे hash असतील तर आधी "/" आधीचा भाग वेगळा काढा —
+    // बाकी सर्व अस्तित्वात असलेले exact-hash route (#aarti, #paath, #var, #jap …) जसेच्या तसे राहतात.
+    const raw = (location.hash || "#aarti").replace(/^#/, "");
+    const h = raw.split("/")[0];
     if(ROUTES[h]) return h;
     // hash नसेल / अज्ञात — session फक्त मुख्य pane साठी; subtab नाही
     try{
@@ -2219,11 +2355,17 @@ const aartiSub = (function(){
       aartiSub.dakhav(r.sub || "aaj", false);
     }
     try{ sessionStorage.setItem("tab", r.pane); }catch(e){}
+    // "#paath/<scripture-id>" deep-link असेल तर hash न बदलता तीच रचना उघडून तिथे scroll करा
+    const pendingScriptureId = key === "paath" ? scriptureIdFromHash() : null;
     if(hashBadla !== false){
       const want = HASH_OF[key] || "#aarti";
       if(location.hash !== want) history.replaceState(null, "", want);
     }
-    window.scrollTo({ top:0, behavior:"smooth" });
+    if(pendingScriptureId){
+      applyScriptureHashRoute();
+    }else{
+      window.scrollTo({ top:0, behavior:"smooth" });
+    }
   }
 
   tabs.addEventListener("click", e => {
@@ -2251,7 +2393,8 @@ const aartiSub = (function(){
   addEventListener("hashchange", () => dakhav(routeKey(), false));
 
   // सुरुवात: hash असेल तर तोच; नाहीतर #aarti
-  const hasHash = !!ROUTES[(location.hash || "").replace(/^#/, "")];
+  // ("#paath/<scripture-id>" सारखा hash असेल तरी "/" आधीचा भाग वापरून ओळखावा)
+  const hasHash = !!ROUTES[(location.hash || "").replace(/^#/, "").split("/")[0]];
   dakhav(routeKey(), hasHash ? false : true);
 })();
 

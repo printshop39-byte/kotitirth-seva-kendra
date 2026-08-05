@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "public-index.schema.json",
+  "title": "Public scripture manifest — the ONLY file the live website fetches",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["meta", "items"],
+  "properties": {
+    "meta": { "type": "object" },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "file", "title", "category"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+          "file": {
+            "type": "string",
+            "pattern": "^verified/[a-z0-9-]+\\.json$",
+            "description": "Must always live under verified/. drafts/ must never be referenced here."
+          },
+          "title": { "type": "string", "minLength": 1 },
+          "category": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

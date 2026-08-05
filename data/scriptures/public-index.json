@@ -1,0 +1,14 @@
+{
+  "meta": {
+    "note": "हीच एकमेव फाईल वेबसाइट थेट fetch करते. यात फक्त verification.status === \"verified-by-centre\" आणि verification.sourceCompared === true असलेल्या नोंदी list कराव्यात. drafts/ फाईल्स इथे कधीही संदर्भित करू नयेत — scripts/validate-scriptures.mjs हे नियम automatically तपासते.",
+    "schema": "schema/public-index.schema.json"
+  },
+  "items": [
+    {
+      "id": "qa-sample-entry",
+      "file": "verified/qa-sample-entry.json",
+      "title": "🔧 आर्किटेक्चर चाचणी नोंद — विलीनीकरणापूर्वी काढा / बदला",
+      "category": "test"
+    }
+  ]
+}

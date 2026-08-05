@@ -5,9 +5,12 @@ QR स्कॅन केल्यावर उघडणारे मोबा�
 | फाईल | काम |
 |---|---|
 | `index.html` | मुख्य पेज (QR स्कॅन केल्यावर हेच दिसते) |
-| `data/*.json` | आरती / मंत्र / नित्यसेवा / उत्सव — verified मजकूर |
-| `source/pothi/` | नित्यसेवा पोथीचे स्रोत फोटो |
+| `data/*.json` | आरती / मंत्र / नित्यसेवा / उत्सव — जुनी (legacy) रचना, अजून वापरात |
+| `data/scriptures/` | नवीन रचना — `public-index.json` (फक्त हीच वेबसाइट fetch करते) + `drafts/` + `verified/`. तपशील: `data/scriptures/README.md` |
+| `source/pothi/` | नित्यसेवा पोथीचे स्रोत फोटो (स्वतः commit होत नाहीत — `.gitignore` पहा) |
 | `CONTENT-VERIFY.md` | मजकूर पडताळणी + जपमाळा नियम |
+| `scripts/validate-scriptures.mjs` | `data/scriptures/` JSON schema + checksum + draft-exposure तपासणी (`npm run validate:scriptures`) |
+| `scripts/test-e2e.mjs` | Deep-link, जपमाळा, service-worker Playwright चाचण्या (`npm run test:e2e`) |
 | `qr.html` | QR तयार करून SVG / PNG / फलक PDF घेण्यासाठी |
 
 ---

@@ -1,0 +1,27 @@
+{
+  "id": "qa-sample-entry",
+  "title": "🔧 आर्किटेक्चर चाचणी नोंद — विलीनीकरणापूर्वी काढा / बदला",
+  "language": "mr",
+  "script": "Devanagari",
+  "category": "test",
+  "kadhi": "फक्त तांत्रिक चाचणीसाठी — ही खरी धार्मिक सामग्री नाही",
+  "verification": {
+    "status": "verified-by-centre",
+    "verifiedBy": "QA — architecture proof (मानवी सेवेकरी पडताळणी नाही)",
+    "verifiedDate": "2026-08-05",
+    "sourceCompared": true
+  },
+  "source": {
+    "label": "ही कृत्रिम चाचणी नोंद आहे — कोणत्याही नित्यसेवा पोथीतून घेतलेली नाही. फक्त public-index.json → verified/ → वेबसाइट या साखळीचे प्रात्यक्षिक.",
+    "sourcePage": null,
+    "sourceImage": null
+  },
+  "sections": [
+    { "type": "heading", "lines": ["चाचणी मथळा (heading section)"] },
+    { "type": "verse", "lines": ["ही पहिली ओळ आहे — मात्रा व विरामचिन्हे जशीच्या तशी दाखवण्यासाठी।", "ही दुसरी ओळ आहे ॥१॥"], "number": "१" },
+    { "type": "refrain", "lines": ["हे धृ-पद उदाहरण आहे ॥धृ॥"] },
+    { "type": "prose", "lines": ["ही prose (गद्य) प्रकारची ओळ आहे — टीप स्वरूपाचा मजकूर इथे बसतो."] },
+    { "type": "note", "lines": ["टीप: ही नोंद फक्त data/scriptures/ रचना व verified-only public-index.json गाळणी सिद्ध करण्यासाठी आहे. खरी सेवा-सामग्री सेवेकऱ्याच्या स्पष्ट मानवी पडताळणीशिवाय कधीही verified-by-centre होणार नाही."] },
+    { "type": "phalashruti", "lines": ["फलश्रुती उदाहरण — या विभागाचा नमुना मजकूर."] }
+  ]
+}
