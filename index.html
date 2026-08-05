@@ -720,7 +720,7 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
               <option value="2000">जलद (२ से.)</option>
             </select>
           </label>
-          <button type="button" class="btn btn-ghost" id="autoPause">⏸ थांबवा</button>
+          <button type="button" class="btn btn-ghost" id="autoPause">⏸ Auto थांबवा</button>
         </div>
         <p class="ma-note">माइकने मंत्र ऐकून मोजणी नाही — आरती/घंटा/समूह आवाजामुळे चुकीची मोजणी होते.</p>
       </div>
@@ -2409,7 +2409,7 @@ const aartiSub = (function(){
     clearInterval(timer); timer = null;
     paused = false;
     box?.classList.remove("auto-on");
-    if(autoPause) autoPause.textContent = "⏸ थांबवा";
+    if(autoPause) autoPause.textContent = "⏸ Auto थांबवा";
     wakeOff();
     if(elSub) elSub.textContent = "एकदा दाबा = एक जप · मुख्य पद्धत";
     dakhav();
@@ -2443,7 +2443,7 @@ const aartiSub = (function(){
   autoPause?.addEventListener("click", () => {
     if(!autoOn?.checked) return;
     paused = !paused;
-    autoPause.textContent = paused ? "▶ पुन्हा सुरू" : "⏸ थांबवा";
+    autoPause.textContent = paused ? "▶ Auto पुन्हा सुरू" : "⏸ Auto थांबवा";
     if(paused){ wakeOff(); bol("Auto थांबवले", false); }
     else { wakeOn(); bol("Auto पुन्हा सुरू", false); }
     dakhav();
