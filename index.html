@@ -444,16 +444,23 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
   position:absolute;inset:0;width:100%;height:100%;
   pointer-events:none;
 }
+.mala-beads .track{
+  fill:none;stroke:rgba(140,29,43,.12);stroke-width:7;
+}
+.mala-beads .prog{
+  fill:none;stroke:var(--kumkum);stroke-width:7;stroke-linecap:round;
+  transform:rotate(-90deg);transform-origin:100px 100px;
+  transition:stroke-dashoffset .2s ease;
+}
 .mala-beads .bd{
-  fill:rgba(140,29,43,.14);stroke:rgba(140,29,43,.22);stroke-width:.6;
-  transition:fill .18s ease, stroke .18s ease, transform .18s ease;
-  transform-origin:center;transform-box:fill-box;
+  fill:#E8D9BE;stroke:rgba(140,29,43,.28);stroke-width:.7;
+  transition:fill .15s ease, stroke .15s ease, r .15s ease;
 }
 .mala-beads .bd.on{
-  fill:var(--kumkum);stroke:var(--haldi);stroke-width:1;
+  fill:var(--kumkum);stroke:var(--haldi);stroke-width:1.1;
 }
 .mala-beads .bd.meru{
-  fill:var(--haldi);stroke:#B8860B;stroke-width:1.2;
+  fill:var(--haldi);stroke:#8a6208;stroke-width:1.4;
 }
 .mala-beads .bd.pulse{
   animation:malaPulse .45s ease-out;
@@ -2044,16 +2051,25 @@ const aartiSub = (function(){
 
   elTarget.textContent = dev(GOAL);
 
-  // १०८ मण्यांची वर्तुळमाळा — वर मेरू (गुरुमणी)
-  const CX = 100, CY = 100, R = 88, nodes = [];
+  // १०८ मण्यांची वर्तुळमाळा — वर मेरू (गुरुमणी) + प्रगती कंस
+  const CX = 100, CY = 100, R = 88, CIRC = 2 * Math.PI * R, nodes = [];
+  const track = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+  track.setAttribute("cx", CX); track.setAttribute("cy", CY); track.setAttribute("r", R);
+  track.setAttribute("class", "track");
+  svg.appendChild(track);
+  const prog = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+  prog.setAttribute("cx", CX); prog.setAttribute("cy", CY); prog.setAttribute("r", R);
+  prog.setAttribute("class", "prog");
+  prog.setAttribute("stroke-dasharray", CIRC.toFixed(2));
+  prog.setAttribute("stroke-dashoffset", CIRC.toFixed(2));
+  svg.appendChild(prog);
   for(let i = 0; i < BEADS; i++){
     const ang = -Math.PI/2 + (i / BEADS) * Math.PI * 2;
     const c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     c.setAttribute("cx", (CX + R * Math.cos(ang)).toFixed(2));
     c.setAttribute("cy", (CY + R * Math.sin(ang)).toFixed(2));
-    c.setAttribute("r", i === 0 ? 4.2 : 2.7);
-    c.classList.add("bd");
-    if(i === 0) c.classList.add("meru");
+    c.setAttribute("r", i === 0 ? 5 : 3.1);
+    c.setAttribute("class", i === 0 ? "bd meru" : "bd");
     svg.appendChild(c);
     nodes.push(c);
   }
@@ -2086,10 +2102,15 @@ const aartiSub = (function(){
     elBar.style.width = pct + "%";
     elPct.textContent = dev(pct) + "%";
     elHint.textContent = st.bead === 0 && st.malas === 0 ? "दाबा" : "पुढचा जप";
+    const offset = CIRC * (1 - st.bead / BEADS);
+    prog.setAttribute("stroke-dashoffset", offset.toFixed(2));
     nodes.forEach((n, i) => {
       // मेरू (०) नेहमी सोनेरी; १..bead मोजलेले मणी उजळतात
       const on = i > 0 && i <= st.bead;
-      n.classList.toggle("on", on);
+      if(on) n.setAttribute("class", "bd on");
+      else if(i === 0) n.setAttribute("class", "bd meru");
+      else n.setAttribute("class", "bd");
+      n.setAttribute("r", i === 0 ? 5 : (on ? 3.6 : 3.1));
       if(pulseIdx === i){
         n.classList.remove("pulse");
         void n.getBoundingClientRect();
