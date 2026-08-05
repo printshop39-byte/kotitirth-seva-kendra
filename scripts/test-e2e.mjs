@@ -30,7 +30,7 @@
  */
 import { chromium } from "playwright";
 import { createServer } from "node:http";
-import { readFile, mkdtemp, cp, writeFile, rm } from "node:fs/promises";
+import { readFile, mkdtemp, cp, writeFile, rm, mkdir } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -262,6 +262,8 @@ async function testOverlayServer(browser){
   });
 
   const fixture = JSON.parse(await readFile(path.join(ROOT, "tests/fixtures/scriptures/verified-sample.json"), "utf8"));
+  // production मध्ये verified/ रिकामे असू शकते — overlay लिहिण्याआधी dir तयार करा
+  await mkdir(path.join(overlayDir, "data/scriptures/verified"), { recursive: true });
   await writeFile(
     path.join(overlayDir, "data/scriptures/verified/verified-sample.json"),
     JSON.stringify(fixture, null, 2)
