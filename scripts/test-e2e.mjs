@@ -169,6 +169,39 @@ async function testProductionServer(browser){
     await page.goto(base + "/#paath", { waitUntil: "networkidle" });
     await page.waitForTimeout(400);
     check("reader-bar (#readerBar) दिसतो", await page.$("#readerBar") !== null);
+    check("भाषिणी सेटअप पॅनेल (#bhashiniBox) दिसतो", await page.$("#bhashiniBox") !== null);
+    check("भाषिणी userID / API Key इनपुट्स आहेत",
+      await page.$("#bhUserId") !== null && await page.$("#bhApiKey") !== null);
+    const bhHelpers = await page.evaluate(() => {
+      const b = window.__bhashini;
+      if(!b) return null;
+      return {
+        configured: b.configured(),
+        chunks: b.chunk("एक। दोन। तीन।", 8),
+        hasPipeline: !!b.defaultPipeline,
+        configHost: (b.configUrl || "").includes("ulcacontrib.org")
+      };
+    });
+    check("window.__bhashini हेल्पर्स उपलब्ध", !!bhHelpers);
+    check("भाषिणी सुरूवातीला unconfigured (की commit नाहीत)", bhHelpers && bhHelpers.configured === false);
+    check("मराठी chunk helper मजकूर तोडतो", bhHelpers && Array.isArray(bhHelpers.chunks) && bhHelpers.chunks.length >= 1);
+    check("भाषिणी ULCA config URL / default pipeline सेट आहे", bhHelpers && bhHelpers.hasPipeline && bhHelpers.configHost);
+    // की सेव्ह → localStorage; खरा API कॉल e2e मध्ये नाही (की/नेटवर्क/CORS)
+    await page.$eval("#bhashiniBox", el => { el.open = true; });
+    const saved = await page.evaluate(() => {
+      document.getElementById("bhUserId").value = "test-user";
+      document.getElementById("bhApiKey").value = "test-key";
+      document.getElementById("bhEngine").value = "browser";
+      document.getElementById("bhSave").click();
+      return JSON.parse(localStorage.getItem("bhashini.creds.v1") || "null");
+    });
+    check("भाषिणी की localStorage (bhashini.creds.v1) मध्ये सेव्ह होतात",
+      saved && saved.userId === "test-user" && saved.apiKey === "test-key" && saved.engine === "browser");
+    const cleared = await page.evaluate(() => {
+      document.getElementById("bhClear").click();
+      return localStorage.getItem("bhashini.creds.v1");
+    });
+    check("भाषिणी की काढल्यावर localStorage रिकामे", cleared === null);
     const fsBefore = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--read-fs").trim());
     await page.click("#fsUp");
     await page.waitForTimeout(50);

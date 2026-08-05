@@ -67,9 +67,19 @@ seva: [
 - **उपयुक्त दुवे** — दिंडोरी प्रणित संकेतस्थळ, धार्मिक ग्रंथ
   *(नवा दुवा हवा असल्यास `KENDRA.links` मध्ये एक ओळ वाढवा)*
 
-## ५. पुढे वाढवता येईल
+## ५. भाषिणी (Bhashini) मराठी AI आवाज
+
+भारत सरकारचा मोफत TTS — [bhashini.gov.in ULCA Portal](https://bhashini.gov.in/ulca/user/register) वर रजिस्टर → My Profile वरून **userID** + **API Key**.
+
+- साइटवर **«भाषिणी AI आवाज»** पॅनेल उघडा → की सेव्ह (फक्त त्या फोनच्या localStorage मध्ये)
+- पाठ कार्डवर **🔊 ऐका** → की असल्यास भाषिणी, नाहीतर ब्राउझर Web Speech (`mr-IN`)
+- नमुना फाईल: `data/bhashini.example.json` · खऱ्या कींसाठी `data/bhashini.json` (gitignore — public Pages वर commit करू नका)
+- API डॉक्स: https://bhashini.gitbook.io/bhashini-apis/
+
+## ६. पुढे वाढवता येईल
 
 - सेवा नोंदणीचा फॉर्म (Google Form किंवा Supabase)
 - गुरुवार / पुण्यतिथी विशेष कार्यक्रमांची यादी
 - फोटो गॅलरी
 - इंग्रजी–मराठी भाषा बटण
+- भाषिणी ASR (STT) — सध्या व्हॉइस सर्च Web Speech वापरते; TTS भाषिणीवर आहे

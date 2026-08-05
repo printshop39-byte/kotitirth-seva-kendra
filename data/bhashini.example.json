@@ -1,0 +1,7 @@
+{
+  "_comment": "ही फाईल कॉपी करून data/bhashini.json करा (gitignore). GitHub Pages public repo मध्ये खऱ्या की कधीही commit करू नका. सामान्य वापर: साइटवरील भाषिणी पॅनेलमध्ये की टाका — localStorage मध्ये राहते.",
+  "userId": "YOUR_ULCA_USER_ID",
+  "apiKey": "YOUR_ULCA_API_KEY",
+  "pipelineId": "",
+  "engine": "auto"
+}
