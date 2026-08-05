@@ -4,20 +4,27 @@
  *
  * दोन वेगळे static server वापरले आहेत, मुद्दाम वेगळे ठेवलेले:
  *
- *   SERVER A — प्रत्यक्ष repo root जसाच्या तसा (production data, रिकामा
- *              data/scriptures/public-index.json). इथे तपासतो:
+ *   SERVER A — प्रत्यक्ष repo root जसाच्या तसा (production data — यात आता
+ *              "ishwar-prarthana" ही visibility="test" तात्पुरती public
+ *              draft-test नोंद आहे). इथे तपासतो:
  *                - existing #aarti #paath #var #jap deep-links अबाधित
- *                - रिकामा public-index.json => graceful मराठी संदेश
+ *                - "ishwar-prarthana" चेतावणी बॅनर + Draft/uncertain लेबल्ससह
+ *                  रेंडर होते, "पडताळलेले" बॅज कधीही दिसत नाही
+ *                - #paath/ishwar-prarthana deep-link तसेच सामान्य Paath UI
+ *                  (accordion क्लिक) दोन्हीतून पोहोचता येते
+ *                - मजकूर अक्षरशः तसाच आहे ("approach" कुठेही नाही)
+ *                - drafts/swami-jap.json (visibility=test नसलेला) कधीही
+ *                  fetch होत नाही; drafts/ishwar-prarthana.json (visibility
+ *                  =test असलेला) मात्र जाणीवपूर्वक fetch होतो
  *                - tests/fixtures/ ला कधीही request जात नाही
- *                - fixture id ("verified-sample") DOM मध्ये कुठेही दिसत नाही
  *                - जपमाळा टॅप regression
  *                - service worker register + runtime caching
  *
  *   SERVER B — तात्पुरता overlay (temp dir): repo ची कॉपी + tests/fixtures/
  *              मधला नमुना data/scriptures/verified/ मध्ये इंजेक्ट केलेला.
- *              production data/scriptures/ ला स्पर्शही न करता, रेंडरिंग
- *              pipeline (sections, badge, deep-link expand+scroll) खरोखर
- *              काम करते हे इथे सिद्ध होते.
+ *              production data/scriptures/ ला स्पर्शही न करता, सामान्य
+ *              (visibility=test नसलेल्या) verified-by-centre रेंडरिंग
+ *              pipeline अजूनही तशीच काम करते हे सिद्ध होते.
  *
  * कोणतीही चाचणी FAIL झाली तर process.exit(1).
  */
@@ -88,20 +95,68 @@ async function testProductionServer(browser){
     await page.goto(base + "/#jap", { waitUntil: "networkidle" });
     check("#jap => जपमाळा subtab (existing behavior अबाधित)", await page.$eval("#panel-jap", el => !el.hidden));
 
-    // ---------- रिकामा production public-index.json => graceful मराठी संदेश ----------
+    // ---------- production public-index.json मध्ये फक्त १ visibility=test नोंद ----------
+    await page.goto(base + "/#paath", { waitUntil: "networkidle" });
+    await page.waitForTimeout(400);
+    const idxContent = await page.evaluate(() => fetch("data/scriptures/public-index.json").then(r => r.json()));
+    check("production public-index.json मध्ये नेमकी १ नोंद आहे (ishwar-prarthana, visibility=test)",
+      Array.isArray(idxContent.items) && idxContent.items.length === 1 &&
+      idxContent.items[0].id === "ishwar-prarthana" && idxContent.items[0].visibility === "test");
+
+    const scriptureAccCount = await page.$$eval("#scriptureList details.acc", els => els.length);
+    check("production वर नेमकी १ scripture accordion रेंडर होते", scriptureAccCount === 1);
+
+    const testEl = "#scripture-ishwar-prarthana";
+    check("visibility=test नोंद 'acc-test' वर्गासह रेंडर होते", await page.$eval(testEl, el => el.classList.contains("acc-test")).catch(() => false));
+
+    const summaryChip = await page.$eval(`${testEl} summary .chip.c-test`, el => el.textContent.trim()).catch(() => null);
+    check("collapsed स्थितीतही 'DRAFT · TEST' chip summary मध्ये दिसतो", summaryChip === "DRAFT · TEST");
+
+    // ---------- बॅनर + लेबल्स + "पडताळलेले" बॅज कधीही नाही ----------
+    await page.click(`${testEl} summary`);
+    await page.waitForTimeout(200);
+    const bannerText = await page.$eval(`${testEl} .test-banner-msg`, el => el.textContent.trim()).catch(() => null);
+    check('बॅनर नेमका "फक्त मोबाईल चाचणीसाठी — मजकूर अजून अंतिम किंवा पडताळलेला नाही" असा दिसतो',
+      bannerText === "फक्त मोबाईल चाचणीसाठी — मजकूर अजून अंतिम किंवा पडताळलेला नाही");
+
+    const labelTexts = await page.$$eval(`${testEl} .test-label`, els => els.map(e => e.textContent.trim()));
+    check('"Draft" लेबल दिसते', labelTexts.includes("Draft"));
+    check('"source comparison incomplete" लेबल दिसते', labelTexts.includes("source comparison incomplete"));
+    check('"3 readings pending human review" लेबल दिसते (uncertainReadings.length वरून dynamic)', labelTexts.includes("3 readings pending human review"));
+
+    const bannerNote = await page.$eval(`${testEl} .test-banner-note`, el => el.textContent.trim()).catch(() => null);
+    check('"मजकुरातील तीन विरामचिन्हे अजून मानवी पडताळणीसाठी बाकी आहेत." टीप दिसते', bannerNote === "मजकुरातील तीन विरामचिन्हे अजून मानवी पडताळणीसाठी बाकी आहेत.");
+
+    const verifiedBadgePresent = await page.$(`${testEl} .src-badge.ok`);
+    check('visibility=test नोंदीवर "पडताळलेले" बॅज कधीही दिसत नाही', verifiedBadgePresent === null);
+    const bodyTextForThisItem = await page.$eval(`${testEl} .accbody`, el => el.textContent);
+    check('"पडताळलेले" हा शब्द visibility=test नोंदीच्या मजकुरात कुठेही नाही', !bodyTextForThisItem.includes("पडताळलेले"));
+
+    // ---------- मजकूर अक्षरशः तसाच — कोणताही शब्द बदललेला नाही ----------
+    check('"approach" हा शब्द कुठेही नाही (आधीची चूक अजूनही दुरुस्तच आहे)', !bodyTextForThisItem.includes("approach"));
+    check('मूळ मंत्र "॥ श्री स्वामी समर्थ ॥" जसाच्या तसा दिसतो', bodyTextForThisItem.includes("॥ श्री स्वामी समर्थ ॥"));
+    check('दुरुस्त केलेली ओळ "तूच आमचे सर्वस्व आहेस।" जशीच्या तशी दिसते', bodyTextForThisItem.includes("तूच आमचे सर्वस्व आहेस।"));
+
+    // ---------- existing Paath UI (accordion क्लिक) व #paath/<id> दोन्हीतून पोहोचता येते ----------
+    // आधीच्या बॅनर-तपासणीत ही नोंद उघडलेली असू शकते — इथे स्वच्छ सुरुवात करण्यासाठी स्पष्टपणे बंद करतो.
     await page.goto(base + "/#paath", { waitUntil: "networkidle" });
     await page.waitForTimeout(300);
-    const idxContent = await page.evaluate(() => fetch("data/scriptures/public-index.json").then(r => r.json()));
-    check("production data/scriptures/public-index.json खरोखर रिकामा आहे (items: [])", Array.isArray(idxContent.items) && idxContent.items.length === 0);
-    const emptyMsg = await page.$eval("#scriptureListEmpty", el => el.textContent.trim()).catch(() => null);
-    check("रिकाम्या public-index वर graceful मराठी संदेश दिसतो", typeof emptyMsg === "string" && emptyMsg.length > 0);
-    const scriptureAccCount = await page.$$eval("#scriptureList details.acc", els => els.length);
-    check("रिकाम्या public-index वर एकही scripture accordion रेंडर होत नाही", scriptureAccCount === 0);
+    await page.$eval(testEl, el => el.removeAttribute("open"));
+    const openBeforeClick = await page.$eval(testEl, el => el.hasAttribute("open"));
+    await page.click(`${testEl} summary`);
+    await page.waitForTimeout(150);
+    const openAfterClick = await page.$eval(testEl, el => el.hasAttribute("open"));
+    check("सामान्य Paath UI मध्ये accordion वर टॅप करून नोंद उघडता येते", openBeforeClick === false && openAfterClick === true);
+
+    await page.goto(base + "/#paath/ishwar-prarthana", { waitUntil: "networkidle" });
+    await page.waitForTimeout(400);
+    const openViaDeepLink = await page.$eval(testEl, el => el.hasAttribute("open")).catch(() => false);
+    check("#paath/ishwar-prarthana deep-link ने नोंद auto-open होते", openViaDeepLink === true);
 
     // ---------- अवैध/अप्रकाशित scripture id => graceful fallback #paath ----------
     await page.goto(base + "/#paath/verified-sample", { waitUntil: "networkidle" });
     await page.waitForTimeout(300);
-    check("production वर कोणताही scripture id अप्रकाशित असल्याने #paath वर graceful fallback होतो",
+    check("अप्रकाशित/अवैध scripture id साठी #paath वर graceful fallback होतो",
       await page.evaluate(() => location.hash) === "#paath");
 
     // ---------- test fixtures कधीही fetch/display होत नाहीत ----------
@@ -133,22 +188,33 @@ async function testProductionServer(browser){
     });
     check("service worker register + ready होतो", swReady === true);
 
-    await page.evaluate(async () => { await fetch("data/scriptures/public-index.json"); });
+    await page.evaluate(async () => {
+      await fetch("data/scriptures/public-index.json");
+      await fetch("data/scriptures/drafts/ishwar-prarthana.json");
+    });
     await page.waitForTimeout(300);
-    const cachedIndex = await page.evaluate(async () => {
+    const cached = await page.evaluate(async () => {
       const keys = await caches.keys();
+      let hasIndex = false, hasDraft = false;
       for(const k of keys){
         const c = await caches.open(k);
         const reqs = await c.keys();
-        if(reqs.some(r => r.url.includes("data/scriptures/public-index.json"))) return true;
+        for(const r of reqs){
+          if(r.url.includes("data/scriptures/public-index.json")) hasIndex = true;
+          if(r.url.includes("data/scriptures/drafts/ishwar-prarthana.json")) hasDraft = true;
+        }
       }
-      return false;
+      return { hasIndex, hasDraft };
     });
-    check("रिकामाही असला तरी public-index.json runtime cache मध्ये जातो (sw.js मध्ये hardcode न करता)", cachedIndex === true);
+    check("public-index.json runtime cache मध्ये जातो (sw.js मध्ये hardcode न करता)", cached.hasIndex === true);
+    check("जाणीवपूर्वक fetch केलेली drafts/ishwar-prarthana.json सुद्धा runtime cache मध्ये जाते (सामान्य वर्तनाशी सुसंगत)", cached.hasDraft === true);
 
-    // draft फाईल कधीही page मधून स्वतःहून fetch होत नाही (defense-in-depth माहिती)
-    const draftRequested = requestedPaths.some(p => p.includes("data/scriptures/drafts/"));
-    check("UI कोड data/scriptures/drafts/ ला स्वतःहून कधीही request करत नाही", draftRequested === false);
+    // visibility=test नसलेली draft फाईल (swami-jap) कधीही fetch होत नाही;
+    // फक्त visibility=test असलेली ishwar-prarthana फाईल जाणीवपूर्वक fetch होते.
+    const swamiJapRequested = requestedPaths.some(p => p.includes("data/scriptures/drafts/swami-jap.json"));
+    check("visibility=test नसलेली drafts/swami-jap.json कधीही fetch होत नाही", swamiJapRequested === false);
+    const ishwarDraftRequested = requestedPaths.some(p => p.includes("data/scriptures/drafts/ishwar-prarthana.json"));
+    check("visibility=test असलेली drafts/ishwar-prarthana.json जाणीवपूर्वक fetch होते", ishwarDraftRequested === true);
 
   } finally{
     server.close();
@@ -200,6 +266,49 @@ async function testOverlayServer(browser){
     check("(overlay) सर्व ७ प्रकारचे sections (heading/verse/refrain/mantra/prose/note/phalashruti) योग्यरित्या रेंडर होतात", hasAllTypes);
     const badgeOk = await page.$eval(`#scripture-${fixture.id} .src-badge.ok`, el => el.textContent.includes("पडताळलेले")).catch(() => false);
     check("(overlay) पडताळलेले badge दिसते", badgeOk === true);
+    const noTestBannerOnNormalItem = await page.$(`#scripture-${fixture.id} .test-banner`);
+    check("(overlay) सामान्य verified-by-centre नोंदीवर test-banner कधीही दिसत नाही", noTestBannerOnNormalItem === null);
+
+  } finally{
+    server.close();
+    await rm(overlayDir, { recursive: true, force: true });
+  }
+}
+
+async function testClientSideGateNotWeakened(browser){
+  const PORT = 8745;
+  // तात्पुरता overlay: public-index.json मध्ये drafts/ कडे निर्देश करणारी नोंद,
+  // पण visibility="test" न लावता — client-side loader नेही ती नाकारायलाच हवी
+  // (defense-in-depth — फक्त server-side validator वर अवलंबून नाही).
+  const overlayDir = await mkdtemp(path.join(tmpdir(), "scripture-gate-test-"));
+  await cp(ROOT, overlayDir, {
+    recursive: true,
+    filter: src => !src.includes(`${path.sep}node_modules${path.sep}`) &&
+                   !src.includes(`${path.sep}.git${path.sep}`) &&
+                   src !== path.join(ROOT, "node_modules") &&
+                   src !== path.join(ROOT, ".git")
+  });
+  await writeFile(
+    path.join(overlayDir, "data/scriptures/public-index.json"),
+    JSON.stringify({
+      meta: { note: "GATE TEST OVERLAY — visibility=test शिवाय drafts/ कडे निर्देश, client-side ने नाकारायलाच हवे" },
+      items: [{ id: "swami-jap", file: "drafts/swami-jap.json", title: "श्री स्वामी समर्थ", category: "mantra" }]
+    }, null, 2)
+  );
+
+  const server = await startServer(overlayDir, PORT);
+  const base = `http://127.0.0.1:${PORT}`;
+  try{
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    page.on("pageerror", err => { failures++; console.error("✗ pageerror (gate-test overlay): " + err.message); });
+
+    await page.goto(base + "/#paath", { waitUntil: "networkidle" });
+    await page.waitForTimeout(400);
+    const rendered = await page.$("#scripture-swami-jap");
+    check("(gate-test overlay) visibility=test शिवाय drafts/ कडे निर्देश असलेली नोंद client-side वरही रेंडर होत नाही (गेट सैल केलेला नाही)", rendered === null);
+    const emptyMsgShown = await page.$eval("#scriptureListEmpty", el => el.textContent.trim()).catch(() => null);
+    check("(gate-test overlay) नाकारल्यानंतर रिकाम्या यादीचा graceful संदेश दिसतो", typeof emptyMsgShown === "string" && emptyMsgShown.length > 0);
 
   } finally{
     server.close();
@@ -212,6 +321,7 @@ async function main(){
   try{
     await testProductionServer(browser);
     await testOverlayServer(browser);
+    await testClientSideGateNotWeakened(browser);
   } finally{
     await browser.close();
   }

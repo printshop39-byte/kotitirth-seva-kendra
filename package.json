@@ -7,7 +7,8 @@
     "validate:scriptures": "node scripts/validate-scriptures.mjs",
     "test:rules": "node scripts/test-validation-rules.mjs",
     "test:e2e": "node scripts/test-e2e.mjs",
-    "test": "npm run validate:scriptures && npm run test:rules && npm run test:e2e"
+    "test:mobile": "node scripts/test-mobile-viewports.mjs",
+    "test": "npm run validate:scriptures && npm run test:rules && npm run test:e2e && npm run test:mobile"
   },
   "devDependencies": {
     "ajv": "^8.17.1",

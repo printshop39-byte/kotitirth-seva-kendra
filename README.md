@@ -12,7 +12,8 @@ QR स्कॅन केल्यावर उघडणारे मोबा�
 | `CONTENT-VERIFY.md` | मजकूर पडताळणी + जपमाळा नियम |
 | `scripts/validate-scriptures.mjs` | `data/scriptures/` JSON schema + विस्तारित verified-content नियम + checksum + draft-exposure तपासणी (`npm run validate:scriptures`) |
 | `scripts/test-validation-rules.mjs` | future-date / empty-verifiedBy / uncertain-content / draft-leak negative-tests (`npm run test:rules`) |
-| `scripts/test-e2e.mjs` | Deep-link, रिकामे-manifest संदेश, fixture-leak तपासणी, जपमाळा, service-worker Playwright चाचण्या (`npm run test:e2e`) |
+| `scripts/test-e2e.mjs` | Deep-link, चेतावणी बॅनर/लेबल्स, fixture-leak तपासणी, जपमाळा, service-worker Playwright चाचण्या (`npm run test:e2e`) |
+| `scripts/test-mobile-viewports.mjs` | 320×568/360×800/390×844/412×915 वर responsive तपासणी (`npm run test:mobile`) |
 | `qr.html` | QR तयार करून SVG / PNG / फलक PDF घेण्यासाठी |
 
 ---
