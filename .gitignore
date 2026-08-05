@@ -3,8 +3,9 @@ node_modules/
 test-results/
 playwright-report/
 
-# भाषिणी / ULCA खऱ्या API की — कधीही commit करू नयेत
+# भाषिणी / ULCA / Groq खऱ्या API की — कधीही commit करू नयेत
 data/bhashini.json
+data/groq.json
 
 # पोथीचे मूळ फोटो/स्कॅन कधीही commit करू नयेत — फक्त local ठेवा.
 # data/scriptures/*.json मध्ये फक्त filename (sourceImage) नोंदवला जातो.

@@ -172,6 +172,36 @@ async function testProductionServer(browser){
     check("भाषिणी सेटअप पॅनेल (#bhashiniBox) दिसतो", await page.$("#bhashiniBox") !== null);
     check("भाषिणी userID / API Key इनपुट्स आहेत",
       await page.$("#bhUserId") !== null && await page.$("#bhApiKey") !== null);
+    check("Groq Whisper सेटअप पॅनेल (#groqBox) दिसतो", await page.$("#groqBox") !== null);
+    check("Groq API Key इनपुट आहे", await page.$("#gqApiKey") !== null);
+    const gqHelpers = await page.evaluate(() => {
+      const g = window.__groq;
+      if(!g) return null;
+      return {
+        configured: g.configured(),
+        urlOk: (g.sttUrl || "").includes("api.groq.com"),
+        defaultModel: g.loadCreds().model
+      };
+    });
+    check("window.__groq हेल्पर्स उपलब्ध", !!gqHelpers);
+    check("Groq सुरूवातीला unconfigured (की commit नाहीत)", gqHelpers && gqHelpers.configured === false);
+    check("Groq STT URL / whisper-large-v3 डीफॉल्ट",
+      gqHelpers && gqHelpers.urlOk && gqHelpers.defaultModel === "whisper-large-v3");
+    const gqSaved = await page.evaluate(() => {
+      document.getElementById("groqBox").open = true;
+      document.getElementById("gqApiKey").value = "gsk_test_key";
+      document.getElementById("gqModel").value = "whisper-large-v3";
+      document.getElementById("gqEngine").value = "browser";
+      document.getElementById("gqSave").click();
+      return JSON.parse(localStorage.getItem("groq.creds.v1") || "null");
+    });
+    check("Groq की localStorage (groq.creds.v1) मध्ये सेव्ह होतात",
+      gqSaved && gqSaved.apiKey === "gsk_test_key" && gqSaved.model === "whisper-large-v3" && gqSaved.engine === "browser");
+    const gqCleared = await page.evaluate(() => {
+      document.getElementById("gqClear").click();
+      return localStorage.getItem("groq.creds.v1");
+    });
+    check("Groq की काढल्यावर localStorage रिकामे", gqCleared === null);
     const bhHelpers = await page.evaluate(() => {
       const b = window.__bhashini;
       if(!b) return null;

@@ -67,14 +67,17 @@ seva: [
 - **उपयुक्त दुवे** — दिंडोरी प्रणित संकेतस्थळ, धार्मिक ग्रंथ
   *(नवा दुवा हवा असल्यास `KENDRA.links` मध्ये एक ओळ वाढवा)*
 
-## ५. भाषिणी (Bhashini) मराठी AI आवाज
+## ५. भाषिणी (Bhashini) मराठी TTS + Groq Whisper STT
 
-भारत सरकारचा मोफत TTS — [bhashini.gov.in ULCA Portal](https://bhashini.gov.in/ulca/user/register) वर रजिस्टर → My Profile वरून **userID** + **API Key**.
+| काम | सेवा | की कुठून |
+|---|---|---|
+| **🔊 ऐका** (मजकूर→आवाज) | Bhashini / ULCA | [bhashini.gov.in/ulca](https://bhashini.gov.in/ulca/user/register) → userID + API Key |
+| **🎤 आवाज** (आवाज→मजकूर) | Groq Whisper | [console.groq.com](https://console.groq.com/) → API Keys (`whisper-large-v3`) |
 
-- साइटवर **«भाषिणी AI आवाज»** पॅनेल उघडा → की सेव्ह (फक्त त्या फोनच्या localStorage मध्ये)
-- पाठ कार्डवर **🔊 ऐका** → की असल्यास भाषिणी, नाहीतर ब्राउझर Web Speech (`mr-IN`)
-- नमुना फाईल: `data/bhashini.example.json` · खऱ्या कींसाठी `data/bhashini.json` (gitignore — public Pages वर commit करू नका)
-- API डॉक्स: https://bhashini.gitbook.io/bhashini-apis/
+- की फक्त फोनच्या **localStorage** मध्ये (किंवा gitignored `data/bhashini.json` / `data/groq.json`)
+- नमुने: `data/bhashini.example.json`, `data/groq.example.json`
+- की नसल्यास दोन्ही ब्राउझर Web Speech वर पडतात
+- डॉक्स: [Bhashini APIs](https://bhashini.gitbook.io/bhashini-apis/) · [Groq Speech-to-Text](https://console.groq.com/docs/speech-to-text)
 
 ## ६. पुढे वाढवता येईल
 
@@ -82,4 +85,3 @@ seva: [
 - गुरुवार / पुण्यतिथी विशेष कार्यक्रमांची यादी
 - फोटो गॅलरी
 - इंग्रजी–मराठी भाषा बटण
-- भाषिणी ASR (STT) — सध्या व्हॉइस सर्च Web Speech वापरते; TTS भाषिणीवर आहे

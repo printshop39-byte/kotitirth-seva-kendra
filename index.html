@@ -841,6 +841,41 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
     </div>
   </details>
 
+  <details class="bhashini-box" id="groqBox">
+    <summary>
+      <span>Groq Whisper आवाज→मजकूर <span class="chip-engine" id="gqEngineChip">ब्राउझर</span></span>
+      <span class="bh-chev" aria-hidden="true">+</span>
+    </summary>
+    <div class="bhashini-body">
+      <p><b>Groq Cloud</b> मोफत Speech-to-Text —
+        <code>whisper-large-v3</code> (जलद व अचूक). 🎤 <b>आवाज</b> बटणासाठी.
+        की फक्त या फोनवर साठते — GitHub वर जात नाही.</p>
+      <p>
+        १) <a href="https://console.groq.com/" target="_blank" rel="noopener">console.groq.com</a> वर फ्री अकाउंट
+        · २) <b>API Keys</b> → Generate
+        · डॉक्स: <a href="https://console.groq.com/docs/speech-to-text" target="_blank" rel="noopener">Speech to Text</a>
+      </p>
+      <label for="gqApiKey">Groq API Key</label>
+      <input id="gqApiKey" type="password" autocomplete="off" spellcheck="false" placeholder="gsk_…">
+      <label for="gqModel">मॉडेल</label>
+      <select id="gqModel" aria-label="Groq Whisper मॉडेल">
+        <option value="whisper-large-v3">whisper-large-v3 (अधिक अचूक)</option>
+        <option value="whisper-large-v3-turbo">whisper-large-v3-turbo (जलद)</option>
+      </select>
+      <label for="gqEngine">आवाज ओळख इंजिन</label>
+      <select id="gqEngine" aria-label="आवाज ओळख इंजिन">
+        <option value="auto">स्वयंचलित — Groq असल्यास तो, नाहीतर ब्राउझर</option>
+        <option value="groq">फक्त Groq Whisper</option>
+        <option value="browser">फक्त ब्राउझर Web Speech</option>
+      </select>
+      <div class="bhashini-acts">
+        <button type="button" class="btn btn-ghost" id="gqSave">💾 की सेव्ह</button>
+        <button type="button" class="btn btn-ghost" id="gqClear">🗑 काढा</button>
+      </div>
+      <p class="bhashini-status" id="gqStatus" aria-live="polite"></p>
+    </div>
+  </details>
+
   <!-- आत्ताची स्थिती -->
   <div class="now" aria-live="polite">
     <span class="diya"></span>
@@ -3212,64 +3247,320 @@ const aartiSub = (function(){
     thokLite();
   });
 
-  // मराठी व्हॉइस कमांड — Web Speech Recognition (mr-IN)
+  // ---------- Groq Whisper STT (आवाज→मजकूर) + ब्राउझर fallback ----------
+  const GQ_KEY = "groq.creds.v1";
+  const GQ_STT_URL = "https://api.groq.com/openai/v1/audio/transcriptions";
+  let gqMediaStream = null;
+  let gqRecorder = null;
+  let gqChunks = [];
+  let gqStopTimer = null;
+  let gqBusy = false;
+
+  function loadGqCreds(){
+    try{
+      const o = JSON.parse(localStorage.getItem(GQ_KEY) || "null");
+      if(!o || typeof o !== "object") return { apiKey:"", model:"whisper-large-v3", engine:"auto" };
+      const model = o.model === "whisper-large-v3-turbo" ? "whisper-large-v3-turbo" : "whisper-large-v3";
+      return {
+        apiKey: String(o.apiKey || "").trim(),
+        model,
+        engine: ["auto","groq","browser"].includes(o.engine) ? o.engine : "auto"
+      };
+    }catch(e){
+      return { apiKey:"", model:"whisper-large-v3", engine:"auto" };
+    }
+  }
+  function saveGqCreds(c){
+    try{ localStorage.setItem(GQ_KEY, JSON.stringify(c)); }catch(e){}
+    refreshGqUi();
+  }
+  function gqConfigured(){
+    return !!loadGqCreds().apiKey;
+  }
+  function setGqStatus(msg, ok){
+    const el = document.getElementById("gqStatus");
+    if(!el) return;
+    el.textContent = msg || "";
+    el.classList.toggle("ok", !!ok);
+  }
+  function refreshGqUi(){
+    const c = loadGqCreds();
+    const key = document.getElementById("gqApiKey");
+    const model = document.getElementById("gqModel");
+    const eng = document.getElementById("gqEngine");
+    const chip = document.getElementById("gqEngineChip");
+    if(key && document.activeElement !== key) key.value = c.apiKey;
+    if(model) model.value = c.model;
+    if(eng) eng.value = c.engine;
+    if(chip){
+      if(c.engine === "browser") chip.textContent = "ब्राउझर";
+      else if(c.engine === "groq") chip.textContent = gqConfigured() ? "Groq" : "की नाही";
+      else chip.textContent = gqConfigured() ? "Groq · auto" : "ब्राउझर";
+    }
+  }
+  refreshGqUi();
+  document.getElementById("gqSave")?.addEventListener("click", () => {
+    const c = {
+      apiKey: document.getElementById("gqApiKey")?.value.trim() || "",
+      model: document.getElementById("gqModel")?.value || "whisper-large-v3",
+      engine: document.getElementById("gqEngine")?.value || "auto"
+    };
+    saveGqCreds(c);
+    setGqStatus(c.apiKey ? "Groq की सेव्ह झाली — फक्त या डिव्हाइसवर" : "API Key टाका", !!c.apiKey);
+    softToast(c.apiKey ? "Groq की सेव्ह" : "की अपूर्ण");
+    thokLite();
+  });
+  document.getElementById("gqClear")?.addEventListener("click", () => {
+    try{ localStorage.removeItem(GQ_KEY); }catch(e){}
+    const el = document.getElementById("gqApiKey"); if(el) el.value = "";
+    const model = document.getElementById("gqModel"); if(model) model.value = "whisper-large-v3";
+    const eng = document.getElementById("gqEngine"); if(eng) eng.value = "auto";
+    refreshGqUi();
+    setGqStatus("की काढली — आता ब्राउझर आवाज ओळख", true);
+    thokLite();
+  });
+  document.getElementById("gqEngine")?.addEventListener("change", () => {
+    const c = {
+      apiKey: document.getElementById("gqApiKey")?.value.trim() || loadGqCreds().apiKey,
+      model: document.getElementById("gqModel")?.value || loadGqCreds().model,
+      engine: document.getElementById("gqEngine")?.value || "auto"
+    };
+    saveGqCreds(c);
+  });
+  document.getElementById("gqModel")?.addEventListener("change", () => {
+    const c = {
+      apiKey: document.getElementById("gqApiKey")?.value.trim() || loadGqCreds().apiKey,
+      model: document.getElementById("gqModel")?.value || "whisper-large-v3",
+      engine: document.getElementById("gqEngine")?.value || loadGqCreds().engine
+    };
+    saveGqCreds(c);
+  });
+  (async function tryLoadGqFile(){
+    if(gqConfigured()) return;
+    try{
+      const r = await fetch("data/groq.json", { cache: "no-store" });
+      if(!r.ok) return;
+      const o = await r.json();
+      if(o?.apiKey){
+        saveGqCreds({
+          apiKey: String(o.apiKey),
+          model: o.model === "whisper-large-v3-turbo" ? "whisper-large-v3-turbo" : "whisper-large-v3",
+          engine: o.engine || "auto"
+        });
+        setGqStatus("data/groq.json मधून की लोड", true);
+      }
+    }catch(e){ /* public Pages — ठीक */ }
+  })();
+
+  function handleVoiceTranscript(uttered){
+    const text = (uttered || "").trim();
+    if(!text){ softToast("काही ऐकू आले नाही — पुन्हा बोला"); return; }
+    softToast("ऐकले: " + text);
+    const low = text.replace(/\s+/g, " ");
+    if(/आरती|पाठ/.test(low) && !/जप/.test(low)) aartiSub?.dakhav?.("paath");
+    if(/जप|माळ/.test(low)) aartiSub?.dakhav?.("jap");
+    const cards = [...document.querySelectorAll(".acc[data-voice-name]")];
+    let best = null, score = 0;
+    cards.forEach(c => {
+      const name = (c.dataset.voiceName || "").trim();
+      if(!name) return;
+      const parts = name.split(/\s+/).filter(w => w.length > 1);
+      let s = 0;
+      if(low.includes(name)) s = 100;
+      else parts.forEach(w => { if(low.includes(w)) s += 10; });
+      if(/स्वामी\s*समर्थ/.test(low) && /स्वामी\s*समर्थ/.test(name)) s += 40;
+      if(s > score){ score = s; best = c; }
+    });
+    if(best && score >= 10){
+      aartiSub?.dakhav?.("paath");
+      best.open = true;
+      best.scrollIntoView({ behavior: "smooth", block: "start" });
+      thokLite();
+    }
+  }
+
+  function pickRecorderMime(){
+    const types = [
+      "audio/webm;codecs=opus",
+      "audio/webm",
+      "audio/mp4",
+      "audio/ogg;codecs=opus",
+      "audio/ogg"
+    ];
+    if(!window.MediaRecorder) return "";
+    for(const t of types){
+      if(MediaRecorder.isTypeSupported?.(t)) return t;
+    }
+    return "";
+  }
+  function gqExtForMime(mime){
+    if(/mp4|m4a|aac/i.test(mime)) return "m4a";
+    if(/ogg/i.test(mime)) return "ogg";
+    if(/wav/i.test(mime)) return "wav";
+    return "webm";
+  }
+  async function groqTranscribeBlob(blob, mime){
+    const c = loadGqCreds();
+    if(!c.apiKey) throw new Error("Groq API Key सेव्ह करा");
+    const fd = new FormData();
+    const ext = gqExtForMime(mime || blob.type || "");
+    fd.append("file", blob, "voice." + ext);
+    fd.append("model", c.model || "whisper-large-v3");
+    fd.append("language", "mr");
+    fd.append("response_format", "json");
+    fd.append("temperature", "0");
+    fd.append("prompt", "श्री स्वामी समर्थ आरती पाठ जपमाळा स्तोत्र मंत्र सेवा केंद्र कोटितीर्थ");
+    const res = await fetch(GQ_STT_URL, {
+      method: "POST",
+      headers: { Authorization: "Bearer " + c.apiKey },
+      body: fd
+    });
+    if(!res.ok){
+      const t = await res.text().catch(() => "");
+      throw new Error("Groq STT अयशस्वी (" + res.status + ") " + t.slice(0, 140));
+    }
+    const data = await res.json();
+    return (data.text || "").trim();
+  }
+  function voiceIdleUi(){
+    listening = false;
+    gqBusy = false;
+    const voiceBtn = document.getElementById("voiceBtn");
+    if(voiceBtn){
+      voiceBtn.classList.remove("on");
+      voiceBtn.setAttribute("aria-pressed", "false");
+    }
+    try{ gqMediaStream?.getTracks?.().forEach(t => t.stop()); }catch(e){}
+    gqMediaStream = null;
+    gqRecorder = null;
+    gqChunks = [];
+    clearTimeout(gqStopTimer); gqStopTimer = null;
+  }
+  async function finishGroqRecording(){
+    clearTimeout(gqStopTimer); gqStopTimer = null;
+    const rec = gqRecorder;
+    if(!rec || rec.state === "inactive"){ voiceIdleUi(); return; }
+    const mime = rec.mimeType || pickRecorderMime() || "audio/webm";
+    const blob = await new Promise(resolve => {
+      rec.onstop = () => resolve(new Blob(gqChunks, { type: mime }));
+      try{ rec.stop(); }catch(e){ resolve(new Blob(gqChunks, { type: mime })); }
+    });
+    try{ gqMediaStream?.getTracks?.().forEach(t => t.stop()); }catch(e){}
+    gqMediaStream = null;
+    gqRecorder = null;
+    if(!blob.size){
+      setGqStatus("रेकॉर्ड रिकामे", false);
+      softToast("आवाज रेकॉर्ड झाला नाही");
+      voiceIdleUi();
+      return;
+    }
+    gqBusy = true;
+    softToast("Groq कडे पाठवत आहे…");
+    setGqStatus("Whisper चालू…", false);
+    try{
+      const text = await groqTranscribeBlob(blob, mime);
+      setGqStatus("Groq: " + (text.slice(0, 48) || "(रिकामे)"), !!text);
+      handleVoiceTranscript(text);
+    }catch(err){
+      console.warn("Groq STT:", err);
+      setGqStatus(String(err.message || err), false);
+      softToast("Groq अयशस्वी — ब्राउझर आवाज वापरा / की तपासा");
+    }finally{
+      voiceIdleUi();
+    }
+  }
+  async function startGroqListening(){
+    if(!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder){
+      throw new Error("या ब्राउझरमध्ये रेकॉर्डिंग नाही");
+    }
+    const mime = pickRecorderMime();
+    gqMediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    gqChunks = [];
+    gqRecorder = mime
+      ? new MediaRecorder(gqMediaStream, { mimeType: mime })
+      : new MediaRecorder(gqMediaStream);
+    gqRecorder.ondataavailable = e => { if(e.data?.size) gqChunks.push(e.data); };
+    gqRecorder.start(200);
+    listening = true;
+    const voiceBtn = document.getElementById("voiceBtn");
+    voiceBtn?.classList.add("on");
+    voiceBtn?.setAttribute("aria-pressed", "true");
+    softToast("बोलत आहात… पुन्हा दाबा = थांबवा (८ से.)");
+    setGqStatus("ऐकत आहे… पुन्हा 🎤 दाबा", false);
+    thokLite();
+    gqStopTimer = setTimeout(() => { finishGroqRecording(); }, 8000);
+  }
+
+  // मराठी व्हॉइस कमांड — Groq Whisper (प्राधान्य) किंवा Web Speech (mr-IN)
   const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
   const voiceBtn = document.getElementById("voiceBtn");
-  if(!SpeechRec || !voiceBtn){
+  const canBrowserStt = !!SpeechRec;
+  const canGroqStt = !!(navigator.mediaDevices?.getUserMedia && window.MediaRecorder);
+  if(!voiceBtn || (!canBrowserStt && !canGroqStt)){
     voiceBtn?.setAttribute("hidden", "");
   }else{
-    recognition = new SpeechRec();
-    recognition.lang = "mr-IN";
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 3;
-    recognition.onresult = ev => {
-      const uttered = [...ev.results].map(r => r[0]?.transcript || "").join(" ").trim();
-      softToast("ऐकले: " + uttered);
-      const low = uttered.replace(/\s+/g, " ");
-      if(/आरती|पाठ/.test(low) && !/जप/.test(low)) aartiSub?.dakhav?.("paath");
-      if(/जप|माळ/.test(low)) aartiSub?.dakhav?.("jap");
-      const cards = [...document.querySelectorAll(".acc[data-voice-name]")];
-      let best = null, score = 0;
-      cards.forEach(c => {
-        const name = (c.dataset.voiceName || "").trim();
-        if(!name) return;
-        const parts = name.split(/\s+/).filter(w => w.length > 1);
-        let s = 0;
-        if(low.includes(name)) s = 100;
-        else parts.forEach(w => { if(low.includes(w)) s += 10; });
-        if(/स्वामी\s*समर्थ/.test(low) && /स्वामी\s*समर्थ/.test(name)) s += 40;
-        if(s > score){ score = s; best = c; }
-      });
-      if(best && score >= 10){
-        aartiSub?.dakhav?.("paath");
-        best.open = true;
-        best.scrollIntoView({ behavior: "smooth", block: "start" });
-        thokLite();
-      }
-    };
-    recognition.onerror = () => {
-      listening = false;
-      voiceBtn.classList.remove("on");
-      voiceBtn.setAttribute("aria-pressed", "false");
-    };
-    recognition.onend = () => {
-      listening = false;
-      voiceBtn.classList.remove("on");
-      voiceBtn.setAttribute("aria-pressed", "false");
-    };
-    voiceBtn.addEventListener("click", () => {
+    if(canBrowserStt){
+      recognition = new SpeechRec();
+      recognition.lang = "mr-IN";
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 3;
+      recognition.onresult = ev => {
+        const uttered = [...ev.results].map(r => r[0]?.transcript || "").join(" ").trim();
+        handleVoiceTranscript(uttered);
+      };
+      recognition.onerror = () => { voiceIdleUi(); };
+      recognition.onend = () => {
+        if(!gqRecorder) voiceIdleUi();
+      };
+    }
+    voiceBtn.addEventListener("click", async () => {
+      if(gqBusy) return;
+      const eng = loadGqCreds().engine;
+      const wantGroq = eng === "groq" || (eng === "auto" && gqConfigured());
       try{
-        if(listening){ recognition.stop(); return; }
+        // रेकॉर्डिंग सुरू असेल तर थांबवून Groq ला पाठवा
+        if(gqRecorder && listening){
+          await finishGroqRecording();
+          return;
+        }
+        if(listening && recognition){
+          try{ recognition.stop(); }catch(e){}
+          return;
+        }
         aartiSub?.dakhav?.("paath");
+        if(wantGroq){
+          if(!gqConfigured()){
+            softToast("आधी Groq API Key सेव्ह करा");
+            document.getElementById("groqBox")?.setAttribute("open", "");
+            return;
+          }
+          try{
+            await startGroqListening();
+            return;
+          }catch(err){
+            console.warn("Groq mic:", err);
+            setGqStatus(String(err.message || err), false);
+            if(eng === "groq"){ softToast("माइक / Groq सुरू झाले नाही"); return; }
+            softToast("Groq नाही → ब्राउझर आवाज");
+          }
+        }
+        if(!recognition){ softToast("या ब्राउझरमध्ये आवाज ओळख नाही"); return; }
         recognition.start();
         listening = true;
         voiceBtn.classList.add("on");
         voiceBtn.setAttribute("aria-pressed", "true");
         softToast("बोला — उदा. स्वामी समर्थ / आरती");
         thokLite();
-      }catch(e){ softToast("माइक सुरू झाले नाही"); }
+      }catch(e){ softToast("माइक सुरू झाले नाही"); voiceIdleUi(); }
     });
   }
+
+  window.__groq = {
+    loadCreds: loadGqCreds,
+    configured: gqConfigured,
+    sttUrl: GQ_STT_URL,
+    handleTranscript: handleVoiceTranscript
+  };
 
   // details उघडल्यावर tools सुनिश्चित
   document.addEventListener("toggle", e => {
