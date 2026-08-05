@@ -76,7 +76,7 @@ seva: [
 
 - की फक्त फोनच्या **localStorage** मध्ये (किंवा gitignored `data/bhashini.json` / `data/groq.json`)
 - नमुने: `data/bhashini.example.json`, `data/groq.example.json`
-- की नसल्यास दोन्ही ब्राउझर Web Speech वर पडतात
+- **डीफॉल्ट: बंद** — की सेव्ह केली तरी इंजिनमधून «चालू» निवेपर्यंत भाषिणी/Groq API कॉल होत नाहीत; ब्राउझर Web Speech चालते
 - डॉक्स: [Bhashini APIs](https://bhashini.gitbook.io/bhashini-apis/) · [Groq Speech-to-Text](https://console.groq.com/docs/speech-to-text)
 
 ## ६. पुढे वाढवता येईल

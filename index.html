@@ -826,11 +826,11 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
       <label for="bhPipeline">pipelineId (ऐच्छिक)</label>
       <input id="bhPipeline" type="text" autocomplete="off" spellcheck="false"
              placeholder="रिकामे = MeitY डीफॉल्ट" value="">
-      <label for="bhEngine">आवाज इंजिन</label>
+      <label for="bhEngine">आवाज इंजिन (डीफॉल्ट: बंद / ब्राउझर)</label>
       <select id="bhEngine" aria-label="आवाज इंजिन">
-        <option value="auto">स्वयंचलित — भाषिणी असल्यास ती, नाहीतर ब्राउझर</option>
-        <option value="bhashini">फक्त भाषिणी (Bhashini)</option>
-        <option value="browser">फक्त ब्राउझर Web Speech</option>
+        <option value="browser" selected>बंद — फक्त ब्राउझर (भाषिणी चालू नाही)</option>
+        <option value="bhashini">चालू — भाषिणी (Bhashini)</option>
+        <option value="auto">स्वयंचलित — की असल्यास भाषिणी</option>
       </select>
       <div class="bhashini-acts">
         <button type="button" class="btn btn-ghost" id="bhSave">💾 की सेव्ह</button>
@@ -862,11 +862,11 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
         <option value="whisper-large-v3">whisper-large-v3 (अधिक अचूक)</option>
         <option value="whisper-large-v3-turbo">whisper-large-v3-turbo (जलद)</option>
       </select>
-      <label for="gqEngine">आवाज ओळख इंजिन</label>
+      <label for="gqEngine">आवाज ओळख इंजिन (डीफॉल्ट: बंद / ब्राउझर)</label>
       <select id="gqEngine" aria-label="आवाज ओळख इंजिन">
-        <option value="auto">स्वयंचलित — Groq असल्यास तो, नाहीतर ब्राउझर</option>
-        <option value="groq">फक्त Groq Whisper</option>
-        <option value="browser">फक्त ब्राउझर Web Speech</option>
+        <option value="browser" selected>बंद — फक्त ब्राउझर (Groq चालू नाही)</option>
+        <option value="groq">चालू — Groq Whisper</option>
+        <option value="auto">स्वयंचलित — की असल्यास Groq</option>
       </select>
       <div class="bhashini-acts">
         <button type="button" class="btn btn-ghost" id="gqSave">💾 की सेव्ह</button>
@@ -2811,15 +2811,16 @@ const aartiSub = (function(){
   function loadBhCreds(){
     try{
       const o = JSON.parse(localStorage.getItem(BH_KEY) || "null");
-      if(!o || typeof o !== "object") return { userId:"", apiKey:"", pipelineId:"", engine:"auto" };
+      // डीफॉल्ट engine=browser — की सेव्ह केली तरी भाषिणी आपोआप चालू होत नाही
+      if(!o || typeof o !== "object") return { userId:"", apiKey:"", pipelineId:"", engine:"browser" };
       return {
         userId: String(o.userId || "").trim(),
         apiKey: String(o.apiKey || "").trim(),
         pipelineId: String(o.pipelineId || "").trim(),
-        engine: ["auto","bhashini","browser"].includes(o.engine) ? o.engine : "auto"
+        engine: ["auto","bhashini","browser"].includes(o.engine) ? o.engine : "browser"
       };
     }catch(e){
-      return { userId:"", apiKey:"", pipelineId:"", engine:"auto" };
+      return { userId:"", apiKey:"", pipelineId:"", engine:"browser" };
     }
   }
   function saveBhCreds(c){
@@ -2849,9 +2850,9 @@ const aartiSub = (function(){
     if(pipe && document.activeElement !== pipe) pipe.value = c.pipelineId;
     if(eng) eng.value = c.engine;
     if(chip){
-      if(c.engine === "browser") chip.textContent = "ब्राउझर";
-      else if(c.engine === "bhashini") chip.textContent = bhConfigured() ? "भाषिणी" : "की नाही";
-      else chip.textContent = bhConfigured() ? "भाषिणी · auto" : "ब्राउझर";
+      if(c.engine === "browser") chip.textContent = "बंद";
+      else if(c.engine === "bhashini") chip.textContent = bhConfigured() ? "चालू" : "की नाही";
+      else chip.textContent = bhConfigured() ? "auto" : "बंद";
     }
   }
   function pickBhServiceId(cfg, taskType, lang){
@@ -3051,11 +3052,17 @@ const aartiSub = (function(){
       userId: document.getElementById("bhUserId")?.value.trim() || "",
       apiKey: document.getElementById("bhApiKey")?.value.trim() || "",
       pipelineId: document.getElementById("bhPipeline")?.value.trim() || "",
-      engine: document.getElementById("bhEngine")?.value || "auto"
+      engine: document.getElementById("bhEngine")?.value || "browser"
     };
     saveBhCreds(c);
-    setBhStatus(c.userId && c.apiKey ? "की सेव्ह झाली — फक्त या डिव्हाइसवर" : "की अपूर्ण — userID व API Key दोन्ही हवे", !!(c.userId && c.apiKey));
-    softToast(c.userId && c.apiKey ? "भाषिणी की सेव्ह" : "की अपूर्ण");
+    const on = c.engine === "bhashini" || c.engine === "auto";
+    setBhStatus(
+      c.userId && c.apiKey
+        ? (on ? "की सेव्ह · भाषिणी इंजिन निवडलेले" : "की सेव्ह · इंजिन अजून बंद (ब्राउझर)")
+        : "की अपूर्ण — userID व API Key दोन्ही हवे",
+      !!(c.userId && c.apiKey)
+    );
+    softToast(c.userId && c.apiKey ? (on ? "भाषिणी की सेव्ह" : "की सेव्ह — चालू करण्यासाठी इंजिन निवडा") : "की अपूर्ण");
     thokLite();
   });
   document.getElementById("bhClear")?.addEventListener("click", () => {
@@ -3064,9 +3071,9 @@ const aartiSub = (function(){
     ["bhUserId","bhApiKey","bhPipeline"].forEach(id => {
       const el = document.getElementById(id); if(el) el.value = "";
     });
-    const eng = document.getElementById("bhEngine"); if(eng) eng.value = "auto";
+    const eng = document.getElementById("bhEngine"); if(eng) eng.value = "browser";
     refreshBhUi();
-    setBhStatus("की काढली — आता ब्राउझर आवाज", true);
+    setBhStatus("की काढली — भाषिणी बंद", true);
     thokLite();
   });
   document.getElementById("bhEngine")?.addEventListener("change", () => {
@@ -3075,9 +3082,10 @@ const aartiSub = (function(){
       userId: document.getElementById("bhUserId")?.value.trim() || loadBhCreds().userId,
       apiKey: document.getElementById("bhApiKey")?.value.trim() || loadBhCreds().apiKey,
       pipelineId: document.getElementById("bhPipeline")?.value.trim() || loadBhCreds().pipelineId,
-      engine: document.getElementById("bhEngine")?.value || "auto"
+      engine: document.getElementById("bhEngine")?.value || "browser"
     };
     saveBhCreds(c);
+    softToast(c.engine === "browser" ? "भाषिणी बंद" : "भाषिणी चालू");
   });
   document.getElementById("bhTest")?.addEventListener("click", async () => {
     const btn = document.getElementById("bhTest");
@@ -3098,9 +3106,10 @@ const aartiSub = (function(){
           userId: String(o.userId),
           apiKey: String(o.apiKey),
           pipelineId: String(o.pipelineId || ""),
-          engine: o.engine || "auto"
+          // फाईलमधून की आली तरी डीफॉल्ट बंद — स्पष्ट engine दिल्याशिवाय चालू नाही
+          engine: ["auto","bhashini","browser"].includes(o.engine) ? o.engine : "browser"
         });
-        setBhStatus("data/bhashini.json मधून की लोड", true);
+        setBhStatus("data/bhashini.json मधून की लोड (इंजिन: " + (o.engine || "browser") + ")", true);
       }
     }catch(e){ /* public Pages वर फाईल नसते — ठीक */ }
   })();
@@ -3259,15 +3268,16 @@ const aartiSub = (function(){
   function loadGqCreds(){
     try{
       const o = JSON.parse(localStorage.getItem(GQ_KEY) || "null");
-      if(!o || typeof o !== "object") return { apiKey:"", model:"whisper-large-v3", engine:"auto" };
+      // डीफॉल्ट engine=browser — की सेव्ह केली तरी Groq आपोआप चालू होत नाही
+      if(!o || typeof o !== "object") return { apiKey:"", model:"whisper-large-v3", engine:"browser" };
       const model = o.model === "whisper-large-v3-turbo" ? "whisper-large-v3-turbo" : "whisper-large-v3";
       return {
         apiKey: String(o.apiKey || "").trim(),
         model,
-        engine: ["auto","groq","browser"].includes(o.engine) ? o.engine : "auto"
+        engine: ["auto","groq","browser"].includes(o.engine) ? o.engine : "browser"
       };
     }catch(e){
-      return { apiKey:"", model:"whisper-large-v3", engine:"auto" };
+      return { apiKey:"", model:"whisper-large-v3", engine:"browser" };
     }
   }
   function saveGqCreds(c){
@@ -3293,9 +3303,9 @@ const aartiSub = (function(){
     if(model) model.value = c.model;
     if(eng) eng.value = c.engine;
     if(chip){
-      if(c.engine === "browser") chip.textContent = "ब्राउझर";
-      else if(c.engine === "groq") chip.textContent = gqConfigured() ? "Groq" : "की नाही";
-      else chip.textContent = gqConfigured() ? "Groq · auto" : "ब्राउझर";
+      if(c.engine === "browser") chip.textContent = "बंद";
+      else if(c.engine === "groq") chip.textContent = gqConfigured() ? "चालू" : "की नाही";
+      else chip.textContent = gqConfigured() ? "auto" : "बंद";
     }
   }
   refreshGqUi();
@@ -3303,29 +3313,36 @@ const aartiSub = (function(){
     const c = {
       apiKey: document.getElementById("gqApiKey")?.value.trim() || "",
       model: document.getElementById("gqModel")?.value || "whisper-large-v3",
-      engine: document.getElementById("gqEngine")?.value || "auto"
+      engine: document.getElementById("gqEngine")?.value || "browser"
     };
     saveGqCreds(c);
-    setGqStatus(c.apiKey ? "Groq की सेव्ह झाली — फक्त या डिव्हाइसवर" : "API Key टाका", !!c.apiKey);
-    softToast(c.apiKey ? "Groq की सेव्ह" : "की अपूर्ण");
+    const on = c.engine === "groq" || c.engine === "auto";
+    setGqStatus(
+      c.apiKey
+        ? (on ? "की सेव्ह · Groq इंजिन निवडलेले" : "की सेव्ह · इंजिन अजून बंद (ब्राउझर)")
+        : "API Key टाका",
+      !!c.apiKey
+    );
+    softToast(c.apiKey ? (on ? "Groq की सेव्ह" : "की सेव्ह — चालू करण्यासाठी इंजिन निवडा") : "की अपूर्ण");
     thokLite();
   });
   document.getElementById("gqClear")?.addEventListener("click", () => {
     try{ localStorage.removeItem(GQ_KEY); }catch(e){}
     const el = document.getElementById("gqApiKey"); if(el) el.value = "";
     const model = document.getElementById("gqModel"); if(model) model.value = "whisper-large-v3";
-    const eng = document.getElementById("gqEngine"); if(eng) eng.value = "auto";
+    const eng = document.getElementById("gqEngine"); if(eng) eng.value = "browser";
     refreshGqUi();
-    setGqStatus("की काढली — आता ब्राउझर आवाज ओळख", true);
+    setGqStatus("की काढली — Groq बंद", true);
     thokLite();
   });
   document.getElementById("gqEngine")?.addEventListener("change", () => {
     const c = {
       apiKey: document.getElementById("gqApiKey")?.value.trim() || loadGqCreds().apiKey,
       model: document.getElementById("gqModel")?.value || loadGqCreds().model,
-      engine: document.getElementById("gqEngine")?.value || "auto"
+      engine: document.getElementById("gqEngine")?.value || "browser"
     };
     saveGqCreds(c);
+    softToast(c.engine === "browser" ? "Groq बंद" : "Groq चालू");
   });
   document.getElementById("gqModel")?.addEventListener("change", () => {
     const c = {
@@ -3345,9 +3362,10 @@ const aartiSub = (function(){
         saveGqCreds({
           apiKey: String(o.apiKey),
           model: o.model === "whisper-large-v3-turbo" ? "whisper-large-v3-turbo" : "whisper-large-v3",
-          engine: o.engine || "auto"
+          // फाईलमधून की आली तरी डीफॉल्ट बंद
+          engine: ["auto","groq","browser"].includes(o.engine) ? o.engine : "browser"
         });
-        setGqStatus("data/groq.json मधून की लोड", true);
+        setGqStatus("data/groq.json मधून की लोड (इंजिन: " + (o.engine || "browser") + ")", true);
       }
     }catch(e){ /* public Pages — ठीक */ }
   })();

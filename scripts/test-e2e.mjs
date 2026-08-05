@@ -187,6 +187,12 @@ async function testProductionServer(browser){
     check("Groq सुरूवातीला unconfigured (की commit नाहीत)", gqHelpers && gqHelpers.configured === false);
     check("Groq STT URL / whisper-large-v3 डीफॉल्ट",
       gqHelpers && gqHelpers.urlOk && gqHelpers.defaultModel === "whisper-large-v3");
+    check("Groq/भाषिणी डीफॉल्ट इंजिन बंद (browser) — आपोआप activate नाही",
+      await page.evaluate(() => window.__groq.loadCreds().engine === "browser"
+        && window.__bhashini.loadCreds().engine === "browser"));
+    check("भाषिणी/Groq chips सुरूवातीला «बंद»",
+      await page.$eval("#bhEngineChip", el => el.textContent.trim()) === "बंद"
+      && await page.$eval("#gqEngineChip", el => el.textContent.trim()) === "बंद");
     const gqSaved = await page.evaluate(() => {
       document.getElementById("groqBox").open = true;
       document.getElementById("gqApiKey").value = "gsk_test_key";

@@ -3,5 +3,5 @@
   "userId": "YOUR_ULCA_USER_ID",
   "apiKey": "YOUR_ULCA_API_KEY",
   "pipelineId": "",
-  "engine": "auto"
+  "engine": "browser"
 }
