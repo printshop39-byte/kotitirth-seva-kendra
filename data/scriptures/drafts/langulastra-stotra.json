@@ -1,0 +1,62 @@
+{
+  "id": "langulastra-stotra",
+  "title": "श्री लांगूलास्त्र स्तोत्रम्",
+  "language": "sa",
+  "script": "Devanagari",
+  "category": "stotra",
+  "kadhi": "",
+  "verification": {
+    "status": "draft",
+    "verifiedBy": "",
+    "verifiedDate": "",
+    "sourceCompared": false
+  },
+  "source": {
+    "label": "नित्यसेवा पोथी, पृष्ठ १९ — फोटोवरून रचना/धृपद; पूर्ण श्लोक OCR बाकी.",
+    "pages": [
+      19
+    ],
+    "images": [
+      "page-19.jpg"
+    ]
+  },
+  "uncertainReadings": [
+    {
+      "location": "विनियोग, ध्यान, मंत्र व श्लोक १–२५",
+      "possibilities": [
+        "पृष्ठ १९ फोटोवरून"
+      ],
+      "confidence": "low",
+      "requiresHumanReview": true
+    }
+  ],
+  "sections": [
+    {
+      "type": "heading",
+      "lines": [
+        "॥ ३६ ॥ श्री लांगूलास्त्र स्तोत्रम् ॥"
+      ]
+    },
+    {
+      "type": "prose",
+      "lines": [
+        "ॐ अस्य श्री हनुमत् शत्रुंजयस्तोत्र मालामंत्रस्य श्रीरामचंद्र ऋषिः…",
+        "[अस्पष्ट: पूर्ण विनियोग — फोटोवरून बाकी]",
+        "…ममाराति पराजय निमित्त शत्रुंजयस्तोत्र मालामंत्र जपे विनियोगः ।"
+      ]
+    },
+    {
+      "type": "refrain",
+      "lines": [
+        "लोलल्लांगूलपातेन ममारातीन् निपातय ॥"
+      ]
+    },
+    {
+      "type": "note",
+      "lines": [
+        "[अस्पष्ट: ध्यान १–४, मंत्र विभाग, श्लोक १–२५ — पृष्ठ १९ फोटोवरून पूर्ण transcription बाकी]",
+        "प्रत्येक श्लोकाच्या शेवटी धृपद: लोलल्लांगूलपातेन ममारातीन् निपातय ॥"
+      ]
+    }
+  ]
+}

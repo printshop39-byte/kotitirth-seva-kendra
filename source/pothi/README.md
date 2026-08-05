@@ -15,20 +15,18 @@ pNNN-title.jpg
 - `p018-navgraha.jpg`
 - `p020-aikya-utsav.jpg`
 
-## सध्याचे drafts (`data/scriptures/drafts/`)
+## सध्याचे drafts — एकत्र रिव्ह्यू (`visibility: "test"`)
 
-फोटो बॅचवरून सुरू — **public-index मध्ये अजून जोडलेले नाहीत** (नंतर चेक झाल्यावर):
+सर्व मुख्य रचना `public-index.json` मध्ये **test** म्हणून दाखवल्या आहेत (`#paath`) —
+एकदाच बघून बदल सांगण्यासाठी. अंतिम verified नाहीत.
 
 | फाईल | स्थिती |
 |---|---|
-| `navgraha-stotra.json` | जवळजवळ पूर्ण (पृ. १८) |
-| `aikya-mantra.json` | पूर्ण (पृ. २०) |
-| `shiv-mahimna-anuvad.json` | ११–३२; १–१० व ३३–४३ बाकी |
-| `shiva-namavali.json` | १–४४; ४५–१०८ बाकी |
-| `kalbhairav-ashtak.json` | १–४; ५–८ बाकी |
-| `parjanya-sukta.json` | आंशिक |
-| `karunashtake-shanivari.json` | आंशिक |
-| `pothi-batch-inventory.json` | बाकी रचनांची यादी |
+| `navgraha-stotra` · `aikya-mantra` | जवळजवळ पूर्ण |
+| `shiv-mahimna-anuvad` · `shiva-namavali` | आंशिक पूर्ण |
+| `parjanya` · `kalbhairav` · `karunashtake` · इतर | आंशिक / [अस्पष्ट] खूणा |
+| `pothi-batch-inventory` | फक्त यादी — public-index मध्ये नाही |
+| `swami-jap` | draft; public-index मध्ये नाही |
 
 ## पडताळणी workflow
 

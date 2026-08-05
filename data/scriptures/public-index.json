@@ -2,23 +2,29 @@
   "meta": {
     "note": "हीच एकमेव फाईल वेबसाइट थेट fetch करते. सर्वसाधारण नोंदींसाठी फक्त verification.status === \"verified-by-centre\" आणि verification.sourceCompared === true आवश्यक — drafts/ फाईल्स इथे कधीही संदर्भित करू नयेत. फक्त visibility=\"test\" असे स्पष्ट चिन्हांकित केलेल्या तात्पुरत्या नोंदींनाच drafts/ कडे निर्देश करण्याची परवानगी आहे (आणि त्यांनाही status=draft, sourceCompared=false, uncertainReadings रिकामे नाही या अटी पूर्ण कराव्याच लागतात) — scripts/validate-scriptures.mjs हे सर्व नियम automatically तपासते.",
     "workflow": "फोटो → AI transcription → दुसऱ्या modelची तुलना → मानवाकडून मूळ पुस्तकाशी पडताळणी → verified JSON → public-index entry",
-    "testVisibility": "visibility=\"test\" म्हणजे मजकूर अजून मानवी सेवेकऱ्याकडून पडताळलेला नाही — फक्त तात्पुरत्या मोबाईल UX चाचणीसाठी दाखवला जातो, कधीही 'verified' किंवा अंतिम धार्मिक मजकूर म्हणून सादर होत नाही. साइटवर स्पष्ट चेतावणी बॅनर व Draft/uncertain लेबल दाखवली जातात.",
+    "testVisibility": "visibility=\"test\" म्हणजे मजकूर अजून मानवी सेवेकऱ्याकडून पडताळलेला नाही — फक्त तात्पुरत्या मोबाईल UX / एकत्र रिव्ह्यूसाठी दाखवला जातो, कधीही 'verified' किंवा अंतिम धार्मिक मजकूर म्हणून सादर होत नाही. साइटवर स्पष्ट चेतावणी बॅनर व Draft/uncertain लेबल दाखवली जातात.",
     "schema": "schema/public-index.schema.json"
   },
   "items": [
-    {
-      "id": "valga-sukta",
-      "file": "drafts/valga-sukta.json",
-      "title": "अथर्व वेदोक्त वल्गा सूक्त",
-      "category": "sukta",
-      "visibility": "test"
-    },
-    {
-      "id": "ishwar-prarthana",
-      "file": "drafts/ishwar-prarthana.json",
-      "title": "ईश्वर प्रार्थना",
-      "category": "prarthana",
-      "visibility": "test"
-    }
+    { "id": "valga-sukta", "file": "drafts/valga-sukta.json", "title": "अथर्व वेदोक्त वल्गा सूक्त", "category": "sukta", "visibility": "test" },
+    { "id": "ishwar-prarthana", "file": "drafts/ishwar-prarthana.json", "title": "ईश्वर प्रार्थना", "category": "prarthana", "visibility": "test" },
+    { "id": "parjanya-sukta", "file": "drafts/parjanya-sukta.json", "title": "पर्जन्यसूक्त", "category": "sukta", "visibility": "test" },
+    { "id": "shree-sukta", "file": "drafts/shree-sukta.json", "title": "श्री सूक्त", "category": "sukta", "visibility": "test" },
+    { "id": "kalbhairav-ashtak", "file": "drafts/kalbhairav-ashtak.json", "title": "श्री कालभैरवाष्टक", "category": "stotra", "visibility": "test" },
+    { "id": "mahakali-stotra", "file": "drafts/mahakali-stotra.json", "title": "श्री महाकाली स्तोत्र", "category": "stotra", "visibility": "test" },
+    { "id": "karunashtake-shanivari", "file": "drafts/karunashtake-shanivari.json", "title": "करुणाष्टके (शनिवारी)", "category": "stotra", "visibility": "test" },
+    { "id": "ram-raksha-stotra", "file": "drafts/ram-raksha-stotra.json", "title": "श्री रामरक्षा", "category": "stotra", "visibility": "test" },
+    { "id": "maruti-stotra", "file": "drafts/maruti-stotra.json", "title": "श्री मारुती स्तोत्र", "category": "stotra", "visibility": "test" },
+    { "id": "charani-thav-ghava", "file": "drafts/charani-thav-ghava.json", "title": "चरणीं ठाव घावा", "category": "stotra", "visibility": "test" },
+    { "id": "pasayadan", "file": "drafts/pasayadan.json", "title": "पसायदान", "category": "prarthana", "visibility": "test" },
+    { "id": "monday-shiv-shorts", "file": "drafts/monday-shiv-shorts.json", "title": "सोमवार शिवसेवा — छोटे मंत्र", "category": "mantra", "visibility": "test" },
+    { "id": "shiv-mahimna-anuvad", "file": "drafts/shiv-mahimna-anuvad.json", "title": "श्री शिवमहिम्न स्तोत्र (मराठी)", "category": "stotra", "visibility": "test" },
+    { "id": "dwadash-jyotirlinga", "file": "drafts/dwadash-jyotirlinga.json", "title": "श्री द्वादश ज्योतिर्लिंग स्तोत्र", "category": "stotra", "visibility": "test" },
+    { "id": "shiva-namavali", "file": "drafts/shiva-namavali.json", "title": "श्री शिवनामावली (अष्टोत्तरशत)", "category": "stotra", "visibility": "test" },
+    { "id": "rudradhyaya", "file": "drafts/rudradhyaya.json", "title": "रुद्राध्याय (नमक–चमक)", "category": "stotra", "visibility": "test" },
+    { "id": "purusha-sukta", "file": "drafts/purusha-sukta.json", "title": "पुरुषसूक्त", "category": "sukta", "visibility": "test" },
+    { "id": "navgraha-stotra", "file": "drafts/navgraha-stotra.json", "title": "नवग्रह स्तोत्र", "category": "stotra", "visibility": "test" },
+    { "id": "langulastra-stotra", "file": "drafts/langulastra-stotra.json", "title": "श्री लांगूलास्त्र स्तोत्रम्", "category": "stotra", "visibility": "test" },
+    { "id": "aikya-mantra", "file": "drafts/aikya-mantra.json", "title": "ऐक्य मंत्र", "category": "mantra", "visibility": "test" }
   ]
 }
