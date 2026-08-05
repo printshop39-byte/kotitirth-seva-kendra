@@ -3,7 +3,6 @@
   "canonicalization": "sections.map(type|number|lines.join(U+2029)).join(U+2028)",
   "note": "मजकूर पुन्हा जतन झाल्यावर normalization/whitespace/character बदलला तर hash mismatch होऊन validate-scriptures.mjs अपयशी ठरेल.",
   "files": {
-    "drafts/swami-jap.json": "a34aef4f1999d635338ab5e64d9a727fc93fea8454dd1e0e6031476a3249832d",
-    "verified/qa-sample-entry.json": "6c35d07158c509d3291a175f3e4e620011319763a75f5836c3dbb8f3502419ff"
+    "drafts/swami-jap.json": "a34aef4f1999d635338ab5e64d9a727fc93fea8454dd1e0e6031476a3249832d"
   }
 }

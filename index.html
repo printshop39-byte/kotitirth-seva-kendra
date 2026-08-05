@@ -2054,6 +2054,14 @@ function buildScriptureSrcBadge(doc){
 
 function renderScriptureList(box, docs){
   while(box.firstChild) box.removeChild(box.firstChild);
+  if(!docs.length){
+    const p = document.createElement("p");
+    p.className = "vsnote";
+    p.id = "scriptureListEmpty";
+    p.textContent = "इथे अजून कोणताही मजकूर सेवेकऱ्याकडून पडताळून प्रकाशित झालेला नाही.";
+    box.appendChild(p);
+    return;
+  }
   docs.forEach(doc => {
     const details = document.createElement("details");
     details.className = "acc";

@@ -9,6 +9,28 @@
 > `data/*.json` रचना अजूनही कार्यरत आहे (संपूर्ण मजकूर अजून स्थलांतरित झालेला
 > नाही) — दोन्ही रचनांचे मूळ तत्त्व एकच आहे: **मानवी सेवेकऱ्याने अक्षरशः
 > तपासल्याशिवाय कोणताही मजकूर "verified" होत नाही.**
+>
+> पूर्ण पडताळणी pipeline:
+>
+> ```
+> फोटो → AI transcription → दुसऱ्या modelची तुलना
+>      → मानवाकडून मूळ पुस्तकाशी पडताळणी
+>      → verified JSON
+>      → public-index entry
+> ```
+>
+> `data/scriptures/public-index.json` **सध्या मुद्दाम रिकामी आहे** —
+> वरील पूर्ण pipeline पार केलेला एकही मजकूर अजून नाही. **खोटे किंवा
+> स्वतःच गृहीत धरलेले `verifiedBy` अथवा `verifiedDate` टाकून कोणताही
+> मजकूर verified करणे सक्त मनाई आहे** — असे केल्यास
+> `npm run validate:scriptures` / `npm run test:rules` अपयशी होतील
+> (उदा. `verifiedBy` किमान ३ अक्षरांचे खरे नाव हवे, `verifiedDate`
+> भविष्यातील असू शकत नाही, `source.pages`/`source.images` रिकामे
+> चालणार नाही, `uncertainReadings` शिल्लक असता कामा नये).
+>
+> **कृत्रिम/चाचणी नमुने फक्त `tests/fixtures/scriptures/` मध्ये राहतात** —
+> `data/scriptures/` च्या आत कधीही नाहीत; वेबसाइट `tests/fixtures/`
+> कधीही fetch करत नाही (हे `npm run test:e2e` स्वयंचलितपणे सिद्ध करते).
 
 ## फाईल रचना (जुनी — `data/*.json`)
 
