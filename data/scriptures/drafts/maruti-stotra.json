@@ -1,0 +1,50 @@
+{
+  "id": "maruti-stotra",
+  "title": "श्री मारुती स्तोत्र",
+  "language": "mr",
+  "script": "Devanagari",
+  "category": "stotra",
+  "kadhi": "शनिवारी",
+  "verification": {
+    "status": "draft",
+    "verifiedBy": "",
+    "verifiedDate": "",
+    "sourceCompared": false
+  },
+  "source": {
+    "label": "नित्यसेवा पोथी, पृष्ठ ९० — रामदासकृत; फोटोवरून आंशिक.",
+    "pages": [
+      90
+    ],
+    "images": [
+      "page-90.jpg"
+    ]
+  },
+  "uncertainReadings": [
+    {
+      "location": "ओव्या १–१७ पूर्ण",
+      "possibilities": [
+        "पृष्ठ ९० फोटोवरून"
+      ],
+      "confidence": "low",
+      "requiresHumanReview": true
+    }
+  ],
+  "sections": [
+    {
+      "type": "heading",
+      "lines": [
+        "२०. ॥ श्री मारुती स्तोत्र ॥ (शनिवारी)"
+      ]
+    },
+    {
+      "type": "note",
+      "lines": [
+        "रामदासकृत संकटनिरसन मारुती स्तोत्र (भीमरूपी महारुद्र…).",
+        "[अस्पष्ट: ओव्या १–१५ + फलश्रुती + प्रार्थना १६–१७ — पृष्ठ ९० फोटोवरून पूर्ण transcription बाकी]",
+        "समाप्ती (फोटो): ॥ इति श्रीरामदासकृतं संकटनिरसनं मारुती स्तोत्र संपूर्णम ॥",
+        "॥ श्री सीतारामचंद्रार्पणमस्तु ॥"
+      ]
+    }
+  ]
+}

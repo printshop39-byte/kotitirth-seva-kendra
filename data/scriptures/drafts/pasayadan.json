@@ -1,0 +1,56 @@
+{
+  "id": "pasayadan",
+  "title": "पसायदान",
+  "language": "mr",
+  "script": "Devanagari",
+  "category": "prarthana",
+  "kadhi": "",
+  "verification": {
+    "status": "draft",
+    "verifiedBy": "",
+    "verifiedDate": "",
+    "sourceCompared": false
+  },
+  "source": {
+    "label": "नित्यसेवा पोथी, पृष्ठ ९० — ज्ञानेश्वर; फोटोवरून आंशिक.",
+    "pages": [
+      90
+    ],
+    "images": [
+      "page-90.jpg"
+    ]
+  },
+  "uncertainReadings": [
+    {
+      "location": "पूर्ण पसायदान",
+      "possibilities": [
+        "पृष्ठ ९० फोटोवरून"
+      ],
+      "confidence": "low",
+      "requiresHumanReview": true,
+      "note": "फक्त सुरुवात/शेवट फोटो वर्णनात; मध्य स्मृतीने भरू नये."
+    }
+  ],
+  "sections": [
+    {
+      "type": "heading",
+      "lines": [
+        "२२. ॥ पसायदान ॥"
+      ]
+    },
+    {
+      "type": "verse",
+      "lines": [
+        "आता विश्वात्मके देवे । येणे वागयज्ञे तोषावे ।",
+        "[अस्पष्ट: उर्वरित ओव्या — फोटोवरून बाकी]"
+      ]
+    },
+    {
+      "type": "note",
+      "lines": [
+        "[अस्पष्ट: पूर्ण पसायदान मजकूर — पृष्ठ ९० फोटोवरून]",
+        "समाप्ती (फोटो): ॥ ॐ शांतिः । शांतिः ॥ शांतिः ॥।"
+      ]
+    }
+  ]
+}

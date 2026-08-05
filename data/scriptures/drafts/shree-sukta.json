@@ -1,0 +1,37 @@
+{
+  "id": "shree-sukta",
+  "title": "श्री सूक्त",
+  "language": "sa",
+  "script": "Devanagari",
+  "category": "sukta",
+  "kadhi": "",
+  "verification": {
+    "status": "draft",
+    "verifiedBy": "",
+    "verifiedDate": "",
+    "sourceCompared": false
+  },
+  "source": {
+    "label": "नित्यसेवा पोथी, पृष्ठ ७ — फोटोवरून आंशिक; पूर्ण श्रीसूक्त फोटोवरून पुन्हा उतरवायचे. स्मृतीने भरलेले नाही.",
+    "pages": [7],
+    "images": ["page-07.jpg"]
+  },
+  "uncertainReadings": [
+    {
+      "location": "पूर्ण श्रीसूक्त मजकूर",
+      "possibilities": ["पृष्ठ ७ फोटोवरून पूर्ण OCR"],
+      "confidence": "low",
+      "requiresHumanReview": true,
+      "note": "फोटो वर्णनात सुरुवात हिरण्यवर्णांहरिणीं… व समाप्ती ॐ शांति: दिसते; मध्य पूर्ण उतरवलेला नाही. स्मृतीने श्लोक भरलेले नाहीत."
+    }
+  ],
+  "sections": [
+    { "type": "heading", "lines": ["१५. ॥ श्री सूक्त ॥"] },
+    { "type": "mantra", "lines": ["॥ हरि: ॐ ॥"] },
+    { "type": "verse", "number": "१", "lines": ["हिरण्यवर्णांहरिणीं…", "[अस्पष्ट: श्लोक १ पूर्ण — पृष्ठ ७ फोटोवरून]"] },
+    { "type": "note", "lines": [
+      "[अस्पष्ट: श्लोक २ पासून समाप्तीपर्यंत — पृष्ठ ७ फोटोवरून पूर्ण transcription बाकी]",
+      "समाप्ती (फोटो): ॐ शांति: शांति: शांति: ॥ ॥ श्रीसूक्त समाप्तम् ॥"
+    ] }
+  ]
+}

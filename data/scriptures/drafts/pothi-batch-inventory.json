@@ -1,0 +1,45 @@
+{
+  "id": "pothi-batch-inventory",
+  "title": "पोथी फोटो बॅच — बाकी रचना (यादी)",
+  "language": "mixed",
+  "script": "Devanagari",
+  "category": "other",
+  "kadhi": "",
+  "verification": {
+    "status": "draft",
+    "verifiedBy": "",
+    "verifiedDate": "",
+    "sourceCompared": false
+  },
+  "source": {
+    "label": "नित्यसेवा पोथी फोटो बॅच (पृष्ठ ५–२०, ९०, ९३–९५ इ.) — फक्त यादी; पूर्ण मजकूर नंतर फोटोवरून draft करायचा. public-index मध्ये जोडू नये.",
+    "pages": [5, 6, 7, 8, 9, 11, 12, 14, 16, 17, 18, 19, 20, 90, 93, 95],
+    "images": []
+  },
+  "uncertainReadings": [
+    {
+      "location": "संपूर्ण बॅच",
+      "possibilities": ["प्रत्येक रचना वेगळ्या draft फाईलमध्ये पूर्ण transcription नंतर"],
+      "confidence": "low",
+      "requiresHumanReview": true,
+      "note": "ही फाईल मजकूर नाही — फक्त काय बाकी आहे याची यादी."
+    }
+  ],
+  "sections": [
+    { "type": "heading", "lines": ["या बॅचमध्ये फोटो आले; draft सुरू / बाकी"] },
+    { "type": "prose", "lines": [
+      "सर्व मुख्य रचना आता drafts/ + public-index visibility=test वर आहेत",
+      "(एकत्र मोबाईल रिव्ह्यूसाठी). inventory फाईल public-index मध्ये नाही."
+    ] },
+    { "type": "prose", "lines": [
+      "पूर्ण OCR / मानवी चेक बाकी (अनेक कार्डात [अस्पष्ट] खूणा):",
+      "पर्जन्य · श्रीसूक्त · कालभैरव ५–८ · महाकाली · करुणाष्टके · रामरक्षा १–३४ ·",
+      "मारुती · तुकाराम अभंग · पसायदान · शिवमहिम्न १–१० व ३३–४३ ·",
+      "नामावली ४५–१०८ · रुद्र पूर्ण · पुरुषसूक्त · लांगूलास्त्र."
+    ] },
+    { "type": "note", "lines": [
+      "रिव्ह्यू: #paath वर सर्व DRAFT·TEST कार्डे दिसतील.",
+      "बदल सांगा → मजकूर दुरुस्त → नंतर verified / test काढणे."
+    ] }
+  ]
+}

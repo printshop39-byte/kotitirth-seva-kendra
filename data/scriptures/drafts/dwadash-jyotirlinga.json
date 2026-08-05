@@ -1,0 +1,56 @@
+{
+  "id": "dwadash-jyotirlinga",
+  "title": "श्री द्वादश ज्योतिर्लिंग स्तोत्र",
+  "language": "mr",
+  "script": "Devanagari",
+  "category": "stotra",
+  "kadhi": "",
+  "verification": {
+    "status": "draft",
+    "verifiedBy": "",
+    "verifiedDate": "",
+    "sourceCompared": false
+  },
+  "source": {
+    "label": "नित्यसेवा पोथी, पृष्ठ ९३ — फोटोवरून स्थळनामे; काव्यमय पूर्ण पाठ OCR बाकी.",
+    "pages": [
+      93
+    ],
+    "images": [
+      "page-93.jpg"
+    ]
+  },
+  "uncertainReadings": [
+    {
+      "location": "पूर्ण काव्यमय स्तोत्र",
+      "possibilities": [
+        "पृष्ठ ९३ फोटोवरून"
+      ],
+      "confidence": "low",
+      "requiresHumanReview": true
+    }
+  ],
+  "sections": [
+    {
+      "type": "heading",
+      "lines": [
+        "३१. ॥ श्री द्वादश ज्योतिर्लिंग स्तोत्र ॥"
+      ]
+    },
+    {
+      "type": "prose",
+      "lines": [
+        "फोटोत सोमनाथ, मल्लिकार्जुन, महाकाल, ओंकार, केदार, भीम,",
+        "विश्वेश्वर, त्र्यंबक, वैजनाथ, नागेश, रामेश्वर, घृष्णेश्वर",
+        "यांचा उल्लेख असलेले मराठी स्तोत्र आहे."
+      ]
+    },
+    {
+      "type": "note",
+      "lines": [
+        "[अस्पष्ट: पूर्ण स्तोत्र ओळी — पृष्ठ ९३ फोटोवरून बाकी]",
+        "॥ इति श्री द्वादशज्योतिर्लिंग स्तोत्र संपूर्णम् ॥"
+      ]
+    }
+  ]
+}

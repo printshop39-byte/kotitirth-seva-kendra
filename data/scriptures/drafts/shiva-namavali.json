@@ -1,0 +1,88 @@
+{
+  "id": "shiva-namavali",
+  "title": "श्री शिवनामावली (अष्टोत्तरशत)",
+  "language": "sa",
+  "script": "Devanagari",
+  "category": "stotra",
+  "kadhi": "सोमवारी",
+  "verification": {
+    "status": "draft",
+    "verifiedBy": "",
+    "verifiedDate": "",
+    "sourceCompared": false
+  },
+  "source": {
+    "label": "नित्यसेवा पोथी, पृष्ठ ९३ व १४ — फोटोवरून AI transcription; अद्याप मानवी पडताळणी नाही.",
+    "pages": [93, 14],
+    "images": ["page-93.jpg", "page-14.jpg"]
+  },
+  "uncertainReadings": [
+    {
+      "location": "नाव ७ — विरूपायक्षाय / विरूपाक्षाय",
+      "possibilities": ["विरूपायक्षाय", "विरूपाक्षाय"],
+      "confidence": "medium",
+      "requiresHumanReview": true
+    },
+    {
+      "location": "नावे ४५–१०८ (पृष्ठ १४)",
+      "possibilities": ["पूर्ण यादी फोटोवरून उतरवायची"],
+      "confidence": "low",
+      "requiresHumanReview": true,
+      "note": "या मसुद्यात फक्त १–४४ आहेत."
+    }
+  ],
+  "sections": [
+    { "type": "heading", "lines": ["३२. ॥ श्री शिवनामावली ॥"] },
+    { "type": "note", "lines": ["(श्री शिवाष्टोत्तरशतनामावलि)"] },
+    { "type": "mantra", "number": "१", "lines": ["ॐ शिवाय नमः"] },
+    { "type": "mantra", "number": "२", "lines": ["ॐ महेश्वराय नमः"] },
+    { "type": "mantra", "number": "३", "lines": ["ॐ शंभवे नमः"] },
+    { "type": "mantra", "number": "४", "lines": ["ॐ पिनाकिने नमः"] },
+    { "type": "mantra", "number": "५", "lines": ["ॐ शशिशेखराय नमः"] },
+    { "type": "mantra", "number": "६", "lines": ["ॐ वामदेवाय नमः"] },
+    { "type": "mantra", "number": "७", "lines": ["ॐ विरूपायक्षाय नमः"] },
+    { "type": "mantra", "number": "८", "lines": ["ॐ कपर्दिने नमः"] },
+    { "type": "mantra", "number": "९", "lines": ["ॐ नीललोहिताय नमः"] },
+    { "type": "mantra", "number": "१०", "lines": ["ॐ शंकराय नमः"] },
+    { "type": "mantra", "number": "११", "lines": ["ॐ शुलपाणये नमः"] },
+    { "type": "mantra", "number": "१२", "lines": ["ॐ खट्‌वांगिने नमः"] },
+    { "type": "mantra", "number": "१३", "lines": ["ॐ विष्णुपल्लभाय नमः"] },
+    { "type": "mantra", "number": "१४", "lines": ["ॐ शिपिविष्टाय नमः"] },
+    { "type": "mantra", "number": "१५", "lines": ["ॐ अंबिकानाथाय नमः"] },
+    { "type": "mantra", "number": "१६", "lines": ["ॐ श्री नीलकंठाय नमः"] },
+    { "type": "mantra", "number": "१७", "lines": ["ॐ भक्तवत्सलाय नमः"] },
+    { "type": "mantra", "number": "१८", "lines": ["ॐ भवाय नमः"] },
+    { "type": "mantra", "number": "१९", "lines": ["ॐ शर्वाय नमः"] },
+    { "type": "mantra", "number": "२०", "lines": ["ॐ त्रिलोकेशाय नमः"] },
+    { "type": "mantra", "number": "२१", "lines": ["ॐ शितिकंठाय नमः"] },
+    { "type": "mantra", "number": "२२", "lines": ["ॐ शिवप्रियाय नमः"] },
+    { "type": "mantra", "number": "२३", "lines": ["ॐ उग्राय नमः"] },
+    { "type": "mantra", "number": "२४", "lines": ["ॐ शर्वेश्वराय नमः"] },
+    { "type": "mantra", "number": "२५", "lines": ["ॐ कामारये नमः"] },
+    { "type": "mantra", "number": "२६", "lines": ["ॐ अंधकासुरसूदनाय नमः"] },
+    { "type": "mantra", "number": "२७", "lines": ["ॐ गंगाधराय नमः"] },
+    { "type": "mantra", "number": "२८", "lines": ["ॐ ललाटाक्षाय नमः"] },
+    { "type": "mantra", "number": "२९", "lines": ["ॐ कालकालाय नमः"] },
+    { "type": "mantra", "number": "३०", "lines": ["ॐ कृपानिधये नमः"] },
+    { "type": "mantra", "number": "३१", "lines": ["ॐ श्रीमाय नमः"] },
+    { "type": "mantra", "number": "३२", "lines": ["ॐ परशुहस्ताय नमः"] },
+    { "type": "mantra", "number": "३३", "lines": ["ॐ मृगपाणये नमः"] },
+    { "type": "mantra", "number": "३४", "lines": ["ॐ जटाधराय नमः"] },
+    { "type": "mantra", "number": "३५", "lines": ["ॐ कैलासवासिने नमः"] },
+    { "type": "mantra", "number": "३६", "lines": ["ॐ कवचिने नमः"] },
+    { "type": "mantra", "number": "३७", "lines": ["ॐ कठोराय नमः"] },
+    { "type": "mantra", "number": "३८", "lines": ["ॐ त्रिपुरांतकाय नमः"] },
+    { "type": "mantra", "number": "३९", "lines": ["ॐ वृषांकाय नमः"] },
+    { "type": "mantra", "number": "४०", "lines": ["ॐ वृषभारुढाय नमः"] },
+    { "type": "mantra", "number": "४१", "lines": ["ॐ भस्मोद्धुलितविग्रहाय नमः"] },
+    { "type": "mantra", "number": "४२", "lines": ["ॐ सामप्रियाय नमः"] },
+    { "type": "mantra", "number": "४३", "lines": ["ॐ स्वरमयाय नमः"] },
+    { "type": "mantra", "number": "४४", "lines": ["ॐ त्रयीमूर्तये नमः"] },
+    { "type": "note", "lines": [
+      "[अस्पष्ट: ॐ … नमः ४५ ते १०८ — पृष्ठ १४ फोटोवरून पूर्ण transcription बाकी]",
+      "शिवप्रार्थना (पृष्ठ १४): शिव हर शंकर । नमामी शंकर, शिव शंकर शंभो ॥ (पाच वेळा)",
+      "॥ नमः पार्वतीपतये हर हर महादेव ॥",
+      "॥ श्री त्र्यंबकेश्वर महाराज की जय ॥"
+    ] }
+  ]
+}

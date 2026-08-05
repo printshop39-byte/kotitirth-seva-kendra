@@ -1,0 +1,55 @@
+{
+  "id": "charani-thav-ghava",
+  "title": "चरणीं ठाव घावा",
+  "language": "mr",
+  "script": "Devanagari",
+  "category": "stotra",
+  "kadhi": "",
+  "verification": {
+    "status": "draft",
+    "verifiedBy": "",
+    "verifiedDate": "",
+    "sourceCompared": false
+  },
+  "source": {
+    "label": "नित्यसेवा पोथी, पृष्ठ ९० — तुकारामांचा अभंग; फोटोवरून आंशिक.",
+    "pages": [
+      90
+    ],
+    "images": [
+      "page-90.jpg"
+    ]
+  },
+  "uncertainReadings": [
+    {
+      "location": "अभंग ओव्या १–६",
+      "possibilities": [
+        "पृष्ठ ९० फोटोवरून"
+      ],
+      "confidence": "low",
+      "requiresHumanReview": true
+    }
+  ],
+  "sections": [
+    {
+      "type": "heading",
+      "lines": [
+        "२१. ॥ चरणीं ठाव घावा ॥ (श्री तुकारामांचा अभंग)"
+      ]
+    },
+    {
+      "type": "verse",
+      "number": "१",
+      "lines": [
+        "श्री अनंता मधुसूदना । पद्मनाभा नारायणा ।",
+        "[अस्पष्ट: उर्वरित ओव्या — फोटोवरून बाकी]"
+      ]
+    },
+    {
+      "type": "note",
+      "lines": [
+        "[अस्पष्ट: ओव्या २–६ — पृष्ठ ९० फोटोवरून पूर्ण transcription बाकी]"
+      ]
+    }
+  ]
+}

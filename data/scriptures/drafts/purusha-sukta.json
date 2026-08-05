@@ -1,0 +1,60 @@
+{
+  "id": "purusha-sukta",
+  "title": "पुरुषसूक्त",
+  "language": "sa",
+  "script": "Devanagari",
+  "category": "sukta",
+  "kadhi": "",
+  "verification": {
+    "status": "draft",
+    "verifiedBy": "",
+    "verifiedDate": "",
+    "sourceCompared": false
+  },
+  "source": {
+    "label": "नित्यसेवा पोथी, पृष्ठ १७–१८ — फोटोवरून आंशिक.",
+    "pages": [
+      17,
+      18
+    ],
+    "images": [
+      "page-17.jpg",
+      "page-18.jpg"
+    ]
+  },
+  "uncertainReadings": [
+    {
+      "location": "श्लोक १–१६ पूर्ण",
+      "possibilities": [
+        "पृष्ठ १७–१८ फोटोवरून"
+      ],
+      "confidence": "low",
+      "requiresHumanReview": true
+    }
+  ],
+  "sections": [
+    {
+      "type": "heading",
+      "lines": [
+        "३४. ॥ पुरुषसूक्त ॥"
+      ]
+    },
+    {
+      "type": "verse",
+      "number": "१",
+      "lines": [
+        "हरी ॐ सहस्रशीर्षा पुरुष: सहस्राक्ष: सहस्रपात् ।",
+        "सभूमिं विश्वतो वृत्वाऽत्यतिष्ठ दशांगुलम् ॥१॥"
+      ]
+    },
+    {
+      "type": "note",
+      "lines": [
+        "[अस्पष्ट: श्लोक २–११ — पृष्ठ १७ फोटोवरून बाकी]",
+        "श्लोक १२ सुरुवात (फोटो): ब्राह्मणोऽस्य मुखमासीद्बाहू राजन्य: कृत: ।",
+        "[अस्पष्ट: श्लोक १३–१६ व फलश्रुती — पृष्ठ १८]",
+        "॥ पुरुषसुक्त समाप्तम् ॥"
+      ]
+    }
+  ]
+}
