@@ -100,6 +100,32 @@ export function verifiedContentRules(doc, { today = new Date().toISOString().sli
 }
 
 /**
+ * `visibility: "test"` म्हणून public-index.json मध्ये स्पष्टपणे चिन्हांकित केलेल्या
+ * तात्पुरत्या public draft-test नोंदीसाठीचे नियम — हे `verifiedContentRules` पेक्षा
+ * पूर्णपणे वेगळे व स्वतंत्र आहेत (सामान्य verified-by-centre गेट अजिबात सैल केलेला
+ * नाही; ही फक्त एक जाणीवपूर्वक, अरुंद, स्पष्टपणे चिन्हांकित वेगळी वाट आहे):
+ *   - status अजूनही "draft" च असावा (verified-by-centre नसावा)
+ *   - sourceCompared false च असावा
+ *   - uncertainReadings रिकामे नसावे (पारदर्शकतेसाठी — किमान एक शिल्लक वाचन असावेच)
+ */
+export function testVisibilityRules(doc){
+  const problems = [];
+  const v = doc.verification || {};
+
+  if(v.status !== "draft"){
+    problems.push(`visibility="test" नोंदीचा verification.status "${v.status}" आहे — तो नेहमी "draft" च असावा लागतो`);
+  }
+  if(v.sourceCompared !== false){
+    problems.push(`visibility="test" नोंदीचा sourceCompared false च असावा लागतो (मिळाले: ${JSON.stringify(v.sourceCompared)})`);
+  }
+  if(!Array.isArray(doc.uncertainReadings) || doc.uncertainReadings.length < 1){
+    problems.push(`visibility="test" नोंदीत किमान एक uncertainReading असणे बंधनकारक आहे (पारदर्शकतेसाठी — पूर्णपणे "स्वच्छ" मजकूर टेस्ट-मोडमध्ये प्रकाशित करता येत नाही)`);
+  }
+
+  return problems;
+}
+
+/**
  * `scripturesRoot` (उदा. data/scriptures/, किंवा एखादे तात्पुरते fixture फोल्डर)
  * यावर संपूर्ण validation चालवतो:
  *   1. JSON Schema (ajv)
@@ -146,11 +172,20 @@ export function validateScriptureSet({ scripturesRoot, schemaDir, requireChecksu
     publicIds.add(item.id);
     publicFiles.add(item.file);
 
-    if(typeof item.file !== "string" || !item.file.startsWith("verified/")){
-      fail(`public-index.json मधील "${item.id}" verified/ बाहेरच्या मार्गाकडे निर्देश करतो: ${item.file} (फक्त verified/ परवानगी आहे)`);
+    const isTest = item.visibility === "test";
+    const requiredPrefix = isTest ? "drafts/" : "verified/";
+
+    if(typeof item.file !== "string" || !item.file.startsWith(requiredPrefix)){
+      if(isTest){
+        fail(`public-index.json मधील "${item.id}" visibility="test" आहे पण drafts/ बाहेरच्या मार्गाकडे निर्देश करतो: ${item.file} (visibility="test" नोंदी फक्त drafts/ कडेच निर्देश करू शकतात)`);
+      }else{
+        fail(`public-index.json मधील "${item.id}" verified/ बाहेरच्या मार्गाकडे निर्देश करतो: ${item.file} (visibility="test" नसलेल्या नोंदींसाठी फक्त verified/ परवानगी आहे)`);
+      }
       continue;
     }
-    pass(`"${item.id}" → ${item.file} (verified/ अंतर्गत)`);
+    pass(isTest
+      ? `"${item.id}" → ${item.file} (visibility="test" — जाणीवपूर्वक तात्पुरती public draft-test नोंद, drafts/ अंतर्गत)`
+      : `"${item.id}" → ${item.file} (verified/ अंतर्गत)`);
 
     const fileResult = rd(item.file);
     if(fileResult.error){
@@ -171,11 +206,20 @@ export function validateScriptureSet({ scripturesRoot, schemaDir, requireChecksu
       fail(`"${item.file}" चा id ("${doc.id}") manifest मधील id ("${item.id}") शी जुळत नाही`);
     }
 
-    const problems = verifiedContentRules(doc, { today });
-    if(problems.length === 0){
-      pass(`"${item.id}" विस्तारित verified-content नियम पास (status/sourceCompared/verifiedBy/verifiedDate/pages/images/uncertainReadings/[अस्पष्ट])`);
+    if(isTest){
+      const problems = testVisibilityRules(doc);
+      if(problems.length === 0){
+        pass(`"${item.id}" visibility="test" नियम पास (status=draft, sourceCompared=false, uncertainReadings रिकामे नाही)`);
+      }else{
+        for(const p of problems) fail(`"${item.id}" (${item.file}, visibility="test"): ${p}`);
+      }
     }else{
-      for(const p of problems) fail(`"${item.id}" (${item.file}): ${p}`);
+      const problems = verifiedContentRules(doc, { today });
+      if(problems.length === 0){
+        pass(`"${item.id}" विस्तारित verified-content नियम पास (status/sourceCompared/verifiedBy/verifiedDate/pages/images/uncertainReadings/[अस्पष्ट])`);
+      }else{
+        for(const p of problems) fail(`"${item.id}" (${item.file}): ${p}`);
+      }
     }
   }
 
@@ -183,10 +227,19 @@ export function validateScriptureSet({ scripturesRoot, schemaDir, requireChecksu
   const draftFiles = existsSync(draftsDir) ? readdirSync(draftsDir).filter(f => f.endsWith(".json")) : [];
   for(const f of draftFiles){
     const relPath = "drafts/" + f;
-    if(publicFiles.has(relPath)){
-      fail(`SECURITY: draft फाईल "${relPath}" public-index.json मध्ये संदर्भित आहे — draft कधीही public होऊ नये`);
+    const manifestItem = items.find(it => it.file === relPath);
+
+    if(manifestItem){
+      if(manifestItem.visibility === "test"){
+        // वरील items-loop मध्ये आधीच पूर्ण तपासलेले (schema + testVisibilityRules) —
+        // इथे फक्त हे जाणीवपूर्वक/अधिकृतपणे उघड आहे याची स्वतंत्र नोंद.
+        pass(`draft "${relPath}" जाणीवपूर्वक visibility="test" म्हणून प्रकाशित आहे (public-index.json मध्ये स्पष्ट नोंदवलेले, वरील नियम तपासलेले)`);
+      }else{
+        fail(`SECURITY: draft फाईल "${relPath}" public-index.json मध्ये visibility="test" शिवाय संदर्भित आहे — draft कधीही असे सामान्यपणे उघड होऊ नये`);
+      }
       continue;
     }
+
     const { data: doc, error } = rd(relPath);
     if(error){ fail(`"${relPath}" वाचता आले नाही: ${error}`); continue; }
     if(publicIds.has(doc.id)){

@@ -621,6 +621,27 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 .scripture-link{font-size:13.5px}
 .scripture-link a{color:var(--kesari);text-decoration:underline dotted;text-underline-offset:3px}
 
+/* ---------- visibility="test" — तात्पुरती public draft-test नोंद ---------- */
+.chip.c-test{
+  background:#B0392F;color:#FFF3EE;font-weight:700;
+  margin-left:8px;letter-spacing:.4px;
+}
+.acc.acc-test summary{background:rgba(176,57,47,.06)}
+.test-banner{
+  border:2px solid #B0392F;border-radius:12px;
+  background:linear-gradient(180deg,#FFF3EE,#FDE6E1);
+  padding:12px 14px;margin-bottom:14px;
+}
+.test-banner-msg{
+  font-size:15.5px;font-weight:700;color:#8C2A1E;line-height:1.5;margin-bottom:9px;
+}
+.test-labels{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:9px}
+.test-label{
+  display:inline-block;font-size:12.5px;font-weight:600;
+  background:#8C2A1E;color:#FFF3EE;border-radius:20px;padding:3px 10px;
+}
+.test-banner-note{font-size:13px;color:#8C2A1E;line-height:1.55;margin:0}
+
 footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);line-height:1.8}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -2052,9 +2073,36 @@ function buildScriptureSrcBadge(doc){
   return p;
 }
 
-function renderScriptureList(box, docs){
+// visibility="test" नोंदींसाठी — कधीही "पडताळलेले" बॅज नाही, नेहमी ठळक चेतावणी बॅनर + लेबल्स.
+function buildTestBanner(doc){
+  const wrap = document.createElement("div");
+  wrap.className = "test-banner";
+
+  const msg = document.createElement("p");
+  msg.className = "test-banner-msg";
+  msg.textContent = "फक्त मोबाईल चाचणीसाठी — मजकूर अजून अंतिम किंवा पडताळलेला नाही";
+  wrap.appendChild(msg);
+
+  const labels = document.createElement("div");
+  labels.className = "test-labels";
+  const mkChip = txt => { const s = document.createElement("span"); s.className = "test-label"; s.textContent = txt; return s; };
+  labels.appendChild(mkChip("Draft"));
+  labels.appendChild(mkChip("source comparison incomplete"));
+  const n = Array.isArray(doc.uncertainReadings) ? doc.uncertainReadings.length : 0;
+  labels.appendChild(mkChip(n + " readings pending human review"));
+  wrap.appendChild(labels);
+
+  const note = document.createElement("p");
+  note.className = "test-banner-note";
+  note.textContent = "मजकुरातील तीन विरामचिन्हे अजून मानवी पडताळणीसाठी बाकी आहेत.";
+  wrap.appendChild(note);
+
+  return wrap;
+}
+
+function renderScriptureList(box, entries){
   while(box.firstChild) box.removeChild(box.firstChild);
-  if(!docs.length){
+  if(!entries.length){
     const p = document.createElement("p");
     p.className = "vsnote";
     p.id = "scriptureListEmpty";
@@ -2062,15 +2110,21 @@ function renderScriptureList(box, docs){
     box.appendChild(p);
     return;
   }
-  docs.forEach(doc => {
+  entries.forEach(({ doc, isTest }) => {
     const details = document.createElement("details");
-    details.className = "acc";
+    details.className = "acc" + (isTest ? " acc-test" : "");
     details.id = "scripture-" + doc.id;
 
     const summary = document.createElement("summary");
-    const ai = document.createElement("span"); ai.className = "ai"; ai.textContent = "📜";
+    const ai = document.createElement("span"); ai.className = "ai"; ai.textContent = isTest ? "🧪" : "📜";
     const at = document.createElement("span"); at.className = "at";
     const b = document.createElement("b"); b.textContent = doc.title;
+    if(isTest){
+      const testChip = document.createElement("span");
+      testChip.className = "chip c-test";
+      testChip.textContent = "DRAFT · TEST";
+      b.appendChild(testChip);
+    }
     const i = document.createElement("i"); i.textContent = doc.kadhi || "";
     at.appendChild(b); at.appendChild(i);
     const ac = document.createElement("span"); ac.className = "ac"; ac.setAttribute("aria-hidden", "true"); ac.textContent = "+";
@@ -2078,8 +2132,14 @@ function renderScriptureList(box, docs){
     details.appendChild(summary);
 
     const body = document.createElement("div"); body.className = "accbody";
-    renderScriptureSections(body, doc.sections);
-    body.appendChild(buildScriptureSrcBadge(doc));
+    if(isTest){
+      // test-visibility नोंदींसाठी नेहमी ठळक चेतावणी बॅनर — कधीही "पडताळलेले" बॅज नाही.
+      body.appendChild(buildTestBanner(doc));
+      renderScriptureSections(body, doc.sections);
+    }else{
+      renderScriptureSections(body, doc.sections);
+      body.appendChild(buildScriptureSrcBadge(doc));
+    }
 
     const linkP = document.createElement("p"); linkP.className = "ref scripture-link";
     const a = document.createElement("a");
@@ -2124,8 +2184,14 @@ function applyScriptureHashRoute(){
     const items = Array.isArray(idx?.items) ? idx.items : [];
     const resolved = [];
     for(const it of items){
-      if(!it || typeof it.file !== "string" || !it.file.startsWith("verified/")){
-        console.warn("scripture manifest: verified/ बाहेरचा मार्ग नाकारला", it);
+      if(!it) continue;
+      // "visibility":"test" म्हणजे जाणीवपूर्वक, स्पष्टपणे चिन्हांकित तात्पुरती public
+      // draft-test नोंद — सामान्य verified-by-centre गेट इथेही सैल केलेला नाही,
+      // फक्त एक वेगळी, अरुंद, स्वतंत्रपणे तपासलेली वाट आहे.
+      const isTest = it.visibility === "test";
+      const requiredPrefix = isTest ? "drafts/" : "verified/";
+      if(typeof it.file !== "string" || !it.file.startsWith(requiredPrefix)){
+        console.warn("scripture manifest: अनपेक्षित मार्ग नाकारला", it);
         continue;
       }
       let doc;
@@ -2134,12 +2200,23 @@ function applyScriptureHashRoute(){
         if(!r.ok) continue;
         doc = await r.json();
       }catch(e){ continue; }
-      const v = doc?.verification || {};
-      if(v.status !== "verified-by-centre" || v.sourceCompared !== true){
-        console.warn("scripture manifest: verification gate FAIL, वगळले —", it.id);
-        continue;
+      if(doc?.id !== it.id) continue;
+
+      if(isTest){
+        const v = doc?.verification || {};
+        const uncertain = Array.isArray(doc?.uncertainReadings) ? doc.uncertainReadings : [];
+        if(v.status !== "draft" || v.sourceCompared !== false || uncertain.length < 1){
+          console.warn("scripture manifest: visibility=test नियम FAIL, वगळले —", it.id);
+          continue;
+        }
+      }else{
+        const v = doc?.verification || {};
+        if(v.status !== "verified-by-centre" || v.sourceCompared !== true){
+          console.warn("scripture manifest: verification gate FAIL, वगळले —", it.id);
+          continue;
+        }
       }
-      resolved.push(doc);
+      resolved.push({ doc, isTest });
       window.__scriptureIndex.set(doc.id, doc);
     }
     renderScriptureList(box, resolved);

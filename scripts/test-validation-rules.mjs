@@ -169,6 +169,93 @@ function run(dir){
   ok("public-index.json मधून drafts/ कडे निर्देश केल्यास अपयशी ठरते (draft-leak अजूनही पकडला जातो)", hasSchemaOrSecurityFailure);
 }
 
+// ---------- 6a. visibility="test" नसताना drafts/ कडे निर्देश केल्यास अपयशी ठरते (गेट सैल झालेला नाही) ----------
+{
+  const draftDoc = baseGoodDoc({ id: "no-visibility-draft-item", verification: {
+    status: "draft", verifiedBy: "", verifiedDate: "", sourceCompared: false
+  }, uncertainReadings: [{ location: "क" }] });
+  const dir = makeFixtureRoot({
+    items: [{ id: "no-visibility-draft-item", file: "drafts/no-visibility-draft-item.json", title: draftDoc.title, category: draftDoc.category }],
+    draftDocs: { "no-visibility-draft-item.json": draftDoc }
+  });
+  const { entries } = run(dir);
+  const hasFailure = entries.some(e => e.level === "fail");
+  ok('visibility="test" शिवाय drafts/ कडे निर्देश असलेली नोंद अपयशी ठरते (सामान्य गेट अजूनही कडक)', hasFailure);
+}
+
+// ---------- 6b. visibility="test" पण sourceCompared=true — अपयशी ठरते ----------
+{
+  const doc = baseGoodDoc({ id: "test-vis-source-compared-true", verification: {
+    status: "draft", verifiedBy: "", verifiedDate: "", sourceCompared: true
+  }, uncertainReadings: [{ location: "क" }] });
+  const dir = makeFixtureRoot({
+    items: [{ id: "test-vis-source-compared-true", file: "drafts/test-vis-source-compared-true.json", title: doc.title, category: doc.category, visibility: "test" }],
+    draftDocs: { "test-vis-source-compared-true.json": doc }
+  });
+  const { entries } = run(dir);
+  const hasFailure = entries.some(e => e.level === "fail" && e.message.includes("sourceCompared false च असावा"));
+  ok('visibility="test" नोंदीत sourceCompared=true असल्यास अपयशी ठरते', hasFailure);
+}
+
+// ---------- 6c. visibility="test" पण uncertainReadings रिकामे — अपयशी ठरते ----------
+{
+  const doc = baseGoodDoc({ id: "test-vis-empty-uncertain", verification: {
+    status: "draft", verifiedBy: "", verifiedDate: "", sourceCompared: false
+  }, uncertainReadings: [] });
+  const dir = makeFixtureRoot({
+    items: [{ id: "test-vis-empty-uncertain", file: "drafts/test-vis-empty-uncertain.json", title: doc.title, category: doc.category, visibility: "test" }],
+    draftDocs: { "test-vis-empty-uncertain.json": doc }
+  });
+  const { entries } = run(dir);
+  const hasFailure = entries.some(e => e.level === "fail" && e.message.includes("किमान एक uncertainReading"));
+  ok('visibility="test" नोंदीत uncertainReadings रिकामे असल्यास अपयशी ठरते (पारदर्शकता बंधनकारक)', hasFailure);
+}
+
+// ---------- 6d. visibility="test" पण status=verified-by-centre — अपयशी ठरते ----------
+{
+  const doc = baseGoodDoc({ id: "test-vis-wrong-status", verification: {
+    status: "verified-by-centre", verifiedBy: "कोणीतरी", verifiedDate: "2025-06-01", sourceCompared: false
+  }, uncertainReadings: [{ location: "क" }] });
+  const dir = makeFixtureRoot({
+    items: [{ id: "test-vis-wrong-status", file: "drafts/test-vis-wrong-status.json", title: doc.title, category: doc.category, visibility: "test" }],
+    draftDocs: { "test-vis-wrong-status.json": doc }
+  });
+  const { entries } = run(dir);
+  const hasFailure = entries.some(e => e.level === "fail" && e.message.includes('तो नेहमी "draft" च असावा'));
+  ok('visibility="test" नोंदीत status="verified-by-centre" असल्यास अपयशी ठरते (test नेहमी draft च राहावा)', hasFailure);
+}
+
+// ---------- 6e. visibility="test" पण verified/ कडे निर्देश — अपयशी ठरते ----------
+{
+  const doc = baseGoodDoc({ id: "test-vis-wrong-folder", verification: {
+    status: "draft", verifiedBy: "", verifiedDate: "", sourceCompared: false
+  }, uncertainReadings: [{ location: "क" }] });
+  const dir = makeFixtureRoot({
+    items: [{ id: "test-vis-wrong-folder", file: "verified/test-vis-wrong-folder.json", title: doc.title, category: doc.category, visibility: "test" }],
+    verifiedDocs: { "test-vis-wrong-folder.json": doc }
+  });
+  const { entries } = run(dir);
+  const hasFailure = entries.some(e => e.level === "fail" && e.message.includes('drafts/ कडेच निर्देश करू शकतात'));
+  ok('visibility="test" नोंद verified/ कडे निर्देश करत असल्यास अपयशी ठरते (test नोंदी फक्त drafts/ मध्येच)', hasFailure);
+}
+
+// ---------- 6f. पूर्ण योग्य visibility="test" नोंद — पास व्हावी (positive control) ----------
+{
+  const doc = baseGoodDoc({ id: "test-vis-valid", verification: {
+    status: "draft", verifiedBy: "", verifiedDate: "", sourceCompared: false
+  }, uncertainReadings: [{ location: "क", possibilities: ["अ", "आ"], confidence: "low", requiresHumanReview: true }] });
+  const dir = makeFixtureRoot({
+    items: [{ id: "test-vis-valid", file: "drafts/test-vis-valid.json", title: doc.title, category: doc.category, visibility: "test" }],
+    draftDocs: { "test-vis-valid.json": doc }
+  });
+  const { failures: f, entries } = run(dir);
+  ok(
+    'पूर्ण योग्य visibility="test" नोंद पास होते (नियम केवळ आवश्यक तेवढेच कडक — false-positive नाही)',
+    f === 0,
+    entries.filter(e => e.level === "fail").map(e => e.message).join("\n    ")
+  );
+}
+
 // ---------- bonus: rिकामी pages/images असलेली verified नोंद अपयशी ठरते ----------
 {
   const doc = baseGoodDoc({ id: "empty-source-item", source: { label: "स्रोत", pages: [], images: [] } });

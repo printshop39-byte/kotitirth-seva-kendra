@@ -17,11 +17,28 @@
           "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
           "file": {
             "type": "string",
-            "pattern": "^verified/[a-z0-9-]+\\.json$",
-            "description": "Must always live under verified/. drafts/ must never be referenced here."
+            "description": "verified-by-centre items → verified/...json (default). visibility=\"test\" items → drafts/...json (exact pattern enforced below by if/then/else)."
           },
           "title": { "type": "string", "minLength": 1 },
-          "category": { "type": "string", "minLength": 1 }
+          "category": { "type": "string", "minLength": 1 },
+          "visibility": {
+            "enum": ["test"],
+            "description": "फक्त तात्पुरत्या, स्पष्टपणे unverified public draft-test नोंदींसाठी. अनुपस्थित असल्यास सामान्य कडक verified-by-centre गेट लागू होते."
+          }
+        },
+        "if": {
+          "required": ["visibility"],
+          "properties": { "visibility": { "const": "test" } }
+        },
+        "then": {
+          "properties": {
+            "file": { "type": "string", "pattern": "^drafts/[a-z0-9-]+\\.json$" }
+          }
+        },
+        "else": {
+          "properties": {
+            "file": { "type": "string", "pattern": "^verified/[a-z0-9-]+\\.json$" }
+          }
         }
       }
     }

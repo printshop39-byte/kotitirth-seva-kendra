@@ -75,6 +75,21 @@ tests/fixtures/scriptures/
     `data/scriptures/drafts/`, `data/scriptures/verified/`, किंवा
     `public-index.json` मध्ये कधीही कॉपी करू नयेत. वेबसाइट कधीही
     `tests/fixtures/` fetch करत नाही (e2e चाचणी हे सिद्ध करते).
+11. **`visibility: "test"` — तात्पुरती public draft-test नोंद (मोबाईल UX
+    चाचणीसाठी अपवाद, पण गेट सैल नाही):**
+    - `public-index.json` मधल्या item ला `"visibility": "test"` दिले, तरच तो
+      `drafts/...json` कडे निर्देश करू शकतो — इतर सर्व नोंदींसाठी नियम १-२
+      (फक्त `verified/`) जसेच्या तसे कडक राहतात.
+    - अशा नोंदीच्या फाईलमध्ये **अजूनही** `verification.status === "draft"`,
+      `sourceCompared === false`, आणि **किमान एक** `uncertainReadings`
+      नोंद असावीच लागते (पूर्णपणे "स्वच्छ" मजकूर test-mode मध्ये प्रकाशित
+      करता येत नाही — पारदर्शकता बंधनकारक).
+    - साइटवर अशा नोंदीसाठी कधीही "पडताळलेले" बॅज दिसत नाही — त्याऐवजी ठळक
+      चेतावणी बॅनर + `Draft` / `source comparison incomplete` / `N readings
+      pending human review` ही लेबल्स दाखवली जातात.
+    - `npm run validate:scriptures` व `npm run test:rules` दोन्ही ही नियम
+      स्वतंत्रपणे तपासतात (server-side), आणि `index.html` चा loader सुद्धा
+      (client-side, defense-in-depth) तीच अट पुन्हा तपासतो.
 
 ## प्रत्येक scripture फाईलची रचना
 
@@ -110,6 +125,22 @@ tests/fixtures/scriptures/
 }
 ```
 
+## `public-index.json` मधील प्रत्येक item ची रचना
+
+```json
+{
+  "id": "kebab-case-id",
+  "file": "verified/....json",
+  "title": "...",
+  "category": "...",
+  "visibility": "test"
+}
+```
+
+`visibility` ऐच्छिक आहे — फक्त वरील नियम ११ प्रमाणे तात्पुरत्या public
+draft-test नोंदींसाठी `"test"` असा टाकावा; इतर सर्व नोंदींसाठी हा field
+पूर्णपणे अनुपस्थित ठेवावा (आणि `file` नेहमी `verified/...json` असावा).
+
 `ovya` (एकच सपाट array) ऐवजी हे generic `sections` वापरले आहे — प्रत्येक ओळीचा
 प्रकार (मथळा / श्लोक / धृपद / मंत्र / गद्य / टीप / फलश्रुती) वेगळा ओळखता येतो,
 आणि रेंडरिंग `innerHTML` string जोडणीऐवजी सुरक्षित DOM (`textContent`) ने होते.
@@ -129,19 +160,26 @@ tests/fixtures/scriptures/
 
 | ठिकाण | स्थिती | कारण |
 |---|---|---|
-| `data/scriptures/public-index.json` | **मुद्दाम रिकामे** (`items: []`) | वरील पूर्ण workflow (फोटो→AI→दुसरा model→मानवी पडताळणी) पूर्ण झालेला एकही मजकूर अजून नाही. खोटे verifiedBy/verifiedDate टाकून हे भरणे सक्त मनाई आहे. |
-| `data/scriptures/drafts/swami-jap.json` | `draft` | existing मजकूर स्थलांतरित; मानवी पडताळणी अजून मिळालेली नाही |
+| `data/scriptures/public-index.json` | १ नोंद — `ishwar-prarthana`, `visibility: "test"` | तात्पुरती मोबाईल UX चाचणी (छोट्या ओळखीच्या गटासाठी) — verified-by-centre नाही, sourceCompared=false, ३ uncertainReadings अजूनही शिल्लक. साइटवर स्पष्ट चेतावणी बॅनर व Draft लेबल्ससह दिसते. |
+| `data/scriptures/drafts/ishwar-prarthana.json` | `draft` | वरील visibility="test" नोंदीने संदर्भित; मानवी सेवेकरी पडताळणी अजून बाकी (३ अनिश्चित विरामचिन्हे) |
+| `data/scriptures/drafts/swami-jap.json` | `draft`, public-index मध्ये संदर्भित नाही | existing मजकूर स्थलांतरित; मानवी पडताळणी अजून मिळालेली नाही |
 | `tests/fixtures/scriptures/verified-sample.json` | फक्त चाचणीसाठी | **खरी धार्मिक सामग्री नाही** — `data/scriptures/` च्या बाहेर, `public-index → verified/ → website` साखळी चाचण्यांमध्ये सिद्ध करण्यासाठी. वेबसाइट production मध्ये हे कधीही fetch करत नाही. |
+
+खरोखर "verified-by-centre" (म्हणजे साधा हिरवा "पडताळलेले" बॅज दाखवणारा,
+`verified/` फोल्डरमधला) मजकूर अजून एकही नाही — तो फक्त मानवी सेवेकऱ्याच्या
+स्पष्ट पडताळणीनंतरच जोडला जाईल.
 
 ## Validation
 
 ```bash
 npm install
 npm run validate:scriptures   # खऱ्या data/scriptures/ वर: JSON Schema + manifest existence
-                               # + विस्तारित verified-content नियम + checksum
+                               # + विस्तारित verified-content नियम + visibility=test नियम + checksum
 npm run test:rules            # तात्पुरत्या fixture फोल्डरवर: future-date, empty-verifiedBy,
-                               # uncertainReadings, [अस्पष्ट, draft-leak negative/positive चाचण्या
-npm run test:e2e              # Playwright — deep-links, रिकामे-manifest संदेश, fixture-leak तपासणी,
-                               # जपमाळा regression, service-worker cache
-npm test                      # वरील तिन्ही एकत्र
+                               # uncertainReadings, [अस्पष्ट, draft-leak, visibility=test
+                               # negative/positive चाचण्या
+npm run test:e2e              # Playwright — deep-links, चेतावणी बॅनर/लेबल्स, fixture-leak तपासणी,
+                               # जपमाळा regression, service-worker cache, client-side गेट तपासणी
+npm run test:mobile           # Playwright — 320×568/360×800/390×844/412×915 वर responsive तपासणी
+npm test                      # वरील चारही एकत्र
 ```
