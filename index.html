@@ -64,9 +64,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- फॉन्ट नंतर येतात; तोपर्यंत मोबाईलमधल्या देवनागरी फॉन्टने मजकूर लगेच दिसतो -->
 <link rel="stylesheet" media="print" onload="this.media='all'"
-      href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Anek+Devanagari:wght@300..700&display=swap">
+      href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Mukta:wght@400;500;600;700&family=Tiro+Devanagari+Marathi&family=Anek+Devanagari:wght@300..700&display=swap">
 <noscript><link rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Anek+Devanagari:wght@300..700&display=swap"></noscript>
+      href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Mukta:wght@400;500;600;700&family=Tiro+Devanagari+Marathi&family=Anek+Devanagari:wght@300..700&display=swap"></noscript>
 <style>
 /* ============================================================
    रंग व अंतर (इथे बदल केला की पूर्ण साइटचा रंग बदलतो)
@@ -88,8 +88,11 @@
   --band-bot:#6E1522;
   --theme-meta:#8C1D2B;
   /* मोबाईलमधले देवनागरी फॉन्ट आधी, Google फॉन्ट आल्यावर आपोआप बदलतात */
-  --f-body:'Anek Devanagari','Nirmala UI','Noto Sans Devanagari','Mangal',system-ui,-apple-system,sans-serif;
-  --f-head:'Tiro Devanagari Marathi','Nirmala UI','Noto Serif Devanagari','Mangal',Georgia,serif;
+  --f-body:'Mukta','Anek Devanagari','Nirmala UI','Noto Sans Devanagari','Mangal',system-ui,-apple-system,sans-serif;
+  --f-head:'Yatra One','Tiro Devanagari Marathi','Nirmala UI','Noto Serif Devanagari','Mangal',Georgia,serif;
+  --day-accent:var(--haldi);
+  --day-glow:rgba(233,168,18,.35);
+  --day-soft:rgba(233,168,18,.12);
 }
 /* रात्री / मंद प्रकाश — डार्क ग्रे-तपकिरी + मऊ सोनेरी मजकूर (जगाची जागा राखून) */
 html[data-theme="dark"]{
@@ -110,6 +113,43 @@ html[data-theme="dark"]{
 html[data-theme="dark"] body{
   background-image:radial-gradient(circle at 1px 1px, rgba(232,165,152,.07) 1px, transparent 0);
 }
+
+/* ---------- वारानुसार हायलाइट थीम (IST) ---------- */
+html[data-vaar="0"]{ /* रविवार — तेजस्वी भगवा */
+  --day-accent:#E86A12; --day-glow:rgba(232,106,18,.38); --day-soft:rgba(232,106,18,.14);
+}
+html[data-vaar="1"]{ /* सोमवार — चांदी / शांत पांढरा */
+  --day-accent:#8FA3B5; --day-glow:rgba(143,163,181,.40); --day-soft:rgba(143,163,181,.16);
+}
+html[data-vaar="2"]{ /* मंगळवार — तांबडा / केसरी */
+  --day-accent:#C23B22; --day-glow:rgba(194,59,34,.36); --day-soft:rgba(194,59,34,.14);
+}
+html[data-vaar="3"]{ /* बुधवार — सौम्य हिरवा */
+  --day-accent:#2F8F5B; --day-glow:rgba(47,143,91,.34); --day-soft:rgba(47,143,91,.13);
+}
+html[data-vaar="4"]{ /* गुरुवार — सोन्यासारखा / स्वामी दिन */
+  --day-accent:#D4A017; --day-glow:rgba(212,160,23,.42); --day-soft:rgba(212,160,23,.16);
+}
+html[data-vaar="5"]{ /* शुक्रवार — गुलाबी / सौम्य लाल */
+  --day-accent:#C45C7A; --day-glow:rgba(196,92,122,.34); --day-soft:rgba(196,92,122,.13);
+}
+html[data-vaar="6"]{ /* शनिवार — गढद निळा */
+  --day-accent:#2F4A7A; --day-glow:rgba(47,74,122,.36); --day-soft:rgba(47,74,122,.14);
+}
+html[data-vaar] .band::after{
+  background:linear-gradient(90deg,var(--kesari-teja),var(--day-accent),var(--haldi));
+}
+html[data-vaar] .chip.c-cha{
+  background:var(--day-accent); color:#fffdf6;
+  box-shadow:0 0 0 0 var(--day-glow); animation:jyot 2.2s ease-out infinite;
+}
+html[data-vaar] .tl li.live{
+  border-radius:12px;
+  box-shadow:0 0 0 1.5px var(--day-accent), 0 0 18px var(--day-glow);
+  background:linear-gradient(90deg,var(--day-soft),transparent 70%);
+}
+html[data-vaar] .now{ box-shadow:0 10px 28px -8px rgba(28,31,59,.28), 0 0 0 1px var(--day-soft); }
+
 html[data-theme="dark"] .band{
   background:linear-gradient(180deg,var(--band-top),var(--band-bot));
   color:#F5E6C8;
@@ -268,9 +308,43 @@ section{margin-top:26px}
 h2{
   font-size:15px;letter-spacing:2px;font-weight:600;color:var(--kesari);
   text-transform:none;margin-bottom:12px;display:flex;align-items:center;gap:10px;
+  position:relative;
 }
-h2::after{content:"";flex:1;height:1px;background:var(--line)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+h2.frame{
+  display:block;text-align:center;letter-spacing:2.5px;
+  padding:12px 14px;margin-bottom:14px;
+  border:1px solid rgba(212,160,23,.45);
+  background:
+    linear-gradient(var(--card),var(--card)) padding-box,
+    linear-gradient(135deg,rgba(212,160,23,.55),rgba(181,71,20,.25),rgba(212,160,23,.55)) border-box;
+  border-radius:10px;
+  box-shadow:0 10px 24px -10px rgba(128,0,0,.12);
+}
+h2.frame::after{display:none}
+.card{
+  background:rgba(255,253,247,.82);
+  border:1px solid rgba(255,255,255,.55);
+  border-radius:var(--r);padding:18px;
+  backdrop-filter:blur(12px) saturate(160%);
+  -webkit-backdrop-filter:blur(12px) saturate(160%);
+  box-shadow:0 12px 30px -8px rgba(128,0,0,.12);
+}
+html[data-theme="dark"] .card{
+  background:rgba(36,32,24,.78);
+  border-color:rgba(255,255,255,.08);
+}
+.tilt-card{
+  transform-style:preserve-3d;transition:transform .25s ease, box-shadow .25s ease;
+  will-change:transform;
+}
+.tilt-card:hover,.tilt-card:focus-within{
+  transform:perspective(800px) rotateX(2deg) rotateY(-3deg) translateY(-2px);
+  box-shadow:0 16px 34px -10px rgba(128,0,0,.18);
+}
+@media (hover:none){
+  .tilt-card:hover,.tilt-card:focus-within{transform:none}
+}
 
 /* ---------- आरतीमधले उपटॅब ---------- */
 .subtabs{
@@ -286,22 +360,43 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 .subtabs button:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
 .pane:focus{outline:none}
 
-/* ---------- तळाचे टॅब ---------- */
+/* ---------- तळाचे टॅब + गूई सूचक ---------- */
 .tabs{
   position:fixed;left:0;right:0;bottom:0;z-index:20;
-  display:flex;background:var(--card);
+  display:flex;background:rgba(255,253,247,.92);
   border-top:1px solid var(--line);
   box-shadow:0 -4px 18px rgba(44,35,23,.10);
   padding-bottom:env(safe-area-inset-bottom);
+  backdrop-filter:blur(14px) saturate(150%);
+  -webkit-backdrop-filter:blur(14px) saturate(150%);
+}
+html[data-theme="dark"] .tabs{background:rgba(36,32,24,.92)}
+.tabs .tab-blob{
+  position:absolute;top:4px;left:0;width:33.333%;height:calc(100% - 4px - env(safe-area-inset-bottom));
+  border-radius:18px 18px 10px 10px;
+  background:radial-gradient(120% 80% at 50% 20%, var(--day-soft), rgba(217,83,30,.08));
+  filter:blur(.2px); pointer-events:none; z-index:0;
+  transition:transform .45s cubic-bezier(.34,1.4,.64,1), background .35s ease;
+  transform:translateX(calc(var(--tab-i, 0) * 100%));
 }
 .tabs button{
+  position:relative;z-index:1;
   flex:1;border:0;background:none;cursor:pointer;
   font-family:inherit;font-size:13.5px;font-weight:600;color:var(--shai-soft);
   padding:9px 4px 10px;display:flex;flex-direction:column;align-items:center;gap:2px;
   border-top:3px solid transparent;margin-top:-1px;
+  transition:color .2s ease, border-color .25s ease;
 }
-.tabs button .ti{font-size:20px;line-height:1.15}
-.tabs button.on{color:var(--kumkum);border-top-color:var(--kesari);background:rgba(217,83,30,.05)}
+.tabs button .ti{font-size:20px;line-height:1.15;display:grid;place-items:center;height:24px}
+.tabs button .ti svg{width:22px;height:22px;display:block}
+.tabs button .flame{transform-origin:50% 90%; animation:flameFlicker 1.1s ease-in-out infinite}
+.tabs button.on .flame{animation-duration:.85s}
+@keyframes flameFlicker{
+  0%,100%{transform:scaleY(1) scaleX(1); opacity:.95}
+  40%{transform:scaleY(1.12) scaleX(.92); opacity:1}
+  70%{transform:scaleY(.92) scaleX(1.06); opacity:.85}
+}
+.tabs button.on{color:var(--kumkum);border-top-color:var(--day-accent, var(--kesari));background:transparent}
 .tabs button:focus-visible{outline:3px solid var(--haldi);outline-offset:-3px}
 
 /* होम स्क्रीन बटण */
@@ -402,11 +497,28 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 }
 .acc[open] .ac{transform:rotate(45deg)}
 .acc[open] summary{background:rgba(217,83,30,.05)}
+.acc summary .ac{transition:transform .45s cubic-bezier(.34,1.56,.64,1)}
+.acc[open] .accbody{
+  animation:accSpring .48s cubic-bezier(.34,1.4,.64,1);
+}
+@keyframes accSpring{
+  0%{opacity:.35; transform:translateY(-8px) scaleY(.96)}
+  60%{opacity:1; transform:translateY(2px) scaleY(1.01)}
+  100%{opacity:1; transform:none}
+}
 .accbody{
   padding:2px 16px 16px;
   font-size:calc(15.5px * var(--read-fs));
   line-height:1.75;color:var(--shai);
 }
+.acc .ai.lotus{
+  width:30px;height:30px;border-radius:50%;flex:0 0 auto;
+  background:radial-gradient(circle at 40% 35%, #FFE8B0, rgba(181,71,20,.14));
+  color:var(--kumkum); display:grid; place-items:center;
+  font-size:14px;font-weight:700;line-height:1;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55);
+}
+.acc .ai.lotus svg{width:16px;height:16px}
 .accbody p{margin-bottom:9px;font-size:calc(15.5px * var(--read-fs))}
 .accbody p:last-child{margin-bottom:0}
 .accbody .ovi{font-size:calc(15.5px * var(--read-fs));line-height:1.8}
@@ -431,28 +543,53 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 /* ---------- वेळापत्रक ---------- */
 /* --tw = वेळेच्या रकान्याची रुंदी, --gap = रकाना व रेषेमधले अंतर.
    रेष व ठिपका यांची जागा या दोन आकड्यांवरून आपोआप ठरते — फक्त --tw बदला. */
-.tl{--tw:100px;--gap:28px;list-style:none;position:relative;padding-left:0}
+.tl{--tw:100px;--gap:28px;--tl-fill:0%;list-style:none;position:relative;padding-left:0}
 .tl::before{content:"";position:absolute;left:calc(var(--tw) + var(--gap)/2 - 1px);
   top:14px;bottom:14px;width:2px;
-  background:linear-gradient(180deg,var(--kesari-teja),rgba(217,83,30,.15))}
-.tl li{display:flex;gap:var(--gap);align-items:flex-start;padding:11px 0;position:relative}
+  background:rgba(217,83,30,.18)}
+.tl::after{content:"";position:absolute;left:calc(var(--tw) + var(--gap)/2 - 1.5px);
+  top:14px;height:calc((100% - 28px) * var(--tl-fill) / 100);width:3px;border-radius:3px;
+  background:linear-gradient(180deg,#F6D36A,var(--day-accent,#E9A812),rgba(181,71,20,.55));
+  box-shadow:0 0 10px var(--day-glow, rgba(233,168,18,.45));
+  transition:height .7s cubic-bezier(.22,1,.36,1); pointer-events:none}
+.tl li{display:flex;gap:var(--gap);align-items:flex-start;padding:11px 0;position:relative;
+  transition:box-shadow .35s ease, background .35s ease}
 .tl .t{
   flex:0 0 var(--tw);text-align:right;font-weight:600;font-size:15px;color:var(--kumkum);
   padding-top:2px;white-space:nowrap;
 }
 .tl .dot{position:absolute;left:calc(var(--tw) + var(--gap)/2 - 6px);top:18px;
   width:12px;height:12px;border-radius:50%;
-  background:var(--card);border:2.5px solid var(--kesari)}
-.tl .d{padding-left:14px}
+  background:var(--card);border:2.5px solid var(--kesari); z-index:1}
+.tl .d{padding-left:14px; flex:1; min-width:0}
 @media (max-width:360px){
   .tl{--tw:86px;--gap:24px}
   .tl .t{font-size:13px}
   .tl .d{padding-left:10px}
 }
 .tl .d b{display:block;font-weight:600;font-size:16px}
-.tl .d span{font-size:14.5px;color:var(--shai-soft)}
-.tl li.live .dot{background:var(--haldi);border-color:var(--haldi);box-shadow:0 0 0 5px rgba(233,168,18,.2)}
+.tl .d > span:not(.chip):not(.jap):not(.kadhi):not(.remind){font-size:14.5px;color:var(--shai-soft)}
+.tl li.live .dot{
+  background:var(--day-accent, var(--haldi));border-color:var(--day-accent, var(--haldi));
+  box-shadow:0 0 0 5px var(--day-soft, rgba(233,168,18,.2));
+  animation:livePulse 1.8s ease-out infinite;
+}
+@keyframes livePulse{
+  0%{box-shadow:0 0 0 0 var(--day-glow, rgba(233,168,18,.55))}
+  70%{box-shadow:0 0 0 12px transparent}
+  100%{box-shadow:0 0 0 0 transparent}
+}
 .tl li.live .d b{color:var(--kesari)}
+.tl .remind{
+  display:inline-flex;align-items:center;gap:5px;margin-top:6px;
+  font-size:12.5px;font-weight:600;color:var(--kesari);
+  background:transparent;border:1px dashed rgba(181,71,20,.4);
+  border-radius:999px;padding:4px 10px;cursor:pointer;font-family:inherit;
+}
+.tl .remind:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
+.tl .remind[aria-pressed="true"]{
+  background:var(--day-soft); border-style:solid; border-color:var(--day-accent);
+}
 .tag{display:inline-block;font-size:11px;letter-spacing:1px;background:rgba(233,168,18,.18);
   color:#8a6208;border-radius:20px;padding:1px 9px;margin-left:6px;vertical-align:middle}
 
@@ -465,8 +602,13 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 .c-lav{background:rgba(217,83,30,.12);color:#A8420F}
 .c-cha{background:var(--haldi);color:#4A3405;
   box-shadow:0 0 0 0 rgba(233,168,18,.7);animation:jyot 2.2s ease-out infinite}
-.c-zal{background:rgba(110,95,76,.13);color:var(--shai-soft);font-weight:500}
+.c-zal{background:rgba(110,95,76,.13);color:var(--shai-soft);font-weight:500;
+  box-shadow:inset 2px 2px 4px rgba(44,35,23,.12), inset -1px -1px 3px rgba(255,255,255,.45)}
 .c-zal::before{content:"✓ "}
+.tl li.off .dot{
+  background:#EDE4D4; border-color:#C9B89A;
+  box-shadow:inset 2px 2px 4px rgba(44,35,23,.18), inset -1px -1px 2px rgba(255,255,255,.5);
+}
 .tl .kadhi{display:block;font-size:13.5px;color:var(--kesari);margin-top:2px}
 .tl .jap{
   display:inline-block;font-size:13.5px;color:var(--kesari);margin-top:3px;
@@ -746,7 +888,95 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 .test-banner-note{font-size:13px;color:#8C2A1E;line-height:1.55;margin:0}
 
 footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);line-height:1.8}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- Welcome Modal ---------- */
+.welcome{
+  position:fixed; inset:0; z-index:60; display:grid; place-items:center;
+  padding:18px 16px calc(18px + env(safe-area-inset-bottom));
+  background:rgba(18,16,12,.55); backdrop-filter:blur(6px);
+  opacity:0; pointer-events:none; transition:opacity .35s ease;
+}
+.welcome.open{opacity:1; pointer-events:auto}
+.welcome-card{
+  width:min(420px, 100%); max-height:min(88vh, 720px);
+  border-radius:22px; overflow:hidden; position:relative;
+  background:#0B1E28; color:#FDEFD2;
+  box-shadow:0 24px 60px -16px rgba(0,0,0,.55);
+  transform:translateY(18px) scale(.97);
+  transition:transform .45s cubic-bezier(.34,1.2,.64,1);
+}
+.welcome.open .welcome-card{transform:none}
+.welcome-art{
+  display:block; width:100%; height:min(52vh, 420px); object-fit:cover; object-position:center top;
+}
+.welcome-fade{
+  position:absolute; left:0; right:0; top:calc(min(52vh,420px) - 72px); height:72px;
+  background:linear-gradient(180deg, transparent, #0B1E28);
+  pointer-events:none;
+}
+.welcome-body{padding:4px 22px 22px; text-align:center}
+.welcome-brand{
+  font-family:var(--f-head); font-size:clamp(26px,7vw,34px); line-height:1.25;
+  color:#F4B24A; margin:0 0 8px;
+}
+.welcome-msg{
+  font-family:var(--f-head); font-size:clamp(18px,5vw,22px); line-height:1.45;
+  color:#FFF6E4; margin:0 0 6px;
+}
+.welcome-sub{font-size:13.5px; color:rgba(253,239,210,.72); margin:0 0 16px; line-height:1.5}
+.welcome-go{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width:min(100%, 220px); padding:12px 18px; border-radius:12px;
+  border:0; cursor:pointer; font-family:inherit; font-weight:700; font-size:16px;
+  background:linear-gradient(180deg,#E9A812,#B54714); color:#fff8ea;
+}
+.welcome-go:focus-visible{outline:3px solid #F6D36A; outline-offset:3px}
+.welcome-skip{
+  display:block; margin:10px auto 0; background:none; border:0; cursor:pointer;
+  color:rgba(253,239,210,.65); font:inherit; font-size:13px; text-decoration:underline;
+  text-underline-offset:3px;
+}
+
+/* ---------- Bottom sheet ---------- */
+.bsheet{
+  position:fixed; inset:0; z-index:55; display:flex; align-items:flex-end; justify-content:center;
+  background:rgba(20,16,10,.45); opacity:0; pointer-events:none; transition:opacity .25s ease;
+}
+.bsheet.open{opacity:1; pointer-events:auto}
+.bsheet-panel{
+  width:min(560px,100%); max-height:min(82vh,640px);
+  background:var(--card); color:var(--shai);
+  border-radius:20px 20px 0 0; padding:10px 18px calc(18px + env(safe-area-inset-bottom));
+  box-shadow:0 -12px 40px rgba(0,0,0,.22);
+  transform:translateY(110%); transition:transform .42s cubic-bezier(.34,1.25,.64,1);
+  overflow:auto;
+}
+.bsheet.open .bsheet-panel{transform:none}
+.bsheet-handle{
+  width:44px; height:4px; border-radius:4px; background:var(--line);
+  margin:4px auto 12px;
+}
+.bsheet-title{
+  font-family:var(--f-head); font-size:22px; color:var(--kumkum);
+  margin:0 0 4px; line-height:1.35; text-align:center;
+}
+.bsheet-sub{text-align:center; font-size:13.5px; color:var(--shai-soft); margin:0 0 12px}
+.bsheet-body{font-size:calc(15.5px * var(--read-fs)); line-height:1.75}
+.bsheet-close{
+  display:block; width:100%; margin-top:14px; padding:12px; border-radius:12px;
+  border:1px solid var(--line); background:rgba(181,71,20,.06);
+  font:inherit; font-weight:700; color:var(--kumkum); cursor:pointer;
+}
+@media (min-width:760px){
+  .bsheet{align-items:center; padding:24px}
+  .bsheet-panel{border-radius:18px; max-height:min(78vh,640px)}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .tl::after{transition:none!important}
+  .welcome-card,.bsheet-panel{transform:none!important}
+}
 </style>
 </head>
 <body>
@@ -773,7 +1003,7 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
   <div class="toast-soft" id="softToast" role="status" aria-live="polite"></div>
 
   <!-- आत्ताची स्थिती -->
-  <div class="now" aria-live="polite">
+  <div class="now tilt-card" aria-live="polite">
     <span class="diya"></span>
     <div>
       <div class="lbl">आत्ता</div>
@@ -799,8 +1029,8 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
   <!-- नित्य सेवा + आरती विभाग -->
   <div id="panel-aaj" role="tabpanel" aria-labelledby="st-aaj" data-subpanel="aaj">
   <section>
-    <h2>नित्य सेवा वेळापत्रक</h2>
-    <div class="card">
+    <h2 class="frame">नित्य सेवा वेळापत्रक</h2>
+    <div class="card tilt-card">
       <ul class="tl" id="tl"></ul>
     </div>
   </section>
@@ -1043,7 +1273,7 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
 
   <!-- सोळा संस्कार -->
   <section>
-    <h2>सोळा संस्कार</h2>
+    <h2 class="frame">सोळा संस्कार</h2>
     <p class="sintro" id="sanskarIntro"></p>
     <div class="acclist" id="sanskar"></div>
     <p class="vsnote" id="sanskarShevat"></p>
@@ -1079,11 +1309,39 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
   </footer>
 </main>
 
+<!-- Welcome Modal -->
+<div class="welcome" id="welcome" role="dialog" aria-modal="true" aria-labelledby="welcomeBrand" aria-describedby="welcomeMsg" hidden>
+  <div class="welcome-card">
+    <img class="welcome-art" src="assets/swami-samarth-welcome.webp" width="720" height="1080"
+         alt="श्री स्वामी समर्थ" decoding="async" fetchpriority="high">
+    <div class="welcome-fade" aria-hidden="true"></div>
+    <div class="welcome-body">
+      <p class="welcome-brand" id="welcomeBrand">॥ श्री स्वामी समर्थ ॥</p>
+      <p class="welcome-msg" id="welcomeMsg">भिऊ नकोस, मी तुझ्या पाठीशी आहे</p>
+      <p class="welcome-sub">कोटितीर्थ सेवा केंद्र · कोल्हापूर</p>
+      <button type="button" class="welcome-go" id="welcomeGo">प्रवेश · जय जय स्वामी</button>
+      <button type="button" class="welcome-skip" id="welcomeSkip">आज दाखवू नका</button>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom sheet (मोबाईल सविस्तर माहिती) -->
+<div class="bsheet" id="bsheet" hidden>
+  <div class="bsheet-panel" role="dialog" aria-modal="true" aria-labelledby="bsheetTitle">
+    <div class="bsheet-handle" aria-hidden="true"></div>
+    <h3 class="bsheet-title" id="bsheetTitle"></h3>
+    <p class="bsheet-sub" id="bsheetSub"></p>
+    <div class="bsheet-body" id="bsheetBody"></div>
+    <button type="button" class="bsheet-close" id="bsheetClose">बंद करा</button>
+  </div>
+</div>
+
 <!-- तळाचे टॅब -->
 <nav class="tabs" id="tabs" role="tablist">
-  <button type="button" role="tab" aria-selected="true"  id="tb-aarti" aria-controls="t-aarti"  data-tab="aarti" class="on"><span class="ti" aria-hidden="true">🪔</span>आरती</button>
-  <button type="button" role="tab" aria-selected="false" id="tb-karya" aria-controls="t-karya" data-tab="karya"><span class="ti" aria-hidden="true">📅</span>कार्यक्रम</button>
-  <button type="button" role="tab" aria-selected="false" id="tb-mahiti" aria-controls="t-mahiti" data-tab="mahiti"><span class="ti" aria-hidden="true">ℹ️</span>माहिती</button>
+  <span class="tab-blob" id="tabBlob" aria-hidden="true"></span>
+  <button type="button" role="tab" aria-selected="true"  id="tb-aarti" aria-controls="t-aarti"  data-tab="aarti" class="on"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2c.4 1.8-.2 3.2-1.2 4.3C9.5 7.6 9 9 9.4 10.6c.5 1.8 2 2.8 2.6 3 .6-.2 2.1-1.2 2.6-3 .4-1.6-.1-3-1.4-4.3C12.2 5.2 11.6 3.8 12 2z"/><path fill="currentColor" d="M7.5 14.2c1.2.9 2.7 1.5 4.5 1.5s3.3-.6 4.5-1.5c.3 1.7.1 3.3-.8 4.6-.8 1.2-2.1 2-3.7 2.2v1.7h-1v-1.7c-1.6-.2-2.9-1-3.7-2.2-.9-1.3-1.1-2.9-.8-4.6z"/><path class="flame" fill="#E9A812" d="M12 4.2c.7 1.2.5 2.2-.2 3-.6.7-.9 1.4-.7 2.2.3 1.1 1.3 1.7 1.7 1.8.4-.1 1.4-.7 1.7-1.8.2-.8-.1-1.5-.7-2.2-.7-.8-.9-1.8-.2-3-.5.4-1.1.7-1.6 1z"/></svg></span>आरती</button>
+  <button type="button" role="tab" aria-selected="false" id="tb-karya" aria-controls="t-karya" data-tab="karya"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 3.5h8l1.2 2.2H21v2.2H3V5.7h3.8L8 3.5zm-3.2 6h14.4v9.2c0 1-.8 1.8-1.8 1.8H6.6c-1 0-1.8-.8-1.8-1.8V9.5zm4.2 2.2v5.4h2.2v-5.4H9zm3.9 0v5.4h2.2v-5.4h-2.2z"/></svg></span>कार्यक्रम</button>
+  <button type="button" role="tab" aria-selected="false" id="tb-mahiti" aria-controls="t-mahiti" data-tab="mahiti"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3.2a3.2 3.2 0 1 1 0 6.4 3.2 3.2 0 0 1 0-6.4zm0 8c3.7 0 6.8 2.2 6.8 5.2v1.2c0 .7-.6 1.2-1.2 1.2H6.4c-.7 0-1.2-.5-1.2-1.2V16.4c0-3 3.1-5.2 6.8-5.2z"/><circle cx="18.2" cy="7.2" r="2.1" fill="#E9A812"/></svg></span>माहिती</button>
 </nav>
 
 <script>
@@ -1959,8 +2217,10 @@ const CHIP = {
 };
 
 function renderTimeline(ctx){
-  document.getElementById("tl").innerHTML = ctx.sevaAaj.map(s => `
-  <li class="${s.sthiti === 'chalu' ? 'live' : ''}${s.lagu ? '' : ' off'}">
+  const tl = document.getElementById("tl");
+  const list = ctx.sevaAaj;
+  tl.innerHTML = list.map((s, idx) => `
+  <li class="${s.sthiti === 'chalu' ? 'live' : ''}${s.lagu ? '' : ' off'}" data-seva-i="${idx}">
     <span class="t">${show(s.t)}</span>
     <span class="dot"></span>
     <span class="d">
@@ -1968,8 +2228,25 @@ function renderTimeline(ctx){
       <span>${hhmm(s.t)} – ${hhmm(s.eT)}${s.sub ? " · " + s.sub : ""}</span>
       ${s.kadhi ? `<span class="kadhi">${s.kadhi}</span>` : ""}
       ${s.name.includes("आरती") ? `<span class="jap" role="link" tabindex="0">📿 ${KENDRA.jap} →</span>` : ""}
+      ${s.lagu && s.sthiti !== "zali" ? `<button type="button" class="remind" data-remind="${idx}" aria-label="${s.name} साठी आठवण">आठवण करून द्या</button>` : ""}
     </span>
   </li>`).join("");
+
+  // सोनेरी टाईमलाईन भरणे — पूर्ण/चालू सेवांनुसार
+  const lagu = list.filter(s => s.lagu);
+  let fill = 0;
+  if(lagu.length){
+    const done = lagu.filter(s => s.sthiti === "zali").length;
+    const live = lagu.find(s => s.sthiti === "chalu");
+    let partial = 0;
+    if(live){
+      const span = Math.max(1, live.en - live.st);
+      partial = Math.min(1, Math.max(0, (ctx.nowM - live.st) / span));
+    }
+    fill = ((done + partial) / lagu.length) * 100;
+    if(done === lagu.length) fill = 100;
+  }
+  tl.style.setProperty("--tl-fill", fill.toFixed(1) + "%");
 }
 
 function renderNowBar(ctx){
@@ -2433,10 +2710,10 @@ document.getElementById("panchaShevat").textContent = KENDRA.panchaShevat;
 document.getElementById("sanskarIntro").textContent  = KENDRA.sanskarIntro;
 document.getElementById("sanskarShevat").textContent = KENDRA.sanskarShevat;
 document.getElementById("sanskar").innerHTML = KENDRA.sanskar.map((x,i) => `
-  <details class="acc">
+  <details class="acc" data-sheet="1">
     <summary>
-      <span class="ai sn">${dev(i+1)}</span>
-      <span class="at"><b>${x.naav} संस्कार</b><i>${x.kadhi}</i></span>
+      <span class="ai lotus" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 20c-2.2-1.7-4.8-2.6-7.5-2.6.9-2.5 1-5.2.2-7.8C7.2 10.8 9.5 12 12 12s4.8-1.2 7.3-2.4c-.8 2.6-.7 5.3.2 7.8-2.7 0-5.3.9-7.5 2.6z"/><path fill="currentColor" d="M12 12C9.8 9.4 8.7 6.2 8.7 3c1.1.7 2.2 1 3.3 1s2.2-.3 3.3-1c0 3.2-1.1 6.4-3.3 9z" opacity=".85"/></svg></span>
+      <span class="at"><b>${dev(i+1)}. ${x.naav} संस्कार</b><i>${x.kadhi}</i></span>
       <span class="ac" aria-hidden="true">+</span>
     </summary>
     <div class="accbody">${x.body}</div>
@@ -3197,6 +3474,184 @@ const aartiSub = (function(){
     if(outcome === "accepted") wrap.hidden = true;
   });
 })();
+
+
+// ---------- वारानुसार थीम + Welcome + Remind + Bottom sheet ----------
+(function(){
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function applyVaarTheme(now){
+    const d = (now || istNow()).getDay();
+    document.documentElement.setAttribute("data-vaar", String(d));
+    // theme-color हळूवार — वारानुसार हायलाइट
+    const meta = document.querySelector('meta[name="theme-color"]');
+    const map = {
+      0:"#E86A12", 1:"#6E7F90", 2:"#C23B22", 3:"#2F8F5B",
+      4:"#D4A017", 5:"#C45C7A", 6:"#2F4A7A"
+    };
+    if(meta && !document.documentElement.dataset.theme){
+      // keep brand kumkum as theme-color; day accent only in CSS
+    }
+    void map;
+  }
+  applyVaarTheme();
+  addEventListener("seva-day-change", () => applyVaarTheme());
+
+  // Gooey / sliding tab blob
+  const tabs = document.getElementById("tabs");
+  function syncTabBlob(){
+    if(!tabs) return;
+    const btns = [...tabs.querySelectorAll("button[data-tab]")];
+    const i = Math.max(0, btns.findIndex(b => b.classList.contains("on")));
+    tabs.style.setProperty("--tab-i", String(i));
+  }
+  syncTabBlob();
+  const tabObs = new MutationObserver(syncTabBlob);
+  if(tabs) tabObs.observe(tabs, { subtree:true, attributes:true, attributeFilter:["class","aria-selected"] });
+
+  // Welcome modal — दिवसातून एकदा
+  const wel = document.getElementById("welcome");
+  const KEY = "welcomeDismissDay";
+  function aajKey(){ return dayKey(istNow()); }
+  function closeWelcome(persistDay){
+    if(!wel) return;
+    wel.classList.remove("open");
+    setTimeout(() => { wel.hidden = true; }, reduced ? 0 : 320);
+    try{
+      if(persistDay) localStorage.setItem(KEY, aajKey());
+      else sessionStorage.setItem("welcomeSession", "1");
+    }catch(e){}
+  }
+  function maybeWelcome(){
+    if(!wel) return;
+    try{
+      if(localStorage.getItem(KEY) === aajKey()) return;
+      if(sessionStorage.getItem("welcomeSession") === "1") return;
+    }catch(e){}
+    wel.hidden = false;
+    requestAnimationFrame(() => wel.classList.add("open"));
+    const go = document.getElementById("welcomeGo");
+    setTimeout(() => go?.focus(), 80);
+  }
+  document.getElementById("welcomeGo")?.addEventListener("click", () => closeWelcome(false));
+  document.getElementById("welcomeSkip")?.addEventListener("click", () => closeWelcome(true));
+  wel?.addEventListener("click", e => { if(e.target === wel) closeWelcome(false); });
+  addEventListener("keydown", e => {
+    if(e.key === "Escape" && wel && !wel.hidden) closeWelcome(false);
+  });
+  // hash deep-link असल्यास modal अडथळा नको
+  if(!location.hash || location.hash === "#" || location.hash === "#aarti"){
+    setTimeout(maybeWelcome, reduced ? 0 : 450);
+  }
+
+  // Remind Me → .ics (१५ मिनिटे आधी)
+  function pad(n){ return String(n).padStart(2,"0"); }
+  function icsStamp(d){
+    return d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+"T"+pad(d.getHours())+pad(d.getMinutes())+"00";
+  }
+  function downloadRemind(seva){
+    const now = istNow();
+    const [hh,mm] = seva.t.split(":").map(Number);
+    const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hh, mm, 0);
+    const endM = seva.eT ? mins(seva.eT) : (mins(seva.t) + (KENDRA.aartiMin||20));
+    const end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), Math.floor(endM/60), endM%60, 0);
+    const uid = "seva-"+seva.t.replace(":","")+"-"+dayKey(now)+"@kotitirth";
+    const ics = [
+      "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Kotitirth Seva Kendra//MR//EN","CALSCALE:GREGORIAN","METHOD:PUBLISH",
+      "BEGIN:VEVENT",
+      "UID:"+uid,
+      "DTSTAMP:"+icsStamp(now),
+      "DTSTART:"+icsStamp(start),
+      "DTEND:"+icsStamp(end),
+      "SUMMARY:"+seva.name+" — कोटितीर्थ",
+      "DESCRIPTION:"+(seva.sub||"नित्य सेवा")+"\\nश्री स्वामी समर्थ सेवा केंद्र",
+      "LOCATION:कोटितीर्थ सेवा केंद्र, कोल्हापूर",
+      "BEGIN:VALARM","TRIGGER:-PT15M","ACTION:DISPLAY","DESCRIPTION:"+seva.name+" लवकरच","END:VALARM",
+      "END:VEVENT","END:VCALENDAR"
+    ].join("\r\n");
+    const blob = new Blob([ics], { type:"text/calendar;charset=utf-8" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "seva-"+seva.t.replace(":","")+".ics";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+    // ऐच्छिक: ब्राउझर नोटिफिकेशन (फक्त पेज उघडे असताना)
+    const lead = (mins(seva.t) - 15) - (now.getHours()*60 + now.getMinutes());
+    if("Notification" in window && lead > 0 && lead <= 12*60){
+      const schedule = () => {
+        setTimeout(() => {
+          try{ new Notification("सेवा आठवण", { body: seva.name + " — १५ मिनिटांत", lang:"mr" }); }catch(e){}
+        }, lead * 60 * 1000);
+      };
+      if(Notification.permission === "granted") schedule();
+      else if(Notification.permission !== "denied"){
+        Notification.requestPermission().then(p => { if(p === "granted") schedule(); });
+      }
+    }
+  }
+  document.getElementById("tl")?.addEventListener("click", e => {
+    const btn = e.target.closest(".remind");
+    if(!btn) return;
+    e.preventDefault();
+    const ctx = buildSevaCtx(istNow());
+    const s = ctx.sevaAaj[+btn.dataset.remind];
+    if(!s) return;
+    downloadRemind(s);
+    btn.setAttribute("aria-pressed","true");
+    btn.textContent = "✓ कॅलेंडरत जोडले";
+    try{
+      const toast = document.getElementById("softToast");
+      if(toast){
+        toast.textContent = "आठवण फाइल डाउनलोड — कॅलेंडरत उघडा (१५ मि. आधी)";
+        toast.classList.add("show");
+        clearTimeout(toast._t);
+        toast._t = setTimeout(() => toast.classList.remove("show"), 2600);
+      }
+    }catch(err){}
+  });
+
+  // Bottom sheet — मोबाईलवर संस्कार/sheetable accordion
+  const sheet = document.getElementById("bsheet");
+  const titleEl = document.getElementById("bsheetTitle");
+  const subEl = document.getElementById("bsheetSub");
+  const bodyEl = document.getElementById("bsheetBody");
+  function closeSheet(){
+    if(!sheet) return;
+    sheet.classList.remove("open");
+    setTimeout(() => { sheet.hidden = true; }, reduced ? 0 : 280);
+  }
+  function openSheet(title, sub, html){
+    if(!sheet) return;
+    titleEl.textContent = title || "";
+    subEl.textContent = sub || "";
+    bodyEl.innerHTML = html || "";
+    sheet.hidden = false;
+    requestAnimationFrame(() => sheet.classList.add("open"));
+    document.getElementById("bsheetClose")?.focus();
+  }
+  document.getElementById("bsheetClose")?.addEventListener("click", closeSheet);
+  sheet?.addEventListener("click", e => { if(e.target === sheet) closeSheet(); });
+  addEventListener("keydown", e => {
+    if(e.key === "Escape" && sheet && !sheet.hidden) closeSheet();
+  });
+
+  const mobileSheet = matchMedia("(max-width:720px)");
+  document.getElementById("sanskar")?.addEventListener("click", e => {
+    if(!mobileSheet.matches) return;
+    const sum = e.target.closest("summary");
+    if(!sum) return;
+    const det = sum.closest("details[data-sheet]");
+    if(!det) return;
+    e.preventDefault();
+    const b = det.querySelector(".at b")?.textContent || "संस्कार";
+    const i = det.querySelector(".at i")?.textContent || "";
+    const html = det.querySelector(".accbody")?.innerHTML || "";
+    // बंद ठेवा — sheet दाखवा
+    det.open = false;
+    openSheet(b, i, html);
+  });
+})();
+
 
 // service worker — यामुळेच "होम स्क्रीनवर ठेवा" Android वर चालते
 if("serviceWorker" in navigator){
