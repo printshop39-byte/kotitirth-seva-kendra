@@ -404,9 +404,27 @@ html[data-theme="dark"] .tabs{background:rgba(36,32,24,.92)}
 .btn-inst{background:var(--card);color:var(--kumkum);border:1px dashed rgba(140,29,43,.45)}
 .insthint{margin-top:9px;font-size:14px;line-height:1.6;color:var(--shai-soft);text-align:center}
 
-/* ---------- आरत्यांचा पाठ ---------- */
+/* ---------- आरत्यांचा पाठ / पवित्र देवनागरी ---------- */
+/* Full sacred line uses Tiro (--f-head); do not wrap a single conjunct word alone */
+.devanagari-sacred{
+  font-family:var(--f-head);
+  font-weight:400;
+  font-kerning:normal;
+  font-variant-ligatures:common-ligatures;
+  line-height:1.75;
+}
+.ovi,
+.mq,
+.accbody .oli,
+.mala-mantra,
+#aartiVibhag .vlist li{
+  font-family:var(--f-head);
+  font-weight:400;
+  font-kerning:normal;
+  font-variant-ligatures:common-ligatures;
+}
 .ovi{
-  font-family:var(--f-head);font-size:16px;line-height:1.95;
+  font-size:16px;line-height:1.95;
   color:var(--shai);text-align:center;
   padding:11px 6px;margin:0;
 }
@@ -534,7 +552,7 @@ html[data-theme="dark"] .tabs{background:rgba(36,32,24,.92)}
 .accbody .vlist b{color:var(--kumkum)}
 .accbody .ref{font-size:13.5px;color:var(--shai-soft);border-top:1px dashed var(--line);padding-top:8px}
 .mq{
-  font-family:var(--f-head);font-size:15.5px;line-height:1.75;
+  font-size:15.5px;line-height:1.75;
   color:var(--kumkum);text-align:center;
   background:linear-gradient(180deg,#FFF9EA,#FDF1D8);border:1px solid #EBD9AE;
   border-radius:12px;padding:14px 12px;margin:10px 0;
@@ -2387,7 +2405,7 @@ function renderPaath(list){
     </summary>
     <div class="accbody">
       ${a.note ? `<p class="ref">${a.note}</p>` : ""}
-      ${(a.ovya || []).map(o => `<p class="ovi">${o}</p>`).join("")}
+      ${(a.ovya || []).map(o => `<p class="ovi devanagari-sacred">${o}</p>`).join("")}
       ${srcBadge(a)}
     </div>
   </details>`;
@@ -2430,7 +2448,7 @@ renderPaath(KENDRA.paath.map(a => Object.assign({ status:"draft", source:"नि
             <span class="ac" aria-hidden="true">+</span>
           </summary>
           <div class="accbody">
-            ${(a.ovya || []).map(o => `<p class="ovi">${o}</p>`).join("")}
+            ${(a.ovya || []).map(o => `<p class="ovi devanagari-sacred">${o}</p>`).join("")}
             ${srcBadge(a)}
           </div>
         </details>`;
@@ -2450,7 +2468,9 @@ window.__scriptureIndex = new Map();
 function renderScriptureSections(container, sections){
   (sections || []).forEach(sec => {
     const p = document.createElement("p");
-    p.className = "ovi sec-" + sec.type;
+    // verse/mantra/refrain/prose — full line uses heading font for Devanagari conjuncts
+    const sacred = /^(verse|mantra|refrain|prose|phalashruti)$/.test(sec.type);
+    p.className = "ovi sec-" + sec.type + (sacred ? " devanagari-sacred" : "");
     (sec.lines || []).forEach((line, i) => {
       if(i > 0) p.appendChild(document.createElement("br"));
       p.appendChild(document.createTextNode(line));
