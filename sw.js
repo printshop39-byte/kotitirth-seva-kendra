@@ -1,7 +1,7 @@
 /* श्री स्वामी समर्थ सेवा केंद्र — service worker
    काम दोन: (१) "होम स्क्रीनवर ठेवा" सुविधा चालू होते,
             (२) एकदा उघडल्यावर इंटरनेट नसतानाही पान उघडते. */
-const CACHE = "seva-kendra-v6";
+const CACHE = "seva-kendra-v7";
 // फक्त app shell इथे hardcode केलेला आहे.
 // data/scriptures/public-index.json व data/scriptures/verified/*.json
 // मुद्दाम इथे टाकलेले नाहीत — खालचा fetch handler network-first + cache-on-success
