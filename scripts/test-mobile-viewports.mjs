@@ -99,6 +99,7 @@ async function main(){
         const rb = await readerBar.boundingBox();
         check(`[${vp.name}] reader-bar viewport रुंदीत बसतो`, rb && rb.x + rb.width <= vp.width + 2);
       }
+      check(`[${vp.name}] भाषिणी सेटअप पॅनेल दिसतो`, await page.$("#bhashiniBox") !== null);
 
       // कोणतीही ओळ overflow करून horizontal scroll तयार करत नाही (शब्द/मजकूर wrap होतो)
       const overflowingEls = await page.evaluate(() => {

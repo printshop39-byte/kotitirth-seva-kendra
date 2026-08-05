@@ -207,6 +207,38 @@ html[data-theme="dark"] .chip-fav{color:#F5E6C8;background:rgba(212,168,75,.22)}
   background:rgba(233,168,18,.16);border-radius:8px;padding:6px 8px;margin-left:-8px;margin-right:-8px;
 }
 html[data-theme="dark"] .ovi.focus-verse{background:rgba(212,168,75,.18)}
+/* भाषिणी (Bhashini) — मोफत की सेटअप */
+.bhashini-box{
+  margin:8px 0 14px;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;
+}
+.bhashini-box > summary{
+  list-style:none;cursor:pointer;padding:12px 14px;font-size:14.5px;font-weight:600;color:var(--kumkum);
+  display:flex;align-items:center;justify-content:space-between;gap:10px;user-select:none;
+}
+.bhashini-box > summary::-webkit-details-marker{display:none}
+.bhashini-box > summary:focus-visible{outline:3px solid var(--haldi);outline-offset:-3px}
+.bhashini-box .bh-chev{color:var(--kesari);font-weight:700}
+.bhashini-box[open] .bh-chev{transform:rotate(45deg)}
+.bhashini-body{padding:0 14px 14px;font-size:14px;line-height:1.6;color:var(--shai-soft)}
+.bhashini-body p{margin:0 0 10px}
+.bhashini-body a{color:var(--kesari);font-weight:600}
+.bhashini-body label{
+  display:block;font-size:13px;font-weight:600;color:var(--shai);margin:10px 0 4px;
+}
+.bhashini-body input,.bhashini-body select{
+  width:100%;font-family:inherit;font-size:15px;padding:10px 12px;border-radius:10px;
+  border:1px solid var(--line);background:var(--kagad);color:var(--shai);
+}
+.bhashini-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.bhashini-acts .btn{padding:11px;font-size:14.5px}
+.bhashini-status{
+  margin-top:10px;font-size:13.5px;font-weight:600;color:var(--kesari);min-height:1.3em;
+}
+.bhashini-status.ok{color:var(--kumkum)}
+.chip-engine{
+  display:inline-block;margin-left:6px;font-size:11px;font-weight:600;letter-spacing:.3px;
+  padding:2px 8px;border-radius:999px;background:rgba(181,71,20,.1);color:var(--kesari);vertical-align:middle;
+}
 .band::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;
   background:linear-gradient(90deg,var(--kesari-teja),var(--haldi),var(--kesari-teja));}
 .mantra{
@@ -771,6 +803,43 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
     <button type="button" id="voiceBtn" aria-pressed="false" aria-label="मराठी आवाजाने पाठ शोधा">🎤 आवाज</button>
   </div>
   <div class="toast-soft" id="softToast" role="status" aria-live="polite"></div>
+
+  <details class="bhashini-box" id="bhashiniBox">
+    <summary>
+      <span>भाषिणी AI आवाज <span class="chip-engine" id="bhEngineChip">ब्राउझर</span></span>
+      <span class="bh-chev" aria-hidden="true">+</span>
+    </summary>
+    <div class="bhashini-body">
+      <p>भारत सरकारच्या <b>Bhashini / ULCA</b> मराठी TTS साठी मोफत API Key.
+        की फक्त या फोनच्या ब्राउझरमध्ये साठते — GitHub वर जात नाही.</p>
+      <p>
+        १) <a href="https://bhashini.gov.in/ulca/user/register" target="_blank" rel="noopener">Developer Portal वर रजिस्टर</a>
+        · २) <a href="https://bhashini.gov.in/ulca/user/login" target="_blank" rel="noopener">Login</a>
+        · ३) <a href="https://bhashini.gov.in/ulca/profile" target="_blank" rel="noopener">My Profile</a> वरून
+        <b>userID</b> व <b>API Key</b> कॉपी करा
+        · डॉक्स: <a href="https://bhashini.gitbook.io/bhashini-apis/" target="_blank" rel="noopener">Bhashini APIs</a>
+      </p>
+      <label for="bhUserId">userID</label>
+      <input id="bhUserId" type="text" autocomplete="off" spellcheck="false" placeholder="ULCA Profile मधील userID">
+      <label for="bhApiKey">ulcaApiKey</label>
+      <input id="bhApiKey" type="password" autocomplete="off" spellcheck="false" placeholder="Generate केलेली API Key">
+      <label for="bhPipeline">pipelineId (ऐच्छिक)</label>
+      <input id="bhPipeline" type="text" autocomplete="off" spellcheck="false"
+             placeholder="रिकामे = MeitY डीफॉल्ट" value="">
+      <label for="bhEngine">आवाज इंजिन</label>
+      <select id="bhEngine" aria-label="आवाज इंजिन">
+        <option value="auto">स्वयंचलित — भाषिणी असल्यास ती, नाहीतर ब्राउझर</option>
+        <option value="bhashini">फक्त भाषिणी (Bhashini)</option>
+        <option value="browser">फक्त ब्राउझर Web Speech</option>
+      </select>
+      <div class="bhashini-acts">
+        <button type="button" class="btn btn-ghost" id="bhSave">💾 की सेव्ह</button>
+        <button type="button" class="btn btn-ghost" id="bhClear">🗑 काढा</button>
+        <button type="button" class="btn btn-ghost" id="bhTest" style="grid-column:1/-1">🔊 मराठी चाचणी ऐका</button>
+      </div>
+      <p class="bhashini-status" id="bhStatus" aria-live="polite"></p>
+    </div>
+  </details>
 
   <!-- आत्ताची स्थिती -->
   <div class="now" aria-live="polite">
@@ -2621,7 +2690,6 @@ const aartiSub = (function(){
   const toast = document.getElementById("softToast");
   const themeMeta = document.querySelector('meta[name="theme-color"]');
   let fsIdx = 1;
-  let speakingBtn = null;
   let recognition = null;
   let listening = false;
 
@@ -2694,11 +2762,223 @@ const aartiSub = (function(){
     thokLite();
   });
 
+  // ---------- भाषिणी (Bhashini / ULCA) — मोफत मराठी TTS ----------
+  // की फक्त localStorage; GitHub Pages वर क्लायंट-साइड. CORS अडथळा आल्यास Web Speech.
+  const BH_KEY = "bhashini.creds.v1";
+  const BH_CFG_URL = "https://meity-auth.ulcacontrib.org/ulca/apis/v0/model/getModelsPipeline";
+  // MeitY सार्वजनिक pipeline — TTS/ASR सपोर्ट; Profile मध्ये मिळाल्यास बदला
+  const BH_DEFAULT_PIPELINE = "64392f96daac500b55c543cd";
+  let bhAudio = null;
+  let bhPipelineCache = null; // { callbackURL, authName, authValue, ttsServiceId, at }
+  let speakingBtn = null;
+  let speakingBtnLabel = "🔊 ऐका";
+
+  function loadBhCreds(){
+    try{
+      const o = JSON.parse(localStorage.getItem(BH_KEY) || "null");
+      if(!o || typeof o !== "object") return { userId:"", apiKey:"", pipelineId:"", engine:"auto" };
+      return {
+        userId: String(o.userId || "").trim(),
+        apiKey: String(o.apiKey || "").trim(),
+        pipelineId: String(o.pipelineId || "").trim(),
+        engine: ["auto","bhashini","browser"].includes(o.engine) ? o.engine : "auto"
+      };
+    }catch(e){
+      return { userId:"", apiKey:"", pipelineId:"", engine:"auto" };
+    }
+  }
+  function saveBhCreds(c){
+    try{ localStorage.setItem(BH_KEY, JSON.stringify(c)); }catch(e){}
+    bhPipelineCache = null;
+    refreshBhUi();
+  }
+  function bhConfigured(){
+    const c = loadBhCreds();
+    return !!(c.userId && c.apiKey);
+  }
+  function setBhStatus(msg, ok){
+    const el = document.getElementById("bhStatus");
+    if(!el) return;
+    el.textContent = msg || "";
+    el.classList.toggle("ok", !!ok);
+  }
+  function refreshBhUi(){
+    const c = loadBhCreds();
+    const uid = document.getElementById("bhUserId");
+    const key = document.getElementById("bhApiKey");
+    const pipe = document.getElementById("bhPipeline");
+    const eng = document.getElementById("bhEngine");
+    const chip = document.getElementById("bhEngineChip");
+    if(uid && document.activeElement !== uid) uid.value = c.userId;
+    if(key && document.activeElement !== key) key.value = c.apiKey;
+    if(pipe && document.activeElement !== pipe) pipe.value = c.pipelineId;
+    if(eng) eng.value = c.engine;
+    if(chip){
+      if(c.engine === "browser") chip.textContent = "ब्राउझर";
+      else if(c.engine === "bhashini") chip.textContent = bhConfigured() ? "भाषिणी" : "की नाही";
+      else chip.textContent = bhConfigured() ? "भाषिणी · auto" : "ब्राउझर";
+    }
+  }
+  function pickBhServiceId(cfg, taskType, lang){
+    const blocks = cfg.pipelineResponseConfig || [];
+    const block = blocks.find(b => b.taskType === taskType);
+    const list = block?.config || [];
+    if(!list.length) return null;
+    const hit = list.find(x => x.language?.sourceLanguage === lang)
+      || list.find(x => (x.language?.sourceLanguageList || []).includes?.(lang))
+      || list[0];
+    return hit?.serviceId || null;
+  }
+  async function bhEnsurePipeline(force){
+    const c = loadBhCreds();
+    if(!c.userId || !c.apiKey) throw new Error("भाषिणी userID / API Key सेव्ह करा");
+    if(!force && bhPipelineCache && (Date.now() - bhPipelineCache.at) < 50 * 60 * 1000)
+      return bhPipelineCache;
+    const pipelineId = c.pipelineId || BH_DEFAULT_PIPELINE;
+    const res = await fetch(BH_CFG_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "userID": c.userId,
+        "ulcaApiKey": c.apiKey
+      },
+      body: JSON.stringify({
+        pipelineTasks: [
+          { taskType: "tts", config: { language: { sourceLanguage: "mr" } } }
+        ],
+        pipelineRequestConfig: { pipelineId }
+      })
+    });
+    if(!res.ok){
+      const t = await res.text().catch(() => "");
+      throw new Error("Pipeline config अयशस्वी (" + res.status + ") " + t.slice(0, 120));
+    }
+    const data = await res.json();
+    const ep = data.pipelineInferenceAPIEndPoint || data.pipelineInferenceAPIEnfPoint || {};
+    const callbackURL = ep.callbackUrl || ep.callbackURL;
+    const authName = ep.inferenceApiKey?.name;
+    const authValue = ep.inferenceApiKey?.value;
+    const ttsServiceId = pickBhServiceId(data, "tts", "mr");
+    if(!callbackURL || !authName || !authValue) throw new Error("callbackURL / inferenceApiKey मिळाले नाही");
+    if(!ttsServiceId) throw new Error("मराठी TTS serviceId मिळाले नाही — pipelineId तपासा");
+    bhPipelineCache = { callbackURL, authName, authValue, ttsServiceId, at: Date.now() };
+    return bhPipelineCache;
+  }
+  function chunkMarathiText(text, maxLen){
+    const lim = maxLen || 420;
+    const clean = (text || "").replace(/\s+/g, " ").trim();
+    if(clean.length <= lim) return clean ? [clean] : [];
+    const parts = clean.split(/(?<=[।॥\.!\?])\s+/);
+    const out = [];
+    let buf = "";
+    parts.forEach(p => {
+      if((buf + " " + p).trim().length > lim){
+        if(buf) out.push(buf.trim());
+        if(p.length > lim){
+          for(let i = 0; i < p.length; i += lim) out.push(p.slice(i, i + lim));
+          buf = "";
+        }else buf = p;
+      }else buf = (buf + " " + p).trim();
+    });
+    if(buf) out.push(buf.trim());
+    return out;
+  }
+  function b64ToAudioUrl(b64){
+    const bin = atob(b64);
+    const bytes = new Uint8Array(bin.length);
+    for(let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    const blob = new Blob([bytes], { type: "audio/wav" });
+    return URL.createObjectURL(blob);
+  }
+  async function bhSpeakChunks(chunks, btn){
+    const pipe = await bhEnsurePipeline(false);
+    for(let i = 0; i < chunks.length; i++){
+      if(speakingBtn !== btn) return; // थांबवले
+      setBhStatus("भाषिणी वाचत आहे… " + (i + 1) + "/" + chunks.length, false);
+      const res = await fetch(pipe.callbackURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          [pipe.authName]: pipe.authValue
+        },
+        body: JSON.stringify({
+          pipelineTasks: [{
+            taskType: "tts",
+            config: {
+              language: { sourceLanguage: "mr" },
+              serviceId: pipe.ttsServiceId,
+              gender: "female",
+              samplingRate: 22050
+            }
+          }],
+          inputData: {
+            input: [{ source: chunks[i] }],
+            audio: [{ audioContent: null }]
+          }
+        })
+      });
+      if(!res.ok){
+        const t = await res.text().catch(() => "");
+        throw new Error("TTS अयशस्वी (" + res.status + ") " + t.slice(0, 120));
+      }
+      const data = await res.json();
+      const audioArr = data.pipelineResponse?.[0]?.audio;
+      const b64 = audioArr?.[0]?.audioContent;
+      if(!b64) throw new Error("audioContent रिकामे");
+      const url = b64ToAudioUrl(b64);
+      await new Promise((resolve, reject) => {
+        try{ bhAudio?.pause(); }catch(e){}
+        if(bhAudio?.src) try{ URL.revokeObjectURL(bhAudio.src); }catch(e){}
+        bhAudio = new Audio(url);
+        bhAudio.onended = () => resolve();
+        bhAudio.onerror = () => reject(new Error("ऑडिओ प्ले अयशस्वी"));
+        bhAudio.play().catch(reject);
+      });
+    }
+  }
+  function armSpeakBtn(btn){
+    speakingBtn = btn;
+    speakingBtnLabel = btn.dataset.speakLabel || btn.textContent || "🔊 ऐका";
+    if(!btn.dataset.speakLabel) btn.dataset.speakLabel = speakingBtnLabel;
+    btn.classList.add("speaking");
+    btn.textContent = "⏹ थांबवा";
+  }
+  async function playViaBhashini(text, btn){
+    const chunks = chunkMarathiText(text);
+    if(!chunks.length){ softToast("वाचण्यासाठी मजकूर नाही"); return; }
+    armSpeakBtn(btn);
+    thokLite();
+    try{
+      await bhSpeakChunks(chunks, btn);
+      setBhStatus("भाषिणी वाचन पूर्ण", true);
+    }finally{
+      if(speakingBtn === btn) stopSpeech();
+    }
+  }
+  function playViaBrowser(text, btn){
+    if(!window.speechSynthesis){
+      softToast("या ब्राउझरमध्ये आवाज उपलब्ध नाही");
+      return;
+    }
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "mr-IN";
+    u.rate = 0.85;
+    const voices = speechSynthesis.getVoices?.() || [];
+    const mr = voices.find(v => /^mr/i.test(v.lang)) || voices.find(v => /india|hi-IN|marathi/i.test(v.name + v.lang));
+    if(mr) u.voice = mr;
+    u.onend = u.onerror = () => stopSpeech();
+    armSpeakBtn(btn);
+    speechSynthesis.speak(u);
+    thokLite();
+  }
   function stopSpeech(){
     try{ window.speechSynthesis?.cancel(); }catch(e){}
+    try{ bhAudio?.pause(); }catch(e){}
+    if(bhAudio?.src) try{ URL.revokeObjectURL(bhAudio.src); }catch(e){}
+    bhAudio = null;
     if(speakingBtn){
       speakingBtn.classList.remove("speaking");
-      speakingBtn.textContent = "🔊 ऐका";
+      speakingBtn.textContent = speakingBtn.dataset.speakLabel || speakingBtnLabel || "🔊 ऐका";
       speakingBtn = null;
     }
   }
@@ -2707,26 +2987,97 @@ const aartiSub = (function(){
     clone.querySelectorAll(".acc-tools,.src-badge,.test-banner,.scripture-link,.ref").forEach(n => n.remove());
     return (clone.textContent || "").replace(/\s+/g, " ").trim();
   }
-  function playMarathi(text, btn){
-    if(!window.speechSynthesis){
-      softToast("या ब्राउझरमध्ये आवाज उपलब्ध नाही");
-      return;
-    }
+  async function playMarathi(text, btn){
     if(speakingBtn === btn){ stopSpeech(); return; }
     stopSpeech();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = "mr-IN";
-    u.rate = 0.85;
-    const voices = speechSynthesis.getVoices?.() || [];
-    const mr = voices.find(v => /^mr/i.test(v.lang)) || voices.find(v => /india|hi-IN|marathi/i.test(v.name + v.lang));
-    if(mr) u.voice = mr;
-    u.onend = u.onerror = () => stopSpeech();
-    speakingBtn = btn;
-    btn.classList.add("speaking");
-    btn.textContent = "⏹ थांबवा";
-    speechSynthesis.speak(u);
-    thokLite();
+    const eng = loadBhCreds().engine;
+    const wantBh = eng === "bhashini" || (eng === "auto" && bhConfigured());
+    if(wantBh){
+      try{
+        await playViaBhashini(text, btn);
+        return;
+      }catch(err){
+        console.warn("Bhashini TTS:", err);
+        setBhStatus(String(err.message || err), false);
+        if(eng === "bhashini"){
+          softToast("भाषिणी अयशस्वी — की / नेटवर्क / CORS तपासा");
+          return;
+        }
+        softToast("भाषिणी नाही → ब्राउझर आवाज");
+      }
+    }
+    playViaBrowser(text, btn);
   }
+
+  // भाषिणी सेटअप UI
+  refreshBhUi();
+  document.getElementById("bhSave")?.addEventListener("click", () => {
+    const c = {
+      userId: document.getElementById("bhUserId")?.value.trim() || "",
+      apiKey: document.getElementById("bhApiKey")?.value.trim() || "",
+      pipelineId: document.getElementById("bhPipeline")?.value.trim() || "",
+      engine: document.getElementById("bhEngine")?.value || "auto"
+    };
+    saveBhCreds(c);
+    setBhStatus(c.userId && c.apiKey ? "की सेव्ह झाली — फक्त या डिव्हाइसवर" : "की अपूर्ण — userID व API Key दोन्ही हवे", !!(c.userId && c.apiKey));
+    softToast(c.userId && c.apiKey ? "भाषिणी की सेव्ह" : "की अपूर्ण");
+    thokLite();
+  });
+  document.getElementById("bhClear")?.addEventListener("click", () => {
+    try{ localStorage.removeItem(BH_KEY); }catch(e){}
+    bhPipelineCache = null;
+    ["bhUserId","bhApiKey","bhPipeline"].forEach(id => {
+      const el = document.getElementById(id); if(el) el.value = "";
+    });
+    const eng = document.getElementById("bhEngine"); if(eng) eng.value = "auto";
+    refreshBhUi();
+    setBhStatus("की काढली — आता ब्राउझर आवाज", true);
+    thokLite();
+  });
+  document.getElementById("bhEngine")?.addEventListener("change", () => {
+    // इनपुट्समधील सध्याची मूल्येही ठेवा — फक्त localStorage मधले जुने रेकॉर्ड गमावू नये
+    const c = {
+      userId: document.getElementById("bhUserId")?.value.trim() || loadBhCreds().userId,
+      apiKey: document.getElementById("bhApiKey")?.value.trim() || loadBhCreds().apiKey,
+      pipelineId: document.getElementById("bhPipeline")?.value.trim() || loadBhCreds().pipelineId,
+      engine: document.getElementById("bhEngine")?.value || "auto"
+    };
+    saveBhCreds(c);
+  });
+  document.getElementById("bhTest")?.addEventListener("click", async () => {
+    const btn = document.getElementById("bhTest");
+    try{
+      await playMarathi("॥ श्री स्वामी समर्थ ॥ भिऊ नकोस, मी तुझ्या पाठीशी आहे।", btn);
+      setBhStatus(bhConfigured() && loadBhCreds().engine !== "browser" ? "चाचणी: भाषिणी / fallback" : "चाचणी: ब्राउझर TTS", true);
+    }catch(e){ setBhStatus(String(e.message || e), false); }
+  });
+  // ऐच्छिक: data/bhashini.json (gitignore) — फक्त private/local deploy साठी
+  (async function tryLoadBhFile(){
+    if(bhConfigured()) return;
+    try{
+      const r = await fetch("data/bhashini.json", { cache: "no-store" });
+      if(!r.ok) return;
+      const o = await r.json();
+      if(o?.userId && o?.apiKey){
+        saveBhCreds({
+          userId: String(o.userId),
+          apiKey: String(o.apiKey),
+          pipelineId: String(o.pipelineId || ""),
+          engine: o.engine || "auto"
+        });
+        setBhStatus("data/bhashini.json मधून की लोड", true);
+      }
+    }catch(e){ /* public Pages वर फाईल नसते — ठीक */ }
+  })();
+
+  // चाचण्या / डीबग साठी
+  window.__bhashini = {
+    loadCreds: loadBhCreds,
+    configured: bhConfigured,
+    chunk: chunkMarathiText,
+    defaultPipeline: BH_DEFAULT_PIPELINE,
+    configUrl: BH_CFG_URL
+  };
 
   function markFavUi(details, on){
     details.classList.toggle("fav", on);
