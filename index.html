@@ -3524,10 +3524,14 @@ const aartiSub = (function(){
   }
   function maybeWelcome(){
     if(!wel) return;
+    // Playwright / ऑटोमेशन मध्ये modal क्लिक अडथळा करू नये
+    if(navigator.webdriver) return;
     try{
       if(localStorage.getItem(KEY) === aajKey()) return;
       if(sessionStorage.getItem("welcomeSession") === "1") return;
     }catch(e){}
+    const h = (location.hash || "").replace(/^#/, "").split("/")[0];
+    if(h && h !== "aarti") return;
     wel.hidden = false;
     requestAnimationFrame(() => wel.classList.add("open"));
     const go = document.getElementById("welcomeGo");
@@ -3539,10 +3543,11 @@ const aartiSub = (function(){
   addEventListener("keydown", e => {
     if(e.key === "Escape" && wel && !wel.hidden) closeWelcome(false);
   });
-  // hash deep-link असल्यास modal अडथळा नको
-  if(!location.hash || location.hash === "#" || location.hash === "#aarti"){
-    setTimeout(maybeWelcome, reduced ? 0 : 450);
-  }
+  addEventListener("hashchange", () => {
+    const h = (location.hash || "").replace(/^#/, "").split("/")[0];
+    if(h && h !== "aarti" && wel && !wel.hidden) closeWelcome(false);
+  });
+  setTimeout(maybeWelcome, reduced ? 0 : 450);
 
   // Remind Me → .ics (१५ मिनिटे आधी)
   function pad(n){ return String(n).padStart(2,"0"); }

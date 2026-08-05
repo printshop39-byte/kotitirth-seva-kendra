@@ -44,7 +44,7 @@ const MIME = {
   ".mjs": "text/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
   ".webmanifest": "application/manifest+json",
-  ".png": "image/png",
+  ".png": "image/png", ".webp": "image/webp",
   ".txt": "text/plain",
 };
 
