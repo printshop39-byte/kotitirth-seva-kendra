@@ -93,6 +93,13 @@ async function main(){
         summaryBox.height >= 44);
       check(`[${vp.name}] accordion summary viewport रुंदीत बसतो`, summaryBox.width <= vp.width + 1);
 
+      const readerBar = await page.$("#readerBar");
+      check(`[${vp.name}] reader-bar (A+/A− · रात्र · आवाज) दिसतो`, readerBar !== null);
+      if(readerBar){
+        const rb = await readerBar.boundingBox();
+        check(`[${vp.name}] reader-bar viewport रुंदीत बसतो`, rb && rb.x + rb.width <= vp.width + 2);
+      }
+
       // कोणतीही ओळ overflow करून horizontal scroll तयार करत नाही (शब्द/मजकूर wrap होतो)
       const overflowingEls = await page.evaluate(() => {
         const all = document.querySelectorAll("#panel-paath *");

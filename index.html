@@ -83,10 +83,50 @@
   --shai-soft:#6E5F4C;
   --line:#E7DCC6;
   --r:16px;
+  --read-fs:1;           /* A+/A− वाचन स्केल */
+  --band-top:#8C1D2B;
+  --band-bot:#6E1522;
+  --theme-meta:#8C1D2B;
   /* मोबाईलमधले देवनागरी फॉन्ट आधी, Google फॉन्ट आल्यावर आपोआप बदलतात */
   --f-body:'Anek Devanagari','Nirmala UI','Noto Sans Devanagari','Mangal',system-ui,-apple-system,sans-serif;
   --f-head:'Tiro Devanagari Marathi','Nirmala UI','Noto Serif Devanagari','Mangal',Georgia,serif;
 }
+/* रात्री / मंद प्रकाश — डार्क ग्रे-तपकिरी + मऊ सोनेरी मजकूर (जगाची जागा राखून) */
+html[data-theme="dark"]{
+  --kumkum:#E8A598;
+  --kesari:#E08A52;
+  --kesari-teja:#F0A060;
+  --haldi:#D4A84B;
+  --ratra:#12141F;
+  --kagad:#1A1814;
+  --card:#242018;
+  --shai:#F3EDE3;
+  --shai-soft:#B8A994;
+  --line:#3A3428;
+  --band-top:#5C1420;
+  --band-bot:#3D0E16;
+  --theme-meta:#1A1814;
+}
+html[data-theme="dark"] body{
+  background-image:radial-gradient(circle at 1px 1px, rgba(232,165,152,.07) 1px, transparent 0);
+}
+html[data-theme="dark"] .band{
+  background:linear-gradient(180deg,var(--band-top),var(--band-bot));
+  color:#F5E6C8;
+}
+html[data-theme="dark"] .mala{
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 28%, rgba(212,168,75,.12), transparent 55%),
+    linear-gradient(180deg,#2A2418 0%, var(--card) 55%, #1E1A14 100%);
+  border-color:#3A3428;
+}
+html[data-theme="dark"] .mala-tap{
+  background:radial-gradient(circle at 50% 40%,#2E281C,#241E14 70%,#1A1610);
+  color:var(--kumkum);
+}
+html[data-theme="dark"] .test-banner{background:#3A1A14;border-color:#8C2A1E}
+html[data-theme="dark"] .acc[open] summary{background:rgba(224,138,82,.1)}
+html[data-theme="dark"] .acc.fav{box-shadow:inset 3px 0 0 var(--haldi)}
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
 body{
@@ -104,11 +144,69 @@ body{padding-bottom:calc(64px + env(safe-area-inset-bottom))}  /* तळाच�
 
 /* ---------- हेडर पट्टी ---------- */
 .band{
-  background:linear-gradient(180deg,#8C1D2B,#6E1522);
+  background:linear-gradient(180deg,var(--band-top),var(--band-bot));
   color:#FDEFD2;text-align:center;
   padding:18px 16px 22px;
   position:relative;
 }
+/* ---------- वाचन सोयी: A+/A− · डार्क मोड · आवाज ---------- */
+.reader-bar{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;
+  margin:12px 0 4px;padding:8px 10px;
+  background:var(--card);border:1px solid var(--line);border-radius:12px;
+}
+.reader-bar .rb-lbl{
+  font-size:12.5px;font-weight:600;letter-spacing:.4px;color:var(--shai-soft);
+  margin-right:2px;
+}
+.reader-bar button{
+  font-family:inherit;font-size:14.5px;font-weight:600;line-height:1;
+  min-width:40px;min-height:40px;padding:8px 11px;border-radius:10px;cursor:pointer;
+  border:1px solid var(--line);background:var(--kagad);color:var(--shai);
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.reader-bar button:active{transform:scale(.96)}
+.reader-bar button:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
+.reader-bar button.on{background:rgba(181,71,20,.12);border-color:rgba(181,71,20,.4);color:var(--kesari)}
+.reader-bar #fsLabel{min-width:2.2em;text-align:center;font-size:13px;color:var(--shai-soft);font-weight:600}
+.fav-list{margin-bottom:12px}
+.fav-list:empty{display:none}
+.fav-hint{
+  font-size:13.5px;color:var(--shai-soft);line-height:1.55;margin:0 0 10px;text-align:center;
+}
+.acc.fav{box-shadow:inset 3px 0 0 var(--kesari)}
+.acc.fav summary .ai::after{content:""; /* star via chip instead */}
+.chip-fav{
+  display:inline-block;margin-left:6px;font-size:11px;font-weight:600;letter-spacing:.4px;
+  vertical-align:middle;padding:2px 8px;border-radius:999px;
+  background:rgba(233,168,18,.2);color:#7a5606;
+}
+html[data-theme="dark"] .chip-fav{color:#F5E6C8;background:rgba(212,168,75,.22)}
+.acc-tools{
+  display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px;padding-bottom:10px;
+  border-bottom:1px dashed var(--line);
+}
+.acc-tools button{
+  font-family:inherit;font-size:13.5px;font-weight:600;line-height:1.2;
+  padding:8px 12px;border-radius:10px;cursor:pointer;
+  border:1px solid rgba(181,71,20,.35);background:transparent;color:var(--kesari);
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.acc-tools button:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
+.acc-tools button.speaking{background:rgba(181,71,20,.12)}
+.acc-tools button.faved{background:rgba(233,168,18,.18);border-color:rgba(233,168,18,.5)}
+.toast-soft{
+  position:fixed;left:50%;bottom:calc(72px + env(safe-area-inset-bottom));
+  transform:translateX(-50%) translateY(12px);opacity:0;pointer-events:none;
+  z-index:40;max-width:min(92vw,360px);padding:10px 16px;border-radius:12px;
+  background:var(--ratra);color:#FDEFD2;font-size:14.5px;font-weight:600;
+  text-align:center;line-height:1.4;transition:opacity .2s ease, transform .2s ease;
+}
+.toast-soft.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.ovi.focus-verse{
+  background:rgba(233,168,18,.16);border-radius:8px;padding:6px 8px;margin-left:-8px;margin-right:-8px;
+}
+html[data-theme="dark"] .ovi.focus-verse{background:rgba(212,168,75,.18)}
 .band::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;
   background:linear-gradient(90deg,var(--kesari-teja),var(--haldi),var(--kesari-teja));}
 .mantra{
@@ -304,12 +402,17 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 }
 .acc[open] .ac{transform:rotate(45deg)}
 .acc[open] summary{background:rgba(217,83,30,.05)}
-.accbody{padding:2px 16px 16px;font-size:15.5px;line-height:1.75;color:var(--shai)}
-.accbody p{margin-bottom:9px}
+.accbody{
+  padding:2px 16px 16px;
+  font-size:calc(15.5px * var(--read-fs));
+  line-height:1.75;color:var(--shai);
+}
+.accbody p{margin-bottom:9px;font-size:calc(15.5px * var(--read-fs))}
 .accbody p:last-child{margin-bottom:0}
+.accbody .ovi{font-size:calc(15.5px * var(--read-fs));line-height:1.8}
 .accbody .vlist,.accbody .ul{margin:0 0 9px 18px}
 .accbody ol.vlist{list-style-type:devanagari}   /* १, २, ३ … */
-.accbody .oli{display:block;font-style:normal;font-size:13.5px;color:var(--shai-soft);line-height:1.55}
+.accbody .oli{display:block;font-style:normal;font-size:calc(13.5px * var(--read-fs));color:var(--shai-soft);line-height:1.55}
 .accbody .atit{
   display:inline-block;margin-top:5px;padding:3px 10px;border-radius:20px;
   background:rgba(233,168,18,.18);color:#7a5606;font-size:13px;line-height:1.6;
@@ -659,6 +762,16 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
     <div class="place">📍 कोटितीर्थ, कोल्हापूर</div>
   </div>
 
+  <div class="reader-bar" id="readerBar" role="toolbar" aria-label="वाचन सोयी">
+    <span class="rb-lbl">अक्षरे</span>
+    <button type="button" id="fsDown" aria-label="अक्षरे लहान करा">A−</button>
+    <span id="fsLabel" aria-live="polite">मध्यम</span>
+    <button type="button" id="fsUp" aria-label="अक्षरे मोठी करा">A+</button>
+    <button type="button" id="themeToggle" aria-pressed="false" aria-label="गडद थीम चालू/बंद">☾ रात्र</button>
+    <button type="button" id="voiceBtn" aria-pressed="false" aria-label="मराठी आवाजाने पाठ शोधा">🎤 आवाज</button>
+  </div>
+  <div class="toast-soft" id="softToast" role="status" aria-live="polite"></div>
+
   <!-- आत्ताची स्थिती -->
   <div class="now" aria-live="polite">
     <span class="diya"></span>
@@ -699,6 +812,8 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
   <!-- आरत्यांचा पाठ -->
   <section id="panel-paath" role="tabpanel" aria-labelledby="st-paath" data-subpanel="paath">
     <h2>आरत्यांचा पाठ</h2>
+    <p class="fav-hint">कार्डवर <b>डबल टॅप</b> = आवडते · उघडल्यावर <b>ऐका</b> = मराठी आवाज</p>
+    <div class="acclist fav-list" id="favPaath" aria-label="माझे आवडते पाठ"></div>
     <div class="acclist" id="paath"></div>
     <p class="vsnote">पोथी नसली तरी इथून वाचता येईल.</p>
     <!-- data/scriptures/public-index.json मधून येणारी verified-by-centre रचना (Phase 1+2) -->
@@ -716,7 +831,7 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
     <div class="mala" id="mala">
       <p class="mala-tip">आरतीनंतर १ माळ · रोज ११ माळी ‘श्री स्वामी समर्थ’ जप</p>
       <div class="mala-mantra">॥ श्री स्वामी समर्थ ॥</div>
-      <div class="mala-sub" id="malaSub">एकदा दाबा = एक जप · मुख्य पद्धत</div>
+      <div class="mala-sub" id="malaSub">एकदा दाबा = एक जप · डबल टॅप मोजत नाही</div>
 
       <div class="mala-stage">
         <svg class="mala-beads" id="malaBeads" viewBox="0 0 200 200" aria-hidden="true"></svg>
@@ -1984,8 +2099,10 @@ function srcBadge(item){
 }
 
 function renderPaath(list){
-  document.getElementById("paath").innerHTML = list.map(a => `
-  <details class="acc">
+  document.getElementById("paath").innerHTML = list.map((a, idx) => {
+    const key = "paath:" + (a.naav || a.title || ("i"+idx));
+    return `
+  <details class="acc" data-fav-key="${key.replace(/"/g,"&quot;")}" data-voice-name="${(a.naav || a.title || "").replace(/"/g,"&quot;")}">
     <summary>
       <span class="ai">🪔</span>
       <span class="at"><b>${a.naav || a.title}</b><i>${a.kadhi || ""}</i></span>
@@ -1996,7 +2113,9 @@ function renderPaath(list){
       ${(a.ovya || []).map(o => `<p class="ovi">${o}</p>`).join("")}
       ${srcBadge(a)}
     </div>
-  </details>`).join("");
+  </details>`;
+  }).join("");
+  window.__refreshAccExtras?.();
 }
 renderPaath(KENDRA.paath.map(a => Object.assign({ status:"draft", source:"नित्यसेवा पोथी (एम्बेड)" }, a)));
 
@@ -2024,8 +2143,10 @@ renderPaath(KENDRA.paath.map(a => Object.assign({ status:"draft", source:"नि
       const wrap = document.createElement("div");
       wrap.className = "acclist";
       wrap.id = "mantraList";
-      wrap.innerHTML = mantra.items.map(a => `
-        <details class="acc">
+      wrap.innerHTML = mantra.items.map((a, idx) => {
+        const key = "mantra:" + (a.title || ("i"+idx));
+        return `
+        <details class="acc" data-fav-key="${key.replace(/"/g,"&quot;")}" data-voice-name="${(a.title || "").replace(/"/g,"&quot;")}">
           <summary>
             <span class="ai">🕉️</span>
             <span class="at"><b>${a.title}</b><i>${a.kadhi || ""}</i></span>
@@ -2035,8 +2156,10 @@ renderPaath(KENDRA.paath.map(a => Object.assign({ status:"draft", source:"नि
             ${(a.ovya || []).map(o => `<p class="ovi">${o}</p>`).join("")}
             ${srcBadge(a)}
           </div>
-        </details>`).join("");
+        </details>`;
+      }).join("");
       head.after(wrap);
+      window.__refreshAccExtras?.();
     }
   }catch(e){ /* offline / file:// — एम्बेड मजकूर चालू */ }
 })();
@@ -2114,6 +2237,8 @@ function renderScriptureList(box, entries){
     const details = document.createElement("details");
     details.className = "acc" + (isTest ? " acc-test" : "");
     details.id = "scripture-" + doc.id;
+    details.dataset.favKey = "scripture:" + doc.id;
+    details.dataset.voiceName = doc.title || "";
 
     const summary = document.createElement("summary");
     const ai = document.createElement("span"); ai.className = "ai"; ai.textContent = isTest ? "🧪" : "📜";
@@ -2151,6 +2276,7 @@ function renderScriptureList(box, entries){
     details.appendChild(body);
     box.appendChild(details);
   });
+  window.__refreshAccExtras?.();
 }
 
 function scriptureIdFromHash(){
@@ -2483,6 +2609,333 @@ const aartiSub = (function(){
   dakhav(routeKey(), hasHash ? false : true);
 })();
 
+// ---------- वाचन सोयी: फॉन्ट · डार्क मोड · डबल टॅप आवडते · मराठी TTS/व्हॉइस ----------
+// जपमाळा: एकदा दाबा = +१ (डबल टॅप मोजणीसाठी वापरत नाही — आधीच debounce आहे)
+(function(){
+  const FS_KEY = "reader.fs.v1";
+  const THEME_KEY = "reader.theme.v1";
+  const FAV_KEY = "paath.fav.v1";
+  const FS_STEPS = [0.9, 1, 1.15, 1.3];
+  const FS_LABELS = ["लहान", "मध्यम", "मोठी", "अतिमोठी"];
+  const root = document.documentElement;
+  const toast = document.getElementById("softToast");
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
+  let fsIdx = 1;
+  let speakingBtn = null;
+  let recognition = null;
+  let listening = false;
+
+  function softToast(msg){
+    if(!toast) return;
+    toast.textContent = msg;
+    toast.classList.add("show");
+    clearTimeout(softToast._t);
+    softToast._t = setTimeout(() => toast.classList.remove("show"), 1800);
+  }
+  function thokLite(){
+    try{ if(navigator.vibrate) navigator.vibrate(40); }catch(e){}
+  }
+  function loadFavs(){
+    try{
+      const a = JSON.parse(localStorage.getItem(FAV_KEY) || "[]");
+      return Array.isArray(a) ? a.filter(x => typeof x === "string") : [];
+    }catch(e){ return []; }
+  }
+  function saveFavs(list){
+    try{ localStorage.setItem(FAV_KEY, JSON.stringify(list)); }catch(e){}
+  }
+  function applyFs(){
+    const scale = FS_STEPS[fsIdx] || 1;
+    root.style.setProperty("--read-fs", String(scale));
+    const lab = document.getElementById("fsLabel");
+    if(lab) lab.textContent = FS_LABELS[fsIdx] || "मध्यम";
+    try{ localStorage.setItem(FS_KEY, String(fsIdx)); }catch(e){}
+  }
+  function applyTheme(theme){
+    const dark = theme === "dark";
+    if(dark) root.setAttribute("data-theme", "dark");
+    else root.removeAttribute("data-theme");
+    const btn = document.getElementById("themeToggle");
+    if(btn){
+      btn.setAttribute("aria-pressed", dark ? "true" : "false");
+      btn.classList.toggle("on", dark);
+      btn.textContent = dark ? "☀ दिवस" : "☾ रात्र";
+    }
+    if(themeMeta){
+      const c = getComputedStyle(root).getPropertyValue("--theme-meta").trim() || (dark ? "#1A1814" : "#8C1D2B");
+      themeMeta.setAttribute("content", c);
+    }
+    try{ localStorage.setItem(THEME_KEY, dark ? "dark" : "light"); }catch(e){}
+  }
+
+  try{
+    const saved = parseInt(localStorage.getItem(FS_KEY) || "1", 10);
+    if(saved >= 0 && saved < FS_STEPS.length) fsIdx = saved;
+  }catch(e){}
+  applyFs();
+  try{
+    const t = localStorage.getItem(THEME_KEY);
+    if(t === "dark" || t === "light") applyTheme(t);
+    else if(matchMedia("(prefers-color-scheme: dark)").matches) applyTheme("dark");
+    else applyTheme("light");
+  }catch(e){ applyTheme("light"); }
+
+  document.getElementById("fsDown")?.addEventListener("click", () => {
+    if(fsIdx <= 0){ softToast("आणखी लहान करता येत नाही"); return; }
+    fsIdx -= 1; applyFs(); thokLite();
+  });
+  document.getElementById("fsUp")?.addEventListener("click", () => {
+    if(fsIdx >= FS_STEPS.length - 1){ softToast("आणखी मोठी करता येत नाही"); return; }
+    fsIdx += 1; applyFs(); thokLite();
+  });
+  document.getElementById("themeToggle")?.addEventListener("click", () => {
+    const dark = root.getAttribute("data-theme") === "dark";
+    applyTheme(dark ? "light" : "dark");
+    thokLite();
+  });
+
+  function stopSpeech(){
+    try{ window.speechSynthesis?.cancel(); }catch(e){}
+    if(speakingBtn){
+      speakingBtn.classList.remove("speaking");
+      speakingBtn.textContent = "🔊 ऐका";
+      speakingBtn = null;
+    }
+  }
+  function plainFromAcc(body){
+    const clone = body.cloneNode(true);
+    clone.querySelectorAll(".acc-tools,.src-badge,.test-banner,.scripture-link,.ref").forEach(n => n.remove());
+    return (clone.textContent || "").replace(/\s+/g, " ").trim();
+  }
+  function playMarathi(text, btn){
+    if(!window.speechSynthesis){
+      softToast("या ब्राउझरमध्ये आवाज उपलब्ध नाही");
+      return;
+    }
+    if(speakingBtn === btn){ stopSpeech(); return; }
+    stopSpeech();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "mr-IN";
+    u.rate = 0.85;
+    const voices = speechSynthesis.getVoices?.() || [];
+    const mr = voices.find(v => /^mr/i.test(v.lang)) || voices.find(v => /india|hi-IN|marathi/i.test(v.name + v.lang));
+    if(mr) u.voice = mr;
+    u.onend = u.onerror = () => stopSpeech();
+    speakingBtn = btn;
+    btn.classList.add("speaking");
+    btn.textContent = "⏹ थांबवा";
+    speechSynthesis.speak(u);
+    thokLite();
+  }
+
+  function markFavUi(details, on){
+    details.classList.toggle("fav", on);
+    const titleB = details.querySelector(".at b");
+    if(titleB){
+      let chip = titleB.querySelector(".chip-fav");
+      if(on && !chip){
+        chip = document.createElement("span");
+        chip.className = "chip-fav";
+        chip.textContent = "आवडते";
+        titleB.appendChild(chip);
+      }else if(!on && chip) chip.remove();
+    }
+    const favBtn = details.querySelector(".btn-fav");
+    if(favBtn){
+      favBtn.classList.toggle("faved", on);
+      favBtn.textContent = on ? "★ आवडते" : "☆ आवडते";
+      favBtn.setAttribute("aria-pressed", on ? "true" : "false");
+    }
+  }
+  function renderFavStrip(){
+    const box = document.getElementById("favPaath");
+    if(!box) return;
+    const favs = loadFavs();
+    const all = [...document.querySelectorAll("#paath .acc[data-fav-key], #scriptureList .acc[data-fav-key], #mantraList .acc[data-fav-key]")];
+    while(box.firstChild) box.removeChild(box.firstChild);
+    if(!favs.length) return;
+    const head = document.createElement("p");
+    head.className = "vsnote";
+    head.style.marginBottom = "8px";
+    head.textContent = "माझे आवडते पाठ";
+    box.appendChild(head);
+    favs.forEach(key => {
+      const src = all.find(el => el.dataset.favKey === key);
+      if(!src) return;
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "btn btn-ghost";
+      btn.style.width = "100%";
+      btn.style.marginBottom = "6px";
+      btn.textContent = (src.dataset.voiceName || key.replace(/^[^:]+:/, "")) + " →";
+      btn.addEventListener("click", () => {
+        aartiSub?.dakhav?.("paath");
+        src.open = true;
+        src.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+      box.appendChild(btn);
+    });
+  }
+  function toggleFavorite(details){
+    const key = details?.dataset?.favKey;
+    if(!key) return;
+    let favs = loadFavs();
+    const on = !favs.includes(key);
+    favs = on ? favs.concat(key) : favs.filter(k => k !== key);
+    saveFavs(favs);
+    markFavUi(details, on);
+    renderFavStrip();
+    thokLite();
+    softToast(on ? "आवडत्या पाठात सेव्ह झाले" : "आवडत्यातून काढले");
+  }
+
+  function ensureAccTools(details){
+    const body = details.querySelector(".accbody");
+    if(!body || body.querySelector(".acc-tools")) return;
+    const tools = document.createElement("div");
+    tools.className = "acc-tools";
+    const speak = document.createElement("button");
+    speak.type = "button";
+    speak.className = "btn-speak";
+    speak.textContent = "🔊 ऐका";
+    speak.addEventListener("click", e => {
+      e.preventDefault(); e.stopPropagation();
+      const txt = plainFromAcc(body);
+      if(!txt){ softToast("वाचण्यासाठी मजकूर नाही"); return; }
+      playMarathi(txt, speak);
+    });
+    const fav = document.createElement("button");
+    fav.type = "button";
+    fav.className = "btn-fav";
+    fav.textContent = "☆ आवडते";
+    fav.addEventListener("click", e => {
+      e.preventDefault(); e.stopPropagation();
+      toggleFavorite(details);
+    });
+    tools.appendChild(speak);
+    tools.appendChild(fav);
+    body.insertBefore(tools, body.firstChild);
+  }
+
+  function refreshAccExtras(){
+    const favs = new Set(loadFavs());
+    document.querySelectorAll(".acc[data-fav-key]").forEach(d => {
+      ensureAccTools(d);
+      markFavUi(d, favs.has(d.dataset.favKey));
+    });
+    renderFavStrip();
+  }
+  window.__refreshAccExtras = refreshAccExtras;
+
+  // डबल टॅप — फक्त पाठ/मंत्र/scripture कार्ड (जपमाळा नाही)
+  (function bindDoubleTap(){
+    let lastT = 0, lastEl = null;
+    function onTap(target, e){
+      const acc = target.closest?.(".acc[data-fav-key]");
+      if(!acc) return;
+      if(!acc.closest("#paath, #scriptureList, #mantraList, #favPaath")) return;
+      if(target.closest("button,a,input,select,textarea,.acc-tools")) return;
+      const now = Date.now();
+      if(lastEl === acc && now - lastT < 320){
+        e.preventDefault?.();
+        e.stopPropagation?.();
+        toggleFavorite(acc);
+        lastT = 0; lastEl = null;
+        return;
+      }
+      lastT = now; lastEl = acc;
+    }
+    document.addEventListener("touchend", e => {
+      if(e.changedTouches?.length > 1) return;
+      onTap(e.target, e);
+    }, { passive: false });
+    document.addEventListener("dblclick", e => onTap(e.target, e));
+  })();
+
+  // श्लोक डबल टॅप → फोकस हायलाइट (उघडलेल्या पाठात)
+  document.addEventListener("dblclick", e => {
+    const ovi = e.target.closest?.(".ovi");
+    if(!ovi || !ovi.closest(".accbody")) return;
+    document.querySelectorAll(".ovi.focus-verse").forEach(n => n.classList.remove("focus-verse"));
+    ovi.classList.add("focus-verse");
+    thokLite();
+  });
+
+  // मराठी व्हॉइस कमांड — Web Speech Recognition (mr-IN)
+  const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const voiceBtn = document.getElementById("voiceBtn");
+  if(!SpeechRec || !voiceBtn){
+    voiceBtn?.setAttribute("hidden", "");
+  }else{
+    recognition = new SpeechRec();
+    recognition.lang = "mr-IN";
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 3;
+    recognition.onresult = ev => {
+      const uttered = [...ev.results].map(r => r[0]?.transcript || "").join(" ").trim();
+      softToast("ऐकले: " + uttered);
+      const low = uttered.replace(/\s+/g, " ");
+      if(/आरती|पाठ/.test(low) && !/जप/.test(low)) aartiSub?.dakhav?.("paath");
+      if(/जप|माळ/.test(low)) aartiSub?.dakhav?.("jap");
+      const cards = [...document.querySelectorAll(".acc[data-voice-name]")];
+      let best = null, score = 0;
+      cards.forEach(c => {
+        const name = (c.dataset.voiceName || "").trim();
+        if(!name) return;
+        const parts = name.split(/\s+/).filter(w => w.length > 1);
+        let s = 0;
+        if(low.includes(name)) s = 100;
+        else parts.forEach(w => { if(low.includes(w)) s += 10; });
+        if(/स्वामी\s*समर्थ/.test(low) && /स्वामी\s*समर्थ/.test(name)) s += 40;
+        if(s > score){ score = s; best = c; }
+      });
+      if(best && score >= 10){
+        aartiSub?.dakhav?.("paath");
+        best.open = true;
+        best.scrollIntoView({ behavior: "smooth", block: "start" });
+        thokLite();
+      }
+    };
+    recognition.onerror = () => {
+      listening = false;
+      voiceBtn.classList.remove("on");
+      voiceBtn.setAttribute("aria-pressed", "false");
+    };
+    recognition.onend = () => {
+      listening = false;
+      voiceBtn.classList.remove("on");
+      voiceBtn.setAttribute("aria-pressed", "false");
+    };
+    voiceBtn.addEventListener("click", () => {
+      try{
+        if(listening){ recognition.stop(); return; }
+        aartiSub?.dakhav?.("paath");
+        recognition.start();
+        listening = true;
+        voiceBtn.classList.add("on");
+        voiceBtn.setAttribute("aria-pressed", "true");
+        softToast("बोला — उदा. स्वामी समर्थ / आरती");
+        thokLite();
+      }catch(e){ softToast("माइक सुरू झाले नाही"); }
+    });
+  }
+
+  // details उघडल्यावर tools सुनिश्चित
+  document.addEventListener("toggle", e => {
+    const d = e.target;
+    if(d?.matches?.(".acc[data-fav-key]") && d.open) ensureAccTools(d);
+    if(d?.matches?.(".acc") && !d.open) stopSpeech();
+  }, true);
+
+  // आवाज यादी लोड झाल्यावर (Chrome)
+  try{ speechSynthesis?.addEventListener?.("voiceschanged", () => {}); }catch(e){}
+
+  // पहिल्या रेंडरनंतर + थोड्या वेळाने (async scripture/mantra)
+  refreshAccExtras();
+  setTimeout(refreshAccExtras, 800);
+  setTimeout(refreshAccExtras, 2500);
+})();
+
 // ---------- जपमाळा (टॅप मुख्य · Auto टायमर ऐच्छिक · mic नाही) ----------
 (function(){
   const cfg = KENDRA.japMala || { beads:108, dailyGoal:11 };
@@ -2639,7 +3092,7 @@ const aartiSub = (function(){
     box?.classList.remove("auto-on");
     if(autoPause) autoPause.textContent = "⏸ Auto थांबवा";
     wakeOff();
-    if(elSub) elSub.textContent = "एकदा दाबा = एक जप · मुख्य पद्धत";
+    if(elSub) elSub.textContent = "एकदा दाबा = एक जप · डबल टॅप मोजत नाही";
     dakhav();
   }
   function startAuto(){

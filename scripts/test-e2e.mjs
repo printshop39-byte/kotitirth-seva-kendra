@@ -165,8 +165,36 @@ async function testProductionServer(browser){
     const pageHtml = await page.content();
     check("fixture id (\"verified-sample\") production page च्या HTML मध्ये कुठेही दिसत नाही", !pageHtml.includes("verified-sample"));
 
+    // ---------- वाचन सोयी: A+/A− · डार्क मोड · डबल-टॅप आवडते · ऐका बटण ----------
+    await page.goto(base + "/#paath", { waitUntil: "networkidle" });
+    await page.waitForTimeout(400);
+    check("reader-bar (#readerBar) दिसतो", await page.$("#readerBar") !== null);
+    const fsBefore = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--read-fs").trim());
+    await page.click("#fsUp");
+    await page.waitForTimeout(50);
+    const fsAfter = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--read-fs").trim());
+    check("A+ दाबल्यावर --read-fs वाढतो", parseFloat(fsAfter) > parseFloat(fsBefore || "1"));
+    await page.click("#themeToggle");
+    await page.waitForTimeout(50);
+    check("☾ रात्र दाबल्यावर html[data-theme=dark] लागतो",
+      await page.evaluate(() => document.documentElement.getAttribute("data-theme") === "dark"));
+    // पहिले paath accordion उघडा — ऐका/आवडते tools दिसले पाहिजेत
+    const firstPaath = "#paath details.acc[data-fav-key]";
+    await page.click(`${firstPaath} summary`);
+    await page.waitForTimeout(150);
+    check("उघडलेल्या पाठात 🔊 ऐका बटण दिसते", await page.$(`${firstPaath} .btn-speak`) !== null);
+    check("उघडलेल्या पाठात ☆ आवडते बटण दिसते", await page.$(`${firstPaath} .btn-fav`) !== null);
+    await page.click(`${firstPaath} .btn-fav`);
+    await page.waitForTimeout(100);
+    check("आवडते दाबल्यावर .fav वर्ग लागतो", await page.$eval(firstPaath, el => el.classList.contains("fav")));
+    const favStored = await page.evaluate(() => JSON.parse(localStorage.getItem("paath.fav.v1") || "[]"));
+    check("आवडते localStorage (paath.fav.v1) मध्ये सेव्ह होते", Array.isArray(favStored) && favStored.length >= 1);
+    // डार्क मोड बंद — पुढील चाचण्यांसाठी स्वच्छ
+    await page.click("#themeToggle");
+
     // ---------- जपमाळा टॅप regression ----------
     // jap() मध्ये मुद्दाम १२०ms anti-double-tap debounce आहे — क्लिकमध्ये पुरेसा वेळ ठेवावा लागतो.
+    // डबल टॅप मोजणीसाठी वापरत नाही (एकदा दाबा = एक जप).
     await page.goto(base + "/#jap", { waitUntil: "networkidle" });
     await page.click("#malaTap");
     await page.waitForTimeout(150);
