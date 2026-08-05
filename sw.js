@@ -1,10 +1,12 @@
 /* श्री स्वामी समर्थ सेवा केंद्र — service worker
    काम दोन: (१) "होम स्क्रीनवर ठेवा" सुविधा चालू होते,
             (२) एकदा उघडल्यावर इंटरनेट नसतानाही पान उघडते. */
-const CACHE = "seva-kendra-v2";
+const CACHE = "seva-kendra-v3";
 const FILES = ["./", "./index.html", "./manifest.webmanifest",
                "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png",
-               "./og-image.png"];
+               "./og-image.png",
+               "./data/aarti.json", "./data/mantra.json",
+               "./data/nityaseva.json", "./data/utsav-2026.json"];
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
