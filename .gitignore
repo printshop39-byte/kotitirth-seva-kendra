@@ -10,4 +10,9 @@ source/pothi/*.jpeg
 source/pothi/*.png
 source/pothi/*.webp
 source/pothi/*.pdf
+source/pothi/**/*.pdf
+source/pothi/**/*.jpg
+source/pothi/**/*.jpeg
+source/pothi/**/*.png
+source/pothi/**/*.webp
 !source/pothi/README.md
