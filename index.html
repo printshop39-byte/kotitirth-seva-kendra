@@ -135,8 +135,8 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 }
 .subtabs button{
   flex:1;border:0;background:none;cursor:pointer;font-family:inherit;
-  font-size:14.5px;font-weight:600;color:var(--shai-soft);
-  padding:11px 6px;border-radius:10px;
+  font-size:13.5px;font-weight:600;color:var(--shai-soft);
+  padding:11px 4px;border-radius:10px;line-height:1.25;
 }
 .subtabs button.on{background:rgba(181,71,20,.12);color:var(--kumkum)}
 .subtabs button:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
@@ -319,7 +319,12 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 .c-zal{background:rgba(110,95,76,.13);color:var(--shai-soft);font-weight:500}
 .c-zal::before{content:"✓ "}
 .tl .kadhi{display:block;font-size:13.5px;color:var(--kesari);margin-top:2px}
-.tl .jap{display:block;font-size:13.5px;color:var(--shai-soft);margin-top:3px}
+.tl .jap{
+  display:inline-block;font-size:13.5px;color:var(--kesari);margin-top:3px;
+  cursor:pointer;text-decoration:underline;text-decoration-style:dotted;
+  text-underline-offset:3px;font-weight:600;
+}
+.tl .jap:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
 .tl li.off .t,.tl li.off .d b{opacity:.55}
 .tl li.off .dot{border-color:var(--line)}
 
@@ -411,6 +416,129 @@ h2::after{content:"";flex:1;height:1px;background:var(--line)}
 .lnk i{font-style:normal;display:block;font-size:14px;color:var(--shai-soft);line-height:1.4}
 .lnk .go{flex:0 0 auto;color:var(--kesari);font-size:17px}
 
+/* ---------- जपमाळा ---------- */
+.mala{
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 28%, rgba(233,168,18,.18), transparent 55%),
+    linear-gradient(180deg,#FFF9EA 0%, var(--card) 55%, #FDF1D8 100%);
+  border:1px solid #EBD9AE;border-radius:var(--r);
+  padding:20px 16px 18px;text-align:center;
+}
+.mala-tip{
+  font-size:14px;color:var(--shai-soft);line-height:1.55;margin-bottom:10px;
+}
+.mala-mantra{
+  font-family:var(--f-head);font-size:clamp(22px,6vw,28px);
+  color:var(--kumkum);letter-spacing:.5px;line-height:1.35;
+  margin-bottom:4px;
+}
+.mala-sub{
+  font-size:13.5px;color:var(--kesari);font-weight:600;
+  letter-spacing:.4px;margin-bottom:16px;
+}
+.mala-stage{
+  position:relative;width:min(280px,78vw);aspect-ratio:1;
+  margin:0 auto 16px;
+}
+.mala-beads{
+  position:absolute;inset:0;width:100%;height:100%;
+  pointer-events:none;
+}
+.mala-beads .track{
+  fill:none;stroke:rgba(140,29,43,.12);stroke-width:7;
+}
+.mala-beads .prog{
+  fill:none;stroke:var(--kumkum);stroke-width:7;stroke-linecap:round;
+  transform:rotate(-90deg);transform-origin:100px 100px;
+  transition:stroke-dashoffset .2s ease;
+}
+.mala-beads .bd{
+  fill:#E8D9BE;stroke:rgba(140,29,43,.28);stroke-width:.7;
+  transition:fill .15s ease, stroke .15s ease, r .15s ease;
+}
+.mala-beads .bd.on{
+  fill:var(--kumkum);stroke:var(--haldi);stroke-width:1.1;
+}
+.mala-beads .bd.meru{
+  fill:var(--haldi);stroke:#8a6208;stroke-width:1.4;
+}
+.mala-beads .bd.pulse{
+  animation:malaPulse .45s ease-out;
+}
+@keyframes malaPulse{
+  0%{transform:scale(1)}
+  40%{transform:scale(1.55)}
+  100%{transform:scale(1)}
+}
+.mala-tap{
+  position:absolute;inset:18%;
+  border:0;border-radius:50%;cursor:pointer;font-family:inherit;
+  background:radial-gradient(circle at 50% 40%,#FFFDF7,#F8E8C4 70%,#F0D49A);
+  box-shadow:
+    0 0 0 3px rgba(233,168,18,.35),
+    0 10px 28px rgba(140,29,43,.18),
+    inset 0 -6px 14px rgba(140,29,43,.08);
+  color:var(--kumkum);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:2px;padding:12px;
+  transition:transform .12s ease, box-shadow .12s ease;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;user-select:none;
+}
+.mala-tap:active{transform:scale(.96)}
+.mala-tap:focus-visible{outline:3px solid var(--haldi);outline-offset:4px}
+.mala-tap.done{
+  animation:malaDone .7s ease-out;
+}
+@keyframes malaDone{
+  0%{box-shadow:0 0 0 3px rgba(233,168,18,.35),0 10px 28px rgba(140,29,43,.18)}
+  40%{box-shadow:0 0 0 14px rgba(233,168,18,.25),0 10px 28px rgba(140,29,43,.18)}
+  100%{box-shadow:0 0 0 3px rgba(233,168,18,.35),0 10px 28px rgba(140,29,43,.18)}
+}
+.mala-n{
+  font-family:var(--f-head);font-size:clamp(42px,14vw,56px);
+  font-weight:400;line-height:1;letter-spacing:1px;
+}
+.mala-den{font-size:15px;font-weight:600;color:var(--shai-soft)}
+.mala-hint{font-size:13px;color:var(--kesari);font-weight:600;margin-top:4px}
+.mala-stats{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;
+}
+.mala-stats .ms{
+  padding:11px 10px;border-radius:12px;
+  background:rgba(140,29,43,.06);border:1px solid rgba(140,29,43,.1);
+}
+.mala-stats b{
+  display:block;font-family:var(--f-head);font-size:26px;
+  color:var(--kumkum);line-height:1.15;font-weight:400;
+}
+.mala-stats i{
+  font-style:normal;display:block;font-size:13px;
+  color:var(--shai-soft);margin-top:3px;
+}
+.mala-bar{
+  height:8px;border-radius:999px;background:rgba(140,29,43,.1);
+  overflow:hidden;margin-bottom:8px;
+}
+.mala-bar > i{
+  display:block;height:100%;width:0;border-radius:inherit;
+  background:linear-gradient(90deg,var(--kesari-teja),var(--haldi));
+  transition:width .25s ease;
+}
+.mala-goal{
+  font-size:13.5px;color:var(--shai-soft);margin-bottom:14px;line-height:1.5;
+}
+.mala-acts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mala-acts .btn{padding:12px;font-size:15px}
+.btn-ghost{
+  background:transparent;color:var(--kesari);
+  border:1px solid rgba(181,71,20,.35);
+}
+.mala-msg{
+  min-height:1.4em;margin-top:12px;font-size:14.5px;
+  font-weight:600;color:var(--kumkum);line-height:1.45;
+}
+.mala-msg.ok{color:#22683A}
+
 footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);line-height:1.8}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -446,8 +574,9 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
 
   <nav class="subtabs" id="subtabs" role="tablist" aria-label="आरती विभाग">
     <button type="button" role="tab" data-sub="aaj"   class="on" aria-selected="true">आज</button>
-    <button type="button" role="tab" data-sub="paath"          aria-selected="false">आरत्यांचा पाठ</button>
-    <button type="button" role="tab" data-sub="var"            aria-selected="false">वार सेवा</button>
+    <button type="button" role="tab" data-sub="paath"          aria-selected="false">पाठ</button>
+    <button type="button" role="tab" data-sub="var"            aria-selected="false">वार</button>
+    <button type="button" role="tab" data-sub="jap"            aria-selected="false">जपमाळा</button>
   </nav>
 
   <div class="pane" role="tabpanel" id="t-aarti" aria-labelledby="tb-aarti" tabindex="0">
@@ -474,6 +603,39 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
     <h2>वारांप्रमाणे नित्यसेवा</h2>
     <div class="acclist" id="varSeva"></div>
     <p class="vsnote">पान क्रमांक नित्यसेवा पोथीतील आहेत.</p>
+  </section>
+  <!-- जपमाळा -->
+  <section data-sub="jap">
+    <h2>जपमाळा</h2>
+    <div class="mala" id="mala">
+      <p class="mala-tip">आरतीनंतर १ माळ · रोज ११ माळी ‘श्री स्वामी समर्थ’ जप</p>
+      <div class="mala-mantra">॥ श्री स्वामी समर्थ ॥</div>
+      <div class="mala-sub">एकदा दाबा = एक जप</div>
+
+      <div class="mala-stage">
+        <svg class="mala-beads" id="malaBeads" viewBox="0 0 200 200" aria-hidden="true"></svg>
+        <button type="button" class="mala-tap" id="malaTap"
+          aria-label="एक जप मोजणे — मध्यभागी दाबा">
+          <span class="mala-n" id="malaBead">०</span>
+          <span class="mala-den">/ १०८</span>
+          <span class="mala-hint" id="malaHint">दाबा</span>
+        </button>
+      </div>
+
+      <div class="mala-stats">
+        <div class="ms"><b id="malaDone">०</b><i>आज पूर्ण माळा</i></div>
+        <div class="ms"><b id="malaLeft">११</b><i>लक्ष्यासाठी बाकी</i></div>
+      </div>
+      <div class="mala-bar" aria-hidden="true"><i id="malaBar"></i></div>
+      <p class="mala-goal">दैनिक लक्ष्य — <b id="malaTarget">११</b> माळा
+        (<span id="malaPct">०%</span>)</p>
+
+      <div class="mala-acts">
+        <button type="button" class="btn btn-ghost" id="malaUndo">↩ एक मागे</button>
+        <button type="button" class="btn btn-ghost" id="malaReset">आज रीसेट</button>
+      </div>
+      <p class="mala-msg" id="malaMsg" aria-live="polite"></p>
+    </div>
   </section>
   </div>
 
@@ -720,6 +882,8 @@ const KENDRA = {
   //   only:"shivseva" = श्रावणात रोज, एरवी फक्त सोमवारी
   aartiMin: 20,
   jap: "आरतीनंतर १ माळ श्री स्वामी समर्थ जप",   // प्रत्येक आरतीनंतर
+  // जपमाळा — एक माळ = १०८ जप; रोजचे लक्ष्य भिऊ नकोस नियमाप्रमाणे
+  japMala: { beads: 108, dailyGoal: 11, mantra: "श्री स्वामी समर्थ" },
 
   seva: [
     { t:"08:00", e:"08:20", name:"भूपाळी व सकाळच्या आरत्या",
@@ -1554,7 +1718,7 @@ document.getElementById("tl").innerHTML = sevaAaj.map(s => `
       <b>${s.name}${CHIP[s.sthiti]}</b>
       <span>${hhmm(s.t)} – ${hhmm(s.eT)}${s.sub ? " · " + s.sub : ""}</span>
       ${s.kadhi ? `<span class="kadhi">${s.kadhi}</span>` : ""}
-      ${s.name.includes("आरती") ? `<span class="jap">📿 ${KENDRA.jap}</span>` : ""}
+      ${s.name.includes("आरती") ? `<span class="jap" role="link" tabindex="0">📿 ${KENDRA.jap} →</span>` : ""}
     </span>
   </li>`).join("");
 
@@ -1766,26 +1930,74 @@ if(KENDRA.patta)     document.getElementById("patta").innerHTML  = "📍 " + KEN
   }
 })();
 
+// ---------- आरती टॅबमधले उपटॅब ----------
+const aartiSub = (function(){
+  const bar = document.getElementById("subtabs");
+  const btns = [...bar.querySelectorAll("button[data-sub]")];
+  const vibhag = [...document.querySelectorAll("section[data-sub]")];
+
+  function dakhav(naav, hashBadla){
+    vibhag.forEach(v => { v.hidden = v.dataset.sub !== naav; });
+    btns.forEach(b => {
+      const on = b.dataset.sub === naav;
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-selected", on ? "true" : "false");
+      b.tabIndex = on ? 0 : -1;
+    });
+    try{ sessionStorage.setItem("aartiSub", naav); }catch(e){}
+    if(hashBadla !== false){
+      const onAarti = !location.hash || location.hash === "#aarti" || location.hash === "#jap";
+      if(onAarti){
+        const want = naav === "jap" ? "#jap" : "#aarti";
+        if(location.hash !== want) history.replaceState(null, "", want);
+      }
+    }
+  }
+  bar.addEventListener("click", e => {
+    const b = e.target.closest("button[data-sub]");
+    if(b) dakhav(b.dataset.sub);
+  });
+  bar.addEventListener("keydown", e => {
+    const i = btns.indexOf(document.activeElement);
+    if(i < 0) return;
+    let n = null;
+    if(e.key === "ArrowRight") n = (i + 1) % btns.length;
+    if(e.key === "ArrowLeft")  n = (i - 1 + btns.length) % btns.length;
+    if(n === null) return;
+    e.preventDefault(); btns[n].focus(); dakhav(btns[n].dataset.sub);
+  });
+  let suru = "aaj";
+  if(location.hash === "#jap") suru = "jap";
+  else { try{ suru = sessionStorage.getItem("aartiSub") || "aaj"; }catch(e){} }
+  if(!btns.some(b => b.dataset.sub === suru)) suru = "aaj";
+  dakhav(suru, false);
+  return { dakhav };
+})();
+
 // ---------- तळाचे टॅब ----------
 (function(){
   const tabs = document.getElementById("tabs");
   const btns = [...tabs.querySelectorAll("button[data-tab]")];
   const panes = [...document.querySelectorAll(".pane")];
-  const HASH = { aarti:"#aarti", karya:"#karyakram", mahiti:"#mahiti" };
+  const HASH = { aarti:"#aarti", karya:"#karyakram", mahiti:"#mahiti", jap:"#jap" };
   const NAAV = Object.fromEntries(Object.entries(HASH).map(([k,v]) => [v, k]));
 
   function dakhav(naav, hashBadla){
-    panes.forEach(v => { v.hidden = v.id !== "t-" + naav; });
-    document.getElementById("subtabs").hidden = naav !== "aarti";
+    const pane = naav === "jap" ? "aarti" : naav;
+    panes.forEach(v => { v.hidden = v.id !== "t-" + pane; });
+    document.getElementById("subtabs").hidden = pane !== "aarti";
     btns.forEach(b => {
-      const on = b.dataset.tab === naav;
+      const on = b.dataset.tab === pane;
       b.classList.toggle("on", on);
       b.setAttribute("aria-selected", on ? "true" : "false");
       b.tabIndex = on ? 0 : -1;                     // roving tabindex
     });
-    try{ sessionStorage.setItem("tab", naav); }catch(e){}
-    if(hashBadla !== false && location.hash !== HASH[naav])
-      history.replaceState(null, "", HASH[naav]);
+    if(naav === "jap") aartiSub.dakhav("jap", false);
+    try{ sessionStorage.setItem("tab", pane); }catch(e){}
+    if(hashBadla !== false){
+      const want = HASH[naav] || HASH[pane];
+      if(location.hash !== want) history.replaceState(null, "", want);
+    }
     window.scrollTo({ top:0, behavior:"smooth" });
   }
 
@@ -1815,38 +2027,169 @@ if(KENDRA.patta)     document.getElementById("patta").innerHTML  = "📍 " + KEN
 
   let suru = NAAV[location.hash];
   if(!suru){ try{ suru = sessionStorage.getItem("tab"); }catch(e){} }
-  dakhav(panes.some(v => v.id === "t-" + suru) ? suru : "aarti", !!NAAV[location.hash] ? false : true);
+  const ok = suru === "jap" || panes.some(v => v.id === "t-" + suru);
+  dakhav(ok ? suru : "aarti", !!NAAV[location.hash] ? false : true);
 })();
 
-// ---------- आरती टॅबमधले उपटॅब ----------
+// ---------- जपमाळा ----------
 (function(){
-  const bar = document.getElementById("subtabs");
-  const btns = [...bar.querySelectorAll("button[data-sub]")];
-  const vibhag = [...document.querySelectorAll("section[data-sub]")];
+  const cfg = KENDRA.japMala || { beads:108, dailyGoal:11 };
+  const BEADS = cfg.beads || 108;
+  const GOAL  = cfg.dailyGoal || 11;
+  const KEY   = "japMala.v1";
+  const svg   = document.getElementById("malaBeads");
+  const tap   = document.getElementById("malaTap");
+  const elBead = document.getElementById("malaBead");
+  const elDone = document.getElementById("malaDone");
+  const elLeft = document.getElementById("malaLeft");
+  const elBar  = document.getElementById("malaBar");
+  const elPct  = document.getElementById("malaPct");
+  const elMsg  = document.getElementById("malaMsg");
+  const elHint = document.getElementById("malaHint");
+  const elTarget = document.getElementById("malaTarget");
+  if(!svg || !tap) return;
 
-  function dakhav(naav){
-    vibhag.forEach(v => { v.hidden = v.dataset.sub !== naav; });
-    btns.forEach(b => {
-      const on = b.dataset.sub === naav;
-      b.classList.toggle("on", on);
-      b.setAttribute("aria-selected", on ? "true" : "false");
-      b.tabIndex = on ? 0 : -1;
-    });
+  elTarget.textContent = dev(GOAL);
+
+  // १०८ मण्यांची वर्तुळमाळा — वर मेरू (गुरुमणी) + प्रगती कंस
+  const CX = 100, CY = 100, R = 88, CIRC = 2 * Math.PI * R, nodes = [];
+  const track = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+  track.setAttribute("cx", CX); track.setAttribute("cy", CY); track.setAttribute("r", R);
+  track.setAttribute("class", "track");
+  svg.appendChild(track);
+  const prog = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+  prog.setAttribute("cx", CX); prog.setAttribute("cy", CY); prog.setAttribute("r", R);
+  prog.setAttribute("class", "prog");
+  prog.setAttribute("stroke-dasharray", CIRC.toFixed(2));
+  prog.setAttribute("stroke-dashoffset", CIRC.toFixed(2));
+  svg.appendChild(prog);
+  for(let i = 0; i < BEADS; i++){
+    const ang = -Math.PI/2 + (i / BEADS) * Math.PI * 2;
+    const c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    c.setAttribute("cx", (CX + R * Math.cos(ang)).toFixed(2));
+    c.setAttribute("cy", (CY + R * Math.sin(ang)).toFixed(2));
+    c.setAttribute("r", i === 0 ? 5 : 3.1);
+    c.setAttribute("class", i === 0 ? "bd meru" : "bd");
+    svg.appendChild(c);
+    nodes.push(c);
   }
-  bar.addEventListener("click", e => {
-    const b = e.target.closest("button[data-sub]");
-    if(b) dakhav(b.dataset.sub);
+
+  function aaj(){
+    const d = new Date();
+    return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+  }
+  function load(){
+    try{
+      const o = JSON.parse(localStorage.getItem(KEY) || "null");
+      if(o && o.date === aaj())
+        return { bead: Math.max(0, Math.min(BEADS-1, o.bead|0)), malas: Math.max(0, o.malas|0) };
+    }catch(e){}
+    return { bead:0, malas:0 };
+  }
+  function save(){
+    try{ localStorage.setItem(KEY, JSON.stringify({ date:aaj(), bead:st.bead, malas:st.malas })); }catch(e){}
+  }
+
+  let st = load();
+  let lastTap = 0;
+
+  function dakhav(pulseIdx){
+    elBead.textContent = dev(st.bead);
+    elDone.textContent = dev(st.malas);
+    const left = Math.max(0, GOAL - st.malas);
+    elLeft.textContent = dev(left);
+    const pct = Math.min(100, Math.round((st.malas / GOAL) * 100));
+    elBar.style.width = pct + "%";
+    elPct.textContent = dev(pct) + "%";
+    elHint.textContent = st.bead === 0 && st.malas === 0 ? "दाबा" : "पुढचा जप";
+    const offset = CIRC * (1 - st.bead / BEADS);
+    prog.setAttribute("stroke-dashoffset", offset.toFixed(2));
+    nodes.forEach((n, i) => {
+      // मेरू (०) नेहमी सोनेरी; १..bead मोजलेले मणी उजळतात
+      const on = i > 0 && i <= st.bead;
+      if(on) n.setAttribute("class", "bd on");
+      else if(i === 0) n.setAttribute("class", "bd meru");
+      else n.setAttribute("class", "bd");
+      n.setAttribute("r", i === 0 ? 5 : (on ? 3.6 : 3.1));
+      if(pulseIdx === i){
+        n.classList.remove("pulse");
+        void n.getBoundingClientRect();
+        n.classList.add("pulse");
+      }
+    });
+    tap.setAttribute("aria-label",
+      "एक जप मोजणे. आता "+dev(st.bead)+" मणी, आज "+dev(st.malas)+" माळा पूर्ण.");
+  }
+
+  function bol(txt, ok){
+    elMsg.textContent = txt || "";
+    elMsg.classList.toggle("ok", !!ok);
+  }
+
+  function thok(){
+    try{ if(navigator.vibrate) navigator.vibrate(14); }catch(e){}
+  }
+
+  function jap(){
+    const now = Date.now();
+    if(now - lastTap < 120) return;          // दुहेरी टॅप टाळा
+    lastTap = now;
+    st.bead += 1;
+    thok();
+    const idx = st.bead;                     // १..१०८
+    if(st.bead >= BEADS){
+      st.bead = 0;
+      st.malas += 1;
+      tap.classList.remove("done");
+      void tap.offsetWidth;
+      tap.classList.add("done");
+      bol(st.malas >= GOAL
+        ? "॥ "+dev(st.malas)+" माळा पूर्ण — दैनिक लक्ष्य झाले ॥"
+        : "॥ एक माळ पूर्ण — "+dev(st.malas)+" / "+dev(GOAL)+" ॥", true);
+      try{ if(navigator.vibrate) navigator.vibrate([20,40,20]); }catch(e){}
+      dakhav(0);
+    }else{
+      if(st.bead === 54) bol("अर्धी माळ — श्रद्धा ठेवा", false);
+      else if(elMsg.textContent && !elMsg.classList.contains("ok")) bol("");
+      dakhav(idx);
+    }
+    save();
+  }
+
+  tap.addEventListener("click", jap);
+  tap.addEventListener("keydown", e => {
+    if(e.key === " " || e.key === "Enter"){ e.preventDefault(); jap(); }
   });
-  bar.addEventListener("keydown", e => {
-    const i = btns.indexOf(document.activeElement);
-    if(i < 0) return;
-    let n = null;
-    if(e.key === "ArrowRight") n = (i + 1) % btns.length;
-    if(e.key === "ArrowLeft")  n = (i - 1 + btns.length) % btns.length;
-    if(n === null) return;
-    e.preventDefault(); btns[n].focus(); dakhav(btns[n].dataset.sub);
+
+  document.getElementById("malaUndo").addEventListener("click", () => {
+    if(st.bead > 0){ st.bead -= 1; bol(""); }
+    else if(st.malas > 0){ st.malas -= 1; st.bead = BEADS - 1; bol("मागील माळेत परत"); }
+    else { bol("काही मोजलेले नाही"); return; }
+    save(); dakhav();
   });
-  dakhav("aaj");
+
+  document.getElementById("malaReset").addEventListener("click", () => {
+    if(st.bead === 0 && st.malas === 0){ bol("आधीच रीसेट आहे"); return; }
+    if(!confirm("आजच्या जपाची मोजणी रीसेट करायची का?")) return;
+    st = { bead:0, malas:0 }; save(); bol("आजची मोजणी रीसेट झाली"); dakhav();
+  });
+
+  // वेळापत्रकातील जप ओळ — जपमाळा उपटॅब उघडा
+  document.getElementById("tl")?.addEventListener("click", e => {
+    if(!e.target.closest(".jap")) return;
+    aartiSub.dakhav("jap");
+    document.getElementById("mala")?.scrollIntoView({ behavior:"smooth", block:"start" });
+  });
+  // कीबोर्ड: जप ओळीला Enter
+  document.getElementById("tl")?.addEventListener("keydown", e => {
+    if((e.key === "Enter" || e.key === " ") && e.target.classList?.contains("jap")){
+      e.preventDefault();
+      aartiSub.dakhav("jap");
+      document.getElementById("mala")?.scrollIntoView({ behavior:"smooth", block:"start" });
+    }
+  });
+
+  dakhav();
 })();
 
 // ---------- होम स्क्रीनवर ठेवा ----------
