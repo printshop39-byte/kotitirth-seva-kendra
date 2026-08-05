@@ -1,0 +1,82 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "scripture.schema.json",
+  "title": "Scripture item (draft or verified)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "title", "language", "script", "category", "verification", "source", "sections"],
+  "$comment": "Verified-by-centre साठीचे अतिरिक्त semantic नियम (verifiedBy लांबी, verifiedDate future नाही, pages/images रिकामे नाही, uncertainReadings रिकामे/अनुपस्थित, [अस्पष्ट खूण नाही) scripts/lib/scripture-validator.mjs मध्ये आहेत — ते इथे schema-level enforce केलेले नाहीत कारण draft साठी हे fields रिकामे असणे वैध आहे.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "title": { "type": "string", "minLength": 1 },
+    "language": { "enum": ["sa", "mr", "hi", "mixed"] },
+    "script": { "const": "Devanagari" },
+    "category": {
+      "enum": ["aarti", "mantra", "stotra", "prarthana", "sukta", "test", "other"]
+    },
+    "kadhi": { "type": ["string", "null"] },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "verifiedBy", "verifiedDate", "sourceCompared"],
+      "properties": {
+        "status": { "enum": ["draft", "second-pass", "verified-by-centre"] },
+        "verifiedBy": { "type": "string" },
+        "verifiedDate": {
+          "type": "string",
+          "pattern": "^$|^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        },
+        "sourceCompared": { "type": "boolean" }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "pages", "images"],
+      "properties": {
+        "label": { "type": "string" },
+        "pages": {
+          "type": "array",
+          "description": "पोथीतील पान क्रमांक. draft साठी रिकामे ([]) चालते; verified-by-centre साठी किमान एक आवश्यक (scripts/lib/scripture-validator.mjs).",
+          "items": { "type": ["number", "string"] }
+        },
+        "images": {
+          "type": "array",
+          "description": "फक्त filename/संदर्भ (उदा. p003.jpg) — प्रत्यक्ष फोटो कधीही commit होत नाही (source/pothi/ + .gitignore पहा). draft साठी रिकामे ([]) चालते; verified-by-centre साठी किमान एक आवश्यक.",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "uncertainReadings": {
+      "type": "array",
+      "description": "फोटो→transcription वेळी अस्पष्ट राहिलेली ठिकाणे. verified-by-centre होण्याआधी ही यादी रिकामी असावी लागते (किंवा field अजिबात नसावे).",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "sections": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["type", "lines"],
+        "properties": {
+          "type": {
+            "enum": ["heading", "verse", "refrain", "mantra", "prose", "note", "phalashruti"]
+          },
+          "number": { "type": ["string", "null"] },
+          "lines": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    }
+  }
+}

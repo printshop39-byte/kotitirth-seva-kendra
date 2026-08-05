@@ -1,0 +1,27 @@
+{
+  "id": "verified-sample",
+  "title": "🔧 चाचणी फिक्श्चर — फक्त tests/fixtures/ मध्ये, कधीही production data मध्ये कॉपी करू नये",
+  "language": "mr",
+  "script": "Devanagari",
+  "category": "test",
+  "kadhi": "फक्त तांत्रिक चाचणीसाठी — ही खरी धार्मिक सामग्री नाही",
+  "verification": {
+    "status": "verified-by-centre",
+    "verifiedBy": "QA fixture (मानवी सेवेकरी पडताळणी नाही)",
+    "verifiedDate": "2020-01-01",
+    "sourceCompared": true
+  },
+  "source": {
+    "label": "ही कृत्रिम चाचणी नोंद आहे — कोणत्याही नित्यसेवा पोथीतून घेतलेली नाही. फक्त data/scriptures/ pipeline (schema + verified-content नियम + rendering) e2e/unit चाचण्यांमध्ये सिद्ध करण्यासाठी.",
+    "pages": [1],
+    "images": ["synthetic-fixture-not-a-real-scan.jpg"]
+  },
+  "sections": [
+    { "type": "heading", "lines": ["चाचणी मथळा (heading section)"] },
+    { "type": "verse", "lines": ["ही पहिली ओळ आहे — मात्रा व विरामचिन्हे जशीच्या तशी दाखवण्यासाठी।", "ही दुसरी ओळ आहे ॥१॥"], "number": "१" },
+    { "type": "refrain", "lines": ["हे धृ-पद उदाहरण आहे ॥धृ॥"] },
+    { "type": "prose", "lines": ["ही prose (गद्य) प्रकारची ओळ आहे — टीप स्वरूपाचा मजकूर इथे बसतो."] },
+    { "type": "note", "lines": ["टीप: ही नोंद फक्त tests/fixtures/ मध्ये राहते — data/scriptures/verified/ किंवा public-index.json मध्ये कधीही ठेवू नये."] },
+    { "type": "phalashruti", "lines": ["फलश्रुती उदाहरण — या विभागाचा नमुना मजकूर."] }
+  ]
+}

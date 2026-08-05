@@ -1,0 +1,9 @@
+{
+  "meta": {
+    "note": "हीच एकमेव फाईल वेबसाइट थेट fetch करते. यात फक्त verification.status === \"verified-by-centre\" आणि verification.sourceCompared === true असलेल्या नोंदी list कराव्यात. drafts/ फाईल्स इथे कधीही संदर्भित करू नयेत — scripts/validate-scriptures.mjs हे नियम automatically तपासते.",
+    "workflow": "फोटो → AI transcription → दुसऱ्या modelची तुलना → मानवाकडून मूळ पुस्तकाशी पडताळणी → verified JSON → public-index entry",
+    "empty": "सध्या ही यादी रिकामी आहे — कोणताही मजकूर वरील पूर्ण workflow पूर्ण करून, मानवी सेवेकऱ्याच्या स्पष्ट पडताळणीशिवाय इथे जोडलेला नाही. खोटे/स्वतःच स्वीकारलेले verifiedBy किंवा verifiedDate टाकून हे भरणे सक्त मनाई आहे.",
+    "schema": "schema/public-index.schema.json"
+  },
+  "items": []
+}

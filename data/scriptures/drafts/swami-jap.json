@@ -1,0 +1,22 @@
+{
+  "id": "swami-jap",
+  "title": "श्री स्वामी समर्थ",
+  "language": "mr",
+  "script": "Devanagari",
+  "category": "mantra",
+  "kadhi": "जप एक माळ · रोज ११ माळ",
+  "verification": {
+    "status": "draft",
+    "verifiedBy": "",
+    "verifiedDate": "",
+    "sourceCompared": false
+  },
+  "source": {
+    "label": "साइटवर सर्वत्र वापरलेला मुख्य मंत्र — data/scriptures रचनेत स्थलांतरित, पण पोथी स्रोत छायाचित्राशी अद्याप स्वतंत्रपणे न ताडलेला (sourceCompared=false). त्यामुळे status=draft ठेवले आहे; कोणीही स्पष्ट मानवी पडताळणी दिल्याशिवाय हे verified-by-centre होणार नाही.",
+    "pages": [],
+    "images": []
+  },
+  "sections": [
+    { "type": "mantra", "lines": ["॥ श्री स्वामी समर्थ ॥"] }
+  ]
+}

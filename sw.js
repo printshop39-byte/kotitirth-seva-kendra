@@ -1,7 +1,12 @@
 /* श्री स्वामी समर्थ सेवा केंद्र — service worker
    काम दोन: (१) "होम स्क्रीनवर ठेवा" सुविधा चालू होते,
             (२) एकदा उघडल्यावर इंटरनेट नसतानाही पान उघडते. */
-const CACHE = "seva-kendra-v3";
+const CACHE = "seva-kendra-v4";
+// फक्त app shell इथे hardcode केलेला आहे.
+// data/scriptures/public-index.json व data/scriptures/verified/*.json
+// मुद्दाम इथे टाकलेले नाहीत — खालचा fetch handler network-first + cache-on-success
+// पद्धतीने प्रत्येक same-origin GET साठी आपोआप runtime caching करतो, त्यामुळे
+// नवीन scripture फाईल प्रकाशित केली की sw.js बदलण्याची गरज नाही.
 const FILES = ["./", "./index.html", "./manifest.webmanifest",
                "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png",
                "./og-image.png",
