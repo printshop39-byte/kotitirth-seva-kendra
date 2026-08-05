@@ -1,0 +1,43 @@
+{
+  "id": "aikya-mantra",
+  "title": "ऐक्य मंत्र",
+  "language": "sa",
+  "script": "Devanagari",
+  "category": "mantra",
+  "kadhi": "",
+  "verification": {
+    "status": "draft",
+    "verifiedBy": "",
+    "verifiedDate": "",
+    "sourceCompared": false
+  },
+  "source": {
+    "label": "नित्यसेवा पोथी, पृष्ठ २० — फोटोवरून AI transcription; अद्याप मानवी सेवेकऱ्याकडून मूळ पुस्तकाशी पडताळणी झालेली नाही (sourceCompared=false).",
+    "pages": [20],
+    "images": ["page-20-aikya-utsav.jpg"]
+  },
+  "uncertainReadings": [
+    {
+      "location": "श्लोक ३ — 'शैवाऽयमीशं' संधि/अवग्रह",
+      "possibilities": ["शैवाऽयमीशं", "शैवायमीशं"],
+      "confidence": "medium",
+      "requiresHumanReview": true
+    },
+    {
+      "location": "श्लोक ४ — 'सत्श्रीअकालेति' / शीख संत ओळ",
+      "possibilities": ["सत्श्रीअकालेति च शिक्खसन्तः"],
+      "confidence": "medium",
+      "requiresHumanReview": true,
+      "note": "फोटोत अक्षर स्पष्टता तपासावी."
+    }
+  ],
+  "sections": [
+    { "type": "heading", "lines": ["३७. ॥ ऐक्य मंत्र ॥"] },
+    { "type": "verse", "number": "१", "lines": ["यं वैदिका मन्त्रदृशः पुराणाः ।", "इन्द्रं यमं मातरिश्वानमाहुः ॥१॥"] },
+    { "type": "verse", "number": "२", "lines": ["वेदान्तिनोऽनिर्वचनीयमेकम् ।", "यं ब्रह्मशब्देन विनिर्दिशन्ति ॥२॥"] },
+    { "type": "verse", "number": "३", "lines": ["शैवाऽयमीशं शिव इत्यवोचन् ।", "यं वैष्णवा विष्णुरितिस्तुवन्ति ॥३॥"] },
+    { "type": "verse", "number": "४", "lines": ["बुद्धस्तथार्हन्निति बौद्धजैनाः ।", "सत्श्रीअकालेति च शिक्खसन्तः ॥४॥"] },
+    { "type": "verse", "number": "५", "lines": ["शास्तेति केचित् कतिचित्कुमारः ।", "स्वामीति मातेति पितेति भक्त्या ॥५॥"] },
+    { "type": "verse", "number": "६", "lines": ["यं प्रार्थयन्ते जगदीशितारम् ।", "स एक एव प्रभुरद्वितीयः ॥६॥"] }
+  ]
+}
