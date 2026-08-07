@@ -168,6 +168,9 @@ html[data-theme="dark"] .test-banner{background:#3A1A14;border-color:#8C2A1E}
 html[data-theme="dark"] .acc[open] summary{background:rgba(224,138,82,.1)}
 html[data-theme="dark"] .acc.fav{box-shadow:inset 3px 0 0 var(--haldi)}
 *{box-sizing:border-box;margin:0;padding:0}
+/* काही घटकांना (h2, .subtabs इ.) स्वतःचा display:flex असल्याने ब्राउझरचा मूळ
+   [hidden]{display:none} नियम त्यांच्यावर लागू होत नाही — इथे तो पुन्हा जबरदस्तीने लागू करतो. */
+[hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%}
 body{
   font-size:16px;
@@ -372,7 +375,7 @@ html[data-theme="dark"] .card{
 }
 html[data-theme="dark"] .tabs{background:rgba(36,32,24,.92)}
 .tabs .tab-blob{
-  position:absolute;top:4px;left:0;width:33.333%;height:calc(100% - 4px - env(safe-area-inset-bottom));
+  position:absolute;top:4px;left:0;width:25%;height:calc(100% - 4px - env(safe-area-inset-bottom));
   border-radius:18px 18px 10px 10px;
   background:radial-gradient(120% 80% at 50% 20%, var(--day-soft), rgba(217,83,30,.08));
   filter:blur(.2px); pointer-events:none; z-index:0;
@@ -1020,26 +1023,41 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
   </div>
   <div class="toast-soft" id="softToast" role="status" aria-live="polite"></div>
 
-  <!-- आत्ताची स्थिती -->
-  <div class="now tilt-card" aria-live="polite">
-    <span class="diya"></span>
-    <div>
-      <div class="lbl">आत्ता</div>
-      <div class="txt" id="nowTxt">वेळापत्रक पाहत आहे…</div>
-      <div class="sub" id="nowSub"></div>
+  <!-- 🏠 आज — लँडिंग पान: आत्ताची स्थिती + आजचे वेळापत्रक -->
+  <div class="pane" role="tabpanel" id="t-today" aria-labelledby="tb-today" tabindex="0">
+  <section>
+    <h2 class="frame">आज — <span id="todayVaar"></span>, <span id="todayTarikh"></span></h2>
+    <!-- आत्ताची स्थिती -->
+    <div class="now tilt-card" aria-live="polite">
+      <span class="diya"></span>
+      <div>
+        <div class="lbl">आत्ता</div>
+        <div class="txt" id="nowTxt">वेळापत्रक पाहत आहे…</div>
+        <div class="sub" id="nowSub"></div>
+      </div>
     </div>
+    <!-- केंद्र उघडे आहे का? -->
+    <div class="khula" id="khula" aria-live="polite">
+      <span class="kdot" id="kDot"></span>
+      <span class="ktx"><b id="kTxt"></b><i id="kSub"></i></span>
+    </div>
+  </section>
+  <section>
+    <h2>आजचे वेळापत्रक</h2>
+    <div class="card tilt-card">
+      <ul class="tl" id="tlToday"></ul>
+    </div>
+  </section>
+  <div class="btns" style="margin:16px 0">
+    <a class="btn btn-wa" href="#paath">🪔 आरतीचा पाठ उघडा</a>
+  </div>
   </div>
 
-  <!-- केंद्र उघडे आहे का? -->
-  <div class="khula" id="khula" aria-live="polite">
-    <span class="kdot" id="kDot"></span>
-    <span class="ktx"><b id="kTxt"></b><i id="kSub"></i></span>
-  </div>
-
+  <h2 class="frame" id="aartiHeading">आरती व नित्यसेवा</h2>
   <nav class="subtabs" id="subtabs" role="tablist" aria-label="आरती विभाग">
-    <button type="button" role="tab" id="st-aaj"   data-sub="aaj"   class="on" aria-selected="true"  aria-controls="panel-aaj">आज</button>
-    <button type="button" role="tab" id="st-paath" data-sub="paath"          aria-selected="false" aria-controls="panel-paath">पाठ</button>
-    <button type="button" role="tab" id="st-var"   data-sub="var"            aria-selected="false" aria-controls="panel-var">वार</button>
+    <button type="button" role="tab" id="st-aaj"   data-sub="aaj"   class="on" aria-selected="true"  aria-controls="panel-aaj">आजच्या आरत्या</button>
+    <button type="button" role="tab" id="st-paath" data-sub="paath"          aria-selected="false" aria-controls="panel-paath">आरतीचा पाठ</button>
+    <button type="button" role="tab" id="st-var"   data-sub="var"            aria-selected="false" aria-controls="panel-var">वारानुसार सेवा</button>
     <button type="button" role="tab" id="st-jap"   data-sub="jap"            aria-selected="false" aria-controls="panel-jap">जपमाळा</button>
   </nav>
 
@@ -1130,33 +1148,7 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
   </div>
 
   <div class="pane" role="tabpanel" id="t-karya" aria-labelledby="tb-karya" tabindex="0">
-  <!-- बाल संस्कार वर्ग -->
-  <section>
-    <h2>बाल संस्कार वर्ग</h2>
-    <div class="card">
-      <div class="rows" id="balsanskar"></div>
-      <p class="note">वय ६ ते १४ वर्षे. प्रवेश विनामूल्य — नाव नोंदणीसाठी खाली संपर्क करा.</p>
-    </div>
-  </section>
-  <!-- विवाह संस्कार -->
-  <section>
-    <h2>विवाह संस्कार</h2>
-    <div class="card">
-      <div class="rows" id="vivah"></div>
-      <p class="note">माहिती व नोंदणीसाठी खाली दिलेल्या क्रमांकावर संपर्क करा.</p>
-    </div>
-  </section>
-  <!-- प्रश्नोत्तरे विभाग -->
-  <section>
-    <h2>प्रश्नोत्तरे विभाग</h2>
-    <div class="card">
-      <div class="rows" id="prashnottare"></div>
-      <p class="note">घरगुती व आध्यात्मिक अडचणींसाठी अनुभवी मार्गदर्शकांकडून
-        आध्यात्मिक मार्गदर्शन व वैयक्तिक चर्चा. प्रत्येकाची गोपनीयता राखली जाते.
-        ही सेवा व्यावसायिक मानसिक आरोग्य समुपदेशनाचा पर्याय नाही.</p>
-      <p class="monly">नोंदणी केंद्रात येऊन करावी · सेवा पूर्णतः विनामूल्य</p>
-    </div>
-  </section>
+  <h2 class="frame">कार्यक्रम व उत्सव</h2>
   <!-- सायंकाळच्या विशेष सेवा -->
   <section>
     <h2>सायंकाळच्या विशेष सेवा</h2>
@@ -1217,6 +1209,35 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
   </div>
 
   <div class="pane" role="tabpanel" id="t-mahiti" aria-labelledby="tb-mahiti" tabindex="0">
+  <h2 class="frame">केंद्र माहिती</h2>
+  <h2>सेवा व मार्गदर्शन</h2>
+  <!-- बाल संस्कार वर्ग -->
+  <section>
+    <h2>बाल संस्कार वर्ग</h2>
+    <div class="card">
+      <div class="rows" id="balsanskar"></div>
+      <p class="note">वय ६ ते १४ वर्षे. प्रवेश विनामूल्य — नाव नोंदणीसाठी खाली संपर्क करा.</p>
+    </div>
+  </section>
+  <!-- विवाह संस्कार -->
+  <section>
+    <h2>विवाह संस्कार</h2>
+    <div class="card">
+      <div class="rows" id="vivah"></div>
+      <p class="note">माहिती व नोंदणीसाठी खाली दिलेल्या क्रमांकावर संपर्क करा.</p>
+    </div>
+  </section>
+  <!-- प्रश्नोत्तरे विभाग -->
+  <section>
+    <h2>प्रश्नोत्तरे विभाग</h2>
+    <div class="card">
+      <div class="rows" id="prashnottare"></div>
+      <p class="note">घरगुती व आध्यात्मिक अडचणींसाठी अनुभवी मार्गदर्शकांकडून
+        आध्यात्मिक मार्गदर्शन व वैयक्तिक चर्चा. प्रत्येकाची गोपनीयता राखली जाते.
+        ही सेवा व्यावसायिक मानसिक आरोग्य समुपदेशनाचा पर्याय नाही.</p>
+      <p class="monly">नोंदणी केंद्रात येऊन करावी · सेवा पूर्णतः विनामूल्य</p>
+    </div>
+  </section>
   <!-- मुद्रण विभाग -->
   <section>
     <h2>मुद्रण विभाग</h2>
@@ -1357,7 +1378,8 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
 <!-- तळाचे टॅब -->
 <nav class="tabs" id="tabs" role="tablist">
   <span class="tab-blob" id="tabBlob" aria-hidden="true"></span>
-  <button type="button" role="tab" aria-selected="true"  id="tb-aarti" aria-controls="t-aarti"  data-tab="aarti" class="on"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2c.4 1.8-.2 3.2-1.2 4.3C9.5 7.6 9 9 9.4 10.6c.5 1.8 2 2.8 2.6 3 .6-.2 2.1-1.2 2.6-3 .4-1.6-.1-3-1.4-4.3C12.2 5.2 11.6 3.8 12 2z"/><path fill="currentColor" d="M7.5 14.2c1.2.9 2.7 1.5 4.5 1.5s3.3-.6 4.5-1.5c.3 1.7.1 3.3-.8 4.6-.8 1.2-2.1 2-3.7 2.2v1.7h-1v-1.7c-1.6-.2-2.9-1-3.7-2.2-.9-1.3-1.1-2.9-.8-4.6z"/><path class="flame" fill="#E9A812" d="M12 4.2c.7 1.2.5 2.2-.2 3-.6.7-.9 1.4-.7 2.2.3 1.1 1.3 1.7 1.7 1.8.4-.1 1.4-.7 1.7-1.8.2-.8-.1-1.5-.7-2.2-.7-.8-.9-1.8-.2-3-.5.4-1.1.7-1.6 1z"/></svg></span>आरती</button>
+  <button type="button" role="tab" aria-selected="true"  id="tb-today" aria-controls="t-today" data-tab="today" class="on"><span class="ti" aria-hidden="true">🏠</span>आज</button>
+  <button type="button" role="tab" aria-selected="false" id="tb-aarti" aria-controls="t-aarti"  data-tab="aarti"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2c.4 1.8-.2 3.2-1.2 4.3C9.5 7.6 9 9 9.4 10.6c.5 1.8 2 2.8 2.6 3 .6-.2 2.1-1.2 2.6-3 .4-1.6-.1-3-1.4-4.3C12.2 5.2 11.6 3.8 12 2z"/><path fill="currentColor" d="M7.5 14.2c1.2.9 2.7 1.5 4.5 1.5s3.3-.6 4.5-1.5c.3 1.7.1 3.3-.8 4.6-.8 1.2-2.1 2-3.7 2.2v1.7h-1v-1.7c-1.6-.2-2.9-1-3.7-2.2-.9-1.3-1.1-2.9-.8-4.6z"/><path class="flame" fill="#E9A812" d="M12 4.2c.7 1.2.5 2.2-.2 3-.6.7-.9 1.4-.7 2.2.3 1.1 1.3 1.7 1.7 1.8.4-.1 1.4-.7 1.7-1.8.2-.8-.1-1.5-.7-2.2-.7-.8-.9-1.8-.2-3-.5.4-1.1.7-1.6 1z"/></svg></span>आरती</button>
   <button type="button" role="tab" aria-selected="false" id="tb-karya" aria-controls="t-karya" data-tab="karya"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 3.5h8l1.2 2.2H21v2.2H3V5.7h3.8L8 3.5zm-3.2 6h14.4v9.2c0 1-.8 1.8-1.8 1.8H6.6c-1 0-1.8-.8-1.8-1.8V9.5zm4.2 2.2v5.4h2.2v-5.4H9zm3.9 0v5.4h2.2v-5.4h-2.2z"/></svg></span>कार्यक्रम</button>
   <button type="button" role="tab" aria-selected="false" id="tb-mahiti" aria-controls="t-mahiti" data-tab="mahiti"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3.2a3.2 3.2 0 1 1 0 6.4 3.2 3.2 0 0 1 0-6.4zm0 8c3.7 0 6.8 2.2 6.8 5.2v1.2c0 .7-.6 1.2-1.2 1.2H6.4c-.7 0-1.2-.5-1.2-1.2V16.4c0-3 3.1-5.2 6.8-5.2z"/><circle cx="18.2" cy="7.2" r="2.1" fill="#E9A812"/></svg></span>माहिती</button>
 </nav>
@@ -2266,6 +2288,22 @@ function renderTimeline(ctx){
     if(done === lagu.length) fill = 100;
   }
   tl.style.setProperty("--tl-fill", fill.toFixed(1) + "%");
+
+  // 🏠 आज टॅबवरील सोपी (फक्त वाचनीय) प्रत — तीच वेळापत्रक माहिती, इंटरॅक्टिव्ह बटणांशिवाय
+  const tlToday = document.getElementById("tlToday");
+  if(tlToday){
+    tlToday.innerHTML = list.map(s => `
+    <li class="${s.sthiti === 'chalu' ? 'live' : ''}${s.lagu ? '' : ' off'}">
+      <span class="t">${show(s.t)}</span>
+      <span class="dot"></span>
+      <span class="d">
+        <b>${s.name}${CHIP[s.sthiti]}</b>
+        <span>${hhmm(s.t)} – ${hhmm(s.eT)}${s.sub ? " · " + s.sub : ""}</span>
+        ${s.kadhi ? `<span class="kadhi">${s.kadhi}</span>` : ""}
+      </span>
+    </li>`).join("");
+    tlToday.style.setProperty("--tl-fill", fill.toFixed(1) + "%");
+  }
 }
 
 function renderNowBar(ctx){
@@ -2344,6 +2382,17 @@ function renderVachan(ctx){
   document.getElementById("vachan").textContent = KENDRA.vachane[day % KENDRA.vachane.length];
 }
 
+// 🏠 आज टॅबवरील "आज — वार, तारीख" शीर्षक
+function renderTodayHeading(ctx){
+  const varEl = document.getElementById("todayVaar"), tarEl = document.getElementById("todayTarikh");
+  if(!varEl || !tarEl) return;
+  const MAH = ["जानेवारी","फेब्रुवारी","मार्च","एप्रिल","मे","जून","जुलै",
+               "ऑगस्ट","सप्टेंबर","ऑक्टोबर","नोव्हेंबर","डिसेंबर"];
+  const vaarNaav = (KENDRA.varSeva[ctx.now.getDay()] || [""])[0];
+  varEl.textContent = vaarNaav;
+  tarEl.textContent = dev(ctx.aaj.getDate()) + " " + MAH[ctx.aaj.getMonth()];
+}
+
 let lastDayKey = "";
 function renderCurrentStatus(){
   const ctx = buildSevaCtx(istNow());
@@ -2356,6 +2405,7 @@ function renderCurrentStatus(){
     lastDayKey = key;
     renderVarSeva(ctx);
     renderVachan(ctx);
+    renderTodayHeading(ctx);
     try{ window.dispatchEvent(new CustomEvent("seva-day-change", { detail:{ date:key } })); }catch(e){}
   }
   return ctx;
@@ -2781,6 +2831,7 @@ if(KENDRA.patta)     document.getElementById("patta").innerHTML  = "📍 " + KEN
 
 // ---------- रूटिंग: #aarti #paath #var #jap #karyakram #mahiti ----------
 const ROUTES = {
+  today:     { pane:"today", sub:null },
   aarti:     { pane:"aarti", sub:"aaj" },
   paath:     { pane:"aarti", sub:"paath" },
   var:       { pane:"aarti", sub:"var" },
@@ -2790,6 +2841,7 @@ const ROUTES = {
   karya:     { pane:"karya", sub:null }   // जुने hash समर्थन
 };
 const HASH_OF = {
+  today:"#today",
   aarti:"#aarti", paath:"#paath", var:"#var", jap:"#jap",
   karyakram:"#karyakram", karya:"#karyakram", mahiti:"#mahiti"
 };
@@ -2843,7 +2895,7 @@ const aartiSub = (function(){
   function routeKey(){
     // "#paath/<scripture-id>" सारखे hash असतील तर आधी "/" आधीचा भाग वेगळा काढा —
     // बाकी सर्व अस्तित्वात असलेले exact-hash route (#aarti, #paath, #var, #jap …) जसेच्या तसे राहतात.
-    const raw = (location.hash || "#aarti").replace(/^#/, "");
+    const raw = (location.hash || "#today").replace(/^#/, "");
     const h = raw.split("/")[0];
     if(ROUTES[h]) return h;
     // hash नसेल / अज्ञात — session फक्त मुख्य pane साठी; subtab नाही
@@ -2851,14 +2903,17 @@ const aartiSub = (function(){
       const t = sessionStorage.getItem("tab");
       if(t === "karya") return "karyakram";
       if(t === "mahiti") return "mahiti";
+      if(t === "aarti") return "aarti";
+      if(t === "today") return "today";
     }catch(e){}
-    return "aarti";
+    return "today";
   }
 
   function dakhav(key, hashBadla){
-    const r = ROUTES[key] || ROUTES.aarti;
+    const r = ROUTES[key] || ROUTES.today;
     panes.forEach(v => { v.hidden = v.id !== "t-" + r.pane; });
     document.getElementById("subtabs").hidden = r.pane !== "aarti";
+    document.getElementById("aartiHeading").hidden = r.pane !== "aarti";
     btns.forEach(b => {
       const on = b.dataset.tab === r.pane;
       b.classList.toggle("on", on);
@@ -2873,7 +2928,7 @@ const aartiSub = (function(){
     // "#paath/<scripture-id>" deep-link असेल तर hash न बदलता तीच रचना उघडून तिथे scroll करा
     const pendingScriptureId = key === "paath" ? scriptureIdFromHash() : null;
     if(hashBadla !== false){
-      const want = HASH_OF[key] || "#aarti";
+      const want = HASH_OF[key] || "#today";
       if(location.hash !== want) history.replaceState(null, "", want);
     }
     if(pendingScriptureId){
@@ -2907,7 +2962,7 @@ const aartiSub = (function(){
 
   addEventListener("hashchange", () => dakhav(routeKey(), false));
 
-  // सुरुवात: hash असेल तर तोच; नाहीतर #aarti
+  // सुरुवात: hash असेल तर तोच; नाहीतर #today (आज)
   // ("#paath/<scripture-id>" सारखा hash असेल तरी "/" आधीचा भाग वापरून ओळखावा)
   const hasHash = !!ROUTES[(location.hash || "").replace(/^#/, "").split("/")[0]];
   dakhav(routeKey(), hasHash ? false : true);
