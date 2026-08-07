@@ -1373,23 +1373,31 @@ const KENDRA = {
   patta    : "उद्यमनगर, छत्रपती शाहू मिलजवळ,<br>कोल्हापूर – ४१६००८",
 
   // ---------- केंद्र उघडण्या-बंद होण्याची वेळ ----------
+  // सर्वसाधारण दिवशी: सकाळी ७:०० ते दुपारी १:०० उघडे, दुपारी १:०० ते ४:०० बंद (विश्रांती),
+  // पुन्हा दुपारी ४:०० ते रात्री ८:०० उघडे — फक्त गुरुवारी रात्री ९:०० पर्यंत.
+  // अपवाद (दुपारची विश्रांती नाही, पूर्ण दिवसभर उघडे): १) श्री दत्तजयंती सप्ताह,
+  // २) श्री स्वामी समर्थ पुण्यतिथी सप्ताह, ३) ११ उत्सवांचे दिवस (utsavDates), ४) संपूर्ण श्रावण महिना.
   kendraVel: {
     ughadte : "07:00",     // रोज सकाळी ७:०० वाजता उघडते
+    duporBandSuru  : "13:00",   // दुपारी १:०० वाजता विश्रांतीसाठी बंद
+    duporBandSampte: "16:00",   // दुपारी ४:०० वाजता पुन्हा उघडते
     bandh   : "20:00",     // रोज रात्री ८:०० वाजता बंद
     guruwar : "21:00",     // गुरुवारी रात्री ९:०० पर्यंत
 
     // ---- सप्ताह ----
-    // जयंती / पुण्यतिथीच्या ६ दिवस आधी केंद्र २४ तास उघडे राहते,
+    // जयंती / पुण्यतिथीच्या ६ दिवस आधी केंद्र पूर्ण दिवसभर (विश्रांतीशिवाय) उघडे राहते,
     // आणि जयंतीच्या दुसऱ्या दिवशी रात्री बंद होते.
     // खाली फक्त मुख्य दिवसाची तारीख टाका — बाकी आपोआप ठरते.
     agodar : 6,            // किती दिवस आधी सुरू
     nantar : 1,            // मुख्य दिवसानंतर किती दिवस
     saptah : [
-      { naav:"श्री दत्तात्रेय जयंती", tarikh:"" },        // <-- तारीख टाका "YYYY-MM-DD" — रिकामे = २४तास feature बंद
+      { naav:"श्री दत्तात्रेय जयंती", tarikh:"" },        // <-- तारीख टाका "YYYY-MM-DD" — रिकामे = पूर्ण-दिवस feature बंद
       { naav:"श्री स्वामी समर्थ पुण्यतिथी", tarikh:"" }   // <-- तारीख टाका — calendarMeta.pending
     ],
-    guruTipa   : "गुरुवारी रात्री ९:०० पर्यंत",
-    saptahTipa : "दत्त जयंती व श्री स्वामी समर्थ पुण्यतिथी सप्ताहात २४ तास उघडे"
+    guruTipa    : "गुरुवारी रात्री ९:०० पर्यंत",
+    saptahTipa  : "दत्त जयंती व श्री स्वामी समर्थ पुण्यतिथी सप्ताहात पूर्ण दिवसभर उघडे",
+    duporTipa   : "दुपारी १:०० ते ४:०० विश्रांतीसाठी बंद",
+    purnaDivasTipa: "सप्ताह, ११ उत्सव व संपूर्ण श्रावण महिन्यात दुपारची विश्रांती नाही — केंद्र पूर्ण दिवसभर उघडे"
   },
   mapUrl   : "https://maps.google.com/?cid=14920130721297585471",   // केंद्राचे Google Maps ठिकाण
   vibhagUrl: "https://dindoripranit.org/#/vibhag",   // सेवा विभागांची अधिकृत माहिती
@@ -2173,7 +2181,7 @@ function buildSevaCtx(now){
 
 function renderKhula(ctx){
   const K = KENDRA.kendraVel, box = document.getElementById("khula");
-  const { now, nowM, aaj } = ctx;
+  const { now, nowM, aaj, shravanAahe, utsavAaj } = ctx;
   const guruwar = now.getDay() === 4;
   box.classList.remove("ughade","lavkar","bandh");
 
@@ -2181,7 +2189,6 @@ function renderKhula(ctx){
   (K.saptah || []).forEach(x => {
     if(!x.tarikh) return;
     const [y,m,d] = x.tarikh.split("-").map(Number);
-    const mukhya = new Date(y, m-1, d);
     const suru   = new Date(y, m-1, d - (K.agodar || 0));
     const akher  = new Date(y, m-1, d + (K.nantar || 0));
     if(aaj >= suru && aaj <= akher){
@@ -2190,11 +2197,16 @@ function renderKhula(ctx){
     }
   });
 
-  const ugh  = mins(K.ughadte);
-  const band = (saptah && !shevatchaDivas) ? 24*60 : mins(guruwar ? K.guruwar : K.bandh);
+  // दुपारची विश्रांती (१:०० ते ४:००) — सप्ताह, ११ उत्सव व संपूर्ण श्रावण महिन्यात लागू नाही (पूर्ण दिवसभर उघडे)
+  const purnaDivas = !!saptah || utsavAaj || shravanAahe;
+
+  const ugh   = mins(K.ughadte);
+  const dSuru = mins(K.duporBandSuru);
+  const dSam  = mins(K.duporBandSampte);
+  const band  = (saptah && !shevatchaDivas) ? 24*60 : mins(guruwar ? K.guruwar : K.bandh);
   const txt = document.getElementById("kTxt"), sub = document.getElementById("kSub");
   const velDakhav = t => show(String(Math.floor(t/60)).padStart(2,"0") + ":" + String(t%60).padStart(2,"0"));
-  const tipa = [guruwar ? "" : K.guruTipa, saptah ? "" : K.saptahTipa]
+  const tipa = [guruwar ? "" : K.guruTipa, saptah ? "" : K.saptahTipa, purnaDivas ? "" : K.purnaDivasTipa]
                  .filter(Boolean).join(" · ");
   const jod = t => t + (tipa ? " · " + tipa : "");
 
@@ -2213,10 +2225,21 @@ function renderKhula(ctx){
     box.classList.add("bandh");
     txt.textContent = "केंद्र बंद आहे";
     sub.textContent = jod("आज " + velDakhav(ugh) + " वाजता उघडेल");
+  }else if(!purnaDivas && nowM >= dSuru && nowM < dSam){
+    box.classList.add("bandh");
+    txt.textContent = "केंद्र दुपारच्या विश्रांतीसाठी बंद आहे";
+    sub.textContent = jod("आज " + velDakhav(dSam) + " वाजता पुन्हा उघडेल");
   }else if(nowM >= band){
     box.classList.add("bandh");
     txt.textContent = "केंद्र बंद झाले आहे";
     sub.textContent = jod("उद्या " + velDakhav(ugh) + " वाजता उघडेल");
+  }else if(!purnaDivas && nowM < dSuru){
+    const bakiDupar = dSuru - nowM;
+    box.classList.add(bakiDupar <= 30 ? "lavkar" : "ughade");
+    txt.textContent = bakiDupar <= 30
+      ? "अजून " + dev(bakiDupar) + " मिनिटांत दुपारच्या विश्रांतीसाठी बंद होईल"
+      : "केंद्र उघडे आहे";
+    sub.textContent = jod("आज " + velDakhav(dSuru) + " पर्यंत, नंतर " + velDakhav(dSam) + " वाजता पुन्हा उघडेल");
   }else{
     const baki = band - nowM;
     box.classList.add(baki <= 30 ? "lavkar" : "ughade");
