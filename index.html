@@ -719,6 +719,27 @@ html[data-theme="dark"] .tabs{background:rgba(36,32,24,.92)}
 .btn-share{background:transparent;color:var(--kesari);border:1px dashed rgba(217,83,30,.5)}
 .btn:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
 .btn.todo{opacity:.55}
+
+/* ---------- माहिती टॅब — पटकन-जा कार्ड्स ---------- */
+.quickjump{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.qj-card{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:14px 8px;border-radius:14px;cursor:pointer;
+  background:var(--card);border:1px solid var(--line);
+  font-family:inherit;font-size:13.5px;font-weight:600;color:var(--shai);
+  transition:transform .12s ease;-webkit-tap-highlight-color:transparent;
+}
+.qj-card:active{transform:scale(.97)}
+.qj-card .qj-ic{font-size:24px}
+.qj-card:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
+.badge-note{
+  display:inline-block;font-size:12.5px;font-weight:600;color:var(--kesari);
+  background:rgba(217,83,30,.08);border:1px solid rgba(217,83,30,.25);
+  border-radius:20px;padding:4px 12px;margin:-8px 0 12px;
+}
+.dh-acc{margin-bottom:9px}
+.dh-acc .accbody{display:flex;flex-direction:column;gap:14px}
+
 .person{text-align:center;font-size:17px;font-weight:600}
 .person small{display:block;font-size:13px;letter-spacing:2px;color:var(--shai-soft);font-weight:400;margin-bottom:2px}
 
@@ -1263,13 +1284,25 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
 
   <div class="pane" role="tabpanel" id="t-mahiti" aria-labelledby="tb-mahiti" tabindex="0">
   <h2 class="frame">केंद्र माहिती</h2>
-  <h2>सेवा व मार्गदर्शन</h2>
+
+  <!-- पटकन-जा कार्ड्स -->
+  <div class="quickjump">
+    <button type="button" class="qj-card" data-jump="grp-seva"><span class="qj-ic">🙏</span><span>सेवा व मार्गदर्शन</span></button>
+    <button type="button" class="qj-card" data-jump="grp-sampark"><span class="qj-ic">📞</span><span>संपर्क</span></button>
+    <button type="button" class="qj-card" data-jump="grp-dharmik"><span class="qj-ic">📚</span><span>धार्मिक माहिती</span></button>
+    <button type="button" class="qj-card" data-jump="grp-duve"><span class="qj-ic">🔗</span><span>उपयुक्त दुवे</span></button>
+  </div>
+
+  <h2 id="grp-seva">सेवा व मार्गदर्शन</h2>
   <!-- बाल संस्कार वर्ग -->
   <section>
     <h2>बाल संस्कार वर्ग</h2>
     <div class="card">
       <div class="rows" id="balsanskar"></div>
-      <p class="note">वय ६ ते १४ वर्षे. प्रवेश विनामूल्य — नाव नोंदणीसाठी खाली संपर्क करा.</p>
+      <p class="note">वय ६ ते १४ वर्षे · प्रवेश विनामूल्य</p>
+      <div class="btns">
+        <button type="button" class="btn btn-map" data-jump="grp-sampark">📞 नोंदणीसाठी संपर्क करा</button>
+      </div>
     </div>
   </section>
   <!-- विवाह संस्कार -->
@@ -1277,23 +1310,30 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
     <h2>विवाह संस्कार</h2>
     <div class="card">
       <div class="rows" id="vivah"></div>
-      <p class="note">माहिती व नोंदणीसाठी खाली दिलेल्या क्रमांकावर संपर्क करा.</p>
+      <p class="note">माहिती व नोंदणीसाठी संपर्क करा.</p>
+      <div class="btns">
+        <button type="button" class="btn btn-map" data-jump="grp-sampark">📞 माहितीसाठी संपर्क करा</button>
+      </div>
     </div>
   </section>
   <!-- प्रश्नोत्तरे विभाग -->
   <section>
-    <h2>प्रश्नोत्तरे विभाग</h2>
+    <h2>आध्यात्मिक प्रश्नोत्तरे व मार्गदर्शन</h2>
     <div class="card">
       <div class="rows" id="prashnottare"></div>
       <p class="note">घरगुती व आध्यात्मिक अडचणींसाठी अनुभवी मार्गदर्शकांकडून
         आध्यात्मिक मार्गदर्शन व वैयक्तिक चर्चा. प्रत्येकाची गोपनीयता राखली जाते.
         ही सेवा व्यावसायिक मानसिक आरोग्य समुपदेशनाचा पर्याय नाही.</p>
       <p class="monly">नोंदणी केंद्रात येऊन करावी · सेवा पूर्णतः विनामूल्य</p>
+      <div class="btns">
+        <button type="button" class="btn btn-map" data-jump="grp-sampark">📞 मार्गदर्शनासाठी संपर्क करा</button>
+      </div>
     </div>
   </section>
   <!-- मुद्रण विभाग -->
   <section>
     <h2>मुद्रण विभाग</h2>
+    <p class="badge-note">🖨️ फक्त मुद्रण साहित्य — केंद्राच्या सर्वसाधारण चौकशीसाठी नाही</p>
     <div class="card">
       <div class="rows" id="mudran"></div>
       <p class="note">सेवा साहित्य, पोथी व मुद्रण साहित्य खरेदीसाठी याच वेळेत संपर्क करा.</p>
@@ -1312,17 +1352,10 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
       </div>
     </div>
   </section>
-  <!-- आजचे वचन -->
-  <section>
-    <h2>आजचे स्मरण</h2>
-    <div class="vachan">
-      <div class="k">श्री स्वामी वचन</div>
-      <p id="vachan"></p>
-    </div>
-  </section>
+
   <!-- संपर्क -->
   <section>
-    <h2>संपर्क</h2>
+    <h2 id="grp-sampark">संपर्क</h2>
     <div class="card">
       <div class="person"><small>सेवेकरी</small><span id="pname"></span><i id="pnum"></i></div>
       <p class="patta" id="patta"></p>
@@ -1350,40 +1383,67 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
       </div>
     </div>
   </section>
-  <!-- भिऊ नकोस -->
-  <section>
-    <h2>भिऊ नकोस, मी तुझ्या पाठीशी आहे</h2>
-    <p class="sintro">श्री स्वामी समर्थ सेवामार्गात रोज पाळावयाचे बारा नियम.</p>
-    <div class="books" id="bhiu"></div>
 
-    <div class="card panch">
-      <h3>पंचमहायज्ञ</h3>
-      <div class="rows" id="panchayadnya"></div>
-      <p class="note" id="panchaShevat"></p>
+  <h2 id="grp-dharmik">धार्मिक माहिती</h2>
+  <!-- भिऊ नकोस + पंचमहायज्ञ — collapsible -->
+  <details class="acc dh-acc">
+    <summary>
+      <span class="ai">🕉️</span>
+      <span class="at"><b>बारा नियम पहा</b><i>भिऊ नकोस, मी तुझ्या पाठीशी आहे</i></span>
+      <span class="ac" aria-hidden="true">+</span>
+    </summary>
+    <div class="accbody">
+      <p class="sintro">श्री स्वामी समर्थ सेवामार्गात रोज पाळावयाचे बारा नियम.</p>
+      <div class="books" id="bhiu"></div>
+      <div class="card panch">
+        <h3>पंचमहायज्ञ</h3>
+        <div class="rows" id="panchayadnya"></div>
+        <p class="note" id="panchaShevat"></p>
+      </div>
     </div>
-  </section>
+  </details>
 
-  <!-- सोळा संस्कार -->
-  <section>
-    <h2 class="frame">सोळा संस्कार</h2>
-    <p class="sintro" id="sanskarIntro"></p>
-    <div class="acclist" id="sanskar"></div>
-    <p class="vsnote" id="sanskarShevat"></p>
-  </section>
+  <!-- सोळा संस्कार — collapsible -->
+  <details class="acc dh-acc">
+    <summary>
+      <span class="ai">📜</span>
+      <span class="at"><b>सोळा संस्कार पहा</b></span>
+      <span class="ac" aria-hidden="true">+</span>
+    </summary>
+    <div class="accbody">
+      <p class="sintro" id="sanskarIntro"></p>
+      <div class="acclist" id="sanskar"></div>
+      <p class="vsnote" id="sanskarShevat"></p>
+    </div>
+  </details>
 
-  <!-- धार्मिक ग्रंथ -->
-  <section>
-    <h2>धार्मिक ग्रंथ</h2>
-    <div class="card">
+  <!-- धार्मिक ग्रंथ — collapsible -->
+  <details class="acc dh-acc">
+    <summary>
+      <span class="ai">📚</span>
+      <span class="at"><b>उपलब्ध धार्मिक ग्रंथ पहा</b></span>
+      <span class="ac" aria-hidden="true">+</span>
+    </summary>
+    <div class="accbody">
       <div class="books" id="books"></div>
       <p class="note">उपलब्धतेसाठी केंद्रात विचारणा करा.</p>
     </div>
-  </section>
+  </details>
+
   <!-- उपयुक्त दुवे -->
   <section>
-    <h2>उपयुक्त दुवे</h2>
+    <h2 id="grp-duve">उपयुक्त दुवे</h2>
     <div class="card">
       <div class="links" id="links"></div>
+    </div>
+  </section>
+
+  <!-- आजचे वचन — दुय्यम, त्यामुळे शेवटी -->
+  <section>
+    <h2>आजचे स्मरण</h2>
+    <div class="vachan">
+      <div class="k">श्री स्वामी वचन</div>
+      <p id="vachan"></p>
     </div>
   </section>
   </div>
@@ -3123,6 +3183,13 @@ const aartiSub = (function(){
     });
     document.addEventListener("keydown", e => { if(e.key === "Escape") ughad(false); });
   })();
+
+  // माहिती टॅबमधील पटकन-जा कार्ड्स व CTA बटणे — पान न बदलता त्याच पानावरील विभागाकडे स्क्रोल
+  document.querySelectorAll("[data-jump]").forEach(el => {
+    el.addEventListener("click", () => {
+      document.getElementById(el.dataset.jump)?.scrollIntoView({ behavior:"smooth", block:"start" });
+    });
+  });
 
   function stopSpeech(){
     try{ window.speechSynthesis?.cancel(); }catch(e){}
