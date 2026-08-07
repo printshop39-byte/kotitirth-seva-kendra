@@ -1464,7 +1464,8 @@ const KENDRA = {
              <span class="atit">फक्त सोमवारी सायंकाळी नैवेद्य आरतीसह, तसेच विशेष उत्सवास</span></li>
          <li>श्री देवीची आरती<i class="oli">जय देवी जय देवी जय महिषासुरमर्दिनी…</i>
              <span class="atit">फक्त उत्सवाच्या वेळी व नवरात्रीत</span></li>
-         <li>औदुंबर प्रदक्षिणा<i class="oli">धन्य धन्य हो प्रदक्षिणा सद्गुरु रायाची…</i></li>
+         <li>औदुंबर प्रदक्षिणा<i class="oli">धन्य धन्य हो प्रदक्षिणा सद्गुरु रायाची…</i>
+             <span class="atit">फक्त सप्ताहात</span></li>
          <li>मंत्रपुष्पांजली</li>
          <li>जयजयकार</li>
          <li>श्री सद्गुरु प्रार्थना</li>
@@ -1548,7 +1549,7 @@ const KENDRA = {
       `त्रिभुवनी पाहता तुज ऐसी नाही ।<br>चारी श्रमले परंतु न बोलवे काही ॥<br>साही विवाद करता पडले प्रवाही ।<br>ते तू भक्तालागी पावसी लवलाही ॥२॥`,
       `प्रसन्नवदने प्रसन्न होसी निजदासा ।<br>क्लेशापासूनी सोडी तोडी भवपाशा ॥<br>अंबे तुजवाचूनि कोण पुरविल आशा ।<br>नरहरी तल्लीन झाला पदपंकजलेशा ॥३॥`
     ] },
-    { naav:"औदुंबर प्रदक्षिणा", kadhi:"आरत्यांनंतर", ovya:[
+    { naav:"औदुंबर प्रदक्षिणा", kadhi:"फक्त सप्ताहात, आरत्यांनंतर", ovya:[
       `॥ दिगंबरा दिगंबरा श्रीपाद वल्लभ दिगंबरा ॥<br>(तीन वेळा म्हणावे)`,
       `धन्य धन्य हो प्रदक्षिणा सद्गुरु रायाची ।<br>झाली त्वरा सुरवरा विमान उतरायाची ॥धृ॥`,
       `पदोपदी अपार झाल्या पुण्यांच्या राशी ।<br>सर्वही तीर्थे घडली आम्हां आदी करुनि काशी ॥१॥`,
@@ -2607,9 +2608,10 @@ function applyScriptureHashRoute(){
     if(!idxRes.ok) return;
     const idx = await idxRes.json();
     const items = Array.isArray(idx?.items) ? idx.items : [];
-    const resolved = [];
-    for(const it of items){
-      if(!it) continue;
+    // सर्व फाईल्स समांतर (parallel) fetch करतो — आधी एका मागून एक (await लूप) होते,
+    // त्यामुळे टॅब उघडायला उशीर होत होता. क्रम मूळ items यादीप्रमाणेच राखला जातो.
+    const settled = await Promise.all(items.map(async it => {
+      if(!it) return null;
       // "visibility":"test" म्हणजे जाणीवपूर्वक, स्पष्टपणे चिन्हांकित तात्पुरती public
       // draft-test नोंद — सामान्य verified-by-centre गेट इथेही सैल केलेला नाही,
       // फक्त एक वेगळी, अरुंद, स्वतंत्रपणे तपासलेली वाट आहे.
@@ -2617,33 +2619,34 @@ function applyScriptureHashRoute(){
       const requiredPrefix = isTest ? "drafts/" : "verified/";
       if(typeof it.file !== "string" || !it.file.startsWith(requiredPrefix)){
         console.warn("scripture manifest: अनपेक्षित मार्ग नाकारला", it);
-        continue;
+        return null;
       }
       let doc;
       try{
         const r = await fetch("data/scriptures/" + it.file);
-        if(!r.ok) continue;
+        if(!r.ok) return null;
         doc = await r.json();
-      }catch(e){ continue; }
-      if(doc?.id !== it.id) continue;
+      }catch(e){ return null; }
+      if(doc?.id !== it.id) return null;
 
       if(isTest){
         const v = doc?.verification || {};
         const uncertain = Array.isArray(doc?.uncertainReadings) ? doc.uncertainReadings : [];
         if(v.status !== "draft" || v.sourceCompared !== false || uncertain.length < 1){
           console.warn("scripture manifest: visibility=test नियम FAIL, वगळले —", it.id);
-          continue;
+          return null;
         }
       }else{
         const v = doc?.verification || {};
         if(v.status !== "verified-by-centre" || v.sourceCompared !== true){
           console.warn("scripture manifest: verification gate FAIL, वगळले —", it.id);
-          continue;
+          return null;
         }
       }
-      resolved.push({ doc, isTest });
-      window.__scriptureIndex.set(doc.id, doc);
-    }
+      return { doc, isTest };
+    }));
+    const resolved = settled.filter(Boolean);
+    resolved.forEach(({ doc }) => window.__scriptureIndex.set(doc.id, doc));
     renderScriptureList(box, resolved);
   }catch(e){ /* offline / file:// — फक्त जुनी embed यादी दिसेल */ }
   finally{
