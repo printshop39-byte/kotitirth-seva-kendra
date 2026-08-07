@@ -1,7 +1,7 @@
 /* श्री स्वामी समर्थ सेवा केंद्र — service worker
    काम दोन: (१) "होम स्क्रीनवर ठेवा" सुविधा चालू होते,
             (२) एकदा उघडल्यावर इंटरनेट नसतानाही पान उघडते. */
-const CACHE = "seva-kendra-v8";
+const CACHE = "seva-kendra-v9";
 // फक्त app shell इथे hardcode केलेला आहे.
 // data/scriptures/public-index.json व data/scriptures/verified/*.json
 // मुद्दाम इथे टाकलेले नाहीत — खालचा fetch handler network-first + cache-on-success
@@ -25,13 +25,16 @@ self.addEventListener("activate", e => {
 
 // आधी नेटवर्क; मिळाले नाही तर cache.
 // index.html fallback फक्त navigation (HTML page) requests साठी.
+// cache:"no-store" मुद्दाम — नाहीतर ब्राउझरचा स्वतःचा HTTP cache या fetch()
+// ला जुनेच उत्तर देऊ शकतो आणि "network-first" खरोखर नेटवर्कवर जातच नाही,
+// त्यामुळे साईटवर बदल केल्यावरही वापरकर्त्याला जुनेच पान दिसत राहते.
 self.addEventListener("fetch", e => {
   if(e.request.method !== "GET") return;
   const url = new URL(e.request.url);
   if(url.origin !== location.origin) return;
 
   e.respondWith(
-    fetch(e.request)
+    fetch(e.request, { cache: "no-store" })
       .then(r => {
         if(r && r.ok){
           const copy = r.clone();
