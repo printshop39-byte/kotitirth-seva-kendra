@@ -17,7 +17,6 @@
     { "id": "maruti-stotra", "file": "drafts/maruti-stotra.json", "title": "श्री मारुती स्तोत्र", "category": "stotra", "visibility": "test" },
     { "id": "charani-thav-ghava", "file": "drafts/charani-thav-ghava.json", "title": "चरणीं ठाव घावा", "category": "stotra", "visibility": "test" },
     { "id": "pasayadan", "file": "drafts/pasayadan.json", "title": "पसायदान", "category": "prarthana", "visibility": "test" },
-    { "id": "monday-shiv-shorts", "file": "drafts/monday-shiv-shorts.json", "title": "सोमवार शिवसेवा — छोटे मंत्र", "category": "mantra", "visibility": "test" },
     { "id": "shiv-mahimna-anuvad", "file": "drafts/shiv-mahimna-anuvad.json", "title": "श्री शिवमहिम्न स्तोत्र (मराठी)", "category": "stotra", "visibility": "test" },
     { "id": "dwadash-jyotirlinga", "file": "drafts/dwadash-jyotirlinga.json", "title": "श्री द्वादश ज्योतिर्लिंग स्तोत्र", "category": "stotra", "visibility": "test" },
     { "id": "shiva-namavali", "file": "drafts/shiva-namavali.json", "title": "श्री शिवनामावली (अष्टोत्तरशत)", "category": "stotra", "visibility": "test" },
