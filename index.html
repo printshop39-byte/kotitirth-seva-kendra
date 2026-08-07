@@ -3684,8 +3684,16 @@ const aartiSub = (function(){
 
 
 // service worker — यामुळेच "होम स्क्रीनवर ठेवा" Android वर चालते
+// updateViaCache:"none" मुद्दाम — नाहीतर ब्राउझर sw.js फाईलच जुन्या (cached) प्रतीशी
+// तुलना करत राहतो आणि नवीन आवृत्ती आलेली कधीच लक्षात घेत नाही, त्यामुळे साईटवर
+// बदल केल्यावरही जुनेच पान दिसत राहते. register() नंतर लगेच update() कॉल करून
+// पहिल्याच भेटीत नवीन आवृत्ती तपासली जाते.
 if("serviceWorker" in navigator){
-  addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(()=>{}));
+  addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js", { updateViaCache: "none" })
+      .then(reg => reg.update().catch(()=>{}))
+      .catch(()=>{});
+  });
 }
 
 // शेअर — सध्या दिसणारा tab/subtab URL
