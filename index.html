@@ -143,6 +143,15 @@ html[data-vaar] .chip.c-cha{
   background:var(--day-accent); color:#fffdf6;
   box-shadow:0 0 0 0 var(--day-glow); animation:jyot 2.2s ease-out infinite;
 }
+/* रवि/सोम/बुध/गुरु/शुक्र चे day-accent फिकट असल्याने पांढरा मजकूर contrast (WCAG AA) मध्ये नापास होतो —
+   या ५ वारी गडद मजकूर; मंगळ/शनि (गडद accent) साठी पांढराच योग्य राहतो. */
+html[data-vaar="0"] .chip.c-cha,
+html[data-vaar="1"] .chip.c-cha,
+html[data-vaar="3"] .chip.c-cha,
+html[data-vaar="4"] .chip.c-cha,
+html[data-vaar="5"] .chip.c-cha{
+  color:var(--shai);
+}
 html[data-vaar] .tl li.live{
   border-radius:12px;
   box-shadow:0 0 0 1.5px var(--day-accent), 0 0 18px var(--day-glow);
@@ -212,6 +221,16 @@ body{padding-bottom:calc(64px + env(safe-area-inset-bottom))}  /* तळाच�
 .reader-bar button:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
 .reader-bar button.on{background:rgba(181,71,20,.12);border-color:rgba(181,71,20,.4);color:var(--kesari)}
 .reader-bar #fsLabel{min-width:2.2em;text-align:center;font-size:13px;color:var(--shai-soft);font-weight:600}
+.rb-more-wrap{position:relative}
+#rbMoreBtn{min-width:40px;padding:8px 14px;font-size:18px;letter-spacing:1px}
+.rb-more-menu{
+  position:absolute;top:calc(100% + 6px);right:0;z-index:30;
+  display:flex;flex-direction:column;gap:8px;min-width:190px;
+  background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:10px;box-shadow:0 10px 26px -8px rgba(44,35,23,.25);
+}
+.rb-more-menu .rb-lbl{margin:0 0 2px;text-align:center;display:block}
+.rb-more-menu button{width:100%}
 .fav-list{margin-bottom:12px}
 .fav-list:empty{display:none}
 .fav-hint{
@@ -264,7 +283,12 @@ html[data-theme="dark"] .ovi.focus-verse{background:rgba(212,168,75,.18)}
 .hero h1{
   font-family:var(--f-head);
   font-size:clamp(21px,5.6vw,27px);
-  line-height:1.45;color:var(--kumkum);font-weight:400;
+  line-height:1.3;color:var(--kumkum);font-weight:400;
+}
+.hero-sub{
+  display:block; font-family:var(--f-body);
+  font-size:clamp(13px,3.4vw,15px); font-weight:600; letter-spacing:.3px;
+  color:var(--shai-soft); margin-top:5px;
 }
 .place{
   margin-top:10px;display:inline-flex;gap:6px;align-items:center;
@@ -301,6 +325,23 @@ html[data-theme="dark"] .ovi.focus-verse{background:rgba(212,168,75,.18)}
 .khula.lavkar .ktx b{color:#8a6208}
 .khula.bandh  .ktx b{color:#8C1D2B}
 .ktx i{font-style:normal;display:block;font-size:14px;color:var(--shai-soft);line-height:1.55;margin-top:2px}
+
+/* ---------- 🏠 आज टॅबवरील एकत्रित स्थिती-कार्ड (आज + केंद्र उघडे + आत्ता एकाच बॉक्समध्ये) ---------- */
+.statuscard{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:18px;box-shadow:0 8px 22px rgba(44,35,23,.10);
+}
+.statuscard .sc-date{
+  font-family:var(--f-head);font-size:16px;font-weight:600;color:var(--kumkum);
+  text-align:center;letter-spacing:.4px;margin-bottom:14px;
+  padding-bottom:12px;border-bottom:1px dashed var(--line);
+}
+.statuscard .khula{margin:0 0 14px;padding:0;background:none;border:0}
+.statuscard .now{
+  background:rgba(233,168,18,.10);color:var(--shai);box-shadow:none;
+  border-radius:12px;padding:14px 16px;
+}
+.statuscard .now .lbl{opacity:.55}
 
 /* पत्ता */
 .patta{margin-top:10px;text-align:center;font-size:15.5px;line-height:1.6;color:var(--shai-soft)}
@@ -361,6 +402,12 @@ html[data-theme="dark"] .card{
 }
 .subtabs button.on{background:rgba(181,71,20,.12);color:var(--kumkum)}
 .subtabs button:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
+/* लहान स्क्रीनवर (≤360px) ४ subtab एका ओळीत squeeze होऊन नावे तुटतात —
+   2×2 grid केल्याने प्रत्येक बटणाला पुरेशी जागा मिळते. */
+@media (max-width:360px){
+  .subtabs{ display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+  .subtabs button{ padding:12px 6px; }
+}
 .pane:focus{outline:none}
 
 /* ---------- तळाचे टॅब + गूई सूचक ---------- */
@@ -385,15 +432,16 @@ html[data-theme="dark"] .tabs{background:rgba(36,32,24,.92)}
 .tabs button{
   position:relative;z-index:1;
   flex:1;border:0;background:none;cursor:pointer;
-  font-family:inherit;font-size:13.5px;font-weight:600;color:var(--shai-soft);
-  padding:9px 4px 10px;display:flex;flex-direction:column;align-items:center;gap:2px;
+  font-family:inherit;font-size:14.5px;font-weight:600;color:var(--shai-soft);
+  padding:10px 4px 11px;display:flex;flex-direction:column;align-items:center;gap:3px;
+  min-height:52px;
   border-top:3px solid transparent;margin-top:-1px;
   transition:color .2s ease, border-color .25s ease;
 }
-.tabs button .ti{font-size:20px;line-height:1.15;display:grid;place-items:center;height:24px}
-.tabs button .ti svg{width:22px;height:22px;display:block}
-.tabs button .flame{transform-origin:50% 90%; animation:flameFlicker 1.1s ease-in-out infinite}
-.tabs button.on .flame{animation-duration:.85s}
+.tabs button .ti{font-size:24px;line-height:1.1;display:grid;place-items:center;height:27px}
+.tabs button .ti svg{width:25px;height:25px;display:block}
+.tabs button .flame{transform-origin:50% 90%}
+.tabs button.on .flame{animation:flameFlicker .6s ease-out}
 @keyframes flameFlicker{
   0%,100%{transform:scaleY(1) scaleX(1); opacity:.95}
   40%{transform:scaleY(1.12) scaleX(.92); opacity:1}
@@ -1009,37 +1057,42 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
 <main class="wrap">
 
   <div class="hero">
-    <h1>श्री स्वामी समर्थ सेवा व<br>आध्यात्मिक सेवा व बाल संस्कार केंद्र</h1>
+    <h1>श्री स्वामी समर्थ सेवा केंद्र<span class="hero-sub">आध्यात्मिक सेवा · बाल संस्कार</span></h1>
     <div class="place">📍 कोटितीर्थ, कोल्हापूर</div>
   </div>
 
   <div class="reader-bar" id="readerBar" role="toolbar" aria-label="वाचन सोयी">
-    <span class="rb-lbl">अक्षरे</span>
-    <button type="button" id="fsDown" aria-label="अक्षरे लहान करा">A−</button>
-    <span id="fsLabel" aria-live="polite">मध्यम</span>
-    <button type="button" id="fsUp" aria-label="अक्षरे मोठी करा">A+</button>
-    <button type="button" id="themeToggle" aria-pressed="false" aria-label="गडद थीम चालू/बंद">☾ रात्र</button>
-    <button type="button" id="voiceBtn" aria-pressed="false" aria-label="मराठी आवाजाने पाठ शोधा">🎤 आवाज</button>
+    <button type="button" id="fsUp" aria-label="अक्षरे मोठी करा">A+ मोठी अक्षरे</button>
+    <button type="button" id="voiceBtn" aria-pressed="false" aria-label="मराठी आवाजाने पाठ शोधा">🔊 आवाज</button>
+    <div class="rb-more-wrap">
+      <button type="button" id="rbMoreBtn" aria-haspopup="true" aria-expanded="false" aria-controls="rbMoreMenu" aria-label="आणखी वाचन पर्याय">⋯</button>
+      <div class="rb-more-menu" id="rbMoreMenu" hidden>
+        <span class="rb-lbl">अक्षरे: <span id="fsLabel">मध्यम</span></span>
+        <button type="button" id="fsDown" aria-label="अक्षरे लहान करा">A− लहान अक्षरे</button>
+        <button type="button" id="themeToggle" aria-pressed="false" aria-label="गडद थीम चालू/बंद">☾ रात्र मोड</button>
+      </div>
+    </div>
   </div>
   <div class="toast-soft" id="softToast" role="status" aria-live="polite"></div>
 
   <!-- 🏠 आज — लँडिंग पान: आत्ताची स्थिती + आजचे वेळापत्रक -->
   <div class="pane" role="tabpanel" id="t-today" aria-labelledby="tb-today" tabindex="0">
   <section>
-    <h2 class="frame">आज — <span id="todayVaar"></span>, <span id="todayTarikh"></span></h2>
-    <!-- आत्ताची स्थिती -->
-    <div class="now tilt-card" aria-live="polite">
-      <span class="diya"></span>
-      <div>
-        <div class="lbl">आत्ता</div>
-        <div class="txt" id="nowTxt">वेळापत्रक पाहत आहे…</div>
-        <div class="sub" id="nowSub"></div>
+    <!-- एकत्रित स्थिती-कार्ड: आज + केंद्र उघडे/बंद + आत्ता -->
+    <div class="statuscard tilt-card" aria-live="polite">
+      <div class="sc-date">आज — <span id="todayVaar"></span>, <span id="todayTarikh"></span></div>
+      <div class="khula" id="khula">
+        <span class="kdot" id="kDot"></span>
+        <span class="ktx"><b id="kTxt"></b><i id="kSub"></i></span>
       </div>
-    </div>
-    <!-- केंद्र उघडे आहे का? -->
-    <div class="khula" id="khula" aria-live="polite">
-      <span class="kdot" id="kDot"></span>
-      <span class="ktx"><b id="kTxt"></b><i id="kSub"></i></span>
+      <div class="now">
+        <span class="diya"></span>
+        <div>
+          <div class="lbl">आत्ता</div>
+          <div class="txt" id="nowTxt">वेळापत्रक पाहत आहे…</div>
+          <div class="sub" id="nowSub"></div>
+        </div>
+      </div>
     </div>
   </section>
   <section>
@@ -2965,6 +3018,9 @@ const aartiSub = (function(){
   // सुरुवात: hash असेल तर तोच; नाहीतर #today (आज)
   // ("#paath/<scripture-id>" सारखा hash असेल तरी "/" आधीचा भाग वापरून ओळखावा)
   const hasHash = !!ROUTES[(location.hash || "").replace(/^#/, "").split("/")[0]];
+  // वापरकर्त्याने मूळ URL मध्ये आधीच वैध hash टाकला होता का — welcome modal दाखवायचे की नाही यासाठी वापरतो
+  // (उदा. छापलेला #aarti QR स्कॅन करणाऱ्याला थेट आरती दिसावी, welcome आडवे येऊ नये)
+  window.__hadExplicitHash = hasHash;
   dakhav(routeKey(), hasHash ? false : true);
 })();
 
@@ -3052,6 +3108,21 @@ const aartiSub = (function(){
     applyTheme(dark ? "light" : "dark");
     thokLite();
   });
+
+  // "⋯" मेनू — A− व रात्र मोड इथे लपवलेले; बाहेर क्लिक/Esc ने बंद होते
+  (function(){
+    const btn = document.getElementById("rbMoreBtn"), menu = document.getElementById("rbMoreMenu");
+    if(!btn || !menu) return;
+    function ughad(khula){
+      menu.hidden = !khula;
+      btn.setAttribute("aria-expanded", khula ? "true" : "false");
+    }
+    btn.addEventListener("click", e => { e.stopPropagation(); ughad(menu.hidden); });
+    document.addEventListener("click", e => {
+      if(!menu.hidden && !menu.contains(e.target) && e.target !== btn) ughad(false);
+    });
+    document.addEventListener("keydown", e => { if(e.key === "Escape") ughad(false); });
+  })();
 
   function stopSpeech(){
     try{ window.speechSynthesis?.cancel(); }catch(e){}
@@ -3612,8 +3683,8 @@ const aartiSub = (function(){
       if(localStorage.getItem(KEY) === aajKey()) return;
       if(sessionStorage.getItem("welcomeSession") === "1") return;
     }catch(e){}
-    const h = (location.hash || "").replace(/^#/, "").split("/")[0];
-    if(h && h !== "aarti") return;
+    // कोणताही वैध hash आधीच URL मध्ये होता (उदा. छापलेला #aarti QR) → थेट तिथेच घेऊन जा, welcome आडवे नको
+    if(window.__hadExplicitHash) return;
     wel.hidden = false;
     requestAnimationFrame(() => wel.classList.add("open"));
     const go = document.getElementById("welcomeGo");
