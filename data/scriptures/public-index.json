@@ -25,6 +25,7 @@
     { "id": "purusha-sukta", "file": "drafts/purusha-sukta.json", "title": "पुरुषसूक्त", "category": "sukta", "visibility": "test" },
     { "id": "navgraha-stotra", "file": "drafts/navgraha-stotra.json", "title": "नवग्रह स्तोत्र", "category": "stotra", "visibility": "test" },
     { "id": "langulastra-stotra", "file": "drafts/langulastra-stotra.json", "title": "श्री लांगूलास्त्र स्तोत्रम्", "category": "stotra", "visibility": "test" },
-    { "id": "aikya-mantra", "file": "drafts/aikya-mantra.json", "title": "ऐक्य मंत्र", "category": "mantra", "visibility": "test" }
+    { "id": "aikya-mantra", "file": "drafts/aikya-mantra.json", "title": "ऐक्य मंत्र", "category": "mantra", "visibility": "test" },
+    { "id": "swami-charitra-saramrut", "file": "drafts/swami-charitra-saramrut.json", "title": "श्री स्वामी चरित्र सारामृत (२१ अध्याय)", "category": "other", "visibility": "test" }
   ]
 }
