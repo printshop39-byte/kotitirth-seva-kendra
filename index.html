@@ -838,6 +838,18 @@ html[data-theme="dark"] .tabs{background:rgba(36,32,24,.92)}
   border:1px solid #EBD9AE;border-radius:var(--r);
   padding:20px 16px 18px;text-align:center;
 }
+.mala-select{
+  display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:14px;
+}
+.mala-select button{
+  font-family:inherit;font-size:14px;font-weight:600;color:var(--shai-soft);
+  background:var(--card);border:1.5px solid var(--line);border-radius:999px;
+  padding:7px 14px;cursor:pointer;transition:all .15s ease;
+}
+.mala-select button[aria-selected="true"]{
+  background:var(--kumkum);border-color:var(--kumkum);color:#fff;
+}
+.mala-select button:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
 .mala-tip{
   font-size:14px;color:var(--shai-soft);line-height:1.55;margin-bottom:10px;
 }
@@ -1245,8 +1257,9 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
   <section id="panel-jap" role="tabpanel" aria-labelledby="st-jap" data-subpanel="jap">
     <h2>जपमाळा</h2>
     <div class="mala" id="mala">
-      <p class="mala-tip">आरतीनंतर १ माळ · रोज ११ माळी ‘श्री स्वामी समर्थ’ जप</p>
-      <div class="mala-mantra">॥ श्री स्वामी समर्थ ॥</div>
+      <div class="mala-select" id="malaSelect" role="tablist" aria-label="जप मंत्र निवडा"></div>
+      <p class="mala-tip" id="malaTip">आरतीनंतर १ माळ · रोज ११ माळी ‘श्री स्वामी समर्थ’ जप</p>
+      <div class="mala-mantra" id="malaMantra">॥ श्री स्वामी समर्थ ॥</div>
       <div class="mala-sub" id="malaSub">एकदा दाबा = एक जप · डबल टॅप मोजत नाही</div>
 
       <div class="mala-stage">
@@ -1254,7 +1267,7 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
         <button type="button" class="mala-tap" id="malaTap"
           aria-label="एक जप मोजणे — मध्यभागी दाबा">
           <span class="mala-n" id="malaBead">०</span>
-          <span class="mala-den">/ १०८</span>
+          <span class="mala-den" id="malaDen">/ १०८</span>
           <span class="mala-hint" id="malaHint">दाबा</span>
         </button>
       </div>
@@ -1621,8 +1634,18 @@ const KENDRA = {
   //   only:"shivseva" = श्रावणात रोज, एरवी फक्त सोमवारी
   aartiMin: 20,
   jap: "आरतीनंतर १ माळ श्री स्वामी समर्थ जप",   // प्रत्येक आरतीनंतर
-  // जपमाळा — एक माळ = १०८ जप; रोजचे लक्ष्य भिऊ नकोस नियमाप्रमाणे
-  japMala: { beads: 108, dailyGoal: 11, mantra: "श्री स्वामी समर्थ" },
+  // जपमाळा — निवडक लहान जप-योग्य मंत्र (लांब स्तोत्रे इथे नाहीत, ती फक्त वाचायची असतात).
+  // प्रत्येकाचा स्वतंत्र मणी-दिनांक इतिहास ठेवला जातो — मंत्र बदलल्यास आधीची प्रगती जात नाही.
+  japMantras: [
+    { id:"swami", naav:"श्री स्वामी समर्थ", mantra:"॥ श्री स्वामी समर्थ ॥",
+      beads:108, dailyGoal:11, tip:"आरतीनंतर १ माळ · रोज ११ माळा 'श्री स्वामी समर्थ' जप" },
+    { id:"mrityunjay", naav:"महामृत्युंजय मंत्र",
+      mantra:"ॐ त्र्यंबकं यजामहे । सुगंधिं पुष्टिवर्धनम् ।<br>उर्वारुकमिव बंधनान् मृत्योर्मुक्षीयमामृतात् ॥",
+      beads:11, dailyGoal:1, tip:"फक्त सोमवारी — ११ वेळा जपावा" },
+    { id:"dhyan", naav:"ध्यान मंत्र",
+      mantra:"“क्षणम् आत्मानु संधानं, पापं दहति कोटिश: ।<br>अन्यथा पाप विध्वसं, न भवेत कोटी पुण्यत: ॥”",
+      beads:3, dailyGoal:1, tip:"आरतीनंतर ३ वेळा म्हणावा" }
+  ],
 
   seva: [
     { t:"08:00", e:"08:20", name:"भूपाळी व सकाळच्या आरत्या",
@@ -3925,15 +3948,16 @@ const aartiSub = (function(){
   setTimeout(refreshAccExtras, 2500);
 })();
 
-// ---------- जपमाळा (टॅप मुख्य · Auto टायमर ऐच्छिक · mic नाही) ----------
+// ---------- जपमाळा (टॅप मुख्य · Auto टायमर ऐच्छिक · mic नाही · मंत्र निवडता येतो) ----------
 (function(){
-  const cfg = KENDRA.japMala || { beads:108, dailyGoal:11 };
-  const BEADS = cfg.beads || 108;
-  const GOAL  = cfg.dailyGoal || 11;
-  const KEY   = "japMala.v1";
+  const MANTRAS = KENDRA.japMantras || [{ id:"swami", naav:"श्री स्वामी समर्थ", mantra:"॥ श्री स्वामी समर्थ ॥", beads:108, dailyGoal:11, tip:"" }];
   const svg   = document.getElementById("malaBeads");
   const tap   = document.getElementById("malaTap");
   const box   = document.getElementById("mala");
+  const selBox = document.getElementById("malaSelect");
+  const elMantra = document.getElementById("malaMantra");
+  const elTip  = document.getElementById("malaTip");
+  const elDen  = document.getElementById("malaDen");
   const elBead = document.getElementById("malaBead");
   const elDone = document.getElementById("malaDone");
   const elLeft = document.getElementById("malaLeft");
@@ -3949,28 +3973,58 @@ const aartiSub = (function(){
   const autoPause = document.getElementById("autoPause");
   if(!svg || !tap) return;
 
-  elTarget.textContent = dev(GOAL);
+  let cfg = MANTRAS[0], BEADS = cfg.beads || 108, GOAL = cfg.dailyGoal || 11, KEY = "japMala.v1";
+  const CX = 100, CY = 100, R = 88, CIRC = 2 * Math.PI * R;
+  let nodes = [], track = null, prog = null;
 
-  const CX = 100, CY = 100, R = 88, CIRC = 2 * Math.PI * R, nodes = [];
-  const track = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-  track.setAttribute("cx", CX); track.setAttribute("cy", CY); track.setAttribute("r", R);
-  track.setAttribute("class", "track");
-  svg.appendChild(track);
-  const prog = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-  prog.setAttribute("cx", CX); prog.setAttribute("cy", CY); prog.setAttribute("r", R);
-  prog.setAttribute("class", "prog");
-  prog.setAttribute("stroke-dasharray", CIRC.toFixed(2));
-  prog.setAttribute("stroke-dashoffset", CIRC.toFixed(2));
-  svg.appendChild(prog);
-  for(let i = 0; i < BEADS; i++){
-    const ang = -Math.PI/2 + (i / BEADS) * Math.PI * 2;
-    const c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-    c.setAttribute("cx", (CX + R * Math.cos(ang)).toFixed(2));
-    c.setAttribute("cy", (CY + R * Math.sin(ang)).toFixed(2));
-    c.setAttribute("r", i === 0 ? 5 : 3.1);
-    c.setAttribute("class", i === 0 ? "bd meru" : "bd");
-    svg.appendChild(c);
-    nodes.push(c);
+  function buildRing(){
+    while(svg.firstChild) svg.removeChild(svg.firstChild);
+    nodes = [];
+    track = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    track.setAttribute("cx", CX); track.setAttribute("cy", CY); track.setAttribute("r", R);
+    track.setAttribute("class", "track");
+    svg.appendChild(track);
+    prog = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    prog.setAttribute("cx", CX); prog.setAttribute("cy", CY); prog.setAttribute("r", R);
+    prog.setAttribute("class", "prog");
+    prog.setAttribute("stroke-dasharray", CIRC.toFixed(2));
+    prog.setAttribute("stroke-dashoffset", CIRC.toFixed(2));
+    svg.appendChild(prog);
+    for(let i = 0; i < BEADS; i++){
+      const ang = -Math.PI/2 + (i / BEADS) * Math.PI * 2;
+      const c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      c.setAttribute("cx", (CX + R * Math.cos(ang)).toFixed(2));
+      c.setAttribute("cy", (CY + R * Math.sin(ang)).toFixed(2));
+      c.setAttribute("r", i === 0 ? 5 : 3.1);
+      c.setAttribute("class", i === 0 ? "bd meru" : "bd");
+      svg.appendChild(c);
+      nodes.push(c);
+    }
+  }
+
+  function renderSel(){
+    selBox.innerHTML = MANTRAS.map(m => `
+      <button type="button" role="tab" aria-selected="${m.id === cfg.id}" data-mid="${m.id}">${m.naav}</button>
+    `).join("");
+    selBox.querySelectorAll("button").forEach(b => {
+      b.addEventListener("click", () => switchMantra(b.dataset.mid));
+    });
+  }
+
+  function switchMantra(id){
+    const found = MANTRAS.find(m => m.id === id) || MANTRAS[0];
+    if(autoOn?.checked) { autoOn.checked = false; stopAuto(); }
+    cfg = found; BEADS = cfg.beads || 108; GOAL = cfg.dailyGoal || 11;
+    KEY = cfg.id === "swami" ? "japMala.v1" : ("japMala.v1." + cfg.id);
+    elMantra.innerHTML = cfg.mantra || "";
+    elTip.textContent = cfg.tip || "";
+    elDen.textContent = "/ " + dev(BEADS);
+    elTarget.textContent = dev(GOAL);
+    buildRing();
+    st = load();
+    bol("");
+    dakhav();
+    selBox.querySelectorAll("button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.mid === cfg.id)));
   }
 
   function aajIST(){ return dayKey(istNow()); }
@@ -3986,7 +4040,7 @@ const aartiSub = (function(){
     try{ localStorage.setItem(KEY, JSON.stringify({ date:aajIST(), bead:st.bead, malas:st.malas })); }catch(e){}
   }
 
-  let st = load();
+  let st = { bead:0, malas:0 };
   let lastTap = 0;
   let timer = null;
   let paused = false;
@@ -4150,7 +4204,8 @@ const aartiSub = (function(){
 
   addEventListener("seva-day-change", () => { st = load(); dakhav(); bol(""); });
   addEventListener("pagehide", stopAuto);
-  dakhav();
+  renderSel();
+  switchMantra(MANTRAS[0].id);
 })();
 
 // ---------- होम स्क्रीनवर ठेवा ----------
