@@ -2759,6 +2759,26 @@ function renderShravanKaryakram(ctx){
   box.hidden = !ctx.shravanAahe;
 }
 
+// वारानुसार सेवा यादीतील नावे व सायंकाळच्या विशेष सेवा (visheshSeva) यादीतील naav
+// यांचे शब्दलेखन नेहमी सारखे नसते (उदा. "वल्गा सुक्त" वि. "अथर्व वेदोक्त वल्गा सूक्त") —
+// म्हणून इथे स्पष्ट जोडणी दिली आहे. नवीन मंत्र visheshSeva मध्ये जोडल्यावर हवे तर इथेही
+// नाव-जोडणी वाढवा; जोडणी न मिळाल्यास ती ओळ आधीसारखी (न उघडणारी) दिसेल.
+const VAR_SEVA_ALIAS = {
+  "वल्गा सूक्त":"अथर्व वेदोक्त वल्गा सूक्त",
+  "वल्गा सुक्त":"अथर्व वेदोक्त वल्गा सूक्त",
+  "संस्कृत रुद्र":"रुद्राध्यायः",
+  "शिवनामावली":"श्री शिवनामावली",
+  "शिव प्रार्थना":"शिवप्रार्थना",
+  "ध्यानयोग":"ध्यान योग",
+  "श्री स्वामी समर्थ जप":"श्री स्वामी समर्थ",
+  "करुणाष्टके (शनिवारी)":"करुणाष्टके",
+  "श्री रामरक्षा स्तोत्र":"श्री रामरक्षा"
+};
+function shodhaVisheshSeva(naav){
+  const target = VAR_SEVA_ALIAS[naav] || naav;
+  return (KENDRA.visheshSeva || []).find(x => x.naav === target && (x.html || (x.ovya && x.ovya.length)));
+}
+
 function renderVarSeva(ctx){
   const KRAM = [1,2,3,4,5,6,0];
   const aajchaVar = ctx.now.getDay();
@@ -2768,12 +2788,20 @@ function renderVarSeva(ctx){
     const aajch = v === aajchaVar;
     const oli = yadi.map((r,i) => {
       const jodTip = [r[1] ? "पान " + r[1] : "", r[3] || ""].filter(Boolean).join(" · ");
-      return `
-      <div class="nrow">
+      const match = shodhaVisheshSeva(r[0]);
+      const nrowSummary = `
         <span class="nn">${dev(i+1)}</span>
         <span class="nt"><b>${r[0]}</b>${jodTip ? `<i>${jodTip}</i>` : ""}</span>
-        ${r[2] ? `<span class="nc">${r[2]}</span>` : ""}
-      </div>`;
+        ${r[2] ? `<span class="nc">${r[2]}</span>` : ""}`;
+      if(!match){
+        return `<div class="nrow">${nrowSummary}</div>`;
+      }
+      const body = match.html ? match.html : match.ovya.map(o => `<p class="ovi">${o}</p>`).join("");
+      return `
+      <details class="acc nrow-acc">
+        <summary class="nrow">${nrowSummary}<span class="ac" aria-hidden="true">+</span></summary>
+        <div class="accbody">${body}${match.tipa ? `<p class="ref">${match.tipa}</p>` : ""}</div>
+      </details>`;
     }).join("");
     return `
       <details class="acc"${aajch ? " open" : ""}>
