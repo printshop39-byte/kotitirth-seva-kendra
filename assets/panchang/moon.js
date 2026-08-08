@@ -11,7 +11,10 @@
   window.KT = window.KT || {};
   var NS = "http://www.w3.org/2000/svg";
 
-  // प्रकाशित भागाचा path (R = त्रिज्या, f = illum ०..१, waxing = उजवीकडे प्रकाश)
+  // प्रकाशित भागाचा path — parametric polygon (arc-flag गोंधळ टाळण्यासाठी).
+  // उत्तर गोलार्ध संकेत: वाढता (शुक्ल) चंद्र → उजवीकडे प्रकाश;
+  // घटता (कृष्ण) चंद्र → डावीकडे प्रकाश.
+  // बाह्य अर्धवर्तुळ (प्रकाशित कड) + terminator अर्ध-लंबवर्तुळ (x-त्रिज्या = R(1−2f)).
   function litPath(R, f, waxing) {
     f = Math.max(0, Math.min(1, f));
     if (f <= 0.005) return "";                 // अमावस्या — काहीच प्रकाशित नाही
@@ -19,12 +22,16 @@
       return "M0," + (-R) + " A " + R + "," + R + " 0 1 1 0," + R +
              " A " + R + "," + R + " 0 1 1 0," + (-R) + " Z";
     }
-    var rx = (R * Math.abs(1 - 2 * f)).toFixed(3);
-    var sweepOuter = waxing ? 1 : 0;
-    var sweepInner = (f < 0.5) ? sweepOuter : (1 - sweepOuter);
-    return "M0," + (-R) +
-      " A " + R + "," + R + " 0 0 " + sweepOuter + " 0," + R +
-      " A " + rx + "," + R + " 0 0 " + sweepInner + " 0," + (-R) + " Z";
+    var xr = R * (1 - 2 * f), N = 48, pts = [], i, t, x;
+    for (i = 0; i <= N; i++) { t = Math.PI * i / N; pts.push([R * Math.sin(t), -R * Math.cos(t)]); }
+    for (i = 0; i <= N; i++) { t = Math.PI * i / N; pts.push([xr * Math.sin(t), R * Math.cos(t)]); }
+    if (!waxing) { for (i = 0; i < pts.length; i++) pts[i][0] = -pts[i][0]; }
+    var d = "M";
+    for (i = 0; i < pts.length; i++) {
+      x = pts[i];
+      d += (i ? "L" : "") + x[0].toFixed(2) + "," + x[1].toFixed(2) + " ";
+    }
+    return d + "Z";
   }
 
   function el(name, attrs) {
