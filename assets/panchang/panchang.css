@@ -1,0 +1,124 @@
+/* ============================================================
+   आजचे पंचांग — शैली (साइटच्या विद्यमान CSS variables वापरून)
+   शांत · भक्तिमय · स्वच्छ · वृद्धांनाही सहज वाचता येईल असे.
+   ============================================================ */
+
+.pc-card{ display:flex; flex-direction:column; gap:14px; text-align:center; }
+
+/* सण/निरीक्षण पट्टी (badge banner) */
+.pc-banner{
+  display:flex; flex-wrap:wrap; gap:8px; justify-content:center;
+  margin:-2px 0 2px;
+}
+.pc-badge{
+  font-size:13.5px; font-weight:600; line-height:1.3;
+  padding:6px 12px; border-radius:999px;
+  background:rgba(233,168,18,.18); color:#7a5606;
+  border:1px solid rgba(233,168,18,.35);
+}
+.pc-badge.major{ background:rgba(140,29,43,.10); color:var(--kumkum);
+  border-color:rgba(140,29,43,.30); }
+.pc-badge.civic{ background:rgba(46,139,69,.12); color:#22683A;
+  border-color:rgba(46,139,69,.30); }
+
+/* तारीख व मास */
+.pc-date{ font-size:15.5px; font-weight:600; color:var(--shai); }
+.pc-masa{ font-size:16px; font-weight:600; color:var(--kesari);
+  margin-top:2px; letter-spacing:.3px; }
+
+/* चंद्र */
+.pc-moonwrap{ display:flex; flex-direction:column; align-items:center; gap:6px; }
+.pc-moon{ display:block; filter:drop-shadow(0 6px 14px rgba(28,31,59,.25)); }
+.pc-phaselabel{ font-size:13.5px; color:var(--shai-soft); }
+
+/* सौम्य रिव्हील (एकदाच, लोडवर) */
+.pc-moon-enter{ opacity:0; transform:scale(.92); }
+.pc-moon-in{ opacity:1; transform:scale(1);
+  transition:opacity .55s ease, transform .55s ease; }
+
+/* तिथी (ठळक) */
+.pc-tithi{ display:flex; flex-direction:column; gap:2px; }
+.pc-tithi-name{ font-family:var(--f-head); font-size:clamp(24px,7vw,30px);
+  color:var(--kumkum); line-height:1.2; font-weight:400; }
+.pc-tithi-end{ font-size:15px; color:var(--shai); font-weight:600; }
+.pc-tithi-next{ font-size:14px; color:var(--shai-soft); }
+
+/* सूर्योदय/अस्त */
+.pc-suntimes{ display:flex; flex-wrap:wrap; gap:10px 18px; justify-content:center;
+  padding-top:10px; border-top:1px dashed var(--line); }
+.pc-suntimes span{ font-size:14.5px; color:var(--shai); font-weight:600;
+  display:inline-flex; gap:6px; align-items:center; white-space:nowrap; }
+.pc-nak{ font-size:15px; color:var(--shai); }
+.pc-nak b{ color:var(--kumkum); font-weight:600; }
+
+/* सविस्तर बटण */
+.pc-expand{
+  align-self:center; margin-top:2px;
+  font-family:inherit; font-size:14.5px; font-weight:600;
+  color:var(--kumkum); cursor:pointer;
+  background:rgba(217,83,30,.06); border:1px solid var(--line);
+  border-radius:11px; padding:10px 18px;
+  display:inline-flex; align-items:center; gap:8px;
+}
+.pc-expand .pc-caret{ transition:transform .2s ease; font-size:12px; }
+.pc-expand[aria-expanded="true"] .pc-caret{ transform:rotate(180deg); }
+.pc-expand:focus-visible{ outline:3px solid var(--haldi); outline-offset:2px; }
+
+/* सविस्तर तपशील */
+.pc-details{ margin-top:4px; text-align:left; display:grid; gap:0; }
+.pc-details[hidden]{ display:none; }
+.pc-drow{ display:flex; justify-content:space-between; gap:12px;
+  padding:9px 2px; border-top:1px solid var(--line); font-size:14.5px; }
+.pc-drow:first-child{ border-top:0; }
+.pc-drow .k{ color:var(--shai-soft); flex:0 0 auto; }
+.pc-drow .v{ color:var(--shai); font-weight:600; text-align:right; }
+.pc-note{ font-size:12.5px; color:var(--shai-soft); margin-top:8px;
+  line-height:1.55; text-align:center; }
+
+/* fallback */
+.pc-fallback{ text-align:center; color:var(--shai-soft); font-size:15px; padding:6px 0; }
+
+/* ---------- सण मोडल ---------- */
+.pc-modal-open{ overflow:hidden; }
+.pc-overlay{
+  position:fixed; inset:0; z-index:60;
+  background:rgba(28,20,10,.55);
+  display:flex; align-items:center; justify-content:center;
+  padding:20px; padding-bottom:calc(20px + env(safe-area-inset-bottom));
+}
+.pc-modal{
+  background:var(--card); color:var(--shai);
+  border:1px solid var(--line); border-radius:18px;
+  max-width:400px; width:100%; padding:22px 20px 18px;
+  box-shadow:0 18px 50px rgba(28,31,59,.35);
+  text-align:center; position:relative;
+}
+.pc-modal .pc-modal-eyebrow{ font-size:13px; letter-spacing:2px; color:var(--kesari);
+  font-weight:600; }
+.pc-modal h3{ font-family:var(--f-head); font-size:24px; color:var(--kumkum);
+  font-weight:400; margin:6px 0 10px; line-height:1.3; }
+.pc-modal p{ font-size:15px; line-height:1.65; color:var(--shai); margin-bottom:16px; }
+.pc-modal-acts{ display:grid; gap:10px; }
+.pc-btn{ font-family:inherit; font-size:15.5px; font-weight:600; cursor:pointer;
+  padding:13px 16px; border-radius:12px; border:1px solid transparent; }
+.pc-btn-primary{ background:var(--kumkum); color:#FFF3DA; }
+.pc-btn-ghost{ background:var(--card); color:var(--kumkum);
+  border-color:rgba(140,29,43,.35); }
+.pc-btn:focus-visible{ outline:3px solid var(--haldi); outline-offset:2px; }
+.pc-modal-x{
+  position:absolute; top:10px; right:10px; width:36px; height:36px;
+  border-radius:50%; border:1px solid var(--line); background:var(--card);
+  color:var(--shai-soft); font-size:20px; line-height:1; cursor:pointer;
+}
+.pc-modal-x:focus-visible{ outline:3px solid var(--haldi); outline-offset:2px; }
+
+/* डोळ्यांना जड न वाटणारी सौम्य एंट्री */
+.pc-overlay{ animation:pcFade .18s ease; }
+.pc-modal{ animation:pcRise .28s ease; }
+@keyframes pcFade{ from{opacity:0} to{opacity:1} }
+@keyframes pcRise{ from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none} }
+
+/* डार्क मोड जोडल्यास चंद्र/पट्टी सुवाच्य राहावी (साइटवर सध्या डार्क मोड नाही) */
+@media (prefers-color-scheme: dark){
+  .pc-phaselabel{ color:#cbb98f; }
+}
