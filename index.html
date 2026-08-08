@@ -326,6 +326,18 @@ html[data-theme="dark"] .ovi.focus-verse{background:rgba(212,168,75,.18)}
 .khula.bandh  .ktx b{color:#8C1D2B}
 .ktx i{font-style:normal;display:block;font-size:14px;color:var(--shai-soft);line-height:1.55;margin-top:2px}
 
+/* ---------- 🔔 उत्सव-स्मरण बॅनर — उत्सवाच्या २४ तास आधी दिसतो ---------- */
+.usmaran{
+  background:linear-gradient(135deg,rgba(233,168,18,.16),rgba(140,29,43,.08));
+  border:1px solid var(--kesari);border-radius:var(--r);
+  padding:16px 18px;margin-bottom:16px;box-shadow:0 8px 22px rgba(44,35,23,.10);
+}
+.usm-top{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--kumkum)}
+.usm-ico{font-size:18px}
+.usm-naav{font-family:var(--f-head);font-size:19px;font-weight:700;color:var(--shai);margin:6px 0 4px}
+.usm-body{font-size:15px;line-height:1.65;color:var(--shai-soft)}
+.usm-body p{margin:4px 0}
+
 /* ---------- 🏠 आज टॅबवरील एकत्रित स्थिती-कार्ड (आज + केंद्र उघडे + आत्ता एकाच बॉक्समध्ये) ---------- */
 .statuscard{
   background:var(--card);border:1px solid var(--line);border-radius:var(--r);
@@ -1098,6 +1110,14 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
 
   <!-- 🏠 आज — लँडिंग पान: आत्ताची स्थिती + आजचे वेळापत्रक -->
   <div class="pane" role="tabpanel" id="t-today" aria-labelledby="tb-today" tabindex="0">
+  <section>
+    <!-- उत्सव-स्मरण बॅनर: सण/उत्सवाच्या २४ तास आधी दिसतो, अन्यथा लपलेला -->
+    <div class="usmaran tilt-card" id="usmaran" hidden aria-live="polite">
+      <div class="usm-top"><span class="usm-ico">🔔</span><span class="usm-when" id="usmWhen"></span></div>
+      <div class="usm-naav" id="usmNaav"></div>
+      <div class="usm-body" id="usmBody"></div>
+    </div>
+  </section>
   <section>
     <!-- एकत्रित स्थिती-कार्ड: आज + केंद्र उघडे/बंद + आत्ता -->
     <div class="statuscard tilt-card" aria-live="polite">
@@ -1895,6 +1915,25 @@ const KENDRA = {
     "2026-12-23"    // श्री दत्तात्रेय जयंती
   ],
 
+  // उत्सव-स्मरण — निवडक उत्सवांची आदल्या दिवशी (सुमारे २४ तास आधी) व त्याच दिवशी
+  // "आज" टॅबवर दिसणारी आठवण/माहिती. utsavDates (केंद्र उघडण्याच्या वेळेसाठी) पेक्षा
+  // ही यादी वेगळी व स्वतंत्र आहे — इथे फक्त ज्यांची स्मरण-माहिती भरली आहे तेच दिसतील.
+  // नवीन उत्सव स्मरण द्यायचे असल्यास इथे {date, naav, body} वाढवा.
+  utsavSmaran: [
+    { date:"2026-09-01", naav:"श्रीकृष्ण जन्माष्टमी",
+      body:"<p>घरोघरी मध्यरात्री श्रीकृष्ण जन्माचा सोहळा साजरा करावा. दुसऱ्या दिवशी (२ सप्टेंबर) गोपाळकाला असतो.</p>" },
+    { date:"2026-09-02", naav:"गोपाळकाला",
+      body:"<p>श्रीकृष्ण जन्माष्टमीच्या दुसऱ्या दिवशी गोपाळकाला साजरा करावा.</p>" },
+    { date:"2026-10-11", naav:"घटस्थापना (नवरात्रारंभ)",
+      body:"<p>आजपासून शारदीय नवरात्रोत्सव सुरू होतो. पुढील ८ दिवस केंद्रात सकाळी ७ ते रात्री ८ देवीची सेवा सुरू राहील.</p>" },
+    { date:"2026-10-20", naav:"गायत्री मातोश्रींचा उत्सव (खंडे नवमी)",
+      body:"<p>आज केंद्रात शतचंडी हवन होईल.</p>" },
+    { date:"2026-10-25", naav:"कोजागरी पौर्णिमा",
+      body:"<p>लक्ष्मी, इंद्र, चंद्र व कुबेर यांचे पूजन करावे.</p>" },
+    { date:"2026-12-23", naav:"श्री दत्तात्रेय जयंती",
+      body:"<p>श्री दत्तात्रेय जन्मोत्सव साजरा करावा.</p>" }
+  ],
+
   shravan: [
     { icon:"🌿", title:"श्रावण मासातील व्रत वैकल्ये", tithi:"१३ ऑगस्ट – ११ सप्टेंबर २०२६", body:
       `<p>श्रावण महिन्यात अनेक धार्मिक व्रते आचरता येतात.</p>
@@ -2475,6 +2514,22 @@ function renderShravanBanner(ctx){
   }
 }
 
+// 🔔 उत्सव-स्मरण — आदल्या दिवशी ("उद्या...") व त्याच दिवशी ("आज...") दाखवतो
+function renderUtsavSmaran(ctx){
+  const box = document.getElementById("usmaran");
+  if(!box) return;
+  const list = KENDRA.utsavSmaran || [];
+  const udya = dayKey(new Date(ctx.aaj.getTime() + 864e5));
+  const aaj  = list.find(s => s.date === ctx.aajISO);
+  const ubha = !aaj && list.find(s => s.date === udya);
+  const hit = aaj || ubha;
+  if(!hit){ box.hidden = true; return; }
+  document.getElementById("usmWhen").textContent = aaj ? "आज" : "उद्या";
+  document.getElementById("usmNaav").textContent = hit.naav;
+  document.getElementById("usmBody").innerHTML = hit.body || "";
+  box.hidden = false;
+}
+
 function renderVarSeva(ctx){
   const KRAM = [1,2,3,4,5,6,0];
   const aajchaVar = ctx.now.getDay();
@@ -2535,6 +2590,7 @@ function renderCurrentStatus(){
     renderVarSeva(ctx);
     renderVachan(ctx);
     renderTodayHeading(ctx);
+    renderUtsavSmaran(ctx);
     try{ window.dispatchEvent(new CustomEvent("seva-day-change", { detail:{ date:key } })); }catch(e){}
   }
   return ctx;
