@@ -9,22 +9,8 @@
     { "id": "valga-sukta", "file": "drafts/valga-sukta.json", "title": "अथर्व वेदोक्त वल्गा सूक्त", "category": "sukta", "visibility": "test" },
     { "id": "ishwar-prarthana", "file": "drafts/ishwar-prarthana.json", "title": "ईश्वर प्रार्थना", "category": "prarthana", "visibility": "test" },
     { "id": "parjanya-sukta", "file": "drafts/parjanya-sukta.json", "title": "पर्जन्यसूक्त", "category": "sukta", "visibility": "test" },
-    { "id": "shree-sukta", "file": "drafts/shree-sukta.json", "title": "श्री सूक्त", "category": "sukta", "visibility": "test" },
-    { "id": "kalbhairav-ashtak", "file": "drafts/kalbhairav-ashtak.json", "title": "श्री कालभैरवाष्टक", "category": "stotra", "visibility": "test" },
-    { "id": "mahakali-stotra", "file": "drafts/mahakali-stotra.json", "title": "श्री महाकाली स्तोत्र", "category": "stotra", "visibility": "test" },
-    { "id": "karunashtake-shanivari", "file": "drafts/karunashtake-shanivari.json", "title": "करुणाष्टके (शनिवारी)", "category": "stotra", "visibility": "test" },
-    { "id": "ram-raksha-stotra", "file": "drafts/ram-raksha-stotra.json", "title": "श्री रामरक्षा", "category": "stotra", "visibility": "test" },
-    { "id": "maruti-stotra", "file": "drafts/maruti-stotra.json", "title": "श्री मारुती स्तोत्र", "category": "stotra", "visibility": "test" },
-    { "id": "charani-thav-ghava", "file": "drafts/charani-thav-ghava.json", "title": "चरणीं ठाव घावा", "category": "stotra", "visibility": "test" },
-    { "id": "pasayadan", "file": "drafts/pasayadan.json", "title": "पसायदान", "category": "prarthana", "visibility": "test" },
-    { "id": "shiv-mahimna-anuvad", "file": "drafts/shiv-mahimna-anuvad.json", "title": "श्री शिवमहिम्न स्तोत्र (मराठी)", "category": "stotra", "visibility": "test" },
-    { "id": "dwadash-jyotirlinga", "file": "drafts/dwadash-jyotirlinga.json", "title": "श्री द्वादश ज्योतिर्लिंग स्तोत्र", "category": "stotra", "visibility": "test" },
-    { "id": "shiva-namavali", "file": "drafts/shiva-namavali.json", "title": "श्री शिवनामावली (अष्टोत्तरशत)", "category": "stotra", "visibility": "test" },
-    { "id": "rudradhyaya", "file": "drafts/rudradhyaya.json", "title": "रुद्राध्याय (नमक–चमक)", "category": "stotra", "visibility": "test" },
-    { "id": "purusha-sukta", "file": "drafts/purusha-sukta.json", "title": "पुरुषसूक्त", "category": "sukta", "visibility": "test" },
     { "id": "navgraha-stotra", "file": "drafts/navgraha-stotra.json", "title": "नवग्रह स्तोत्र", "category": "stotra", "visibility": "test" },
     { "id": "langulastra-stotra", "file": "drafts/langulastra-stotra.json", "title": "श्री लांगूलास्त्र स्तोत्रम्", "category": "stotra", "visibility": "test" },
-    { "id": "aikya-mantra", "file": "drafts/aikya-mantra.json", "title": "ऐक्य मंत्र", "category": "mantra", "visibility": "test" },
     { "id": "swami-charitra-saramrut", "file": "drafts/swami-charitra-saramrut.json", "title": "श्री स्वामी चरित्र सारामृत (२१ अध्याय)", "category": "other", "visibility": "test" }
   ]
 }
