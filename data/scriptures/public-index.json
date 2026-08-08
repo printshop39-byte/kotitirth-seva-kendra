@@ -6,7 +6,6 @@
     "schema": "schema/public-index.schema.json"
   },
   "items": [
-    { "id": "ishwar-prarthana", "file": "drafts/ishwar-prarthana.json", "title": "ईश्वर प्रार्थना", "category": "prarthana", "visibility": "test" },
     { "id": "swami-charitra-saramrut", "file": "drafts/swami-charitra-saramrut.json", "title": "श्री स्वामी चरित्र सारामृत (२१ अध्याय)", "category": "other", "visibility": "test" }
   ]
 }
