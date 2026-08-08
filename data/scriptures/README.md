@@ -1,8 +1,10 @@
 # `data/scriptures/` — नवीन धार्मिक-मजकूर रचना (Phase 1 + 2)
 
-> हे existing `data/aarti.json`, `data/mantra.json`, `data/nityaseva.json`,
-> `data/utsav-2026.json` यांना **replace करत नाही**. जुनी रचना कार्यरत राहते;
-> मोठा पाठ अजून इथे स्थलांतरित केलेला नाही.
+> हे existing `data/aarti.json`, `data/mantra.json` यांना **replace करत नाही**.
+> जुनी रचना कार्यरत राहते; मोठा पाठ अजून इथे स्थलांतरित केलेला नाही.
+> (`data/nityaseva.json` व `data/utsav-2026.json` या पूर्वीच्या न-वापरलेल्या
+> फाईल्स काढल्या आहेत — वारानुसार सेवा व उत्सव-तारखा index.html मध्येच
+> embedded आहेत.)
 
 ## फोल्डर रचना
 

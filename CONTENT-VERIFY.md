@@ -47,12 +47,16 @@
 
 ```text
 data/
-  aarti.json        ← आरत्यांचा पाठ
-  mantra.json       ← मंत्र / स्तोत्र नमुने
-  nityaseva.json    ← वारांप्रमाणे नित्यसेवा
-  utsav-2026.json   ← कॅलेंडर / उत्सव तारखा
+  aarti.json        ← आरत्यांचा पाठ — index.html runtime वर fetch करते, असल्यास embedded KENDRA.paath ला override करते
+  mantra.json       ← मंत्र / स्तोत्र नमुने — तेच, KENDRA.visheshSeva ला जोड म्हणून दाखवते
 source/pothi/       ← मूळ पोथीचे फोटो (OCR नको)
 ```
+
+> **वारांप्रमाणे नित्यसेवा (KENDRA.varSeva) व उत्सव-तारखा (KENDRA.utsavDates)**
+> वेगळ्या JSON फाईलमध्ये नाहीत — index.html मध्येच थेट embedded आहेत (source of
+> truth तिथेच). पूर्वी `data/nityaseva.json` व `data/utsav-2026.json` या नावाने
+> स्वतंत्र फाईल्स होत्या, पण त्या कधीही प्रत्यक्ष fetch/वापरल्या जात नव्हत्या
+> (मृत/orphaned) — गोंधळ टाळण्यासाठी काढून टाकल्या आहेत.
 
 ## प्रत्येक मजकुराची माहिती
 

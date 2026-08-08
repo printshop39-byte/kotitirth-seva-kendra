@@ -2937,7 +2937,8 @@ const VAR_SEVA_ALIAS = {
 };
 function shodhaVisheshSeva(naav){
   const target = VAR_SEVA_ALIAS[naav] || naav;
-  return (KENDRA.visheshSeva || []).find(x => x.naav === target && (x.html || (x.ovya && x.ovya.length)));
+  const asli = x => x.naav === target && (x.html || (x.ovya && x.ovya.length));
+  return (KENDRA.visheshSeva || []).find(asli) || (KENDRA.paath || []).find(asli);
 }
 
 function renderVarSeva(ctx){
