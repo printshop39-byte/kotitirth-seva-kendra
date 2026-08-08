@@ -338,6 +338,18 @@ html[data-theme="dark"] .ovi.focus-verse{background:rgba(212,168,75,.18)}
 .usm-body{font-size:15px;line-height:1.65;color:var(--shai-soft)}
 .usm-body p{margin:4px 0}
 
+/* ---------- 🕉️ श्रावण मास कार्यक्रम — संपूर्ण श्रावण महिनाभर हायलाइट ---------- */
+.shkaryakram{
+  border:1px solid var(--kesari);
+  background:linear-gradient(135deg,rgba(233,168,18,.14),rgba(140,29,43,.06));
+  margin-bottom:16px;
+}
+.shkaryakram summary{background:rgba(233,168,18,.10)}
+.shkaryakram .accbody{font-size:15px;line-height:1.7;color:var(--shai-soft)}
+.shkaryakram .accbody p{margin:6px 0}
+.shkaryakram .accbody .ul{margin:6px 0 6px 4px}
+.shkaryakram .accbody .vlist{margin:6px 0 6px 20px}
+
 /* ---------- 🏠 आज टॅबवरील एकत्रित स्थिती-कार्ड (आज + केंद्र उघडे + आत्ता एकाच बॉक्समध्ये) ---------- */
 .statuscard{
   background:var(--card);border:1px solid var(--line);border-radius:var(--r);
@@ -1117,6 +1129,40 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
       <div class="usm-naav" id="usmNaav"></div>
       <div class="usm-body" id="usmBody"></div>
     </div>
+  </section>
+  <section>
+    <!-- श्रावण मास कार्यक्रम बॅनर: संपूर्ण श्रावण महिनाभर (१३ ऑगस्ट—११ सप्टें) दिसतो -->
+    <details class="acc shkaryakram tilt-card" id="shKaryakram" hidden open>
+      <summary>
+        <span class="ai">🕉️</span>
+        <span class="at">
+          <b>श्रावण मास कार्यक्रम</b>
+          <i>आजची सेवा कोणती — इथे पाहा</i>
+        </span>
+        <span class="ac" aria-hidden="true">+</span>
+      </summary>
+      <div class="accbody">
+        <p><b>गुरुवार, १३ ऑगस्ट २०२६ पासून</b> केंद्रात खालीलप्रमाणे सेवा —</p>
+        <ul class="ul">
+          <li><b>सकाळी ८:००</b> — पूजा, आरती व प्रसाद</li>
+          <li>आरतीनंतर <b>दिवसभर</b> भगवान शंकराच्या पिंडीवर संततधार अभिषेक सेवा — यादीतून क्रमाने:
+            <ol class="vlist">
+              <li>संस्कृत रुद्र</li>
+              <li>श्री शिवमहिम्न स्तोत्र, द्वादश ज्योतिर्लिंग स्तोत्र</li>
+              <li>श्री कालभैरवाष्टक</li>
+              <li>श्री महामृत्युंजय मंत्र</li>
+              <li>संजीवनी मंत्र</li>
+              <li>अमृत संजीवनी मंत्र</li>
+              <li>श्री सूक्त</li>
+              <li>श्री स्वामी समर्थ जप</li>
+            </ol>
+          </li>
+          <li><b>सकाळी १०:३०</b> — नैवेद्य, आरती, प्रसाद</li>
+          <li><b>सायंकाळी ६:००</b> — विशेष सेवा व प्रसाद, नैवेद्य आरती</li>
+        </ul>
+        <p class="vsnote">टीप — सर्वांनी केंद्रात सेवा करून त्याची नोंद <b>चित्रगुप्त वहीत</b> करावी.</p>
+      </div>
+    </details>
   </section>
   <section>
     <!-- एकत्रित स्थिती-कार्ड: आज + केंद्र उघडे/बंद + आत्ता -->
@@ -2530,6 +2576,13 @@ function renderUtsavSmaran(ctx){
   box.hidden = false;
 }
 
+// 🕉️ श्रावण मास कार्यक्रम — संपूर्ण श्रावण महिनाभर (shravanAahe असेपर्यंत) "आज" टॅबवर दिसतो
+function renderShravanKaryakram(ctx){
+  const box = document.getElementById("shKaryakram");
+  if(!box) return;
+  box.hidden = !ctx.shravanAahe;
+}
+
 function renderVarSeva(ctx){
   const KRAM = [1,2,3,4,5,6,0];
   const aajchaVar = ctx.now.getDay();
@@ -2591,6 +2644,7 @@ function renderCurrentStatus(){
     renderVachan(ctx);
     renderTodayHeading(ctx);
     renderUtsavSmaran(ctx);
+    renderShravanKaryakram(ctx);
     try{ window.dispatchEvent(new CustomEvent("seva-day-change", { detail:{ date:key } })); }catch(e){}
   }
   return ctx;
