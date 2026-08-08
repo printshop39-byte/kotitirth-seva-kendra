@@ -3,9 +3,8 @@
     "note": "हीच एकमेव फाईल वेबसाइट थेट fetch करते. सर्वसाधारण नोंदींसाठी फक्त verification.status === \"verified-by-centre\" आणि verification.sourceCompared === true आवश्यक — drafts/ फाईल्स इथे कधीही संदर्भित करू नयेत. फक्त visibility=\"test\" असे स्पष्ट चिन्हांकित केलेल्या तात्पुरत्या नोंदींनाच drafts/ कडे निर्देश करण्याची परवानगी आहे (आणि त्यांनाही status=draft, sourceCompared=false, uncertainReadings रिकामे नाही या अटी पूर्ण कराव्याच लागतात) — scripts/validate-scriptures.mjs हे सर्व नियम automatically तपासते.",
     "workflow": "फोटो → AI transcription → दुसऱ्या modelची तुलना → मानवाकडून मूळ पुस्तकाशी पडताळणी → verified JSON → public-index entry",
     "testVisibility": "visibility=\"test\" म्हणजे मजकूर अजून मानवी सेवेकऱ्याकडून पडताळलेला नाही — फक्त तात्पुरत्या मोबाईल UX / एकत्र रिव्ह्यूसाठी दाखवला जातो, कधीही 'verified' किंवा अंतिम धार्मिक मजकूर म्हणून सादर होत नाही. साइटवर स्पष्ट चेतावणी बॅनर व Draft/uncertain लेबल दाखवली जातात.",
-    "schema": "schema/public-index.schema.json"
+    "schema": "schema/public-index.schema.json",
+    "policyGranth": "श्री स्वामी चरित्र सारामृत व श्री दुर्गा सप्तशती (मराठी) हे संपूर्ण ग्रंथ आहेत — केंद्राच्या सूचनेनुसार हे साईटवर पूर्ण मजकूर म्हणून प्रकाशित करायचे नाहीत; ग्रंथ केंद्रात विक्रीस उपलब्ध आहेत असे साईटवर दाखवावे. drafts/swami-charitra-saramrut.json फाईल मसुदा म्हणून जतन आहे, पण items[] मध्ये मुद्दाम नोंदवलेली नाही."
   },
-  "items": [
-    { "id": "swami-charitra-saramrut", "file": "drafts/swami-charitra-saramrut.json", "title": "श्री स्वामी चरित्र सारामृत (२१ अध्याय)", "category": "other", "visibility": "test" }
-  ]
+  "items": []
 }
