@@ -21,6 +21,16 @@
       href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Anek+Devanagari:wght@300..700&display=swap">
 <noscript><link rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Anek+Devanagari:wght@300..700&display=swap"></noscript>
+<!-- आजचे पंचांग (Marathi Panchang) — शैली व गणना (मोफत, ऑफलाइन, कोणतेही API नाही) -->
+<link rel="stylesheet" href="assets/panchang/panchang.css">
+<script defer src="assets/vendor/astronomy.browser.min.js"></script>
+<script defer src="assets/panchang/config.js"></script>
+<script defer src="assets/panchang/marathi.js"></script>
+<script defer src="assets/panchang/engine.js"></script>
+<script defer src="assets/panchang/festival-rules.js"></script>
+<script defer src="assets/data/local-events.js"></script>
+<script defer src="assets/panchang/moon.js"></script>
+<script defer src="assets/panchang/ui.js"></script>
 <style>
 /* ============================================================
    रंग व अंतर (इथे बदल केला की पूर्ण साइटचा रंग बदलतो)
@@ -580,6 +590,13 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
   </nav>
 
   <div class="pane" role="tabpanel" id="t-aarti" aria-labelledby="tb-aarti" tabindex="0">
+  <!-- आजचे पंचांग -->
+  <section data-sub="aaj" id="panchang">
+    <h2>आजचे पंचांग</h2>
+    <div class="card pc-card" id="panchangRoot" aria-live="polite">
+      <p class="pc-fallback">आजचे पंचांग तयार होत आहे…</p>
+    </div>
+  </section>
   <!-- नित्य सेवा -->
   <section data-sub="aaj">
     <h2>नित्य सेवा वेळापत्रक</h2>

@@ -1,9 +1,19 @@
 /* श्री स्वामी समर्थ सेवा केंद्र — service worker
    काम दोन: (१) "होम स्क्रीनवर ठेवा" सुविधा चालू होते,
             (२) एकदा उघडल्यावर इंटरनेट नसतानाही पान उघडते. */
-const CACHE = "seva-kendra-v1";
+const CACHE = "seva-kendra-v3";
 const FILES = ["./", "./index.html", "./manifest.webmanifest",
-               "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png"];
+               "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png",
+               // आजचे पंचांग (Marathi Panchang) — ऑफलाइनसाठी
+               "./assets/panchang/panchang.css",
+               "./assets/vendor/astronomy.browser.min.js",
+               "./assets/panchang/config.js",
+               "./assets/panchang/marathi.js",
+               "./assets/panchang/engine.js",
+               "./assets/panchang/festival-rules.js",
+               "./assets/data/local-events.js",
+               "./assets/panchang/moon.js",
+               "./assets/panchang/ui.js"];
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
