@@ -256,11 +256,45 @@ body{padding-bottom:calc(64px + env(safe-area-inset-bottom))}  /* तळाच�
   position:absolute;right:12px;top:50%;transform:translateY(-50%);
   font-size:16px;color:var(--shai-soft);pointer-events:none;
 }
+.paath-search-clear{
+  position:absolute;right:6px;top:50%;transform:translateY(-50%);
+  width:32px;height:32px;border-radius:50%;border:0;background:none;
+  color:var(--shai-soft);font-size:15px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.paath-search-clear:focus-visible{outline:3px solid var(--haldi);outline-offset:1px}
+.paath-search-count{margin:6px 2px 0;font-size:13px;color:var(--shai-soft);text-align:center;min-height:1em}
+.paath-filters{
+  display:flex;gap:6px;overflow-x:auto;margin:12px 0 4px;padding-bottom:2px;
+  -webkit-overflow-scrolling:touch;scrollbar-width:none;
+}
+.paath-filters::-webkit-scrollbar{display:none}
+.paath-filters button{
+  flex:0 0 auto;font-family:inherit;font-size:13.5px;font-weight:600;
+  min-height:44px;padding:8px 14px;border-radius:999px;cursor:pointer;
+  border:1px solid var(--line);background:var(--card);color:var(--shai-soft);
+  white-space:nowrap;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.paath-filters button.on{background:rgba(181,71,20,.12);border-color:rgba(181,71,20,.4);color:var(--kumkum)}
+.paath-filters button:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
 .paath-search-empty{
   display:none;text-align:center;font-size:14px;color:var(--shai-soft);
   padding:16px 8px;
 }
 .paath-search-empty.show{display:block}
+.read-nav{
+  display:flex;gap:8px;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);
+}
+.read-nav button{
+  flex:1;font-family:inherit;font-size:13px;font-weight:600;min-height:44px;
+  padding:8px 8px;border-radius:10px;cursor:pointer;
+  border:1px solid rgba(181,71,20,.3);background:transparent;color:var(--kesari);
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.read-nav button:disabled{opacity:.35;cursor:default}
+.read-nav button:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
+.read-nav .rn-top{flex:0 0 auto;min-width:52px}
 .fav-hint{
   font-size:13.5px;color:var(--shai-soft);line-height:1.55;margin:0 0 10px;text-align:center;
 }
@@ -278,7 +312,7 @@ html[data-theme="dark"] .chip-fav{color:#F5E6C8;background:rgba(212,168,75,.22)}
 }
 .acc-tools button{
   font-family:inherit;font-size:13.5px;font-weight:600;line-height:1.2;
-  padding:8px 12px;border-radius:10px;cursor:pointer;
+  min-height:44px;padding:8px 12px;border-radius:10px;cursor:pointer;
   border:1px solid rgba(181,71,20,.35);background:transparent;color:var(--kesari);
   -webkit-tap-highlight-color:transparent;touch-action:manipulation;
 }
@@ -1289,8 +1323,17 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
     <div class="paath-search-wrap">
       <input type="search" id="paathSearch" class="paath-search"
         placeholder="आरती शोधा — गणपती, स्वामी, दत्त…" aria-label="आरती शोधा">
-      <span class="paath-search-ico" aria-hidden="true">🔍</span>
+      <span class="paath-search-ico" id="paathSearchIco" aria-hidden="true">🔍</span>
+      <button type="button" class="paath-search-clear" id="paathSearchClear" aria-label="शोध साफ करा" hidden>✕</button>
     </div>
+    <p class="paath-search-count" id="paathSearchCount" aria-live="polite"></p>
+    <nav class="paath-filters" id="paathFilters" role="tablist" aria-label="पाठ प्रकार">
+      <button type="button" role="tab" class="on" data-filter="all" aria-selected="true">सर्व</button>
+      <button type="button" role="tab" data-filter="aarti" aria-selected="false">आरती</button>
+      <button type="button" role="tab" data-filter="itar" aria-selected="false">इतर पाठ</button>
+      <button type="button" role="tab" data-filter="mantra" aria-selected="false">मंत्र</button>
+      <button type="button" role="tab" data-filter="fav" aria-selected="false">आवडते</button>
+    </nav>
     <p class="paath-search-empty" id="paathSearchEmpty">काही जुळणारी आरती/पाठ सापडला नाही.</p>
     <p class="fav-hint">कार्डवर <b>डबल टॅप</b> = आवडते · उघडल्यावर <b>ऐका</b> = मराठी आवाज</p>
     <div class="acclist fav-list" id="favPaath" aria-label="माझे आवडते पाठ"></div>
@@ -3145,46 +3188,137 @@ function srcBadge(item){
   return `<p class="src-badge"><b>मसुदा</b> — हा मजकूर अधिकृत पोथीनुसार पडताळणी सुरू आहे.${src}</p>`;
 }
 
+// पाठाचा खरा मजकूर (टीप+ओव्या+स्रोत-बॅज) पहिल्यांदा accordion उघडल्यावरच आत
+// घातला जातो (toggle event वर) — तोवर फक्त रिकामी .accbody रचना असते. यामुळे
+// सुरुवातीचा DOM लहान राहतो. key = data-fav-key (already unique per कार्ड).
+const paathLazyContent = new Map();
+function paathCat(naav){ return (naav || "").includes("आरती") ? "aarti" : "itar"; }
 function renderPaath(list){
   document.getElementById("paath").innerHTML = list.map((a, idx) => {
-    const key = "paath:" + (a.naav || a.title || ("i"+idx));
+    const naav = a.naav || a.title || ("i"+idx);
+    const key = "paath:" + naav;
+    const inner = `${a.note ? `<p class="ref">${a.note}</p>` : ""}${(a.ovya || []).map(o => `<p class="ovi devanagari-sacred">${o}</p>`).join("")}${srcBadge(a)}`;
+    paathLazyContent.set(key, inner);
     return `
-  <details class="acc" data-fav-key="${key.replace(/"/g,"&quot;")}" data-voice-name="${(a.naav || a.title || "").replace(/"/g,"&quot;")}">
+  <details class="acc" data-fav-key="${key.replace(/"/g,"&quot;")}" data-voice-name="${naav.replace(/"/g,"&quot;")}" data-cat="${paathCat(naav)}">
     <summary>
       <span class="ai">🪔</span>
       <span class="at"><b>${a.naav || a.title}</b><i>${a.kadhi || ""}</i></span>
       <span class="ac" aria-hidden="true">+</span>
     </summary>
-    <div class="accbody">
-      ${a.note ? `<p class="ref">${a.note}</p>` : ""}
-      ${(a.ovya || []).map(o => `<p class="ovi devanagari-sacred">${o}</p>`).join("")}
-      ${srcBadge(a)}
-    </div>
+    <div class="accbody"></div>
   </details>`;
   }).join("");
   window.__refreshAccExtras?.();
+  window.__applyPaathFilter?.();
 }
 renderPaath(KENDRA.paath.map(a => Object.assign({ status:"draft", source:"नित्यसेवा पोथी (एम्बेड)" }, a)));
 
-// आरती/पाठ शोध — #panel-paath मधील प्रत्येक acclist (favorites, मुख्य पाठ,
-// मंत्र, पडताळलेल्या रचना) एकत्र फिल्टर करते. renderPaath/favorites कधीही
-// पुन्हा-रेंडर झाले तरी दर keystroke ला थेट DOM वाचत असल्याने वेगळे पुन्हा-जोडणे लागत नाही.
-(function initPaathSearch(){
+// उघडल्यावर खरा मजकूर आत घालणे + वाचन-नेव्हिगेशन (मागील/वर जा/पुढील) जोडणे
+function visiblePaathCards(){
+  return [...document.querySelectorAll("#panel-paath .acclist > details")]
+    .filter(d => d.style.display !== "none");
+}
+function ensureReadNav(details){
+  const box = details.querySelector(".accbody");
+  if(!box || box.querySelector(".read-nav")) return;
+  const nav = document.createElement("div");
+  nav.className = "read-nav";
+  const mk = (cls, label) => { const b = document.createElement("button"); b.type = "button"; b.className = cls; b.textContent = label; return b; };
+  const prevBtn = mk("rn-prev", "← मागील पाठ");
+  const topBtn = mk("rn-top", "↑ वर जा");
+  const nextBtn = mk("rn-next", "पुढील पाठ →");
+  function goto(delta){
+    const vis = visiblePaathCards();
+    const i = vis.indexOf(details);
+    const t = vis[i + delta];
+    if(i < 0 || !t) return;
+    details.open = false;
+    t.open = true;
+    setTimeout(() => t.scrollIntoView({ behavior:"smooth", block:"start" }), 10);
+  }
+  prevBtn.addEventListener("click", () => goto(-1));
+  nextBtn.addEventListener("click", () => goto(1));
+  topBtn.addEventListener("click", () => details.scrollIntoView({ behavior:"smooth", block:"start" }));
+  const vis = visiblePaathCards(), i = vis.indexOf(details);
+  if(i <= 0) prevBtn.disabled = true;
+  if(i < 0 || i >= vis.length - 1) nextBtn.disabled = true;
+  nav.appendChild(prevBtn); nav.appendChild(topBtn); nav.appendChild(nextBtn);
+  box.appendChild(nav);
+}
+document.addEventListener("toggle", e => {
+  const d = e.target;
+  if(!d?.matches?.(".acc[data-fav-key]") || !d.open) return;
+  const box = d.querySelector(".accbody");
+  if(!box) return;
+  if(box.dataset.lazyLoaded !== "1"){
+    const html = paathLazyContent.get(d.dataset.favKey);
+    if(html != null){ box.dataset.lazyLoaded = "1"; box.insertAdjacentHTML("beforeend", html); }
+  }
+  if(d.closest("#panel-paath")) ensureReadNav(d);
+}, true);
+
+// आरती/पाठ शोध + फिल्टर चिप्स — #panel-paath मधील प्रत्येक acclist (favorites,
+// मुख्य पाठ, मंत्र, पडताळलेल्या रचना) एकत्र फिल्टर करते. renderPaath/favorites
+// कधीही पुन्हा-रेंडर झाले तरी दर वेळी थेट DOM वाचत असल्याने वेगळे पुन्हा-जोडणे लागत नाही.
+const PAATH_SEARCH_ALIAS = [
+  [/गणपती/, "गणेश बाप्पा विनायक"],
+  [/शंकराची|शिवाची/, "महादेव शिव"],
+  [/नारायणा/, "विष्णू"],
+  [/दत्तात्रेय/, "दत्त दत्तगुरु"]
+];
+(function initPaathControls(){
   const input = document.getElementById("paathSearch");
   const empty = document.getElementById("paathSearchEmpty");
+  const clearBtn = document.getElementById("paathSearchClear");
+  const ico = document.getElementById("paathSearchIco");
+  const countEl = document.getElementById("paathSearchCount");
+  const filters = document.getElementById("paathFilters");
   if(!input) return;
-  input.addEventListener("input", () => {
+  let activeFilter = "all";
+  function favSet(){
+    try{ return new Set(JSON.parse(localStorage.getItem("paath.fav.v1") || "[]")); }
+    catch(e){ return new Set(); }
+  }
+  function apply(){
     const q = input.value.trim().toLowerCase();
+    clearBtn.hidden = !q;
+    ico.hidden = !!q;
+    const favs = activeFilter === "fav" ? favSet() : null;
     let dise = 0, ekun = 0;
     document.querySelectorAll("#panel-paath .acclist > details").forEach(d => {
       ekun++;
       const naav = (d.querySelector(".at b")?.textContent || d.dataset.voiceName || "").toLowerCase();
-      const dakhav = !q || naav.includes(q);
+      let hay = naav;
+      PAATH_SEARCH_ALIAS.forEach(([re, extra]) => { if(re.test(naav)) hay += " " + extra.toLowerCase(); });
+      const matchQ = !q || hay.includes(q);
+      const matchFilter = activeFilter === "all" ? true
+        : activeFilter === "fav" ? favs.has(d.dataset.favKey)
+        : d.dataset.cat === activeFilter;
+      const dakhav = matchQ && matchFilter;
       d.style.display = dakhav ? "" : "none";
       if(dakhav) dise++;
     });
-    empty.classList.toggle("show", !!q && ekun > 0 && dise === 0);
+    empty.classList.toggle("show", ekun > 0 && dise === 0);
+    countEl.textContent = (q || activeFilter !== "all") && ekun > 0
+      ? (dise ? dev(dise) + " पाठ सापडले" : "")
+      : "";
+  }
+  input.addEventListener("input", apply);
+  clearBtn.addEventListener("click", () => { input.value = ""; apply(); input.focus(); });
+  filters?.addEventListener("click", e => {
+    const btn = e.target.closest("button[data-filter]");
+    if(!btn) return;
+    activeFilter = btn.dataset.filter;
+    filters.querySelectorAll("button").forEach(b => {
+      const on = b === btn;
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    apply();
   });
+  window.__applyPaathFilter = apply;
+  apply();
 })();
 
 // verified JSON फाईल्स — आल्यास त्या वापरा
@@ -3213,21 +3347,21 @@ renderPaath(KENDRA.paath.map(a => Object.assign({ status:"draft", source:"नि
       wrap.id = "mantraList";
       wrap.innerHTML = mantra.items.map((a, idx) => {
         const key = "mantra:" + (a.title || ("i"+idx));
+        const inner = `${(a.ovya || []).map(o => `<p class="ovi devanagari-sacred">${o}</p>`).join("")}${srcBadge(a)}`;
+        paathLazyContent.set(key, inner);
         return `
-        <details class="acc" data-fav-key="${key.replace(/"/g,"&quot;")}" data-voice-name="${(a.title || "").replace(/"/g,"&quot;")}">
+        <details class="acc" data-fav-key="${key.replace(/"/g,"&quot;")}" data-voice-name="${(a.title || "").replace(/"/g,"&quot;")}" data-cat="mantra">
           <summary>
             <span class="ai">🕉️</span>
             <span class="at"><b>${a.title}</b><i>${a.kadhi || ""}</i></span>
             <span class="ac" aria-hidden="true">+</span>
           </summary>
-          <div class="accbody">
-            ${(a.ovya || []).map(o => `<p class="ovi devanagari-sacred">${o}</p>`).join("")}
-            ${srcBadge(a)}
-          </div>
+          <div class="accbody"></div>
         </details>`;
       }).join("");
       head.after(wrap);
       window.__refreshAccExtras?.();
+      window.__applyPaathFilter?.();
     }
   }catch(e){ /* offline / file:// — एम्बेड मजकूर चालू */ }
 })();
@@ -3887,6 +4021,7 @@ const aartiSub = (function(){
     saveFavs(favs);
     markFavUi(details, on);
     renderFavStrip();
+    window.__applyPaathFilter?.();
     thokLite();
     softToast(on ? "आवडत्या पाठात सेव्ह झाले" : "आवडत्यातून काढले");
   }
