@@ -1104,10 +1104,12 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
 }
 .welcome-go:focus-visible{outline:3px solid #F6D36A; outline-offset:3px}
 .welcome-skip{
-  display:block; margin:10px auto 0; background:none; border:0; cursor:pointer;
-  color:rgba(253,239,210,.65); font:inherit; font-size:13px; text-decoration:underline;
-  text-underline-offset:3px;
+  display:flex; align-items:center; justify-content:center;
+  width:36px; height:36px; margin:10px auto 0; border-radius:50%;
+  background:none; border:0; cursor:pointer;
+  color:rgba(253,239,210,.65); font:inherit; font-size:16px; line-height:1;
 }
+.welcome-skip:focus-visible{outline:3px solid #F6D36A; outline-offset:2px}
 
 /* ---------- Bottom sheet ---------- */
 .bsheet{
@@ -1611,7 +1613,7 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
       <p class="welcome-msg" id="welcomeMsg">भिऊ नकोस, मी तुझ्या पाठीशी आहे</p>
       <p class="welcome-sub">कोटितीर्थ सेवा केंद्र · कोल्हापूर</p>
       <button type="button" class="welcome-go" id="welcomeGo">स्वामींच्या इच्छेत इच्छा मिसळून रहा</button>
-      <button type="button" class="welcome-skip" id="welcomeSkip">नको</button>
+      <button type="button" class="welcome-skip" id="welcomeSkip" aria-label="आज दाखवू नका">✕</button>
     </div>
   </div>
 </div>
