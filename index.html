@@ -3192,8 +3192,9 @@ function srcBadge(item){
 // घातला जातो (toggle event वर) — तोवर फक्त रिकामी .accbody रचना असते. यामुळे
 // सुरुवातीचा DOM लहान राहतो. key = data-fav-key (already unique per कार्ड).
 const paathLazyContent = new Map();
-// जयजयकार व सद्गुरु प्रार्थना नावात "आरती" नसलं तरी आरतीचाच भाग आहेत (आरत्यांनंतर लगेच म्हणतात)
-const AARTI_PART_NAAV = ["जयजयकार", "श्री सदगुरु प्रार्थना", "श्री सद्गुरु प्रार्थना"];
+// भूपाळी, जयजयकार व सद्गुरु प्रार्थना नावात "आरती" नसलं तरी आरतीचाच भाग आहेत
+// (भूपाळीने सकाळची आरती सुरू होते; जयजयकार/सद्गुरु प्रार्थना आरत्यांनंतर लगेच)
+const AARTI_PART_NAAV = ["भूपाळी", "जयजयकार", "श्री सदगुरु प्रार्थना", "श्री सद्गुरु प्रार्थना"];
 function paathCat(naav){
   if(AARTI_PART_NAAV.includes(naav)) return "aarti";
   return (naav || "").includes("आरती") ? "aarti" : "itar";
