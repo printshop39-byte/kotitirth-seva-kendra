@@ -133,7 +133,8 @@
   function setDismissed(iso, id) { try { localStorage.setItem(dismissKey(iso, id), "1"); } catch (e) {} }
 
   function sevaScroll() {
-    var el = document.getElementById("tl") || document.getElementById("panchang");
+    // main च्या 🏠 आज पानावर वेळापत्रकाचा id "tlToday" आहे; आरती पानावर "tl".
+    var el = document.getElementById("tlToday") || document.getElementById("tl") || document.getElementById("panchang");
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
@@ -201,15 +202,18 @@
     if (!candidates.length) return;
     candidates.sort(function (a, b) { return b.priority - a.priority; });
     var pick = candidates[0];
-    // दुसरा modal (उदा. साइटचा welcome popup) उघडा असल्यास त्यावर चढवू नका —
-    // तो बंद होईपर्यंत वाट पाहा (जास्तीत जास्त ~२० सेकंद), मग सण-मोडल दाखवा.
+    // सण-मोडल फक्त welcome popup बंद झाल्यावरच दाखवा — त्यावर कधीही चढवू नका.
+    // welcome खूप वेळ उघडा राहिल्यास (वापरकर्ता बंद करत नसल्यास) मोडल वगळा
+    // (बॅज कार्डवर दिसतोच). यामुळे दोन modal एकावर एक कधीच येत नाहीत.
     setTimeout(function () {
-      var tries = 0;
+      var waited = 0, MAXMS = 30000, STEP = 400;
       (function waitAndShow() {
-        var blocking = document.querySelector(".welcome.open") || document.querySelector(".pc-overlay");
-        if (blocking && tries < 40) { tries++; setTimeout(waitAndShow, 500); return; }
-        if (document.querySelector(".pc-overlay")) return;  // आधीच एक सण-मोडल आहे
-        openModal(pick, iso);
+        if (document.querySelector(".pc-overlay")) return;       // आधीच एक सण-मोडल उघडा
+        if (document.querySelector(".welcome.open")) {           // welcome अजून उघडा आहे
+          if (waited >= MAXMS) return;                           // इतका वेळ उघडा → वगळा (चढवू नका)
+          waited += STEP; setTimeout(waitAndShow, STEP); return;
+        }
+        openModal(pick, iso);                                    // welcome बंद — आता सुरक्षित
       })();
     }, 550);
   }
