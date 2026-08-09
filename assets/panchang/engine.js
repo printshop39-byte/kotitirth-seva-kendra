@@ -179,16 +179,37 @@
 
       // ---- निरीक्षणे (observances) — विश्वसनीय गणनेवरूनच ----
       var moonriseTithi = moonrise ? tithiNumAt(moonrise) : null;
+
+      // 'वृद्धी' (एकच तिथी सलग दोन सूर्योदयांना/चंद्रोदयांना) मुळे व्रत-बॅज सलग दोन
+      // दिवस दिसू नये — म्हणून प्रत्येक निरीक्षण त्याच्या 'run' च्या पहिल्या दिवशीच
+      // दाखवतो (मागील दिवसाच्या संदर्भ-तिथीशी तुलना करून).
+      var prevT0 = new Date(t0.getTime() - DAYMS);
+      var pSr = riseSet(A.Body.Sun, +1, prevT0);
+      var prevSrTithi = pSr ? tithiNumAt(pSr) : -1;
+      var pMr = riseSet(A.Body.Moon, +1, prevT0);
+      var prevMoonriseTithi = pMr ? tithiNumAt(pMr) : -1;
+      var prevPradoshTithi = -1;
+      if (pSr) {
+        var pSs = riseSet(A.Body.Sun, -1, pSr);
+        if (pSs) {
+          var pNextSr = riseSet(A.Body.Sun, +1, new Date(pSs.getTime() + 3600000));
+          var pNight = pNextSr ? (pNextSr - pSs) : (12 * 3600000);
+          prevPradoshTithi = tithiNumAt(new Date(pSs.getTime() + 0.10 * pNight));
+        }
+      }
+      var firstOfRun = function (x) { return tithiNum === x && prevSrTithi !== x; };
+      var pradoshTithi = kaalTithi ? kaalTithi.pradosh : null;
+
       var flags = {
-        amavasya: tithiNum === 30,
-        purnima: tithiNum === 15,
-        ekadashi: (tithiNum === 11 || tithiNum === 26),
-        chaturthiShukla: tithiNum === 4,
-        chaturthiKrishna: tithiNum === 19,
-        // प्रदोष : त्रयोदशी प्रदोषकाळी
-        pradosh: !!(kaalTithi && (kaalTithi.pradosh === 13 || kaalTithi.pradosh === 28)),
-        // संकष्टी : कृष्ण चतुर्थी चंद्रोदयी
-        sankashti: (moonriseTithi === 19),
+        amavasya: firstOfRun(30),
+        purnima: firstOfRun(15),
+        ekadashi: firstOfRun(11) || firstOfRun(26),
+        chaturthiShukla: firstOfRun(4),
+        chaturthiKrishna: tithiNum === 19,   // (अंतर्गत; बॅज नाही)
+        // प्रदोष : त्रयोदशी प्रदोषकाळी (वृद्धी असल्यास पहिलाच दिवस)
+        pradosh: !!(pradoshTithi && (pradoshTithi === 13 || pradoshTithi === 28) && prevPradoshTithi !== pradoshTithi),
+        // संकष्टी : कृष्ण चतुर्थी चंद्रोदयी (वृद्धी असल्यास पहिलाच दिवस)
+        sankashti: (moonriseTithi === 19 && prevMoonriseTithi !== 19),
         makarSankranti: makarSankranti
       };
 
