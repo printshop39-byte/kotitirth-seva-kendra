@@ -3016,9 +3016,15 @@ function shodhaVisheshSeva(naav){
   return (KENDRA.visheshSeva || []).find(asli) || (KENDRA.paath || []).find(asli);
 }
 
+// वारानुसार सेवा मधील प्रत्येक जुळलेल्या सेवेचा पूर्ण मजकूर ७ दिवसांसाठी वेगवेगळा
+// लिहिला तर एकच पाठ (उदा. वल्गा सूक्त) अनेक वेळा DOM मध्ये तयार होतो — पानाचा आकार व
+// element-संख्या उगीच वाढते. म्हणून खरा मजकूर पहिल्यांदा accordion उघडल्यावरच
+// (toggle वर) आत घालतो; तोवर फक्त रिकामी .accbody रचना असते.
+let varSevaLazyBodies = [];
 function renderVarSeva(ctx){
   const KRAM = [1,2,3,4,5,6,0];
   const aajchaVar = ctx.now.getDay();
+  varSevaLazyBodies = [];
   document.getElementById("varSeva").innerHTML = KRAM.map(v => {
     const [naav, yadiRaw, tipa] = KENDRA.varSeva[v];
     const yadi = yadiRaw || KENDRA.itarVaarSeva;
@@ -3034,10 +3040,11 @@ function renderVarSeva(ctx){
         return `<div class="nrow">${nrowSummary}</div>`;
       }
       const body = match.html ? match.html : match.ovya.map(o => `<p class="ovi">${o}</p>`).join("");
+      const lazyIdx = varSevaLazyBodies.push(body + (match.tipa ? `<p class="ref">${match.tipa}</p>` : "")) - 1;
       return `
-      <details class="acc nrow-acc">
+      <details class="acc nrow-acc" data-lazy-idx="${lazyIdx}">
         <summary class="nrow">${nrowSummary}<span class="ac" aria-hidden="true">+</span></summary>
-        <div class="accbody">${body}${match.tipa ? `<p class="ref">${match.tipa}</p>` : ""}</div>
+        <div class="accbody"></div>
       </details>`;
     }).join("");
     return `
@@ -3054,6 +3061,14 @@ function renderVarSeva(ctx){
       </details>`;
   }).join("");
 }
+document.addEventListener("toggle", e => {
+  const d = e.target;
+  if(!d?.matches?.(".nrow-acc[data-lazy-idx]") || !d.open) return;
+  const idx = Number(d.dataset.lazyIdx);
+  const body = varSevaLazyBodies[idx];
+  const box = d.querySelector(".accbody");
+  if(box && body != null && !box.childNodes.length) box.innerHTML = body;
+}, true);
 
 function renderVachan(ctx){
   const day = Math.floor(ctx.now / 864e5);
