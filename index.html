@@ -3343,11 +3343,6 @@ const PAATH_SEARCH_ALIAS = [
     // मंत्र नमुने — आरत्यांच्या पाठानंतर दाखवा
     if(mantra?.items?.length){
       const box = document.getElementById("paath");
-      const head = document.createElement("p");
-      head.className = "vsnote";
-      head.style.marginTop = "18px";
-      head.textContent = "मंत्र (verified JSON) — mic counting नाही; जपमाळा टॅब वापरा.";
-      box.after(head);
       const wrap = document.createElement("div");
       wrap.className = "acclist";
       wrap.id = "mantraList";
@@ -3365,7 +3360,7 @@ const PAATH_SEARCH_ALIAS = [
           <div class="accbody"></div>
         </details>`;
       }).join("");
-      head.after(wrap);
+      box.after(wrap);
       window.__refreshAccExtras?.();
       window.__applyPaathFilter?.();
     }
