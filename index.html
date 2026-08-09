@@ -241,6 +241,21 @@ body{padding-bottom:calc(64px + env(safe-area-inset-bottom))}  /* तळाच�
 }
 .rb-more-menu .rb-lbl{margin:0 0 2px;text-align:center;display:block}
 .rb-more-menu button{width:100%}
+.rb-more-menu select{
+  width:100%;min-height:40px;font-family:inherit;font-size:14px;font-weight:600;
+  padding:6px 10px;border-radius:10px;border:1px solid var(--line);
+  background:var(--kagad);color:var(--shai);cursor:pointer;
+}
+.rb-more-menu select:focus-visible{outline:3px solid var(--haldi);outline-offset:1px}
+.regform-acc{margin-top:14px}
+.regform{display:flex;flex-direction:column;gap:12px}
+.regform label{display:flex;flex-direction:column;gap:5px;font-size:13.5px;font-weight:600;color:var(--shai-soft)}
+.regform input{
+  min-height:44px;font-family:inherit;font-size:15px;padding:10px 12px;
+  border-radius:10px;border:1px solid var(--line);background:var(--kagad);color:var(--shai);
+}
+.regform input:focus-visible{outline:3px solid var(--haldi);outline-offset:1px}
+.regform button{min-height:44px}
 .fav-list{margin-bottom:12px}
 .fav-list:empty{display:none}
 .paath-search-wrap{position:relative;margin:2px 0 14px}
@@ -318,6 +333,7 @@ html[data-theme="dark"] .chip-fav{color:#F5E6C8;background:rgba(212,168,75,.22)}
 }
 .acc-tools button:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
 .acc-tools button.speaking{background:rgba(181,71,20,.12)}
+.acc-tools button.paused{background:rgba(233,168,18,.18);border-color:rgba(233,168,18,.5)}
 .acc-tools button.faved{background:rgba(233,168,18,.18);border-color:rgba(233,168,18,.5)}
 .toast-soft{
   position:fixed;left:50%;bottom:calc(72px + env(safe-area-inset-bottom));
@@ -1210,6 +1226,12 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
         <span class="rb-lbl">अक्षरे: <span id="fsLabel">मध्यम</span></span>
         <button type="button" id="fsDown" aria-label="अक्षरे लहान करा">A− लहान अक्षरे</button>
         <button type="button" id="themeToggle" aria-pressed="false" aria-label="गडद थीम चालू/बंद">☾ रात्र मोड</button>
+        <span class="rb-lbl">🔊 ऐकण्याची गती</span>
+        <select id="voiceSpeed" aria-label="आवाजाची गती">
+          <option value="0.65">मंद</option>
+          <option value="0.85" selected>मध्यम</option>
+          <option value="1.05">जलद</option>
+        </select>
       </div>
     </div>
   </div>
@@ -1485,6 +1507,24 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
     <div class="card">
       <div class="rows" id="balsanskar"></div>
       <p class="note">वय ६ ते १४ वर्षे · प्रवेश विनामूल्य</p>
+      <details class="acc regform-acc">
+        <summary>
+          <span class="ai">📝</span>
+          <span class="at"><b>पटकन नोंदणी करा</b><i>WhatsApp वर थेट पाठवा</i></span>
+          <span class="ac" aria-hidden="true">+</span>
+        </summary>
+        <div class="accbody">
+          <form class="regform" id="balsanskarForm">
+            <label>पालकांचे नाव
+              <input type="text" id="rfPalak" placeholder="उदा. रमेश पाटील" autocomplete="name">
+            </label>
+            <label>मुलाचे/मुलीचे नाव व वय
+              <input type="text" id="rfMul" placeholder="उदा. आर्या, वय ९" autocomplete="off">
+            </label>
+            <button type="submit" class="btn btn-wa">💬 WhatsApp वर नोंदणी पाठवा</button>
+          </form>
+        </div>
+      </details>
       <div class="btns">
         <button type="button" class="btn btn-map" data-jump="grp-sampark">📞 नोंदणीसाठी संपर्क करा</button>
       </div>
@@ -3682,6 +3722,20 @@ if(KENDRA.patta)     document.getElementById("patta").innerHTML  = "📍 " + KEN
   }
 })();
 
+// बाल संस्कार वर्ग — पटकन नोंदणी फॉर्म (backend नाही, थेट WhatsApp संदेश तयार करून पाठवतो)
+document.getElementById("balsanskarForm")?.addEventListener("submit", e => {
+  e.preventDefault();
+  const num = (KENDRA.phone || "").replace(/[^\d+]/g, "").replace("+", "");
+  if(!num){ softToast("संपर्क क्रमांक उपलब्ध नाही"); return; }
+  const palak = document.getElementById("rfPalak").value.trim();
+  const mul = document.getElementById("rfMul").value.trim();
+  const oli = ["नमस्कार, बाल संस्कार वर्गासाठी नोंदणी करायची आहे."];
+  if(palak) oli.push("पालकांचे नाव: " + palak);
+  if(mul) oli.push("मुलाचे/मुलीचे नाव व वय: " + mul);
+  const link = "https://wa.me/" + num + "?text=" + encodeURIComponent(oli.join("\n"));
+  window.open(link, "_blank", "noopener");
+});
+
 // ---------- रूटिंग: #aarti #paath #var #jap #karyakram #mahiti ----------
 const ROUTES = {
   today:     { pane:"today", sub:null },
@@ -3909,6 +3963,19 @@ const aartiSub = (function(){
     thokLite();
   });
 
+  // ऐकण्याची गती — निवड localStorage मध्ये जतन होते, पुढच्या "ऐका" वर लागू होते
+  (function(){
+    const sel = document.getElementById("voiceSpeed");
+    if(!sel) return;
+    try{
+      const saved = localStorage.getItem("voiceSpeed.v1");
+      if(saved) sel.value = saved;
+    }catch(e){}
+    sel.addEventListener("change", () => {
+      try{ localStorage.setItem("voiceSpeed.v1", sel.value); }catch(e){}
+    });
+  })();
+
   // "⋯" मेनू — A− व रात्र मोड इथे लपवलेले; बाहेर क्लिक/Esc ने बंद होते
   (function(){
     const btn = document.getElementById("rbMoreBtn"), menu = document.getElementById("rbMoreMenu");
@@ -3934,7 +4001,7 @@ const aartiSub = (function(){
   function stopSpeech(){
     try{ window.speechSynthesis?.cancel(); }catch(e){}
     if(speakingBtn){
-      speakingBtn.classList.remove("speaking");
+      speakingBtn.classList.remove("speaking", "paused");
       speakingBtn.textContent = "🔊 ऐका";
       speakingBtn = null;
     }
@@ -3944,23 +4011,41 @@ const aartiSub = (function(){
     clone.querySelectorAll(".acc-tools,.src-badge,.test-banner,.scripture-link,.ref").forEach(n => n.remove());
     return (clone.textContent || "").replace(/\s+/g, " ").trim();
   }
+  function speechRate(){
+    const v = parseFloat(localStorage.getItem("voiceSpeed.v1"));
+    return Number.isFinite(v) ? v : 0.85;
+  }
   function playMarathi(text, btn){
     if(!window.speechSynthesis){
       softToast("या ब्राउझरमध्ये आवाज उपलब्ध नाही");
       return;
     }
-    if(speakingBtn === btn){ stopSpeech(); return; }
+    if(speakingBtn === btn){
+      // आधीच हेच पठण चालू/थांबलेलं आहे — pause/resume करा (पूर्ण थांबवायचं नाही)
+      if(speechSynthesis.paused){
+        speechSynthesis.resume();
+        btn.classList.remove("paused");
+        btn.textContent = "⏸ थांबवा";
+      }else{
+        speechSynthesis.pause();
+        btn.classList.add("paused");
+        btn.textContent = "▶ सुरू ठेवा";
+      }
+      thokLite();
+      return;
+    }
     stopSpeech();
     const u = new SpeechSynthesisUtterance(text);
     u.lang = "mr-IN";
-    u.rate = 0.85;
+    u.rate = speechRate();
     const voices = speechSynthesis.getVoices?.() || [];
     const mr = voices.find(v => /^mr/i.test(v.lang)) || voices.find(v => /india|hi-IN|marathi/i.test(v.name + v.lang));
     if(mr) u.voice = mr;
     u.onend = u.onerror = () => stopSpeech();
     speakingBtn = btn;
     btn.classList.add("speaking");
-    btn.textContent = "⏹ थांबवा";
+    btn.classList.remove("paused");
+    btn.textContent = "⏸ थांबवा";
     speechSynthesis.speak(u);
     thokLite();
   }
