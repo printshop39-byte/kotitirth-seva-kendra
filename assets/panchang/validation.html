@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>पंचांग गणना पडताळणी (dev) — Kotitirth Seva Kendra</title>
+<style>
+  body{font-family:system-ui,Segoe UI,Roboto,'Noto Sans Devanagari',sans-serif;margin:16px;color:#1c1c1c;background:#fafafa}
+  h1{font-size:18px} h2{font-size:15px;margin-top:22px}
+  table{border-collapse:collapse;width:100%;font-size:12.5px;margin-top:8px;background:#fff}
+  th,td{border:1px solid #ddd;padding:4px 6px;text-align:left;white-space:nowrap}
+  th{background:#f0ece3}
+  .ok{color:#187a2f;font-weight:600}.bad{color:#b0392f;font-weight:600}
+  code{background:#eee;padding:1px 4px;border-radius:4px}
+  .muted{color:#666}
+</style>
+<!-- हे पान फक्त विकसकांसाठी — मुख्य साइट किंवा service worker मध्ये समाविष्ट नाही. -->
+<script src="../vendor/astronomy.browser.min.js"></script>
+<script src="config.js"></script>
+<script src="marathi.js"></script>
+<script src="engine.js"></script>
+<script src="festival-rules.js"></script>
+<script src="../data/local-events.js"></script>
+</head>
+<body>
+<h1>🌙 पंचांग गणना पडताळणी (developer validation)</h1>
+<p class="muted">स्थान: कोल्हापूर · लाहिरी अयनांश · सूर्योदयाधारित तिथी. संदर्भाशी ताडून पाहण्यासाठी.</p>
+<div id="out">लोड होत आहे…</div>
+
+<script>
+(function(){
+  var A = window.Astronomy;
+  var E = KT.PanchangEngine, M = KT.PanchangMarathi, FR = KT.FestivalRules;
+  var TZ = 330, DEG=360;
+  var norm=function(x){return ((x%DEG)+DEG)%DEG;};
+  function dfor(y,mo,d){ return new Date(Date.UTC(y,mo-1,d,12,0,0)-TZ*60000); }
+  function fmt(dt){ return dt? M.formatClock(dt) : "—"; }
+  function iso(P){var p=P.istParts;return p.y+"-"+String(p.mo+1).padStart(2,"0")+"-"+String(p.d).padStart(2,"0");}
+
+  // ---- 1. अँकर तारखा (रेपोमधील/प्रकाशित मूल्यांशी अपेक्षित) ----
+  var anchors = [
+    {d:[2026,8,12], expect:"अमावस्या (श्रावण संपतो)"},
+    {d:[2026,8,13], expect:"श्रावण शु. प्रतिपदा"},
+    {d:[2026,8,17], expect:"श्रावण शु. पंचमी — नागपंचमी"},
+    {d:[2026,8,28], expect:"श्रावण पौर्णिमा — नारळी पौर्णिमा"},
+    {d:[2026,9,11], expect:"श्रावण अमावस्या"},
+    {d:[2026,8,8],  expect:"आषाढ कृ. (task चे उदाहरण दिनांक)"}
+  ];
+
+  // ---- 2. सण तारखा (प्रकाशित २०२६ शी) ----
+  var festExpect = [
+    {name:"मकर संक्रांत", d:[2026,1,14]},
+    {name:"महाशिवरात्री", d:[2026,2,15]},
+    {name:"श्रीराम नवमी", d:[2026,3,26]},
+    {name:"आषाढी एकादशी", d:[2026,7,25]},
+    {name:"गुरुपौर्णिमा", d:[2026,7,29]},
+    {name:"गोकुळाष्टमी", d:[2026,9,4]},
+    {name:"गणेश चतुर्थी", d:[2026,9,14]},
+    {name:"दसरा (विजयादशमी)", d:[2026,10,20]},
+    {name:"लक्ष्मीपूजन (दिवाळी)", d:[2026,11,8]}
+  ];
+
+  function detailRow(y,mo,d){
+    var P = E.compute(dfor(y,mo,d));
+    if(!P.ok) return "<tr><td>"+y+"-"+mo+"-"+d+"</td><td class='bad' colspan='9'>compute failed</td></tr>";
+    var ay = E._internal.ayan(P.ref);
+    var sunT = A.SunPosition(P.ref).elon, moonT = A.EclipticGeoMoon(P.ref).lon;
+    return "<tr>"+
+      "<td>"+iso(P)+" ("+M.weekday[P.weekdayIndex]+")</td>"+
+      "<td>"+fmt(P.sunrise)+"</td>"+
+      "<td>"+sunT.toFixed(2)+" / "+norm(sunT-ay).toFixed(2)+"</td>"+
+      "<td>"+moonT.toFixed(2)+" / "+norm(moonT-ay).toFixed(2)+"</td>"+
+      "<td>"+P.tithi.num+" "+M.tithiName(P.tithi.num)+"</td>"+
+      "<td>"+M.paksha[P.tithi.paksha]+"</td>"+
+      "<td>"+(P.masa.adhik?"अधिक ":"")+(P.masa.name||"—")+"</td>"+
+      "<td>"+M.nakshatra[P.nakshatra.num-1]+"</td>"+
+      "<td>"+Math.round(P.moon.illumFraction*100)+"% "+(P.moon.waxing?"↑":"↓")+"</td>"+
+      "<td>"+Object.keys(P.flags).filter(function(k){return P.flags[k];}).join(", ")+"</td>"+
+    "</tr>";
+  }
+
+  var html = "";
+  html += "<h2>१. अँकर तारखा</h2><table><tr><th>दिनांक</th><th>सूर्योदय</th><th>सूर्य ट्रॉपिकल/निरयन</th><th>चंद्र ट्रॉपिकल/निरयन</th><th>तिथी</th><th>पक्ष</th><th>मास</th><th>नक्षत्र</th><th>चंद्रकला</th><th>निरीक्षणे</th></tr>";
+  anchors.forEach(function(a){ html += detailRow(a.d[0],a.d[1],a.d[2]); });
+  html += "</table>";
+  html += "<p class='muted'>अपेक्षा: "+anchors.map(function(a){return a.d.join("-")+" = "+a.expect;}).join(" · ")+"</p>";
+
+  // सण पडताळणी
+  html += "<h2>२. सण पडताळणी (प्रकाशित २०२६ तारखेस सण जुळतो का)</h2><table><tr><th>सण</th><th>अपेक्षित दिनांक</th><th>त्या दिवशी engine ने ओळखले?</th></tr>";
+  festExpect.forEach(function(f){
+    var P = E.compute(dfor(f.d[0],f.d[1],f.d[2]));
+    var majors = FR.evaluate(P).major.map(function(m){return m.nameMr;});
+    var hit = majors.indexOf(f.name)>=0;
+    html += "<tr><td>"+f.name+"</td><td>"+f.d.join("-")+"</td><td class='"+(hit?"ok":"bad")+"'>"+(hit?"✓ होय":("✗ नाही ("+ (majors.join(", ")||"—") +")"))+"</td></tr>";
+  });
+  html += "</table>";
+
+  // महिनाभराचा तक्ता
+  html += "<h2>३. ऑगस्ट २०२६ — दैनिक</h2><table><tr><th>दिनांक</th><th>सूर्योदय</th><th>सूर्य ट्रॉ/निरयन</th><th>चंद्र ट्रॉ/निरयन</th><th>तिथी</th><th>पक्ष</th><th>मास</th><th>नक्षत्र</th><th>चंद्रकला</th><th>निरीक्षणे</th></tr>";
+  for(var d=1; d<=31; d++){ html += detailRow(2026,8,d); }
+  html += "</table>";
+
+  document.getElementById("out").innerHTML = html;
+})();
+</script>
+</body>
+</html>
