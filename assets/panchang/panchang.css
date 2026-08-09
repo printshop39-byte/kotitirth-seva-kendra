@@ -118,7 +118,19 @@
 @keyframes pcFade{ from{opacity:0} to{opacity:1} }
 @keyframes pcRise{ from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none} }
 
-/* डार्क मोड जोडल्यास चंद्र/पट्टी सुवाच्य राहावी (साइटवर सध्या डार्क मोड नाही) */
+/* ---------- डार्क मोड (साइटची html[data-theme="dark"] यंत्रणा) ----------
+   कार्ड/मजकूर CSS variables मुळे आपोआप जुळतात; फक्त निश्चित-रंगाच्या
+   badges ना डार्कमध्ये सुवाच्य रंग द्यावे लागतात. */
+html[data-theme="dark"] .pc-badge{
+  background:rgba(212,168,75,.16); color:#F0D9A0; border-color:rgba(212,168,75,.34);
+}
+html[data-theme="dark"] .pc-badge.major{
+  background:rgba(232,165,152,.14); color:var(--kumkum); border-color:rgba(232,165,152,.34);
+}
+html[data-theme="dark"] .pc-badge.civic{
+  background:rgba(127,209,127,.14); color:#8FE0A0; border-color:rgba(127,209,127,.34);
+}
+/* OS-स्तरावर डार्क प्राधान्य असल्यास (data-theme नसतानाही) चंद्रपट्टी सुवाच्य */
 @media (prefers-color-scheme: dark){
-  .pc-phaselabel{ color:#cbb98f; }
+  html:not([data-theme="light"]) .pc-phaselabel{ color:#cbb98f; }
 }
