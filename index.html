@@ -513,9 +513,18 @@ html[data-theme="dark"] .tabs{background:rgba(36,32,24,.92)}
 .tabs button:focus-visible{outline:3px solid var(--haldi);outline-offset:-3px}
 
 /* होम स्क्रीन बटण */
-.instwrap{margin-top:26px}
+.instwrap{margin-top:26px;border-radius:14px;transition:box-shadow .3s ease}
 .btn-inst{background:var(--card);color:var(--kumkum);border:1px dashed rgba(140,29,43,.45)}
 .insthint{margin-top:9px;font-size:14px;line-height:1.6;color:var(--shai-soft);text-align:center}
+/* welcome बंद झाल्यावर पहिल्यांदाच — होम स्क्रीन बटणाकडे लक्ष वेधण्यासाठी क्षणिक चमक */
+.instwrap.inst-pulse{animation:instGlow 1.3s ease-in-out 2}
+@keyframes instGlow{
+  0%,100%{box-shadow:0 0 0 0 rgba(181,71,20,0)}
+  50%{box-shadow:0 0 0 8px rgba(181,71,20,.16)}
+}
+@media (prefers-reduced-motion:reduce){
+  .instwrap.inst-pulse{animation:none}
+}
 
 /* ---------- आरत्यांचा पाठ / पवित्र देवनागरी ---------- */
 /* Full sacred line uses Tiro (--f-head); do not wrap a single conjunct word alone */
@@ -1103,14 +1112,6 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
   background:linear-gradient(180deg,#E9A812,#B54714); color:#fff8ea;
 }
 .welcome-go:focus-visible{outline:3px solid #F6D36A; outline-offset:3px}
-.welcome-skip{
-  display:flex; align-items:center; justify-content:center;
-  width:36px; height:36px; margin:10px auto 0; border-radius:50%;
-  background:none; border:0; cursor:pointer;
-  color:rgba(253,239,210,.65); font:inherit; font-size:16px; line-height:1;
-}
-.welcome-skip:focus-visible{outline:3px solid #F6D36A; outline-offset:2px}
-
 /* ---------- Bottom sheet ---------- */
 .bsheet{
   position:fixed; inset:0; z-index:55; display:flex; align-items:flex-end; justify-content:center;
@@ -1613,7 +1614,6 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
       <p class="welcome-msg" id="welcomeMsg">भिऊ नकोस, मी तुझ्या पाठीशी आहे</p>
       <p class="welcome-sub">कोटितीर्थ सेवा केंद्र · कोल्हापूर</p>
       <button type="button" class="welcome-go" id="welcomeGo">स्वामींच्या इच्छेत इच्छा मिसळून रहा</button>
-      <button type="button" class="welcome-skip" id="welcomeSkip" aria-label="आज दाखवू नका">✕</button>
     </div>
   </div>
 </div>
@@ -4376,14 +4376,34 @@ const aartiSub = (function(){
   const wel = document.getElementById("welcome");
   const KEY = "welcomeDismissDay";
   function aajKey(){ return dayKey(istNow()); }
+  // होम स्क्रीनवर ठेवा — welcome बंद झाल्यावर पहिल्यांदाच एकवार दाखवा (रोज नाही, फक्त एकदाच)
+  function maybeShowInstallNudge(){
+    try{ if(localStorage.getItem("homeScreenNudgeShown") === "1") return; }catch(e){}
+    const wrap = document.getElementById("instWrap");
+    if(!wrap) return;
+    let tries = 0;
+    const iv = setInterval(() => {
+      tries++;
+      if(!wrap.hidden){
+        clearInterval(iv);
+        try{ localStorage.setItem("homeScreenNudgeShown", "1"); }catch(e){}
+        wrap.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
+        wrap.classList.add("inst-pulse");
+        setTimeout(() => wrap.classList.remove("inst-pulse"), 2600);
+      }else if(tries > 20){
+        clearInterval(iv);       // install उपलब्धच नसेल (उदा. आधीच इन्स्टॉल) तर सोडून द्या
+      }
+    }, 200);
+  }
   function closeWelcome(persistDay){
-    if(!wel) return;
+    if(!wel || !wel.classList.contains("open")) return;
     wel.classList.remove("open");
     setTimeout(() => { wel.hidden = true; }, reduced ? 0 : 320);
     try{
       if(persistDay) localStorage.setItem(KEY, aajKey());
       else sessionStorage.setItem("welcomeSession", "1");
     }catch(e){}
+    maybeShowInstallNudge();
   }
   function maybeWelcome(){
     if(!wel) return;
@@ -4399,9 +4419,10 @@ const aartiSub = (function(){
     requestAnimationFrame(() => wel.classList.add("open"));
     const go = document.getElementById("welcomeGo");
     setTimeout(() => go?.focus(), 80);
+    // दर्शन २ सेकंद दिसून आपोआप बंद होते — बटण दाबायची गरज नाही
+    setTimeout(() => closeWelcome(false), 2000);
   }
   document.getElementById("welcomeGo")?.addEventListener("click", () => closeWelcome(false));
-  document.getElementById("welcomeSkip")?.addEventListener("click", () => closeWelcome(true));
   wel?.addEventListener("click", e => { if(e.target === wel) closeWelcome(false); });
   addEventListener("keydown", e => {
     if(e.key === "Escape" && wel && !wel.hidden) closeWelcome(false);
