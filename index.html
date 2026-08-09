@@ -223,7 +223,7 @@ body{padding-bottom:calc(64px + env(safe-area-inset-bottom))}  /* तळाच�
 }
 .reader-bar button{
   font-family:inherit;font-size:14.5px;font-weight:600;line-height:1;
-  min-width:40px;min-height:40px;padding:8px 11px;border-radius:10px;cursor:pointer;
+  min-width:44px;min-height:44px;padding:8px 11px;border-radius:10px;cursor:pointer;
   border:1px solid var(--line);background:var(--kagad);color:var(--shai);
   -webkit-tap-highlight-color:transparent;touch-action:manipulation;
 }
@@ -232,7 +232,7 @@ body{padding-bottom:calc(64px + env(safe-area-inset-bottom))}  /* तळाच�
 .reader-bar button.on{background:rgba(181,71,20,.12);border-color:rgba(181,71,20,.4);color:var(--kesari)}
 .reader-bar #fsLabel{min-width:2.2em;text-align:center;font-size:13px;color:var(--shai-soft);font-weight:600}
 .rb-more-wrap{position:relative}
-#rbMoreBtn{min-width:40px;padding:8px 14px;font-size:18px;letter-spacing:1px}
+#rbMoreBtn{min-width:44px;padding:8px 14px;font-size:18px;letter-spacing:1px}
 .rb-more-menu{
   position:absolute;top:calc(100% + 6px);right:0;z-index:30;
   display:flex;flex-direction:column;gap:8px;min-width:190px;
@@ -243,6 +243,24 @@ body{padding-bottom:calc(64px + env(safe-area-inset-bottom))}  /* तळाच�
 .rb-more-menu button{width:100%}
 .fav-list{margin-bottom:12px}
 .fav-list:empty{display:none}
+.paath-search-wrap{position:relative;margin:2px 0 14px}
+.paath-search{
+  width:100%;box-sizing:border-box;font-family:inherit;font-size:15px;
+  min-height:44px;padding:10px 40px 10px 16px;border-radius:12px;
+  border:1px solid var(--line);background:var(--card);color:var(--shai);
+  -webkit-appearance:none;appearance:none;
+}
+.paath-search::-webkit-search-cancel-button{-webkit-appearance:none}
+.paath-search:focus-visible{outline:3px solid var(--haldi);outline-offset:1px}
+.paath-search-ico{
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  font-size:16px;color:var(--shai-soft);pointer-events:none;
+}
+.paath-search-empty{
+  display:none;text-align:center;font-size:14px;color:var(--shai-soft);
+  padding:16px 8px;
+}
+.paath-search-empty.show{display:block}
 .fav-hint{
   font-size:13.5px;color:var(--shai-soft);line-height:1.55;margin:0 0 10px;text-align:center;
 }
@@ -442,6 +460,7 @@ html[data-theme="dark"] .card{
   flex:1;border:0;background:none;cursor:pointer;font-family:inherit;
   font-size:13.5px;font-weight:600;color:var(--shai-soft);
   padding:11px 4px;border-radius:10px;line-height:1.25;
+  min-height:44px;display:flex;align-items:center;justify-content:center;
 }
 .subtabs button.on{background:rgba(181,71,20,.12);color:var(--kumkum)}
 .subtabs button:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
@@ -728,6 +747,14 @@ html[data-theme="dark"] .tabs{background:rgba(36,32,24,.92)}
   text-underline-offset:3px;font-weight:600;
 }
 .tl .jap:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
+.tl .paathcta{
+  display:inline-flex;align-items:center;justify-content:center;gap:5px;
+  min-height:44px;margin-top:8px;font-family:inherit;
+  font-size:13.5px;font-weight:700;color:#fff;
+  background:var(--kesari-teja);border:0;border-radius:999px;padding:8px 16px;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.tl .paathcta:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
 .tl li.off .t,.tl li.off .d b{opacity:.55}
 .tl li.off .dot{border-color:var(--line)}
 
@@ -1256,6 +1283,12 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
   <!-- आरत्यांचा पाठ -->
   <section id="panel-paath" role="tabpanel" aria-labelledby="st-paath" data-subpanel="paath">
     <h2>आरत्यांचा पाठ</h2>
+    <div class="paath-search-wrap">
+      <input type="search" id="paathSearch" class="paath-search"
+        placeholder="आरती शोधा — गणपती, स्वामी, दत्त…" aria-label="आरती शोधा">
+      <span class="paath-search-ico" aria-hidden="true">🔍</span>
+    </div>
+    <p class="paath-search-empty" id="paathSearchEmpty">काही जुळणारी आरती/पाठ सापडला नाही.</p>
     <p class="fav-hint">कार्डवर <b>डबल टॅप</b> = आवडते · उघडल्यावर <b>ऐका</b> = मराठी आवाज</p>
     <div class="acclist fav-list" id="favPaath" aria-label="माझे आवडते पाठ"></div>
     <div class="acclist" id="paath"></div>
@@ -2860,6 +2893,7 @@ function renderTimeline(ctx){
       <b>${s.name}${CHIP[s.sthiti]}</b>
       <span>${hhmm(s.t)} – ${hhmm(s.eT)}${s.sub ? " · " + s.sub : ""}</span>
       ${s.kadhi ? `<span class="kadhi">${s.kadhi}</span>` : ""}
+      ${s.name.includes("आरती") ? `<button type="button" class="paathcta" data-paathcta="1" aria-label="${s.name} चा पाठ उघडा">🪔 पाठ उघडा</button>` : ""}
       ${s.name.includes("आरती") ? `<span class="jap" role="link" tabindex="0">📿 ${KENDRA.jap} →</span>` : ""}
       ${s.lagu && s.sthiti !== "zali" ? `<button type="button" class="remind" data-remind="${idx}" aria-label="${s.name} साठी आठवण">आठवण करून द्या</button>` : ""}
     </span>
@@ -3114,6 +3148,27 @@ function renderPaath(list){
   window.__refreshAccExtras?.();
 }
 renderPaath(KENDRA.paath.map(a => Object.assign({ status:"draft", source:"नित्यसेवा पोथी (एम्बेड)" }, a)));
+
+// आरती/पाठ शोध — #panel-paath मधील प्रत्येक acclist (favorites, मुख्य पाठ,
+// मंत्र, पडताळलेल्या रचना) एकत्र फिल्टर करते. renderPaath/favorites कधीही
+// पुन्हा-रेंडर झाले तरी दर keystroke ला थेट DOM वाचत असल्याने वेगळे पुन्हा-जोडणे लागत नाही.
+(function initPaathSearch(){
+  const input = document.getElementById("paathSearch");
+  const empty = document.getElementById("paathSearchEmpty");
+  if(!input) return;
+  input.addEventListener("input", () => {
+    const q = input.value.trim().toLowerCase();
+    let dise = 0, ekun = 0;
+    document.querySelectorAll("#panel-paath .acclist > details").forEach(d => {
+      ekun++;
+      const naav = (d.querySelector(".at b")?.textContent || d.dataset.voiceName || "").toLowerCase();
+      const dakhav = !q || naav.includes(q);
+      d.style.display = dakhav ? "" : "none";
+      if(dakhav) dise++;
+    });
+    empty.classList.toggle("show", !!q && ekun > 0 && dise === 0);
+  });
+})();
 
 // verified JSON फाईल्स — आल्यास त्या वापरा
 (async function loadVerifiedData(){
@@ -4208,6 +4263,12 @@ const aartiSub = (function(){
   });
 
   document.getElementById("tl")?.addEventListener("click", e => {
+    if(e.target.closest(".paathcta")){
+      aartiSub.dakhav("paath");
+      document.getElementById("paathSearch")?.focus({ preventScroll:true });
+      document.getElementById("panel-paath")?.scrollIntoView({ behavior:"smooth", block:"start" });
+      return;
+    }
     if(!e.target.closest(".jap")) return;
     aartiSub.dakhav("jap");
     document.getElementById("mala")?.scrollIntoView({ behavior:"smooth", block:"start" });
