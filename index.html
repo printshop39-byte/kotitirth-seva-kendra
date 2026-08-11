@@ -1597,13 +1597,32 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
     <div class="card">
       <div class="person"><small>सेवेकरी</small><span id="pname"></span><i id="pnum"></i></div>
       <p class="patta" id="patta"></p>
+      <p class="note" id="callHoursNote"></p>
       <div class="btns">
         <a class="btn btn-call" id="bCall" href="#" hidden>📞 फोन करा</a>
-        <a class="btn btn-wa"   id="bWa"   href="#" target="_blank" rel="noopener" hidden>💬 WhatsApp वर विचारा</a>
         <a class="btn btn-map"  id="bMap"  href="#" target="_blank" rel="noopener" hidden
             aria-label="केंद्राचा रस्ता दाखवा (Google Maps नवीन टॅबमध्ये उघडेल)">🗺️ केंद्राचा रस्ता दाखवा</a>
         <button class="btn btn-share" id="bShare">🔗 ही माहिती पाठवा</button>
       </div>
+
+      <details class="acc regform-acc">
+        <summary>
+          <span class="ai">💬</span>
+          <span class="at"><b>सूचना कळवा</b><i>फक्त WhatsApp मेसेजने — नाव व पत्ता द्या</i></span>
+          <span class="ac" aria-hidden="true">+</span>
+        </summary>
+        <div class="accbody">
+          <form class="regform" id="suchanaForm">
+            <label>तुमचे नाव
+              <input type="text" id="sfNaav" placeholder="उदा. रमेश पाटील" autocomplete="name" required>
+            </label>
+            <label>पत्ता
+              <input type="text" id="sfPatta" placeholder="उदा. कोल्हापूर" autocomplete="street-address" required>
+            </label>
+            <button type="submit" class="btn btn-wa">💬 WhatsApp वर सूचना पाठवा</button>
+          </form>
+        </div>
+      </details>
     </div>
   </section>
   <!-- सेवा विभाग -->
@@ -1743,6 +1762,8 @@ const KENDRA = {
   phone    : "+919326169010",              // श्री सुनील तावरे
   phoneDisp: "०९३२६१ ६९०१०",
   patta    : "उद्यमनगर, छत्रपती शाहू मिलजवळ,<br>कोल्हापूर – ४१६००८",
+  // फोन करण्याची ठरलेली वेळ — याच वेळेत फक्त केंद्राच्या कामासंदर्भात फोन करावा.
+  callHours: "फोन करण्याची वेळ: सकाळी ९ ते १, दुपारी ५ ते ८ — फक्त केंद्राच्या कामासंदर्भात. इतर कोणतीही माहिती विचारू नये.",
 
   // ---------- केंद्र उघडण्या-बंद होण्याची वेळ ----------
   // सर्वसाधारण दिवशी: सकाळी ७:०० ते दुपारी १:०० उघडे, दुपारी १:०० ते ४:०० बंद (विश्रांती),
@@ -3724,16 +3745,30 @@ if(KENDRA.patta)     document.getElementById("patta").innerHTML  = "📍 " + KEN
   const num = (KENDRA.phone || "").replace(/[^\d+]/g,"");
   const chalu = num && !/X/i.test(KENDRA.phone);
   if(chalu){
-    const call = document.getElementById("bCall"), wa = document.getElementById("bWa");
+    const call = document.getElementById("bCall");
     call.href = "tel:" + num;  call.hidden = false;
-    wa.href = "https://wa.me/" + num.replace("+","") + "?text=" + encodeURIComponent(KENDRA.waMsg);
-    wa.hidden = false;
+    if(KENDRA.callHours) document.getElementById("callHoursNote").textContent = KENDRA.callHours;
   }
   if(KENDRA.mapUrl){                       // नेमका Google Maps दुवा असेल तरच
     const m = document.getElementById("bMap");
     m.href = KENDRA.mapUrl;  m.hidden = false;
   }
 })();
+
+// संपर्क — सूचना कळवा (backend नाही, थेट WhatsApp संदेश तयार करून पाठवतो)
+document.getElementById("suchanaForm")?.addEventListener("submit", e => {
+  e.preventDefault();
+  const num = (KENDRA.phone || "").replace(/[^\d+]/g, "").replace("+", "");
+  if(!num){ softToast("संपर्क क्रमांक उपलब्ध नाही"); return; }
+  const naav = document.getElementById("sfNaav").value.trim();
+  const patta = document.getElementById("sfPatta").value.trim();
+  const oli = ["श्री स्वामी समर्थ. मला एक सूचना कळवायची आहे."];
+  if(naav) oli.push("नाव: " + naav);
+  if(patta) oli.push("पत्ता: " + patta);
+  oli.push("सूचना: ");
+  const link = "https://wa.me/" + num + "?text=" + encodeURIComponent(oli.join("\n"));
+  window.open(link, "_blank", "noopener");
+});
 
 // बाल संस्कार वर्ग — पटकन नोंदणी फॉर्म (backend नाही, थेट WhatsApp संदेश तयार करून पाठवतो)
 document.getElementById("balsanskarForm")?.addEventListener("submit", e => {
