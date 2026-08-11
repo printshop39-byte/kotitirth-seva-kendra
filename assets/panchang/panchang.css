@@ -72,6 +72,8 @@
 .pc-drow:first-child{ border-top:0; }
 .pc-drow .k{ color:var(--shai-soft); flex:0 0 auto; }
 .pc-drow .v{ color:var(--shai); font-weight:600; text-align:right; }
+.pc-drow.pc-warn .k{ color:#A8420F; font-weight:600; }
+.pc-drow.pc-warn .v{ color:#A8420F; }
 .pc-note{ font-size:12.5px; color:var(--shai-soft); margin-top:8px;
   line-height:1.55; text-align:center; }
 
@@ -130,6 +132,8 @@ html[data-theme="dark"] .pc-badge.major{
 html[data-theme="dark"] .pc-badge.civic{
   background:rgba(127,209,127,.14); color:#8FE0A0; border-color:rgba(127,209,127,.34);
 }
+html[data-theme="dark"] .pc-drow.pc-warn .k,
+html[data-theme="dark"] .pc-drow.pc-warn .v{ color:#E8A598; }
 /* OS-स्तरावर डार्क प्राधान्य असल्यास (data-theme नसतानाही) चंद्रपट्टी सुवाच्य */
 @media (prefers-color-scheme: dark){
   html:not([data-theme="light"]) .pc-phaselabel{ color:#cbb98f; }

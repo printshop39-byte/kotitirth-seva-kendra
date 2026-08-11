@@ -52,10 +52,24 @@
     return s ? s + " पर्यंत" : null;
   }
 
-  function drow(k, v) {
+  function drow(k, v, cls) {
     if (v == null || v === "") return "";
-    return '<div class="pc-drow"><span class="k">' + esc(k) + '</span><span class="v">' + v + "</span></div>";
+    return '<div class="pc-drow' + (cls ? " " + cls : "") + '"><span class="k">' + esc(k) + '</span><span class="v">' + v + "</span></div>";
   }
+
+  // राहू काळ — केंद्राच्या छापील मासिक दिनदर्शिकेतील स्थिर, वारानुसार तक्ता
+  // (सूर्योदय/सूर्यास्तावरून दर दिवशी वेगळी गणना करत नाही — कॅलेंडरमध्ये
+  // वर्षभर हाच एकच तक्ता छापलेला आहे). स्रोत: श्री स्वामी समर्थ सेवा व
+  // आध्यात्मिक विकास मार्ग (दिंडोरी प्रणीत) मासिक कॅलेंडर, सप्टें–डिसें २०२६.
+  var RAHU_KAAL = [
+    "सायं. ४:३० ते ६:००",     // रविवार
+    "सकाळी ७:३० ते ९:००",     // सोमवार
+    "दुपारी ३:०० ते ४:३०",    // मंगळवार
+    "दुपारी १२:०० ते १:३०",   // बुधवार
+    "दुपारी १:३० ते ३:००",    // गुरुवार
+    "सकाळी १०:३० ते १२:००",   // शुक्रवार
+    "सकाळी ९:०० ते १०:३०"     // शनिवार
+  ];
 
   function buildCard(root, P, fest, localEv) {
     var pakName = M.paksha[P.tithi.paksha];
@@ -86,6 +100,7 @@
     details += drow("करण", esc(M.karanaName(P.karana.index)));
     details += drow("सूर्योदय", P.sunrise ? esc(M.formatClock(P.sunrise)) : "—");
     details += drow("सूर्यास्त", P.sunset ? esc(M.formatClock(P.sunset)) : "—");
+    details += drow("राहू काळ", esc(RAHU_KAAL[P.weekdayIndex] || "—"), "pc-warn");
     if (P.moonrise) details += drow("चंद्रोदय", esc(M.formatClock(P.moonrise)));
     if (P.moonset) details += drow("चंद्रास्त", esc(M.formatClock(P.moonset)));
     details += drow("चंद्रकला", dev(Math.round(P.moon.illumFraction * 100)) + "% प्रकाशित");
