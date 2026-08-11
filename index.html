@@ -823,6 +823,8 @@ html[data-theme="dark"] .tabs{background:rgba(36,32,24,.92)}
   padding:11px 14px;background:rgba(217,83,30,.055);border-radius:11px}
 .row b{font-weight:600;font-size:15px}
 .row span{font-size:15px;color:var(--kumkum);font-weight:600;text-align:right}
+.row.row-today{background:rgba(233,168,18,.24);box-shadow:inset 3px 0 0 var(--haldi)}
+html[data-theme="dark"] .row.row-today{background:rgba(212,168,75,.20)}
 .note{font-size:14px;color:var(--shai-soft);margin-top:12px}
 
 /* ---------- वचन ---------- */
@@ -1496,9 +1498,20 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
   <div class="quickjump">
     <button type="button" class="qj-card" data-jump="grp-seva"><span class="qj-ic">🙏</span><span>सेवा व मार्गदर्शन</span></button>
     <button type="button" class="qj-card" data-jump="grp-sampark"><span class="qj-ic">📞</span><span>संपर्क</span></button>
+    <button type="button" class="qj-card" data-jump="grp-rahukal"><span class="qj-ic">🕒</span><span>राहू काळ</span></button>
     <button type="button" class="qj-card" data-jump="grp-dharmik"><span class="qj-ic">📚</span><span>धार्मिक माहिती</span></button>
     <button type="button" class="qj-card" data-jump="grp-duve"><span class="qj-ic">🔗</span><span>उपयुक्त दुवे</span></button>
   </div>
+
+  <!-- राहू काळ — आठवडाभराचा तक्ता (नियोजनासाठी) -->
+  <section>
+    <h2 id="grp-rahukal">राहू काळ — आठवडाभराचा तक्ता</h2>
+    <div class="card">
+      <p class="sintro">पुढील नियोजनासाठी संपूर्ण आठवड्याचा राहू काळ एकाच वेळी — आजचा वार ठळक दाखवला आहे.</p>
+      <div class="rows" id="rahuWeekTable"></div>
+      <div class="btns"><button type="button" class="btn btn-ghost" id="btnRahuRemind">🔔 आजच्या राहू काळाची आठवण ठेवा (१ तास आधी)</button></div>
+    </div>
+  </section>
 
   <h2 id="grp-seva">सेवा व मार्गदर्शन</h2>
   <!-- बाल संस्कार वर्ग -->
@@ -4819,6 +4832,86 @@ if("serviceWorker" in navigator){
       .catch(()=>{});
   });
 }
+
+// राहू काळ — माहिती टॅबमधील आठवडाभराचा तक्ता + आजच्या राहू काळाची १ तास आधीची आठवण
+// (टीप: assets/panchang/ui.js "defer" ने चालते — ते हे मुख्य script संपल्यावर,
+// DOMContentLoaded च्या ऐन आधी चालते व तेव्हाच window.KT.RahuKaal सेट होते.
+// म्हणून इथला वाचन-कोड DOMContentLoaded नंतरच चालवला आहे.)
+(function(){
+  const WEEKDAY_MR = ["रविवार","सोमवार","मंगळवार","बुधवार","गुरुवार","शुक्रवार","शनिवार"];
+  function pad2(n){ return String(n).padStart(2,"0"); }
+  function icsStamp2(d){
+    return d.getFullYear()+pad2(d.getMonth()+1)+pad2(d.getDate())+"T"+pad2(d.getHours())+pad2(d.getMinutes())+"00";
+  }
+  function renderRahuWeek(){
+    const box = document.getElementById("rahuWeekTable");
+    const list = (window.KT && KT.RahuKaal) || [];
+    if(!box || !list.length) return;
+    const todayIdx = istNow().getDay();
+    box.innerHTML = list.map((r,i) =>
+      `<div class="row${i===todayIdx ? " row-today" : ""}"><b>${WEEKDAY_MR[i]}${i===todayIdx ? " (आज)" : ""}</b><span>${r.label}</span></div>`
+    ).join("");
+  }
+  if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", renderRahuWeek);
+  else renderRahuWeek();
+
+  document.getElementById("btnRahuRemind")?.addEventListener("click", e => {
+    const btn = e.currentTarget;
+    const now = istNow();
+    const list = (window.KT && KT.RahuKaal) || [];
+    const today = list[now.getDay()];
+    if(!today) return;
+    const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), today.startH, today.startM, 0);
+    const end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), today.endH, today.endM, 0);
+    const uid = "rahukal-"+dayKey(now)+"@kotitirth";
+    const ics = [
+      "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Kotitirth Seva Kendra//MR//EN","CALSCALE:GREGORIAN","METHOD:PUBLISH",
+      "BEGIN:VEVENT",
+      "UID:"+uid,
+      "DTSTAMP:"+icsStamp2(now),
+      "DTSTART:"+icsStamp2(start),
+      "DTEND:"+icsStamp2(end),
+      "SUMMARY:राहू काळ — कोटितीर्थ",
+      "DESCRIPTION:आजचा राहू काळ सुरू होण्याआधी १ तास आठवण\\nश्री स्वामी समर्थ सेवा केंद्र",
+      "LOCATION:कोटितीर्थ सेवा केंद्र, कोल्हापूर",
+      "BEGIN:VALARM","TRIGGER:-PT1H","ACTION:DISPLAY","DESCRIPTION:राहू काळ १ तासात सुरू होईल","END:VALARM",
+      "END:VEVENT","END:VCALENDAR"
+    ].join("\r\n");
+    const blob = new Blob([ics], { type:"text/calendar;charset=utf-8" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "rahukal-"+dayKey(now)+".ics";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+
+    btn.setAttribute("aria-pressed","true");
+    btn.textContent = "✓ आठवण जोडली";
+    try{
+      const toast = document.getElementById("softToast");
+      if(toast){
+        toast.textContent = "आठवण फाइल डाउनलोड — कॅलेंडरत उघडा (१ तास आधी)";
+        toast.classList.add("show");
+        clearTimeout(toast._t);
+        toast._t = setTimeout(() => toast.classList.remove("show"), 2600);
+      }
+    }catch(err){}
+
+    // ऐच्छिक: पान उघडे असतानाची थेट नोटिफिकेशन (राहू काळ सुरू होण्याआधी १ तास)
+    const startMin = today.startH*60 + today.startM;
+    const lead = (startMin - 60) - (now.getHours()*60 + now.getMinutes());
+    if("Notification" in window && lead > 0 && lead <= 12*60){
+      const schedule = () => {
+        setTimeout(() => {
+          try{ new Notification("राहू काळ आठवण", { body: "आजचा राहू काळ १ तासात सुरू होईल — "+today.label, lang:"mr" }); }catch(e){}
+        }, lead * 60 * 1000);
+      };
+      if(Notification.permission === "granted") schedule();
+      else if(Notification.permission !== "denied"){
+        Notification.requestPermission().then(p => { if(p === "granted") schedule(); });
+      }
+    }
+  });
+})();
 
 // शेअर — सध्या दिसणारा tab/subtab URL
 document.getElementById("bShare").addEventListener("click", async ()=>{

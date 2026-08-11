@@ -61,15 +61,18 @@
   // (सूर्योदय/सूर्यास्तावरून दर दिवशी वेगळी गणना करत नाही — कॅलेंडरमध्ये
   // वर्षभर हाच एकच तक्ता छापलेला आहे). स्रोत: श्री स्वामी समर्थ सेवा व
   // आध्यात्मिक विकास मार्ग (दिंडोरी प्रणीत) मासिक कॅलेंडर, सप्टें–डिसें २०२६.
+  // माहिती टॅबवरील आठवडाभराचा तक्ता व आठवण-बटण यांनाही हाच डेटा (KT.RahuKaal) वापरतो.
   var RAHU_KAAL = [
-    "सायं. ४:३० ते ६:००",     // रविवार
-    "सकाळी ७:३० ते ९:००",     // सोमवार
-    "दुपारी ३:०० ते ४:३०",    // मंगळवार
-    "दुपारी १२:०० ते १:३०",   // बुधवार
-    "दुपारी १:३० ते ३:००",    // गुरुवार
-    "सकाळी १०:३० ते १२:००",   // शुक्रवार
-    "सकाळी ९:०० ते १०:३०"     // शनिवार
+    { label:"सायं. ४:३० ते ६:००",    startH:16, startM:30, endH:18, endM:0  }, // रविवार
+    { label:"सकाळी ७:३० ते ९:००",    startH:7,  startM:30, endH:9,  endM:0  }, // सोमवार
+    { label:"दुपारी ३:०० ते ४:३०",   startH:15, startM:0,  endH:16, endM:30 }, // मंगळवार
+    { label:"दुपारी १२:०० ते १:३०",  startH:12, startM:0,  endH:13, endM:30 }, // बुधवार
+    { label:"दुपारी १:३० ते ३:००",   startH:13, startM:30, endH:15, endM:0  }, // गुरुवार
+    { label:"सकाळी १०:३० ते १२:००",  startH:10, startM:30, endH:12, endM:0  }, // शुक्रवार
+    { label:"सकाळी ९:०० ते १०:३०",   startH:9,  startM:0,  endH:10, endM:30 }  // शनिवार
   ];
+  KT.RahuKaal = RAHU_KAAL;
+  window.KT = KT;
 
   function buildCard(root, P, fest, localEv) {
     var pakName = M.paksha[P.tithi.paksha];
@@ -100,7 +103,7 @@
     details += drow("करण", esc(M.karanaName(P.karana.index)));
     details += drow("सूर्योदय", P.sunrise ? esc(M.formatClock(P.sunrise)) : "—");
     details += drow("सूर्यास्त", P.sunset ? esc(M.formatClock(P.sunset)) : "—");
-    details += drow("राहू काळ", esc(RAHU_KAAL[P.weekdayIndex] || "—"), "pc-warn");
+    details += drow("राहू काळ", esc((RAHU_KAAL[P.weekdayIndex] || {}).label || "—"), "pc-warn");
     if (P.moonrise) details += drow("चंद्रोदय", esc(M.formatClock(P.moonrise)));
     if (P.moonset) details += drow("चंद्रास्त", esc(M.formatClock(P.moonset)));
     details += drow("चंद्रकला", dev(Math.round(P.moon.illumFraction * 100)) + "% प्रकाशित");
