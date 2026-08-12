@@ -7,11 +7,13 @@ module.exports = async (req, res) => {
     return;
   }
   if (!redis) {
+    console.error("abhishek-toggle: redis client null — KV_REST_API_URL/TOKEN (किंवा UPSTASH_REDIS_REST_URL/TOKEN) env vars सापडले नाहीत");
     res.status(500).json({ error: "सर्व्हर सेटअप अजून पूर्ण नाही (Redis जोडलेलं नाही)" });
     return;
   }
   const pin = process.env.ABHISHEK_PIN;
   if (!pin) {
+    console.error("abhishek-toggle: process.env.ABHISHEK_PIN रिकामं/undefined आहे");
     res.status(500).json({ error: "सर्व्हर सेटअप अजून पूर्ण नाही (ABHISHEK_PIN)" });
     return;
   }
@@ -21,6 +23,12 @@ module.exports = async (req, res) => {
     return;
   }
   const on = body.on === true;
-  await redis.set("abhishek_on", on);
+  try {
+    await redis.set("abhishek_on", on);
+  } catch (e) {
+    console.error("abhishek-toggle: redis.set अयशस्वी —", e && e.message);
+    res.status(500).json({ error: "Redis मध्ये लिहिता आलं नाही" });
+    return;
+  }
   res.status(200).json({ on });
 };
