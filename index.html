@@ -562,19 +562,27 @@ html[data-theme="dark"] .tabs{background:rgba(36,32,24,.92)}
 .tabs button.on{color:var(--kumkum);border-top-color:var(--day-accent, var(--kesari));background:transparent}
 .tabs button:focus-visible{outline:3px solid var(--haldi);outline-offset:-3px}
 
-/* होम स्क्रीन बटण */
-.instwrap{margin-top:26px;border-radius:14px;transition:box-shadow .3s ease}
-.btn-inst{background:var(--card);color:var(--kumkum);border:1px dashed rgba(140,29,43,.45)}
-.insthint{margin-top:9px;font-size:14px;line-height:1.6;color:var(--shai-soft);text-align:center}
-/* welcome बंद झाल्यावर पहिल्यांदाच — होम स्क्रीन बटणाकडे लक्ष वेधण्यासाठी क्षणिक चमक */
-.instwrap.inst-pulse{animation:instGlow 1.3s ease-in-out 2}
-@keyframes instGlow{
-  0%,100%{box-shadow:0 0 0 0 rgba(181,71,20,0)}
-  50%{box-shadow:0 0 0 8px rgba(181,71,20,.16)}
+/* होम स्क्रीन पट्टी — पान उघडताच सर्वात वर दिसते (QR ने येणाऱ्यांसाठी, स्क्रोल करावी लागू नये) */
+.instbanner{
+  display:flex; align-items:center; gap:10px;
+  background:linear-gradient(135deg, rgba(233,168,18,.16), rgba(140,29,43,.10));
+  border:1px solid rgba(140,29,43,.25); border-radius:14px;
+  padding:12px 14px; margin:14px 0 0;
 }
-@media (prefers-reduced-motion:reduce){
-  .instwrap.inst-pulse{animation:none}
+.instbanner-ic{font-size:22px; flex:0 0 auto; line-height:1}
+.instbanner-tx{flex:1 1 auto; min-width:0}
+.instbanner-tx b{display:block; font-size:14.5px; color:var(--kumkum); font-weight:700; line-height:1.35}
+.instbanner-tx i{display:block; font-style:normal; font-size:12.5px; color:var(--shai-soft); line-height:1.4; margin-top:2px}
+.instbanner-go{
+  flex:0 0 auto; font-family:inherit; font-weight:700; font-size:14px; cursor:pointer;
+  padding:9px 14px; border-radius:10px; border:0;
+  background:linear-gradient(180deg,#E9A812,#B54714); color:#fff8ea;
 }
+.instbanner-x{
+  flex:0 0 auto; width:30px; height:30px; border-radius:50%; border:1px solid var(--line);
+  background:var(--card); color:var(--shai-soft); font-size:14px; cursor:pointer; line-height:1;
+}
+.instbanner-go:focus-visible,.instbanner-x:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
 
 /* ---------- आरत्यांचा पाठ / पवित्र देवनागरी ---------- */
 /* Full sacred line uses Tiro (--f-head); do not wrap a single conjunct word alone */
@@ -1219,6 +1227,17 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
     <div class="place">📍 कोटितीर्थ, कोल्हापूर</div>
   </div>
 
+  <!-- होम स्क्रीनवर ठेवा — QR स्कॅन करून येणाऱ्यांना पानाच्या सर्वात वर लगेच दिसते -->
+  <div class="instbanner" id="instBanner" hidden>
+    <span class="instbanner-ic" aria-hidden="true">📲</span>
+    <div class="instbanner-tx">
+      <b id="instBannerTitle">ही साईट होम स्क्रीनवर ठेवा</b>
+      <i id="instBannerHint">पुढच्या वेळी थेट उघडेल — लिंक परत शोधावी लागणार नाही.</i>
+    </div>
+    <button type="button" class="instbanner-go" id="instBannerBtn">ठेवा</button>
+    <button type="button" class="instbanner-x" id="instBannerX" aria-label="बंद करा">✕</button>
+  </div>
+
   <div class="reader-bar" id="readerBar" role="toolbar" aria-label="वाचन सोयी">
     <button type="button" id="fsUp" aria-label="अक्षरे मोठी करा">A+ मोठी अक्षरे</button>
     <button type="button" id="voiceBtn" aria-pressed="false" aria-label="मराठी आवाजाने पाठ शोधा">🔊 आवाज</button>
@@ -1703,13 +1722,6 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
       <p id="vachan"></p>
     </div>
   </section>
-  </div>
-
-
-  <!-- होम स्क्रीनवर ठेवा -->
-  <div class="instwrap" id="instWrap" hidden>
-    <button class="btn btn-inst" id="btnInst">📱 हे पान मोबाईलच्या होम स्क्रीनवर ठेवा</button>
-    <p class="insthint" id="instHint"></p>
   </div>
 
   <footer>
@@ -4617,37 +4629,48 @@ const aartiSub = (function(){
   switchMantra(MANTRAS[0].id);
 })();
 
-// ---------- होम स्क्रीनवर ठेवा ----------
+// ---------- होम स्क्रीनवर ठेवा — पानाच्या सर्वात वर दिसणारी पट्टी ----------
+// QR स्कॅन करून येणारा भेटकरू ब्राउझर मेनूत जाऊन "Add to Home Screen" शोधणार नाही,
+// म्हणून ही पट्टी पान उघडताच (स्क्रोल न करता) लगेच वर दिसते — दरवेळी, जोपर्यंत
+// प्रत्यक्ष होम स्क्रीनवर ठेवत नाही तोपर्यंत (× दाबल्यास फक्त त्या भेटीपुरती लपते).
 (function(){
-  const wrap = document.getElementById("instWrap"),
-        btn  = document.getElementById("btnInst"),
-        hint = document.getElementById("instHint");
+  const banner = document.getElementById("instBanner"),
+        btn    = document.getElementById("instBannerBtn"),
+        x      = document.getElementById("instBannerX"),
+        title  = document.getElementById("instBannerTitle"),
+        hint   = document.getElementById("instBannerHint");
+  if(!banner) return;
   const ubhe = matchMedia("(display-mode: standalone)").matches || navigator.standalone;
   if(ubhe) return;                                   // आधीच होम स्क्रीनवर आहे
+  try{ if(sessionStorage.getItem("instBannerClosed") === "1") return; }catch(e){}
 
   const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
               (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
   let prompt = null;
 
   addEventListener("beforeinstallprompt", e => {      // Android / Chrome
-    e.preventDefault(); prompt = e; wrap.hidden = false;
-    hint.textContent = "एकदा ठेवलं की ॲपसारखं उघडेल — दरवेळी लिंक शोधावी लागणार नाही.";
+    e.preventDefault(); prompt = e; banner.hidden = false;
   });
 
-  if(iOS){                                            // iPhone — बटण चालत नाही, सूचना दाखवा
-    wrap.hidden = false;
-    btn.textContent = "📱 होम स्क्रीनवर कसं ठेवायचं?";
+  if(iOS){                                            // iPhone — नेटिव्ह प्रॉम्प्ट नाही, सूचना दाखवा
+    title.textContent = "📲 होम स्क्रीनवर कसं ठेवायचं?";
     hint.textContent = "खालचं शेअर 🔗 बटण दाबा → “Add to Home Screen” निवडा.";
+    btn.textContent = "कसं ते बघा";
     btn.addEventListener("click", () => hint.scrollIntoView({behavior:"smooth", block:"center"}));
-    return;
+    banner.hidden = false;
+  } else {
+    btn.addEventListener("click", async () => {
+      if(!prompt) return;
+      prompt.prompt();
+      const { outcome } = await prompt.userChoice;
+      prompt = null;
+      if(outcome === "accepted") banner.hidden = true;
+    });
   }
 
-  btn.addEventListener("click", async () => {
-    if(!prompt) return;
-    prompt.prompt();
-    const { outcome } = await prompt.userChoice;
-    prompt = null;
-    if(outcome === "accepted") wrap.hidden = true;
+  x.addEventListener("click", () => {
+    banner.hidden = true;
+    try{ sessionStorage.setItem("instBannerClosed", "1"); }catch(e){}
   });
 })();
 
@@ -4689,25 +4712,6 @@ const aartiSub = (function(){
   const wel = document.getElementById("welcome");
   const KEY = "welcomeDismissDay";
   function aajKey(){ return dayKey(istNow()); }
-  // होम स्क्रीनवर ठेवा — welcome बंद झाल्यावर पहिल्यांदाच एकवार दाखवा (रोज नाही, फक्त एकदाच)
-  function maybeShowInstallNudge(){
-    try{ if(localStorage.getItem("homeScreenNudgeShown") === "1") return; }catch(e){}
-    const wrap = document.getElementById("instWrap");
-    if(!wrap) return;
-    let tries = 0;
-    const iv = setInterval(() => {
-      tries++;
-      if(!wrap.hidden){
-        clearInterval(iv);
-        try{ localStorage.setItem("homeScreenNudgeShown", "1"); }catch(e){}
-        wrap.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
-        wrap.classList.add("inst-pulse");
-        setTimeout(() => wrap.classList.remove("inst-pulse"), 2600);
-      }else if(tries > 20){
-        clearInterval(iv);       // install उपलब्धच नसेल (उदा. आधीच इन्स्टॉल) तर सोडून द्या
-      }
-    }, 200);
-  }
   function closeWelcome(persistDay){
     if(!wel || !wel.classList.contains("open")) return;
     wel.classList.remove("open");
@@ -4716,7 +4720,6 @@ const aartiSub = (function(){
       if(persistDay) localStorage.setItem(KEY, aajKey());
       else sessionStorage.setItem("welcomeSession", "1");
     }catch(e){}
-    maybeShowInstallNudge();
   }
   function maybeWelcome(){
     if(!wel) return;
