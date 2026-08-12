@@ -4752,10 +4752,13 @@ const aartiSub = (function(){
   });
 
   if(iOS){                                            // iPhone — नेटिव्ह प्रॉम्प्ट नाही, सूचना दाखवा
+    // शेअर बटण Safari च्या आवृत्ती/सेटिंगनुसार वर किंवा खाली असू शकतं — "खालचं" असं
+    // ठामपणे सांगितलं तर काही फोनवर चुकीचं ठरतं, म्हणून दोन्ही शक्यता सांगितल्या आहेत.
+    // "कसं ते बघा" बटण आधी फक्त आधीच दिसणाऱ्या मजकुराकडे स्क्रोल करत होतं — काहीच न
+    // घडल्यासारखं वाटायचं, म्हणून तो निरुपयोगी बटण काढून टाकला; सूचना इथेच पूर्ण आहे.
     title.textContent = "📲 होम स्क्रीनवर कसं ठेवायचं?";
-    hint.textContent = "खालचं शेअर 🔗 बटण दाबा → “Add to Home Screen” निवडा.";
-    btn.textContent = "कसं ते बघा";
-    btn.addEventListener("click", () => hint.scrollIntoView({behavior:"smooth", block:"center"}));
+    hint.innerHTML = "ब्राउझरच्या <b>शेअर 📤 बटणावर</b> टॅप करा (वर किंवा खाली असू शकतं) → खाली स्क्रोल करून <b>“Add to Home Screen”</b> निवडा.";
+    btn.hidden = true;
     banner.hidden = false;
   } else {
     btn.addEventListener("click", async () => {
