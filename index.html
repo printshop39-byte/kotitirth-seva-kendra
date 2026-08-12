@@ -1236,12 +1236,21 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
 /* ---------- पटकन प्रश्न-उत्तर (FAQ चॅट) ---------- */
 .chatFab{
   position:fixed; right:16px; bottom:calc(88px + env(safe-area-inset-bottom) + 14px);
-  z-index:19; width:54px; height:54px; border-radius:50%; border:0; cursor:pointer;
-  background:linear-gradient(180deg,#E9A812,#B54714); color:#fff8ea; font-size:23px;
+  z-index:56; width:54px; height:54px; border-radius:50%; border:0; cursor:pointer;
+  background:linear-gradient(180deg,#E9A812,#B54714); color:#fff8ea;
   display:flex; align-items:center; justify-content:center;
   box-shadow:0 8px 20px -4px rgba(140,29,43,.45);
+  animation:chatFabPulse 3.6s ease-out infinite;
 }
+.chatFab.open{background:linear-gradient(180deg,#A8342F,#7A1622); animation:none}
+.chatFab-ic{width:25px; height:25px; display:block}
 .chatFab:focus-visible{outline:3px solid var(--haldi); outline-offset:3px}
+@keyframes chatFabPulse{
+  0%{box-shadow:0 8px 20px -4px rgba(140,29,43,.45), 0 0 0 0 rgba(233,168,18,.55)}
+  70%{box-shadow:0 8px 20px -4px rgba(140,29,43,.45), 0 0 0 13px rgba(233,168,18,0)}
+  100%{box-shadow:0 8px 20px -4px rgba(140,29,43,.45), 0 0 0 0 rgba(233,168,18,0)}
+}
+@media (prefers-reduced-motion:reduce){ .chatFab{animation:none} }
 .chat-panel{display:flex; flex-direction:column; overflow:hidden}
 .chat-log{
   flex:1 1 auto; overflow-y:auto; display:flex; flex-direction:column; gap:10px;
@@ -1852,7 +1861,17 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
 </div>
 
 <!-- पटकन प्रश्न-उत्तर (साधे FAQ — इंटरनेट/AI लागत नाही, साईटवरच्या माहितीतून थेट उत्तर) -->
-<button type="button" class="chatFab" id="chatFab" aria-label="पटकन प्रश्न विचारा">💬</button>
+<button type="button" class="chatFab" id="chatFab" aria-label="पटकन प्रश्न विचारा" aria-expanded="false">
+  <svg class="chatFab-ic chatFab-ic-open" viewBox="0 0 24 24" aria-hidden="true">
+    <path fill="currentColor" d="M5 4.5h14a2.5 2.5 0 0 1 2.5 2.5v7a2.5 2.5 0 0 1-2.5 2.5H10.8l-4.3 3.3c-.6.5-1.5.1-1.5-.7v-2.6H5A2.5 2.5 0 0 1 2.5 14V7A2.5 2.5 0 0 1 5 4.5z"/>
+    <circle cx="8.3" cy="10.5" r="1.15" fill="#7A1622"/>
+    <circle cx="12" cy="10.5" r="1.15" fill="#7A1622"/>
+    <circle cx="15.7" cy="10.5" r="1.15" fill="#7A1622"/>
+  </svg>
+  <svg class="chatFab-ic chatFab-ic-close" viewBox="0 0 24 24" aria-hidden="true" hidden>
+    <path fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/>
+  </svg>
+</button>
 <div class="bsheet" id="chatSheet" hidden>
   <div class="bsheet-panel chat-panel" role="dialog" aria-modal="true" aria-labelledby="chatTitle">
     <div class="bsheet-handle" aria-hidden="true"></div>
@@ -5026,6 +5045,8 @@ const aartiSub = (function(){
   const form = document.getElementById("chatForm");
   const input = document.getElementById("chatInput");
   const closeBtn = document.getElementById("chatClose");
+  const fabOpenIc = fab?.querySelector(".chatFab-ic-open");
+  const fabCloseIc = fab?.querySelector(".chatFab-ic-close");
   if(!fab || !sheet) return;
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -5125,12 +5146,22 @@ const aartiSub = (function(){
     requestAnimationFrame(() => sheet.classList.add("open"));
     if(!log.children.length) addMsg("🙏 नमस्कार! खालीलपैकी प्रश्न निवडा, किंवा टाईप करा.", "bot");
     setTimeout(() => input.focus({ preventScroll:true }), reduced ? 0 : 300);
+    fab.classList.add("open");
+    fab.setAttribute("aria-expanded", "true");
+    fab.setAttribute("aria-label", "प्रश्न-उत्तर बंद करा");
+    if(fabOpenIc) fabOpenIc.hidden = true;
+    if(fabCloseIc) fabCloseIc.hidden = false;
   }
   function closeChat(){
     sheet.classList.remove("open");
     setTimeout(() => { sheet.hidden = true; }, reduced ? 0 : 280);
+    fab.classList.remove("open");
+    fab.setAttribute("aria-expanded", "false");
+    fab.setAttribute("aria-label", "पटकन प्रश्न विचारा");
+    if(fabOpenIc) fabOpenIc.hidden = false;
+    if(fabCloseIc) fabCloseIc.hidden = true;
   }
-  fab.addEventListener("click", openChat);
+  fab.addEventListener("click", () => { sheet.hidden ? openChat() : closeChat(); });
   closeBtn.addEventListener("click", closeChat);
   sheet.addEventListener("click", e => { if(e.target === sheet) closeChat(); });
   addEventListener("keydown", e => {
