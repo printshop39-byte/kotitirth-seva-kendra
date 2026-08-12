@@ -1233,6 +1233,44 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
   .bsheet-panel{border-radius:18px; max-height:min(78vh,640px)}
 }
 
+/* ---------- पटकन प्रश्न-उत्तर (FAQ चॅट) ---------- */
+.chatFab{
+  position:fixed; right:16px; bottom:calc(88px + env(safe-area-inset-bottom) + 14px);
+  z-index:19; width:54px; height:54px; border-radius:50%; border:0; cursor:pointer;
+  background:linear-gradient(180deg,#E9A812,#B54714); color:#fff8ea; font-size:23px;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 8px 20px -4px rgba(140,29,43,.45);
+}
+.chatFab:focus-visible{outline:3px solid var(--haldi); outline-offset:3px}
+.chat-panel{display:flex; flex-direction:column; overflow:hidden}
+.chat-log{
+  flex:1 1 auto; overflow-y:auto; display:flex; flex-direction:column; gap:10px;
+  padding:4px 2px 8px; margin-bottom:8px; min-height:100px; max-height:42vh;
+}
+.chat-msg{max-width:84%; padding:10px 13px; border-radius:14px; font-size:14.5px; line-height:1.55}
+.chat-msg.user{align-self:flex-end; background:var(--kumkum); color:#FFF3DA; border-bottom-right-radius:4px}
+.chat-msg.bot{align-self:flex-start; background:rgba(181,71,20,.08); color:var(--shai); border:1px solid var(--line); border-bottom-left-radius:4px}
+.chat-msg.bot b{color:var(--kumkum)}
+.chat-msg.bot a{color:var(--kesari); font-weight:600}
+.chat-chips{display:flex; flex-wrap:wrap; gap:7px; margin-bottom:10px; flex:0 0 auto}
+.chat-chips button{
+  font-family:inherit; font-size:12.5px; font-weight:600; color:var(--kesari);
+  background:rgba(217,83,30,.08); border:1px solid rgba(217,83,30,.25);
+  border-radius:999px; padding:8px 12px; cursor:pointer; min-height:36px;
+}
+.chat-chips button:focus-visible{outline:3px solid var(--haldi); outline-offset:2px}
+.chat-inputrow{display:flex; gap:8px; flex:0 0 auto}
+.chat-inputrow input{
+  flex:1 1 auto; min-width:0; padding:12px 14px; border:1px solid var(--line); border-radius:12px;
+  font-family:inherit; font-size:15px; background:var(--card); color:var(--shai);
+}
+.chat-inputrow input:focus-visible{outline:2px solid var(--haldi); outline-offset:1px}
+.chat-inputrow button{
+  width:44px; height:44px; border-radius:12px; border:0; flex:0 0 auto;
+  background:var(--kumkum); color:#FFF3DA; font-size:17px; cursor:pointer;
+}
+.chat-inputrow button:focus-visible{outline:3px solid var(--haldi); outline-offset:2px}
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
   .tl::after{transition:none!important}
@@ -1810,6 +1848,23 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
     <p class="bsheet-sub" id="bsheetSub"></p>
     <div class="bsheet-body" id="bsheetBody"></div>
     <button type="button" class="bsheet-close" id="bsheetClose">बंद करा</button>
+  </div>
+</div>
+
+<!-- पटकन प्रश्न-उत्तर (साधे FAQ — इंटरनेट/AI लागत नाही, साईटवरच्या माहितीतून थेट उत्तर) -->
+<button type="button" class="chatFab" id="chatFab" aria-label="पटकन प्रश्न विचारा">💬</button>
+<div class="bsheet" id="chatSheet" hidden>
+  <div class="bsheet-panel chat-panel" role="dialog" aria-modal="true" aria-labelledby="chatTitle">
+    <div class="bsheet-handle" aria-hidden="true"></div>
+    <h3 class="bsheet-title" id="chatTitle">पटकन प्रश्न-उत्तर</h3>
+    <p class="bsheet-sub">खालीलपैकी निवडा, किंवा टाईप करा</p>
+    <div class="chat-log" id="chatLog" aria-live="polite"></div>
+    <div class="chat-chips" id="chatChips"></div>
+    <form class="chat-inputrow" id="chatForm">
+      <input type="text" id="chatInput" placeholder="इथे प्रश्न टाईप करा…" autocomplete="off" aria-label="प्रश्न टाईप करा">
+      <button type="submit" aria-label="पाठवा">➤</button>
+    </form>
+    <button type="button" class="bsheet-close" id="chatClose">बंद करा</button>
   </div>
 </div>
 
@@ -4959,6 +5014,129 @@ const aartiSub = (function(){
   });
 })();
 
+
+// ---------- पटकन प्रश्न-उत्तर (FAQ चॅट) ----------
+// साधं keyword-जुळणी करणारं उत्तर-यंत्र — कुठलंही बाहेरचं AI/इंटरनेट लागत नाही,
+// साईटवरच्या KENDRA डेटावरूनच थेट, अद्ययावत उत्तर तयार होतं.
+(function(){
+  const fab = document.getElementById("chatFab");
+  const sheet = document.getElementById("chatSheet");
+  const log = document.getElementById("chatLog");
+  const chipsBox = document.getElementById("chatChips");
+  const form = document.getElementById("chatForm");
+  const input = document.getElementById("chatInput");
+  const closeBtn = document.getElementById("chatClose");
+  if(!fab || !sheet) return;
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function aartiVel(){
+    const ctx = buildSevaCtx(istNow());
+    const list = ctx.sevaAaj.filter(s => s.name.includes("आरती") && s.lagu);
+    if(!list.length) return "आज आरतीची विशेष वेळ नोंदवलेली नाही — 'आरती' टॅबवर पूर्ण वेळापत्रक पहा.";
+    return "आजच्या आरत्या —<br>" + list.map(s => "🪔 " + s.name + ": <b>" + show(s.t) + "</b>").join("<br>");
+  }
+  function mudranMahiti(){
+    const rows = (KENDRA.mudran || []).map(m => m.d + ": <b>" + m.v + "</b>").join("<br>");
+    return "🖨️ मुद्रण विभाग वेळ —<br>" + (rows || "माहिती लवकरच") +
+      "<br>अधिक माहितीसाठी 'माहिती' टॅबवरील मुद्रण विभाग पहा.";
+  }
+  function karyakramMahiti(){
+    const now = istNow();
+    const list = KENDRA.utsavSmaran || [];
+    const udya = dayKey(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1));
+    const ajISO = dayKey(now);
+    const aaj = list.find(s => s.date === ajISO);
+    const ubha = !aaj && list.find(s => s.date === udya);
+    const hit = aaj || ubha;
+    if(hit) return (aaj ? "🕉️ आज — " : "🕉️ उद्या — ") + "<b>" + hit.naav + "</b><br>सविस्तर 'कार्यक्रम' टॅबवर पहा.";
+    return "सध्या खास उत्सव जवळ नाही. संपूर्ण वार्षिक कार्यक्रम यादीसाठी 'कार्यक्रम' टॅब पहा.";
+  }
+  function sampark(){
+    return "📞 " + KENDRA.sevekari + ": <b>" + (KENDRA.phoneDisp || "") + "</b><br>📍 " + (KENDRA.patta || "");
+  }
+  function kendraVel(){
+    return "साधारण वेळ — सकाळी ७:०० ते दुपारी १:००, आणि दुपारी ४:०० ते रात्री ८:०० (गुरुवारी ९:०० पर्यंत).<br>सध्या केंद्र उघडं आहे की बंद, ते 'आज' टॅबवर वरतीच लगेच दिसतं.";
+  }
+  function balsanskarMahiti(){
+    const rows = (KENDRA.balsanskar || []).map(m => m.d + ": <b>" + m.v + "</b>").join("<br>");
+    return "🧒 बाल संस्कार वर्ग —<br>" + (rows || "") + "<br>वय ६ ते १४ वर्षे · प्रवेश विनामूल्य. नोंदणीसाठी 'माहिती' टॅबवरील फॉर्म वापरा.";
+  }
+  function homeScreen(){
+    return "पानाच्या अगदी वर एक पट्टी दिसते — तिथे \"होम स्क्रीनवर ठेवा\" असं लिहिलेलं आहे, तिथून करता येईल.";
+  }
+  function japmala(){
+    return "'आरती' टॅब → 'जपमाळा' उपटॅबमध्ये मधलं मोठं बटण दाबून जप मोजता येतो. एकदा दाबा = एक जप.";
+  }
+
+  const FAQ = [
+    { q:"आजची आरतीची वेळ काय?", kw:["आरती","आरतीची","आरत्या"], a:aartiVel },
+    { q:"मुद्रण साहित्य कधी मिळेल?", kw:["मुद्रण","साहित्य","पुस्तक","प्रिंट","छाप"], a:mudranMahiti },
+    { q:"आजचा कार्यक्रम/उत्सव काय?", kw:["कार्यक्रम","उत्सव","सण"], a:karyakramMahiti },
+    { q:"केंद्राशी संपर्क कसा करू?", kw:["संपर्क","फोन","नंबर","पत्ता","कुठे"], a:sampark },
+    { q:"केंद्र कधी उघडं असतं?", kw:["उघड","बंद","वेळ"], a:kendraVel },
+    { q:"बाल संस्कार वर्ग कधी असतो?", kw:["बाल","संस्कार","मुल","मुला","मुली"], a:balsanskarMahiti },
+    { q:"जपमाळ कशी मोजायची?", kw:["जपमाळ","जप","माळ"], a:japmala },
+    { q:"होम स्क्रीनवर कसं ठेवायचं?", kw:["होम","स्क्रीन","शॉर्टकट","इन्स्टॉल"], a:homeScreen }
+  ];
+
+  function addMsg(html, who){
+    const div = document.createElement("div");
+    div.className = "chat-msg " + who;
+    div.innerHTML = html;
+    log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+  }
+  function ask(qText, aHtml){
+    addMsg(qText, "user");
+    setTimeout(() => addMsg(aHtml, "bot"), reduced ? 0 : 220);
+  }
+  function matchFree(text){
+    const t = text.trim();
+    let best = null, bestScore = 0;
+    FAQ.forEach(f => {
+      let score = 0;
+      f.kw.forEach(k => { if(t.includes(k)) score++; });
+      if(score > bestScore){ bestScore = score; best = f; }
+    });
+    return bestScore > 0 ? best : null;
+  }
+  function renderChips(){
+    chipsBox.innerHTML = FAQ.map((f,i) => `<button type="button" data-i="${i}">${f.q}</button>`).join("");
+  }
+  chipsBox.addEventListener("click", e => {
+    const btn = e.target.closest("button[data-i]");
+    if(!btn) return;
+    const f = FAQ[+btn.dataset.i];
+    if(f) ask(f.q, f.a());
+  });
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const text = input.value.trim();
+    if(!text) return;
+    input.value = "";
+    const hit = matchFree(text);
+    if(hit) ask(text, hit.a());
+    else ask(text, "याचं नेमकं उत्तर मला माहीत नाही 🙏 — कृपया केंद्राला संपर्क करा: <a href=\"tel:" + KENDRA.phone + "\">" + KENDRA.phoneDisp + "</a>");
+  });
+
+  function openChat(){
+    renderChips();
+    sheet.hidden = false;
+    requestAnimationFrame(() => sheet.classList.add("open"));
+    if(!log.children.length) addMsg("🙏 नमस्कार! खालीलपैकी प्रश्न निवडा, किंवा टाईप करा.", "bot");
+    setTimeout(() => input.focus({ preventScroll:true }), reduced ? 0 : 300);
+  }
+  function closeChat(){
+    sheet.classList.remove("open");
+    setTimeout(() => { sheet.hidden = true; }, reduced ? 0 : 280);
+  }
+  fab.addEventListener("click", openChat);
+  closeBtn.addEventListener("click", closeChat);
+  sheet.addEventListener("click", e => { if(e.target === sheet) closeChat(); });
+  addEventListener("keydown", e => {
+    if(e.key === "Escape" && sheet && !sheet.hidden) closeChat();
+  });
+})();
 
 // service worker — यामुळेच "होम स्क्रीनवर ठेवा" Android वर चालते
 // updateViaCache:"none" मुद्दाम — नाहीतर ब्राउझर sw.js फाईलच जुन्या (cached) प्रतीशी
