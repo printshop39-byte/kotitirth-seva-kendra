@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<title>QR फलक A5 — सेवा केंद्र</title>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Anek+Devanagari:wght@400..700&display=swap" rel="stylesheet">
+<style>
+  :root{ --kumkum:#8C1D2B; --kesari:#B54714; --kagad:#FCF5E8; --shai:#2C2317; --soft:#6E5F4C; --line:#E7DCC6 }
+  *{box-sizing:border-box; margin:0; padding:0}
+  @page{ size:A5; margin:0 }
+  html,body{ width:148mm; height:210mm }
+  body{
+    font-family:'Anek Devanagari', system-ui, sans-serif; background:var(--kagad); color:var(--shai);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+    padding:12mm;
+  }
+  .m{ font-family:'Tiro Devanagari Marathi', serif; font-size:22px; color:var(--kumkum) }
+  h1{ font-family:'Tiro Devanagari Marathi', serif; font-weight:400; font-size:19px; line-height:1.5; margin:8mm 0 2mm; color:var(--shai) }
+  .place{ font-size:13px; color:var(--soft); margin-bottom:10mm }
+  .qrbox{ background:#fff; border:2px solid var(--line); border-radius:6mm; padding:6mm }
+  .qrbox img{ width:62mm; height:62mm; display:block }
+  .cta{ margin-top:8mm; font-size:20px; font-weight:700; color:var(--kesari) }
+  hr{ border:none; border-top:2px solid #E9A812; width:40mm; margin:10mm auto }
+</style>
+</head>
+<body>
+  <div class="m">॥ श्री स्वामी समर्थ ॥</div>
+  <h1>श्री स्वामी समर्थ सेवा केंद्र (दिंडोरी प्रणित)<br>कोटितीर्थ, कोल्हापूर</h1>
+  <div class="place">आमची वेबसाईट पाहण्यासाठी</div>
+  <hr>
+  <div class="qrbox"><img src="seva-kendra-qr.svg" alt="QR कोड"></div>
+  <div class="cta">👆 स्कॅन करा</div>
+</body>
+</html>

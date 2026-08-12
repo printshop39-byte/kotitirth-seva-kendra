@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QR फलक — सेवा केंद्र</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Anek+Devanagari:wght@400..700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --kumkum:#8C1D2B; --kesari:#B54714; --haldi:#E9A812;
+    --kagad:#FCF5E8; --shai:#2C2317; --soft:#5A4C3A; --line:#E7DCC6;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  @page{ size:A4; margin:0 }
+  html,body{ width:210mm; height:297mm; }
+  body{
+    font-family:'Anek Devanagari', system-ui, sans-serif;
+    background:var(--kagad); color:var(--shai); line-height:1.4;
+  }
+  .band{
+    background:linear-gradient(180deg,#8C1D2B,#6E1522); color:#FDEFD2;
+    text-align:center; padding:6mm 6mm 5mm;
+    font-family:'Tiro Devanagari Marathi', serif; font-size:20px;
+  }
+  .wrap{ padding:6mm 14mm 6mm; text-align:center }
+  h1{
+    font-family:'Tiro Devanagari Marathi', serif; font-weight:400;
+    font-size:23px; color:var(--kumkum); line-height:1.4; margin:2mm 0 0;
+  }
+  .place{ font-size:14px; color:var(--soft); margin-top:1.5mm }
+  .sub{ font-size:14.5px; color:var(--soft); margin-top:3mm }
+
+  .qrbox{
+    display:inline-block; background:#fff; border:2px solid var(--line);
+    border-radius:6mm; padding:6mm; margin:4mm 0 2mm;
+  }
+  .qrbox img{ width:58mm; height:58mm; display:block }
+  .scan-cta{
+    font-size:19px; font-weight:700; color:var(--kesari); margin-top:1mm;
+    letter-spacing:.5px;
+  }
+
+  .cols{ display:flex; gap:8mm; margin-top:5mm; text-align:left }
+  .col{
+    flex:1; background:#fff; border:1px solid var(--line); border-radius:5mm;
+    padding:6mm 6mm 7mm;
+  }
+  .col h2{
+    font-size:16.5px; color:var(--kumkum); font-weight:700; margin-bottom:4mm;
+    display:flex; align-items:center; gap:2mm;
+  }
+  .col h2 .ic{ font-size:20px }
+  .steps{ list-style:none; counter-reset:step }
+  .steps li{
+    counter-increment:step; position:relative; padding-left:9mm;
+    font-size:13.5px; line-height:1.55; margin-bottom:4mm; color:var(--shai);
+  }
+  .steps li::before{
+    content:counter(step); position:absolute; left:0; top:0;
+    width:6.5mm; height:6.5mm; border-radius:50%;
+    background:var(--haldi); color:#4A3405; font-weight:700; font-size:13px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .steps li b{ color:var(--kumkum) }
+  .link-pill{
+    display:block; margin:2mm 0 0 9mm; background:rgba(181,71,20,.08);
+    border:1.5px dashed var(--kesari); border-radius:3mm; padding:2.5mm 2mm;
+    font-weight:700; font-size:11.5px; letter-spacing:-.2px; color:var(--kesari);
+    white-space:nowrap; text-align:center;
+  }
+  .tip{
+    margin-top:5mm; padding-top:4mm; border-top:1px dashed var(--line);
+    font-size:12px; color:var(--soft); line-height:1.5;
+  }
+
+  .whatinside{
+    margin-top:5mm; background:rgba(233,168,18,.10); border:1px solid rgba(233,168,18,.35);
+    border-radius:5mm; padding:5mm 7mm; text-align:left;
+  }
+  .whatinside b{ color:var(--kumkum); font-size:14.5px; display:block; margin-bottom:2mm }
+  .whatinside span{ font-size:13px; color:var(--shai); line-height:1.7 }
+
+  footer{
+    margin-top:5mm; text-align:center; font-size:11.5px; color:var(--soft);
+  }
+  footer .divider{
+    width:35mm; height:1.5px; background:var(--haldi); margin:0 auto 4mm;
+  }
+</style>
+</head>
+<body>
+
+  <div class="band">॥ श्री स्वामी समर्थ ॥<br><small style="font-size:12px;opacity:.85">भिऊ नकोस, मी तुझ्या पाठीशी आहे</small></div>
+
+  <div class="wrap">
+    <h1>श्री स्वामी समर्थ सेवा केंद्र (दिंडोरी प्रणित)</h1>
+    <div class="place">📍 कोटितीर्थ, कोल्हापूर</div>
+    <div class="sub">मोबाईलवर आमची वेबसाईट पाहण्यासाठी खालील QR कोड स्कॅन करा</div>
+
+    <div class="qrbox"><img src="seva-kendra-qr.svg" alt="QR कोड"></div>
+    <div class="scan-cta">👆 स्कॅन करा</div>
+
+    <div class="cols">
+      <div class="col">
+        <h2><span class="ic">📷</span> QR कसा स्कॅन करायचा?</h2>
+        <ol class="steps">
+          <li>मोबाईलचा <b>कॅमेरा (Camera)</b> अ‍ॅप उघडा</li>
+          <li>कॅमेरा या चौकोनी कोडवर धरा — <b>जवळ नेऊ नका</b>, थोडं अंतर ठेवा</li>
+          <li>स्क्रीनवर एक <b>निळी लिंक</b> दिसेल — तिच्यावर बोटाने टॅप करा</li>
+          <li>आमची वेबसाईट <b>आपोआप उघडेल</b></li>
+        </ol>
+        <p class="tip">💡 कॅमेऱ्याने कोड दिसत नसेल, तर WhatsApp मधला कॅमेरा किंवा Google Lens वापरून पाहा.</p>
+      </div>
+
+      <div class="col">
+        <h2><span class="ic">🌐</span> स्कॅन जमलं नाही? असं उघडा</h2>
+        <ol class="steps">
+          <li>मोबाईलमध्ये <b>Chrome</b> (किंवा कुठलंही इंटरनेट अ‍ॅप) उघडा</li>
+          <li>वरच्या पांढऱ्या पट्टीत ही लिंक टाका —
+            <span class="link-pill">kotitirth-seva-kendra.vercel.app</span>
+          </li>
+          <li>कीबोर्डवरचं <b>Go / Enter</b> बटण दाबा</li>
+          <li>वेबसाईट उघडेल</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="whatinside">
+      <b>या वेबसाईटवर काय मिळेल?</b>
+      <span>🪔 आजची आरतीची वेळ · 📿 जपमाळ मोजणी · 📖 आरत्या व पाठ · 🗓️ आजचे पंचांग व राहू काळ · 📞 केंद्राशी संपर्क</span>
+    </div>
+
+    <footer>
+      <div class="divider"></div>
+      कधीही, कुठूनही उघडा — पूर्ण मोफत.<br>वेळेत बदल झाल्यास केंद्रात विचारून खात्री करा.
+    </footer>
+  </div>
+
+</body>
+</html>
