@@ -202,7 +202,7 @@ body{
 }
 .wrap{max-width:520px;margin:0 auto;padding:0 16px 40px}
 @media (min-width:760px){ .wrap{max-width:780px} }
-body{padding-bottom:calc(64px + env(safe-area-inset-bottom))}  /* तळाच्या टॅबसाठी जागा */
+body{padding-bottom:calc(88px + env(safe-area-inset-bottom))}  /* तळाच्या टॅबसाठी जागा */
 
 /* ---------- हेडर पट्टी ---------- */
 .band{
@@ -505,6 +505,8 @@ html[data-theme="dark"] .card{
 .subtabs{
   display:flex;gap:8px;margin-top:18px;
   background:var(--card);border:1px solid var(--line);border-radius:14px;padding:5px;
+  position:sticky;top:8px;z-index:15;
+  box-shadow:0 6px 16px -6px rgba(44,35,23,.18);
 }
 .subtabs button{
   flex:1;border:0;background:none;cursor:pointer;font-family:inherit;
@@ -514,9 +516,9 @@ html[data-theme="dark"] .card{
 }
 .subtabs button.on{background:rgba(181,71,20,.12);color:var(--kumkum)}
 .subtabs button:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
-/* लहान स्क्रीनवर (≤360px) ४ subtab एका ओळीत squeeze होऊन नावे तुटतात —
-   2×2 grid केल्याने प्रत्येक बटणाला पुरेशी जागा मिळते. */
-@media (max-width:360px){
+/* लहान/मध्यम स्क्रीनवर (≤420px — बहुतांश फोन यातच येतात) ४ subtab एका ओळीत
+   squeeze होऊन नावे तुटतात — 2×2 grid केल्याने प्रत्येक बटणाला पुरेशी जागा मिळते. */
+@media (max-width:420px){
   .subtabs{ display:grid; grid-template-columns:1fr 1fr; gap:6px; }
   .subtabs button{ padding:12px 6px; }
 }
@@ -531,6 +533,16 @@ html[data-theme="dark"] .card{
   padding-bottom:env(safe-area-inset-bottom);
   backdrop-filter:blur(14px) saturate(150%);
   -webkit-backdrop-filter:blur(14px) saturate(150%);
+}
+/* मोठ्या स्क्रीनवर (टॅब्लेट/डेस्कटॉप) टॅब पूर्ण रुंदीचे न ठेवता मोबाईल-अ‍ॅपसारखे
+   मध्यभागी सीमित रुंदीत — फोन-अ‍ॅपसारखं दिसण्याऐवजी अवाढव्य पसरट दिसणं टाळण्यासाठी. */
+@media (min-width:760px){
+  .tabs{
+    left:50%;right:auto;transform:translateX(-50%);
+    max-width:780px;width:100%;
+    border-left:1px solid var(--line);border-right:1px solid var(--line);
+    border-radius:16px 16px 0 0;
+  }
 }
 html[data-theme="dark"] .tabs{background:rgba(36,32,24,.92)}
 .tabs .tab-blob{
@@ -741,6 +753,15 @@ html[data-theme="dark"] .tabs{background:rgba(36,32,24,.92)}
   border-radius:12px;padding:14px 12px;margin:10px 0;
 }
 
+/* पुढील/चालू सेवेची पट्टी — वेळापत्रकाच्या अगदी वर, "आज" टॅबवरच्या नाऊ-बार सारखीच माहिती */
+.tl-next-hint{
+  display:none;font-size:13.5px;font-weight:600;color:var(--kesari);
+  background:rgba(217,83,30,.08);border:1px solid rgba(217,83,30,.2);
+  border-radius:10px;padding:9px 12px;margin-bottom:14px;
+}
+.tl-next-hint.show{display:block}
+.tl-next-hint b{color:var(--kumkum)}
+
 /* ---------- वेळापत्रक ---------- */
 /* --tw = वेळेच्या रकान्याची रुंदी, --gap = रकाना व रेषेमधले अंतर.
    रेष व ठिपका यांची जागा या दोन आकड्यांवरून आपोआप ठरते — फक्त --tw बदला. */
@@ -782,10 +803,11 @@ html[data-theme="dark"] .tabs{background:rgba(36,32,24,.92)}
 }
 .tl li.live .d b{color:var(--kesari)}
 .tl .remind{
-  display:inline-flex;align-items:center;gap:5px;margin-top:6px;
+  display:inline-flex;align-items:center;justify-content:center;gap:5px;margin-top:6px;
   font-size:12.5px;font-weight:600;color:var(--kesari);
   background:transparent;border:1px dashed rgba(181,71,20,.4);
-  border-radius:999px;padding:4px 10px;cursor:pointer;font-family:inherit;
+  border-radius:999px;padding:8px 14px;cursor:pointer;font-family:inherit;
+  min-height:44px;
 }
 .tl .remind:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
 .tl .remind[aria-pressed="true"]{
@@ -806,6 +828,7 @@ html[data-theme="dark"] .tabs{background:rgba(36,32,24,.92)}
 .c-zal{background:rgba(110,95,76,.13);color:var(--shai-soft);font-weight:500;
   box-shadow:inset 2px 2px 4px rgba(44,35,23,.12), inset -1px -1px 3px rgba(255,255,255,.45)}
 .c-zal::before{content:"✓ "}
+.c-off{background:rgba(110,95,76,.10);color:var(--shai-soft);font-weight:500}
 .tl li.off .dot{
   background:#EDE4D4; border-color:#C9B89A;
   box-shadow:inset 2px 2px 4px rgba(44,35,23,.18), inset -1px -1px 2px rgba(255,255,255,.5);
@@ -1385,11 +1408,12 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
   <section>
     <h2 class="frame">नित्य सेवा वेळापत्रक</h2>
     <div class="card tilt-card">
+      <p class="tl-next-hint" id="tlNextHint" aria-live="polite"></p>
       <ul class="tl" id="tl"></ul>
     </div>
   </section>
   <section>
-    <h2>आरती विभाग</h2>
+    <h2>आरतीचे प्रकार</h2>
     <div class="acclist" id="aartiVibhag"></div>
   </section>
   </div>
@@ -1404,11 +1428,11 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
     </div>
     <p class="paath-search-count" id="paathSearchCount" aria-live="polite"></p>
     <nav class="paath-filters" id="paathFilters" role="tablist" aria-label="पाठ प्रकार">
-      <button type="button" role="tab" class="on" data-filter="all" aria-selected="true">सर्व</button>
-      <button type="button" role="tab" data-filter="aarti" aria-selected="false">आरती</button>
-      <button type="button" role="tab" data-filter="itar" aria-selected="false">इतर पाठ</button>
-      <button type="button" role="tab" data-filter="mantra" aria-selected="false">मंत्र</button>
-      <button type="button" role="tab" data-filter="fav" aria-selected="false">आवडते</button>
+      <button type="button" role="tab" class="on" data-filter="all" aria-selected="true" aria-controls="paath">सर्व</button>
+      <button type="button" role="tab" data-filter="aarti" aria-selected="false" aria-controls="paath">आरती</button>
+      <button type="button" role="tab" data-filter="itar" aria-selected="false" aria-controls="paath">इतर पाठ</button>
+      <button type="button" role="tab" data-filter="mantra" aria-selected="false" aria-controls="paath">मंत्र</button>
+      <button type="button" role="tab" data-filter="fav" aria-selected="false" aria-controls="paath">आवडते</button>
     </nav>
     <p class="paath-search-empty" id="paathSearchEmpty">काही जुळणारी आरती/पाठ सापडला नाही.</p>
     <p class="fav-hint">कार्डवर <b>डबल टॅप</b> = आवडते · उघडल्यावर <b>ऐका</b> = मराठी आवाज</p>
@@ -3043,7 +3067,7 @@ const CHIP = {
   lavkar: '<span class="chip c-lav">लवकरच</span>',
   chalu : '<span class="chip c-cha">चालू आहे</span>',
   zali  : '<span class="chip c-zal">झाली</span>',
-  nahi  : ''
+  nahi  : '<span class="chip c-off">आज लागू नाही</span>'
 };
 
 function renderTimeline(ctx){
@@ -3101,17 +3125,36 @@ function renderNowBar(ctx){
   const chalu  = lagu.find(s => s.sthiti === "chalu");
   const pudhil = lagu.find(s => s.sthiti === "lavkar");
   const nowTxt = document.getElementById("nowTxt"), nowSub = document.getElementById("nowSub");
+  const baakiTxt = (baki) => {
+    const h = Math.floor(baki/60), m = baki%60;
+    return (h ? dev(h) + " तास" : "") + (h && m ? " " : "") + (m ? dev(m) + " मिनिटे" : "");
+  };
   if(chalu){
     nowTxt.textContent = chalu.name + " चालू आहे";
     nowSub.textContent = show(chalu.t) + " – " + hhmm(chalu.eT);
   }else if(pudhil){
-    const baki = pudhil.st - ctx.nowM, h = Math.floor(baki/60), m = baki%60;
+    const baki = pudhil.st - ctx.nowM;
     nowTxt.textContent = "पुढील सेवा — " + pudhil.name;
-    const baakiTxt = (h ? dev(h) + " तास" : "") + (h && m ? " " : "") + (m ? dev(m) + " मिनिटे" : "");
-    nowSub.textContent = show(pudhil.t) + " · अजून " + (baakiTxt || "थोडाच वेळ");
+    nowSub.textContent = show(pudhil.t) + " · अजून " + (baakiTxt(baki) || "थोडाच वेळ");
   }else{
     nowTxt.textContent = "आजच्या सेवा पूर्ण झाल्या";
     nowSub.textContent = "उद्या " + show(KENDRA.seva[0].t) + " पासून पुन्हा सेवा";
+  }
+
+  // वेळापत्रकाच्या अगदी वर तीच माहिती थोडक्यात — #aarti टॅबवर थेट आलेल्यांसाठी
+  // ("आज" टॅबवरचा नाऊ-बार न बघताही इथेच लगेच दिसावं म्हणून)
+  const hint = document.getElementById("tlNextHint");
+  if(hint){
+    if(chalu){
+      hint.innerHTML = "🔔 <b>" + chalu.name + "</b> आत्ता चालू आहे — " + hhmm(chalu.eT) + " पर्यंत";
+      hint.classList.add("show");
+    }else if(pudhil){
+      const baki = pudhil.st - ctx.nowM;
+      hint.innerHTML = "पुढची सेवा: <b>" + show(pudhil.t) + "</b> · अजून " + (baakiTxt(baki) || "थोडाच वेळ");
+      hint.classList.add("show");
+    }else{
+      hint.classList.remove("show");
+    }
   }
 }
 
@@ -4475,7 +4518,7 @@ const aartiSub = (function(){
 
   function renderSel(){
     selBox.innerHTML = MANTRAS.map(m => `
-      <button type="button" role="tab" aria-selected="${m.id === cfg.id}" data-mid="${m.id}">${m.naav}</button>
+      <button type="button" role="tab" aria-selected="${m.id === cfg.id}" data-mid="${m.id}" aria-controls="malaMantra">${m.naav}</button>
     `).join("");
     selBox.querySelectorAll("button").forEach(b => {
       b.addEventListener("click", () => switchMantra(b.dataset.mid));
