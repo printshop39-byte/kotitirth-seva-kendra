@@ -1,7 +1,7 @@
 # QR फाईल्स
 
 सर्व QR मध्ये एकच लिंक आहे:
-`https://printshop39-byte.github.io/kotitirth-seva-kendra/`
+`https://kotitirth-seva-kendra.vercel.app/`
 
 तपासले आहे — QR वाचून तीच लिंक परत मिळते.
 Error correction **H** (सर्वात जास्त): QR चा ३०% भाग खराब झाला, फाटला किंवा

@@ -23,7 +23,7 @@
 | ९ | **QR तयार करून प्रिंट करणे** | ⬜ बाकी |
 | १० | **फलक/स्टिकर लावणे** | ⬜ बाकी |
 
-**लाईव्ह लिंक:** https://printshop39-byte.github.io/kotitirth-seva-kendra/
+**लाईव्ह लिंक:** https://kotitirth-seva-kendra.vercel.app/
 
 ---
 
@@ -33,8 +33,8 @@
 flowchart TD
     A["फाईल्स तयार<br/>index.html · qr.html"] --> B["GitHub रेपो<br/>kotitirth-seva-kendra"]
     B --> C["main ब्रँचवर पुश"]
-    C --> D["Settings → Pages<br/>Branch: main · root"]
-    D --> E["साइट लाईव्ह<br/>printshop39-byte.github.io"]
+    C --> D["Vercel auto-deploy<br/>(GitHub वर पुश केल्यावर आपोआप)"]
+    D --> E["साइट लाईव्ह<br/>kotitirth-seva-kendra.vercel.app"]
 
     E --> F{"माहिती पूर्ण आहे का?"}
     F -->|"नाही"| G["फोन नंबर टाका<br/>KENDRA.phone"]

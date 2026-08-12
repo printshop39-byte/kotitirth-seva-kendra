@@ -24,7 +24,7 @@ QR स्कॅन केल्यावर उघडणारे मोबा�
 
 1. **Settings → Pages** → Source: `Deploy from a branch` → Branch: `main`, folder `/ (root)` → Save
 2. २ मिनिटांनी लिंक तयार:
-   `https://printshop39-byte.github.io/kotitirth-seva-kendra/`
+   `https://kotitirth-seva-kendra.vercel.app/`
 
 ## २. QR तयार करा
 

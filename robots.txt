@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://printshop39-byte.github.io/kotitirth-seva-kendra/sitemap.xml
+Sitemap: https://kotitirth-seva-kendra.vercel.app/sitemap.xml
