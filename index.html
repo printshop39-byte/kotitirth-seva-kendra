@@ -3136,8 +3136,8 @@ function renderTimeline(ctx){
       <b>${s.name}${CHIP[s.sthiti]}</b>
       <span>${hhmm(s.t)} – ${hhmm(s.eT)}${s.sub ? " · " + s.sub : ""}</span>
       ${s.kadhi ? `<span class="kadhi">${s.kadhi}</span>` : ""}
-      ${s.name.includes("आरती") ? `<button type="button" class="paathcta" data-paathcta="1" aria-label="${s.name} चा पाठ उघडा">🪔 पाठ उघडा</button>` : ""}
-      ${s.name.includes("आरती") ? `<span class="jap" role="link" tabindex="0">📿 ${KENDRA.jap} →</span>` : ""}
+      ${(s.name.includes("आरती") || s.name.includes("आरत्या")) ? `<button type="button" class="paathcta" data-paathcta="1" aria-label="${s.name} चा पाठ उघडा">🪔 पाठ उघडा</button>` : ""}
+      ${(s.name.includes("आरती") || s.name.includes("आरत्या")) ? `<span class="jap" role="link" tabindex="0">📿 ${KENDRA.jap} →</span>` : ""}
       ${s.lagu && s.sthiti !== "zali" ? `<button type="button" class="remind" data-remind="${idx}" aria-label="${s.name} साठी आठवण">आठवण करून द्या</button>` : ""}
     </span>
   </li>`).join("");
@@ -5031,7 +5031,7 @@ const aartiSub = (function(){
 
   function aartiVel(){
     const ctx = buildSevaCtx(istNow());
-    const list = ctx.sevaAaj.filter(s => s.name.includes("आरती") && s.lagu);
+    const list = ctx.sevaAaj.filter(s => (s.name.includes("आरती") || s.name.includes("आरत्या")) && s.lagu);
     if(!list.length) return "आज आरतीची विशेष वेळ नोंदवलेली नाही — 'आरती' टॅबवर पूर्ण वेळापत्रक पहा.";
     return "आजच्या आरत्या —<br>" + list.map(s => "🪔 " + s.name + ": <b>" + show(s.t) + "</b>").join("<br>");
   }
