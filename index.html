@@ -3278,12 +3278,15 @@ document.addEventListener("visibilitychange", () => {
 });
 
 // 🔱 अभिषेक-लाईव्ह — केंद्रातून सेवेकरी बटण दाबून चालू/बंद करतात तेव्हाच दिसते
-// (फक्त श्रावण महिन्यात दाखवायचं, म्हणून प्रत्येक तपासणीत shravanAahe परत बघतो)
+// (श्रावण महिन्यात रोज, आणि इतर वेळी दर सोमवारी — कारण सोमवार हा शंकराचा वार,
+// वारानुसार सेवेतही (varSeva[1]) रुद्र/शिवनामावली इ. सोमवारीच आहे — बाकी दिवशी दाखवायचं नाही)
 async function renderAbhishekLive(){
   const box = document.getElementById("abhishekLive");
   if(!box) return;
-  const shravanAahe = buildSevaCtx(istNow()).shravanAahe;
-  if(!shravanAahe){ box.hidden = true; return; }
+  const now = istNow();
+  const shravanAahe = buildSevaCtx(now).shravanAahe;
+  const somwar = now.getDay() === 1;
+  if(!shravanAahe && !somwar){ box.hidden = true; return; }
   try{
     const r = await fetch("/api/abhishek-status", { cache:"no-store" });
     if(!r.ok) throw new Error("status " + r.status);
