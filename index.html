@@ -674,6 +674,9 @@ html[data-theme="dark"] .tabs{background:rgba(36,32,24,.92)}
 .shtx{min-width:0}
 .shbig{font-size:19px;font-weight:600;line-height:1.35}
 .shsub{font-size:14px;opacity:.8;margin-top:2px}
+.abhishek-live .lbl{font-size:12.5px;font-weight:700;letter-spacing:.5px;color:#F0A0A0;
+  animation:liveBlink 1.6s ease-in-out infinite}
+@keyframes liveBlink{0%,100%{opacity:1}50%{opacity:.55}}
 
 .acclist{display:grid;gap:9px}
 .acc{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
@@ -1266,6 +1269,36 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
       <div class="usm-top"><span class="usm-ico">🔔</span><span class="usm-when" id="usmWhen"></span></div>
       <div class="usm-naav" id="usmNaav"></div>
       <div class="usm-body" id="usmBody"></div>
+    </div>
+  </section>
+  <section>
+    <!-- अभिषेक-लाईव्ह: केंद्रातून सेवेकरी बटण दाबून चालू/बंद करतात तेव्हाच दिसते (फक्त श्रावणात) -->
+    <div class="shcard abhishek-live tilt-card" id="abhishekLive" hidden aria-live="polite">
+      <svg class="shiv" viewBox="0 0 120 132" role="img" aria-label="अभिषेक सुरू आहे">
+        <!-- कलश -->
+        <path d="M44 6 h32 l-5 11 h-22 z" fill="#E9A812"/>
+        <path d="M49 17 h22 v11 a11 9 0 0 1 -22 0 z" fill="#D9531E"/>
+        <!-- अभिषेकाचे थेंब -->
+        <circle class="drop d1" cx="60" cy="32" r="3.2" fill="#8FC4E8"/>
+        <circle class="drop d2" cx="60" cy="32" r="2.4" fill="#B4D9F2"/>
+        <circle class="drop d3" cx="60" cy="32" r="2.8" fill="#8FC4E8"/>
+        <!-- पिंडी -->
+        <ellipse cx="60" cy="114" rx="44" ry="11" fill="#EFE4CF"/>
+        <path d="M16 114 a44 13 0 0 1 88 0 z" fill="#D6C4A6"/>
+        <ellipse cx="60" cy="99" rx="14" ry="17" fill="#7A6A56"/>
+        <ellipse cx="60" cy="84" rx="14" ry="6" fill="#98866E"/>
+        <!-- बिल्वपत्र -->
+        <g class="bilva" fill="#4E8B4A" opacity=".9">
+          <ellipse cx="60" cy="76" rx="4" ry="7"/>
+          <ellipse cx="52" cy="79" rx="3.4" ry="6" transform="rotate(-28 52 79)"/>
+          <ellipse cx="68" cy="79" rx="3.4" ry="6" transform="rotate(28 68 79)"/>
+        </g>
+      </svg>
+      <div class="shtx">
+        <div class="lbl">🔴 आत्ता केंद्रात</div>
+        <div class="shbig">अभिषेक सेवा सुरू आहे</div>
+        <div class="shsub">भगवान शंकराच्या पिंडीवर संततधार अभिषेक चालू आहे</div>
+      </div>
     </div>
   </section>
   <section>
@@ -3242,6 +3275,26 @@ renderCurrentStatus();
 setInterval(renderCurrentStatus, 60000);
 document.addEventListener("visibilitychange", () => {
   if(!document.hidden) renderCurrentStatus();
+});
+
+// 🔱 अभिषेक-लाईव्ह — केंद्रातून सेवेकरी बटण दाबून चालू/बंद करतात तेव्हाच दिसते
+// (फक्त श्रावण महिन्यात दाखवायचं, म्हणून प्रत्येक तपासणीत shravanAahe परत बघतो)
+async function renderAbhishekLive(){
+  const box = document.getElementById("abhishekLive");
+  if(!box) return;
+  const shravanAahe = buildSevaCtx(istNow()).shravanAahe;
+  if(!shravanAahe){ box.hidden = true; return; }
+  try{
+    const r = await fetch("/api/abhishek-status", { cache:"no-store" });
+    if(!r.ok) throw new Error("status " + r.status);
+    const d = await r.json();
+    box.hidden = !d.on;
+  }catch(e){ box.hidden = true; }
+}
+renderAbhishekLive();
+setInterval(renderAbhishekLive, 25000);
+document.addEventListener("visibilitychange", () => {
+  if(!document.hidden) renderAbhishekLive();
 });
 
 // साध्या ओळी

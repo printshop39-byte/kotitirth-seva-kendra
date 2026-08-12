@@ -10,6 +10,9 @@
     "test:mobile": "node scripts/test-mobile-viewports.mjs",
     "test": "npm run validate:scriptures && npm run test:rules && npm run test:e2e && npm run test:mobile"
   },
+  "dependencies": {
+    "@upstash/redis": "^1.38.2"
+  },
   "devDependencies": {
     "ajv": "^8.17.1",
     "playwright": "^1.55.1"

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>अभिषेक बटण — सेवा केंद्र</title>
+<style>
+  :root{
+    --kumkum:#8C1D2B; --kesari:#B54714; --haldi:#E9A812;
+    --kagad:#FCF5E8; --shai:#2C2317; --soft:#6E5F4C; --line:#E7DCC6;
+    --on:#1E7A4C; --off:#8C1D2B;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  html,body{ height:100% }
+  body{
+    font-family:system-ui,-apple-system,sans-serif; background:var(--kagad); color:var(--shai);
+    display:flex; align-items:center; justify-content:center; padding:20px;
+    min-height:100vh;
+  }
+  .wrap{ width:100%; max-width:380px; text-align:center }
+  h1{ font-size:19px; font-weight:700; color:var(--kumkum); margin-bottom:4px }
+  .sub{ font-size:13.5px; color:var(--soft); margin-bottom:28px; line-height:1.5 }
+
+  .card{
+    background:#fff; border:1px solid var(--line); border-radius:18px;
+    padding:26px 20px; box-shadow:0 8px 24px rgba(28,20,10,.08);
+  }
+  input{
+    width:100%; padding:16px; font-size:22px; text-align:center; letter-spacing:6px;
+    border:1.5px solid var(--line); border-radius:12px; font-family:inherit;
+  }
+  input:focus{ outline:2px solid var(--haldi); outline-offset:1px }
+  .btn{
+    width:100%; padding:16px; margin-top:14px; border:0; border-radius:12px;
+    font-family:inherit; font-weight:700; font-size:17px; cursor:pointer; color:#fff;
+  }
+  .btn-enter{ background:var(--kumkum) }
+  .err{ color:var(--kumkum); font-size:13.5px; margin-top:10px; min-height:1.4em }
+
+  .status-lbl{ font-size:14px; color:var(--soft); margin-bottom:10px }
+  .status-big{ font-size:20px; font-weight:700; margin-bottom:22px }
+  .status-big.on{ color:var(--on) }
+  .status-big.off{ color:var(--off) }
+
+  .toggle{
+    width:100%; padding:26px 16px; border:0; border-radius:16px;
+    font-family:inherit; font-weight:700; font-size:19px; cursor:pointer; color:#fff;
+    transition:filter .15s ease, transform .1s ease;
+  }
+  .toggle:active{ transform:scale(.98) }
+  .toggle.start{ background:linear-gradient(180deg,#2A9463,var(--on)) }
+  .toggle.stop{ background:linear-gradient(180deg,#A8342F,var(--off)) }
+  .toggle[disabled]{ opacity:.6 }
+  .hint{ font-size:12.5px; color:var(--soft); margin-top:16px; line-height:1.5 }
+  .logout{ margin-top:18px; font-size:12.5px; color:var(--soft); text-decoration:underline; background:none; border:0; cursor:pointer; font-family:inherit }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🔱 अभिषेक बटण</h1>
+  <div class="sub">श्री स्वामी समर्थ सेवा केंद्र — फक्त केंद्रातील सेवेकऱ्यांसाठी</div>
+
+  <div class="card" id="pinScreen">
+    <div class="status-lbl">आत जाण्यासाठी पिन टाका</div>
+    <input type="password" inputmode="numeric" id="pinInput" placeholder="••••" maxlength="8" autocomplete="off">
+    <button class="btn btn-enter" id="pinGo">आत जा</button>
+    <div class="err" id="pinErr"></div>
+  </div>
+
+  <div class="card" id="toggleScreen" hidden>
+    <div class="status-lbl">सध्याची स्थिती</div>
+    <div class="status-big" id="statusBig">— तपासत आहे —</div>
+    <button class="toggle" id="toggleBtn" disabled>...</button>
+    <div class="err" id="toggleErr"></div>
+    <p class="hint">बटण दाबताच वेबसाईटवर सर्वांना लगेच (काही सेकंदात) दिसेल/लपेल.<br>अभिषेक सेवा सुरू करताना "सुरू करा", संपल्यावर "बंद करा" दाबा.</p>
+    <button class="logout" id="logoutBtn">वेगळा पिन वापरा</button>
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const PIN_KEY = "abhishekPin";
+
+function showToggleScreen(){
+  $("pinScreen").hidden = true;
+  $("toggleScreen").hidden = false;
+  refreshStatus();
+}
+function showPinScreen(msg){
+  $("toggleScreen").hidden = true;
+  $("pinScreen").hidden = false;
+  $("pinErr").textContent = msg || "";
+  $("pinInput").value = "";
+  $("pinInput").focus();
+}
+
+let currentOn = null;
+async function refreshStatus(){
+  try{
+    const r = await fetch("/api/abhishek-status", { cache: "no-store" });
+    const d = await r.json();
+    currentOn = !!d.on;
+    render();
+  }catch(e){
+    $("statusBig").textContent = "स्थिती मिळाली नाही — इंटरनेट तपासा";
+  }
+}
+function render(){
+  const big = $("statusBig"), btn = $("toggleBtn");
+  if(currentOn === null){ big.textContent = "— तपासत आहे —"; btn.disabled = true; return; }
+  big.textContent = currentOn ? "🔴 अभिषेक सध्या सुरू आहे" : "⚪ अभिषेक सध्या बंद आहे";
+  big.className = "status-big " + (currentOn ? "on" : "off");
+  btn.disabled = false;
+  btn.className = "toggle " + (currentOn ? "stop" : "start");
+  btn.textContent = currentOn ? "⏹ अभिषेक बंद करा" : "🔱 अभिषेक सुरू करा";
+}
+
+$("pinGo").addEventListener("click", () => {
+  const pin = $("pinInput").value.trim();
+  if(!pin){ $("pinErr").textContent = "पिन टाका"; return; }
+  localStorage.setItem(PIN_KEY, pin);
+  showToggleScreen();
+});
+$("pinInput").addEventListener("keydown", e => { if(e.key === "Enter") $("pinGo").click(); });
+
+$("toggleBtn").addEventListener("click", async () => {
+  const btn = $("toggleBtn");
+  const pin = localStorage.getItem(PIN_KEY) || "";
+  const nextOn = !currentOn;
+  btn.disabled = true;
+  $("toggleErr").textContent = "";
+  try{
+    const r = await fetch("/api/abhishek-toggle", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pin, on: nextOn })
+    });
+    if(r.status === 401){
+      localStorage.removeItem(PIN_KEY);
+      showPinScreen("चुकीचा पिन — परत टाका");
+      return;
+    }
+    if(!r.ok) throw new Error("सर्व्हर एरर");
+    const d = await r.json();
+    currentOn = !!d.on;
+    render();
+  }catch(e){
+    $("toggleErr").textContent = "बदल झाला नाही — परत प्रयत्न करा";
+    btn.disabled = false;
+  }
+});
+
+$("logoutBtn").addEventListener("click", () => {
+  localStorage.removeItem(PIN_KEY);
+  showPinScreen("");
+});
+
+// सुरुवात
+if(localStorage.getItem(PIN_KEY)){
+  showToggleScreen();
+}else{
+  showPinScreen("");
+}
+setInterval(() => { if(!$("toggleScreen").hidden) refreshStatus(); }, 5000);
+</script>
+</body>
+</html>
