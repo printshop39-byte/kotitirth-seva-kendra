@@ -38,6 +38,767 @@
         "अन्यथा पाप विध्वंसं, न भवेत कोटी पुण्यतः ॥"
       ],
       "audioId": "dhyan-mantra"
+    },
+    {
+      "id": "gayatri-mool",
+      "title": "गायत्री मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३४",
+      "sourcePage": 34,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "note": "फोटोत उजवी कडेची ओळ किंचित कापली गेली आहे — शेवटचे चिन्ह (। की ॥) खात्रीने दिसत नाही.",
+      "ovya": [
+        "ॐ तत्सवितुर्वरेण्यम् । भर्गो देवस्य धीमहि । धियो यो नः प्रचोदयात् ।"
+      ]
+    },
+    {
+      "id": "gayatri-vishnu",
+      "title": "विष्णू गायत्री मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३४",
+      "sourcePage": 34,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "ॐ नारायणाय विद्महे । वासुदेवाय धीमहि । तन्नो विष्णू प्रचोदयात् ॥"
+      ]
+    },
+    {
+      "id": "gayatri-lakshmi",
+      "title": "लक्ष्मी गायत्री मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३४",
+      "sourcePage": 34,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "note": "फोटोत उजवी कडेची ओळ किंचित कापली गेली आहे — शेवटचे चिन्ह खात्रीने दिसत नाही.",
+      "ovya": [
+        "ॐ महालक्ष्मी च विद्महे । विष्णुपत्नी च धीमहि । तन्नो लक्ष्मी प्रचोदयात्"
+      ]
+    },
+    {
+      "id": "gayatri-rudra-shiv",
+      "title": "रुद्र/शिव गायत्री मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३४",
+      "sourcePage": 34,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "ॐ तत्पुरुषाय विद्महे । महादेवाय धीमहि । तन्नो रुद्रः प्रचोदयात् ॥"
+      ]
+    },
+    {
+      "id": "gayatri-saraswati",
+      "title": "सरस्वती गायत्री मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३४",
+      "sourcePage": 34,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "note": "फोटोत उजवी कडेची ओळ किंचित कापली गेली आहे — शेवटचे चिन्ह खात्रीने दिसत नाही.",
+      "ovya": [
+        "ॐ सरस्वत्यै च विद्महे । विघ्नराजाय धीमहि । तन्नो वाणी प्रचोदयात्"
+      ]
+    },
+    {
+      "id": "gayatri-ganesh",
+      "title": "गणेश गायत्री मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३४",
+      "sourcePage": 34,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "ॐ एकदंताय विद्महे । वक्रतुंडाय धीमहि । तन्नो दन्तिः प्रचोदयात् ॥"
+      ]
+    },
+    {
+      "id": "gayatri-surya",
+      "title": "सूर्य गायत्री मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३४",
+      "sourcePage": 34,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "ॐ भास्कराय विद्महे । दिवाकराय धीमहि । तन्नो आदित्य प्रचोदयात्।"
+      ]
+    },
+    {
+      "id": "gayatri-datta",
+      "title": "दत्त गायत्री मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३४",
+      "sourcePage": 34,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "ॐ अत्रिसुताय विद्महे । अनसूयासुताय धीमहि । तन्नो दत्त प्रचोदयात् ॥",
+        "ॐ त्रिगुणात्मकाय विद्महे । अत्रिसुताय धीमहि । तन्नो दत्त प्रचोदयात् ॥"
+      ]
+    },
+    {
+      "id": "gayatri-sudarshan",
+      "title": "सुदर्शन गायत्री मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३४",
+      "sourcePage": 34,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "ॐ ह्रीं सुदर्शनाय विद्महे । महाज्वालाय धीमहि । तन्नो चक्र प्रचोदयात् ॥"
+      ]
+    },
+    {
+      "id": "gayatri-hanuman",
+      "title": "हनुमान गायत्री मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३४",
+      "sourcePage": 34,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "ॐ अंजनीसुताय विद्महे । वायुपुत्राय धीमहि । तन्नो हनुमान प्रचोदयात् ॥"
+      ]
+    },
+    {
+      "id": "gayatri-guru",
+      "title": "गुरु गायत्री मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३५",
+      "sourcePage": 35,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "ॐ गुरुदेवाय विद्महे । परब्रह्माय धीमहि । तन्नो गुरू प्रचोदयात् ॥"
+      ]
+    },
+    {
+      "id": "datta-bijamantra",
+      "title": "दत्त महाराजांचा बीजमंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३५",
+      "sourcePage": 35,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "ॐ द्रां चिरंजीविने नमः ।"
+      ]
+    },
+    {
+      "id": "parabrahma-mantra",
+      "title": "परब्रह्माचा मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३५",
+      "sourcePage": 35,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "ॐ ह्रीं परब्रह्मणे नमः ।"
+      ]
+    },
+    {
+      "id": "vishnu-mantra",
+      "title": "श्री विष्णुचा मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३५",
+      "sourcePage": 35,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "श्री वत्सं धारयन् । वक्षे मुक्ता माला षडाक्षरम् ॥"
+      ]
+    },
+    {
+      "id": "navnath-mantra",
+      "title": "नवनाथांचा मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३५",
+      "sourcePage": 35,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "गोरक्ष जालंदर चर्पटाश्च । अड्भंग कानीफ मच्छिंद्रराद्या ॥",
+        "चौरंगी रेवाणक भर्त्रिसंज्ञा । भूम्यां बभूवुः नवनाथसिद्धाः ॥"
+      ]
+    },
+    {
+      "id": "shabari-mantra",
+      "title": "शाबरी मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३५",
+      "sourcePage": 35,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "ॐ श्री चैतन्य गोरक्षाय नमः ।"
+      ]
+    },
+    {
+      "id": "saraswati-mantra",
+      "title": "सरस्वती मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३५",
+      "sourcePage": 35,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "१. नमस्ते शारदे देवी सरस्वती मतिप्रदे ।<br>वसत्वं मम जिव्हाग्रे सर्वविद्याप्रदाभव ॥",
+        "२. ॐ ऐं ह्रीं क्लीं श्रीं सरस्वत्यै बुधजननै स्वाहा ॥",
+        "३. ऐं अम्बितमे नदीतमे देवीतमे सरस्वती ।<br>अप्रशस्ता इव स्मसि प्रशस्ति मम्ब न स्कृधी ॥",
+        "४. ॐ ह्रीं श्रीं क्लीं वद-वद वाग्वादिनी -भगवती-सरस्वति<br>मम जिव्हाग्रे वासं कुरु-कुरु स्वाहा ॥",
+        "बीजमंत्र ५. ॐ ह्रीम् श्रां श्रीं हं सः थः थः ठः ठः सरस्वती भगवती<br>विद्या प्रसाद कुरु कुरु स्वाहा ।"
+      ]
+    },
+    {
+      "id": "smaranshakti-mantra",
+      "title": "स्मरणशक्तिवर्धक मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३५-३६",
+      "sourcePage": 35,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "note": "खालील मंत्र तुळशीच्या १४ पानांवर १०८ वेळा म्हणून ती पाने खावीत. याची सुरूवात शुक्ल पक्षात रोहिणी नक्षत्रापासून करावी व शेवट पुढील रोहिणी नक्षत्रावर करावा. यानंतर सात पानांवर, प्रत्येक पानावर २१ वेळा म्हणून ती खावी. याने स्मरणशक्ती तीव्र होते.",
+      "ovya": [
+        "ॐ नमो देवी कामाक्षा । त्रिशूल खड्ग हस्त, पाधा पाती गरूड,<br>सर्व लखी तू प्रीत ये समाङ्म, तत्व चिंतामणि नरसिंह । चल चल, क्षीण कोटी<br>कात्यानी, तालव प्रसाद के । ॐ ह्रीं ह्रीं क्रूं त्रिभूवन चालिया चालियां स्वाहा ॥"
+      ]
+    },
+    {
+      "id": "madhumati-mantra",
+      "title": "मधुमती मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३६",
+      "sourcePage": 36,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "ॐ ह्रीं मधुमती स्थावरजंगमा कर्षिणी ठः ठः स्वाहा ।"
+      ]
+    },
+    {
+      "id": "bhuvaneshwari-mantra",
+      "title": "भुवनेश्वरी मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३६",
+      "sourcePage": 36,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "ॐ ह्रीं श्रीं क्लीं भुवनेश्वर्यै नमः ।"
+      ]
+    },
+    {
+      "id": "kuber-mantra",
+      "title": "कुबेर मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३६",
+      "sourcePage": 36,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "विनियोग : अस्य श्री कुबेरमहामंत्रस्य विश्रवा ऋषिः बृहती छन्दः ।<br>शिवमित्रं श्री धनेश्वरोदेवता मम श्री धनेश्वर प्रसाद सिध्यर्थे जपे विनियोगः ।",
+        "मंत्र : ॐ वैश्रवणाय स्वाहा । ॐ श्री ॐ ह्रीं श्री ह्रीं क्लीं श्री क्लीं श्री<br>वित्तेश्वराय नमः ॥"
+      ]
+    },
+    {
+      "id": "navarna-mantra",
+      "title": "नवार्णव मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३६",
+      "sourcePage": 36,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "ॐ ऐं ह्रीं क्लीं चामुण्डायै विच्चे ॥"
+      ]
+    },
+    {
+      "id": "vivah-mantra",
+      "title": "विवाहासाठी मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३६",
+      "sourcePage": 36,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "ॐ दुं दुर्गे मम विवाह सत्वरं कुरु कुरु स्वाहा ॥"
+      ]
+    },
+    {
+      "id": "gauri-mantra",
+      "title": "गौरी मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३६",
+      "sourcePage": 36,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "ॐ गौरी शंकराधांगी यथा त्वं शंकरप्रिया ।<br>तथा मां कुरु कल्याणी कान्त कान्ता सुदुर्लभाम् ॥"
+      ]
+    },
+    {
+      "id": "saubhagyavardhak-mantra",
+      "title": "सौभाग्यवर्धक मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३६",
+      "sourcePage": 36,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "ॐ ह्रीं कपालिनी कुल कुंडलिनी मे सिद्धि देहि भाग्यं देहि देहि स्वाहा ॥"
+      ]
+    },
+    {
+      "id": "mahamrityunjay-vedokta",
+      "title": "महामृत्युंजय मंत्र (वेदोक्त)",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३६",
+      "sourcePage": 36,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "ॐ त्र्यंबकं यजामहे सुगंधिं पुष्टिवर्धनम् ।<br>उर्वारुकमिव बंधनान् मृत्योर्मुक्षीय मामृतात् ॥"
+      ]
+    },
+    {
+      "id": "mahamrityunjay-panchapranav",
+      "title": "महामृत्युंजय मंत्र (पंचप्रणवयुक्त)",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३७",
+      "sourcePage": 37,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "note": "महामृत्युंजय जपानंतर पुढील प्रार्थना एकदा म्हणावी.",
+      "ovya": [
+        "ॐ हौं जूं सः ॐ भू भुवः स्वः । ॐ त्र्यंबकं यजामहे सुगंधिं<br>पुष्टिवर्धनम् । उर्वारुकमिव बंधनान् मृत्योर्मुक्षीय<br>मामृतात् ।",
+        "स्वः भुवः भूः ॐ सः जूं हौं ॐ ॥",
+        "गुह्यातिगुह्य गोप्तात्वं गृहाणास्मकृतं जपम् ।<br>सिद्धिर्भवतु मे देव त्वत्प्रसादान्महेश्वर ।<br>मृत्युंजय महारुद्र त्राहि मां शरणागतम् ।<br>जन्ममृत्युर्जरारोगैः पिडितं कर्मबंधनैः ॥"
+      ]
+    },
+    {
+      "id": "amrit-sanjivani-mantra",
+      "title": "अमृत संजीवनी मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३७",
+      "sourcePage": 37,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "ॐ तत्सवितुर्वरेण्यम् । त्र्यंबकं यजामहे सुगंधिं पुष्टिवर्धनम् ।<br>भर्गो देवस्य धीमहि । उर्वारुकमिव बंधनान् ।<br>धियो यो नः प्रचोदयात् । मृत्योर्मुक्षीय मामृतात् ॥"
+      ]
+    },
+    {
+      "id": "sanjivani-mantra",
+      "title": "संजीवनी मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३७-३८",
+      "sourcePage": 37,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "अस्य श्री संजीवनी मंत्रस्य प्रजापतिऋषिः प्रकृति छंदः<br>आयुष्यादयो देवताः आयुष्याभिवृध्दये जपे विनियोगः ॥",
+        "ॐ आयुर्यज्ञेन कल्पता कुँ स्वाहा ।",
+        "ॐ प्राणो यज्ञेन कल्पता कुँ स्वाहा ।",
+        "ॐ अपानो यज्ञेन कल्पता कुँ स्वाहा ।",
+        "ॐ व्यानो यज्ञेन कल्पता कुँ स्वाहा ।",
+        "ॐ उदानो यज्ञेन कल्पता कुँ स्वाहा ।",
+        "ॐ समानो यज्ञेन कल्पता कुँ स्वाहा ।",
+        "ॐ चक्षुर्यज्ञेन कल्पता कुँ स्वाहा ।",
+        "ॐ श्रोत्रं यज्ञेन कल्पता कुँ स्वाहा ।",
+        "ॐ वाग्यज्ञेन कल्पता कुँ स्वाहा ।",
+        "ॐ मनो यज्ञेन कल्पता कुँ स्वाहा ।",
+        "ॐ आत्मा यज्ञेन कल्पता कुँ स्वाहा ।",
+        "ॐ ब्रह्मा यज्ञेन कल्पता कुँ स्वाहा ।",
+        "ॐ ज्योतिर्यज्ञेन कल्पता कुँ स्वाहा ।",
+        "ॐ स्वर्यज्ञेन कल्पता कुँ स्वाहा ।",
+        "ॐ पृष्ठं यज्ञेन कल्पता कुँ स्वाहा ।",
+        "ॐ यज्ञोयज्ञेन कल्पता कुँ स्वाहा ।"
+      ]
+    },
+    {
+      "id": "haravaleli-vyakti-mantra",
+      "title": "हरविलेली व्यक्ती सापडण्यासाठी मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३८",
+      "sourcePage": 38,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "ॐ क्लीं कार्तवीर्यार्जुनो नाम राजा बाहु सहस्रवान् ।<br>यस्य स्मरणमात्रेण गतं नष्टं च लभ्यते क्लीं ॐ ॥"
+      ]
+    },
+    {
+      "id": "haravaleli-vastu-mantra",
+      "title": "हरविलेली वस्तु सापडण्यासाठी मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३८",
+      "sourcePage": 38,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "note": "पहिल्या ओळीचा उजवा भाग फोटोत पानाच्या कडेला कापला गेला आहे — तिथून पुढचा मजकूर दिसत नाही.",
+      "ovya": [
+        "१. फ्रों प्रीं क्लीं भ्रूं आं ह्रीं फ्रों श्रीं हुं फट् कार्तवीर्यार्जुनाय न...",
+        "२. कार्तवीर्यार्जुनो नाम राजा बाहु सहस्रवान् ।<br>तस्य संस्मरणादेव हतं नष्टं च लभ्यते ॥"
+      ]
+    },
+    {
+      "id": "dhanvantari-mantra",
+      "title": "धन्वंतरी मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३८",
+      "sourcePage": 38,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "note": "पहिल्या ओळीचा उजवा भाग फोटोत पानाच्या कडेला कापला गेला आहे — तिथून पुढचा मजकूर दिसत नाही.",
+      "ovya": [
+        "ॐ नमो भगवते वासुदेवाय धन्वंतरये अमृतकलश हस्ता...<br>सर्वामयविनाशाय त्रैलोक्यनाथाय महाविष्णवे स्वाहा ॥"
+      ]
+    },
+    {
+      "id": "sarvaroganashak-mantra",
+      "title": "सर्वरोगनाशक मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३८",
+      "sourcePage": 38,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "अच्युत अनंत गोविंद नामोच्चारण भेषजात् ।<br>नश्यन्ति सकलः रोगः सत्यम् सत्यम् वदाम्यहम् ॥"
+      ]
+    },
+    {
+      "id": "hridayrog-mantra",
+      "title": "हृदयरोगाचा मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३८",
+      "sourcePage": 38,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "उद्यनध्य मित्रमिहं आरोहन्नुत्तरां दिवम् ।<br>हृद्रोगं मम सूर्य हरिमाणं च नाशय ॥"
+      ]
+    },
+    {
+      "id": "kavil-panduroga-mantra",
+      "title": "कावीळ व पंडुरोगाचा मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३८-३९",
+      "sourcePage": 38,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "शुकेषु मे हरिमाणं रोपणाकासू दध्मसि ।<br>अथो हारिद्रवेशु मे हरिमाणं निदध्मसि ॥"
+      ]
+    },
+    {
+      "id": "surya-mantra-2",
+      "title": "सूर्य मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३९",
+      "sourcePage": 39,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "ॐ ह्रीं घृणिः सूर्य आदित्य श्रीं ॥"
+      ]
+    },
+    {
+      "id": "kalimalanashak-mantra",
+      "title": "कलिमलनाशक मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३९",
+      "sourcePage": 39,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "कर्कोटकस्य नागस्य दमयन्त्या नलस्य च ।<br>ऋतुपर्णस्य राजर्षे कीर्तनं कलिनाशनम् ॥"
+      ]
+    },
+    {
+      "id": "santan-gopal-mantra",
+      "title": "संतान गोपाळ मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३९",
+      "sourcePage": 39,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "देवकीसुतं गोविंद वासुदेव जगत्पते ।<br>देहि मे तनयं कृष्ण त्वामहं शरणागतः ॥"
+      ]
+    },
+    {
+      "id": "annapurna-mantra",
+      "title": "अन्नपूर्णा मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३९",
+      "sourcePage": 39,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "श्री ह्रीं क्लीं नमो भगवति अन्नपूर्णे ममाभिलषितमन्नं<br>देहि देहि स्वाहा । दर्शनसिद्धि भवति ॥"
+      ]
+    },
+    {
+      "id": "mulvyadhi-mantra",
+      "title": "मूळव्याधीसाठी मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३९",
+      "sourcePage": 39,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "note": "वरील मंत्र २१ वेळा पाण्यावर जपून ते अभिमंत्रित पाणी प्यावे.",
+      "ovya": [
+        "काकुता कां करकुता साकुता कलिता आकलिता येरी निरीजिर्रा ॥"
+      ]
+    },
+    {
+      "id": "shatru-nash-mantra",
+      "title": "शत्रू नाश मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३९",
+      "sourcePage": 39,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "उदगादयमादित्यो विश्वेन सहसा सह ।<br>द्विषन्तं मह्यं रन्धयन्मो अहं द्विषतेरधम् ॥"
+      ]
+    },
+    {
+      "id": "cancer-mantra",
+      "title": "कॅन्सरचा (कर्करोगाचा) मंत्र व कृती",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३९",
+      "sourcePage": 39,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "note": "वरील मंत्राचा कॅन्सर रुग्णाच्या नाडीवर त्रिकाळ १/१ माळ जप करावा. घशाच्या कॅन्सरसाठी रानभेंडीची मुळी रोज अनाशेपोटी मधात उगाळून देणे, सर्व प्रकारच्या कॅन्सरसाठी सप्तरंगी वनस्पतीचे खोड रोज अनाशेपोटी पाण्यामध्ये उगाळून देणे. टीप: सप्तरंगी व रानभेंडी मुळी श्री गुरुपीठात मोफत उपलब्ध.",
+      "ovya": [
+        "ॐ ऐं हां ह्रीं हुं हुं फट् स्वाहा महारुद्राय नमः ॥"
+      ]
+    },
+    {
+      "id": "bagalamukhi-mantra",
+      "title": "बगलामुखी मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३९-४०",
+      "sourcePage": 39,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "ॐ ह्लीलरीम् बगलामुखी सर्वदुष्टानाम वाचं मुखं पदं स्तंभय<br>जिह्ना कीलय बुद्धि विनाशाय ह्लीलरीम् ॐ स्वाहा ॥"
+      ]
+    },
+    {
+      "id": "kamalatmak-mantra",
+      "title": "कमलात्मक मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ४०",
+      "sourcePage": 40,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "ॐ श्रीं ह्रीं श्रीं कमले कमलालये प्रसीद प्रसीद श्रीं ह्रीं श्रीं महालक्ष्मै नमः॥"
+      ]
+    },
+    {
+      "id": "shodashi-mantra",
+      "title": "षोडशी मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ४०",
+      "sourcePage": 40,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "ह्रीम् कएईलह्रीम् हसकहलह्रीम् सकलह्रीम् ॥"
+      ]
+    },
+    {
+      "id": "runanashak-ganesh-mantra",
+      "title": "ऋणनाशक हरिद्राग\"णेश मन्त्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ४०",
+      "sourcePage": 40,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "ॐ गणेश ऋणं छिन्धि छिन्धि वरेण्यं हुं नमः फट् ॥"
+      ]
+    },
+    {
+      "id": "deviche-panch-mantra",
+      "title": "श्री देवीचे पाच मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ४०",
+      "sourcePage": 40,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "ovya": [
+        "अ) देही सौभाग्यं आरोग्यं देहि मे परमंसुखम् ।<br>रुपं देहि जयं देहि यशो देहि द्विषो जहि ॥",
+        "ब) सर्वां बाधा प्रशमनं त्रैलोक्यस्याखिलेश्वरी ।<br>एवमेव त्वया कार्य मस्मत् व्याधी विनाशनम् ॥",
+        "क) सर्वमंगल मांगल्ये शिवे सर्वार्थ साधिके ।<br>शरण्ये त्र्यंबके गौरि नारायणी नमोऽस्तुते ॥",
+        "ड) सर्वां बाधा प्रशमनं त्रैलोक्यस्याखिलेश्वरी ।<br>एवमेव त्वया कार्य मस्मत् वैरी विनाशनम् ॥",
+        "इ) पुत्रां देहि धनं देहि सर्व कामांश्च देहि मे ।<br>रुपं देहि जयं देहि यशो देहि द्विषो जहि ॥"
+      ]
+    },
+    {
+      "id": "swasanrakshan-mantra",
+      "title": "स्वसंरक्षण मंत्र",
+      "language": "sa",
+      "script": "Devanagari",
+      "status": "draft",
+      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ४०",
+      "sourcePage": 40,
+      "verifiedBy": null,
+      "verifiedDate": null,
+      "kadhi": "",
+      "note": "फोटो पृष्ठ ४० इथे संपतो — दुसरा मंत्र पूर्ण झाल्यासारखा वाटत नाही, पुढे आणखी ओळी असू शकतात. पुढचे पान असल्यास तेही पाठवा.",
+      "ovya": [
+        "१) ॐ नमो हनुमंत वज्रका कोठा। जिसमें पिंड हमारा बैठा॥<br>ईश्वर कुंजी ब्रह्माताला। इस घटका यती हनुमंत रखवाला।",
+        "२) जय हनुमान बजरंगी गदा अब तो उठाओगे।<br>दमन करो शत्रुका विजय डंका बजाओगे।"
+      ]
     }
   ]
 }
