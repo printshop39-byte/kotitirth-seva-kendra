@@ -1130,6 +1130,24 @@ html[data-theme="dark"] .row.row-today{background:rgba(212,168,75,.20)}
 }
 html[data-theme="dark"] .warn{color:#F08A8A;background:rgba(198,40,40,.14);border-color:rgba(240,138,138,.35)}
 
+.vastu-diagrams{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;margin:6px 0 14px;}
+.vastu-grid{width:min(100%,340px);height:auto}
+.vastu-compass{width:min(100%,240px);height:auto;align-self:center}
+.vg-outer{fill:var(--card);stroke:var(--kesari-teja);stroke-width:2}
+.vg-grid line{stroke:var(--line);stroke-width:1.5}
+.vg-card{font-size:11px;font-weight:700;fill:var(--kumkum)}
+.vg-dir{font-size:10px;font-weight:700;fill:var(--kumkum)}
+.vg-room{font-size:9px;fill:var(--shai-soft)}
+.vg-mid{font-size:11px;font-weight:600;fill:var(--shai-soft);font-style:italic}
+.vg-dot{stroke:var(--line);stroke-width:.75}
+.vg-dot.vg-white{fill:#F5F0E0}
+.vg-dot.vg-green{fill:#2E8B45}
+.vg-dot.vg-red{fill:#C6282D}
+.vc-ring{fill:none;stroke:var(--kesari-teja);stroke-width:2}
+.vc-spoke{stroke:var(--line);stroke-width:1.25;stroke-dasharray:3 3}
+.vc-dir{font-size:11px;font-weight:700;fill:var(--kumkum)}
+.vc-dev{font-size:9px;font-weight:500;fill:var(--shai-soft)}
+
 /* ---------- नवीन verified scripture pipeline (data/scriptures/) ---------- */
 .ovi.sec-heading{font-weight:600;color:var(--kumkum)}
 .ovi.sec-note,.ovi.sec-phalashruti{
@@ -1832,16 +1850,93 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
       <span class="ac" aria-hidden="true">+</span>
     </summary>
     <div class="accbody">
-      <p class="ref">फलकावर घराचा नऊ-चौकोनी आराखडा (नकाशा) व अष्टदिशांचे अधिपती दाखवणारे चक्र आहे. आराखड्यातील मजकूर थोडक्यात:</p>
-      <p><b>वायव्य</b> — सफेद बल्ब, बैठक, विक्री करावयाचा माल.<br>
-      <b>उत्तर (दरवाजा)</b> — हिरवा बल्ब, तिजोरी.<br>
-      <b>ईशान्य</b> — हिरवा बल्ब, देवघर, अभ्यासिका, पाण्याची टाकी.<br>
-      <b>पश्चिम (दरवाजा)</b> — लाल बल्ब, स्वच्छता गृह, सेप्टिक टँक.<br>
-      <b>पूर्व (दरवाजा)</b> — स्नान गृह, हिरवा बल्ब.<br>
-      <b>नैऋत्य</b> — धान्य कोठार, जड वस्तू, कपाट, मालकाचे शयनगृह, लाल बल्ब.<br>
-      <b>दक्षिण (दरवाजा)</b> — जड करणे, लाल बल्ब.<br>
-      <b>आग्नेय</b> — इलेक्ट्रीक उपकरणे, स्वयंपाक घर, लाल बल्ब.</p>
-      <p>अष्टदिशा दर्जी चक्रावरील अधिपती — उत्तर: कुबेर, ईशान्य: शिव, पूर्व: इंद्र, आग्नेय: अग्नि, दक्षिण: यम, नैऋत्य: निऋति, पश्चिम: वरुण, वायव्य: वायु.</p>
+      <p class="ref">फलकावर घराचा नऊ-चौकोनी आराखडा (नकाशा) व अष्टदिशांचे अधिपती दाखवणारे चक्र आहे — खालील आकृतीत तोच आराखडा दाखवला आहे.</p>
+      <div class="vastu-diagrams">
+        <svg class="vastu-grid" viewBox="0 0 320 360" role="img" aria-label="आदर्श गृहरचना — नऊ चौकोनी आराखडा">
+          <text x="160" y="18" text-anchor="middle" class="vg-card">उत्तर [NORTH]</text>
+          <text x="8" y="195" text-anchor="middle" class="vg-card" transform="rotate(-90 8 195)">पश्चिम [WEST]</text>
+          <text x="312" y="195" text-anchor="middle" class="vg-card" transform="rotate(90 312 195)">पूर्व [EAST]</text>
+          <text x="160" y="352" text-anchor="middle" class="vg-card">दक्षिण [SOUTH]</text>
+          <g class="vg-grid">
+            <rect x="20" y="30" width="280" height="280" class="vg-outer"/>
+            <line x1="113.3" y1="30" x2="113.3" y2="310"/>
+            <line x1="206.6" y1="30" x2="206.6" y2="310"/>
+            <line x1="20" y1="123.3" x2="300" y2="123.3"/>
+            <line x1="20" y1="216.6" x2="300" y2="216.6"/>
+          </g>
+          <g class="vg-cell">
+            <text x="66.6" y="55" text-anchor="middle" class="vg-dir">वायव्य</text>
+            <circle cx="45" cy="70" r="4" class="vg-dot vg-white"/>
+            <text x="66.6" y="80" text-anchor="middle" class="vg-room">सफेद बल्ब</text>
+            <text x="66.6" y="94" text-anchor="middle" class="vg-room">बैठक</text>
+            <text x="66.6" y="108" text-anchor="middle" class="vg-room">विक्री माल</text>
+          </g>
+          <g class="vg-cell">
+            <text x="160" y="55" text-anchor="middle" class="vg-dir">उत्तर (दरवाजा)</text>
+            <circle cx="138" cy="70" r="4" class="vg-dot vg-green"/>
+            <text x="160" y="80" text-anchor="middle" class="vg-room">हिरवा बल्ब</text>
+            <text x="160" y="94" text-anchor="middle" class="vg-room">तिजोरी</text>
+          </g>
+          <g class="vg-cell">
+            <text x="253.3" y="55" text-anchor="middle" class="vg-dir">ईशान्य</text>
+            <circle cx="231" cy="70" r="4" class="vg-dot vg-green"/>
+            <text x="253.3" y="80" text-anchor="middle" class="vg-room">हिरवा बल्ब</text>
+            <text x="253.3" y="94" text-anchor="middle" class="vg-room">देवघर</text>
+            <text x="253.3" y="108" text-anchor="middle" class="vg-room">अभ्यासिका</text>
+            <text x="253.3" y="122" text-anchor="middle" class="vg-room">पाण्याची टाकी</text>
+          </g>
+          <g class="vg-cell">
+            <text x="66.6" y="148" text-anchor="middle" class="vg-dir">पश्चिम (दरवाजा)</text>
+            <circle cx="45" cy="163" r="4" class="vg-dot vg-red"/>
+            <text x="66.6" y="173" text-anchor="middle" class="vg-room">लाल बल्ब</text>
+            <text x="66.6" y="187" text-anchor="middle" class="vg-room">स्वच्छता गृह</text>
+            <text x="66.6" y="201" text-anchor="middle" class="vg-room">सेप्टिक टँक</text>
+          </g>
+          <text x="160" y="175" text-anchor="middle" class="vg-mid">मध्य</text>
+          <g class="vg-cell">
+            <text x="253.3" y="148" text-anchor="middle" class="vg-dir">पूर्व (दरवाजा)</text>
+            <circle cx="231" cy="163" r="4" class="vg-dot vg-green"/>
+            <text x="253.3" y="173" text-anchor="middle" class="vg-room">हिरवा बल्ब</text>
+            <text x="253.3" y="187" text-anchor="middle" class="vg-room">स्नान गृह</text>
+          </g>
+          <g class="vg-cell">
+            <text x="66.6" y="241" text-anchor="middle" class="vg-dir">नैऋत्य</text>
+            <circle cx="45" cy="256" r="4" class="vg-dot vg-red"/>
+            <text x="66.6" y="266" text-anchor="middle" class="vg-room">लाल बल्ब</text>
+            <text x="66.6" y="280" text-anchor="middle" class="vg-room">धान्य कोठार</text>
+            <text x="66.6" y="294" text-anchor="middle" class="vg-room">जड वस्तू, कपाट</text>
+            <text x="66.6" y="308" text-anchor="middle" class="vg-room">मालकाचे शयनगृह</text>
+          </g>
+          <g class="vg-cell">
+            <text x="160" y="241" text-anchor="middle" class="vg-dir">दक्षिण (दरवाजा)</text>
+            <circle cx="138" cy="256" r="4" class="vg-dot vg-red"/>
+            <text x="160" y="266" text-anchor="middle" class="vg-room">लाल बल्ब</text>
+            <text x="160" y="280" text-anchor="middle" class="vg-room">जड करणे</text>
+          </g>
+          <g class="vg-cell">
+            <text x="253.3" y="241" text-anchor="middle" class="vg-dir">आग्नेय</text>
+            <circle cx="231" cy="256" r="4" class="vg-dot vg-red"/>
+            <text x="253.3" y="266" text-anchor="middle" class="vg-room">लाल बल्ब</text>
+            <text x="253.3" y="280" text-anchor="middle" class="vg-room">इलेक्ट्रीक उपकरणे</text>
+            <text x="253.3" y="294" text-anchor="middle" class="vg-room">स्वयंपाक घर</text>
+          </g>
+        </svg>
+        <svg class="vastu-compass" viewBox="0 0 240 240" role="img" aria-label="अष्टदिशा दर्जी — दिशांचे अधिपती">
+          <circle cx="120" cy="120" r="96" class="vc-ring"/>
+          <line x1="120" y1="24" x2="120" y2="216" class="vc-spoke"/>
+          <line x1="24" y1="120" x2="216" y2="120" class="vc-spoke"/>
+          <line x1="52" y1="52" x2="188" y2="188" class="vc-spoke"/>
+          <line x1="188" y1="52" x2="52" y2="188" class="vc-spoke"/>
+          <text x="120" y="16" text-anchor="middle" class="vc-dir">उत्तर<tspan x="120" dy="12" class="vc-dev">[कुबेर]</tspan></text>
+          <text x="215" y="55" text-anchor="middle" class="vc-dir">ईशान्य<tspan x="215" dy="12" class="vc-dev">[शिव]</tspan></text>
+          <text x="228" y="124" text-anchor="middle" class="vc-dir">पूर्व<tspan x="228" dy="12" class="vc-dev">[इंद्र]</tspan></text>
+          <text x="212" y="196" text-anchor="middle" class="vc-dir">आग्नेय<tspan x="212" dy="12" class="vc-dev">[अग्नि]</tspan></text>
+          <text x="120" y="236" text-anchor="middle" class="vc-dir">दक्षिण<tspan x="120" dy="12" class="vc-dev">[यम]</tspan></text>
+          <text x="28" y="200" text-anchor="middle" class="vc-dir">नैऋत्य<tspan x="28" dy="12" class="vc-dev">[निऋति]</tspan></text>
+          <text x="12" y="124" text-anchor="middle" class="vc-dir">पश्चिम<tspan x="12" dy="12" class="vc-dev">[वरुण]</tspan></text>
+          <text x="30" y="50" text-anchor="middle" class="vc-dir">वायव्य<tspan x="30" dy="12" class="vc-dev">[वायु]</tspan></text>
+        </svg>
+      </div>
       <p>१) घराच्या चारही दिशांना कमीत कमी ५ फूट रस्ता सोडून कंपाऊंड करावे. कंपाऊंडचे गेट दक्षिण दिशेला असू नये. पूर्व, पश्चिम, उत्तर दिशेला चालेल. दक्षिणेला असलेच तर उत्तरेलाही ठेवावे.</p>
       <p>२) घराच्या चारही मुख्य दिशांना दरवाजे असल्यास अति उत्तम. किमान पूर्व व पश्चिम दिशांना अंगण आवश्यक.</p>
       <p>३) घराचे मुख्य प्रवेशद्वार दक्षिण दिशेला असू नये. दोष- आजारपण, मानसिक चिंता. उपाय- उतरत्या भिंतीवर दक्षिण दरवाजाकडे तोंड करून गदाधारी व द्रोणागिरी पर्वत उचललेल्या हनुमंताची प्रतिमा लावावी. दक्षिण भिंतीवर उतरेकडे तोंड करून बैठी ढाल्या सोंडेची श्री गणेशाची प्रतिमा लावावी.</p>
