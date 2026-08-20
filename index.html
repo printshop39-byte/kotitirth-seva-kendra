@@ -120,6 +120,21 @@ html[data-theme="dark"]{
   --band-bot:#3D0E16;
   --theme-meta:#1A1814;
 }
+/* सेपिया — जुन्या पोथीच्या पानासारखा उबदार तपकिरी टोन, रात्री डोळ्यांना सौम्य */
+html[data-theme="sepia"]{
+  --kumkum:#7A2A20;
+  --kesari:#8A4A16;
+  --kesari-teja:#A85A20;
+  --haldi:#9A7118;
+  --kagad:#EFE1BE;
+  --card:#F6EBCC;
+  --shai:#4A3728;
+  --shai-soft:#7A6249;
+  --line:#DDC9A0;
+  --band-top:#6E2A1E;
+  --band-bot:#521C14;
+  --theme-meta:#EFE1BE;
+}
 html[data-theme="dark"] body{
   background-image:radial-gradient(circle at 1px 1px, rgba(232,165,152,.07) 1px, transparent 0);
 }
@@ -1348,7 +1363,7 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
       <div class="rb-more-menu" id="rbMoreMenu" hidden>
         <span class="rb-lbl">अक्षरे: <span id="fsLabel">मध्यम</span></span>
         <button type="button" id="fsDown" aria-label="अक्षरे लहान करा">A− लहान अक्षरे</button>
-        <button type="button" id="themeToggle" aria-pressed="false" aria-label="गडद थीम चालू/बंद">☾ रात्र मोड</button>
+        <button type="button" id="themeToggle" aria-pressed="false" aria-label="वाचन थीम बदला — प्रकाश, सेपिया किंवा रात्र">📜 सेपिया</button>
         <span class="rb-lbl">🔊 ऐकण्याची गती</span>
         <select id="voiceSpeed" aria-label="आवाजाची गती">
           <option value="0.65">मंद</option>
@@ -4664,21 +4679,24 @@ const aartiSub = (function(){
     if(lab) lab.textContent = FS_LABELS[fsIdx] || "मध्यम";
     try{ localStorage.setItem(FS_KEY, String(fsIdx)); }catch(e){}
   }
+  // प्रकाश → सेपिया → रात्र → प्रकाश … असे फिरते; बटणावर "पुढे काय होईल" तेच लिहिलेले असते
+  const THEME_NEXT = { light:"sepia", sepia:"dark", dark:"light" };
+  const THEME_LABEL = { light:"📜 सेपिया", sepia:"☾ रात्र", dark:"☀ दिवस" };
   function applyTheme(theme){
-    const dark = theme === "dark";
-    if(dark) root.setAttribute("data-theme", "dark");
-    else root.removeAttribute("data-theme");
+    if(theme !== "sepia" && theme !== "dark") theme = "light";
+    if(theme === "light") root.removeAttribute("data-theme");
+    else root.setAttribute("data-theme", theme);
     const btn = document.getElementById("themeToggle");
     if(btn){
-      btn.setAttribute("aria-pressed", dark ? "true" : "false");
-      btn.classList.toggle("on", dark);
-      btn.textContent = dark ? "☀ दिवस" : "☾ रात्र";
+      btn.setAttribute("aria-pressed", theme === "light" ? "false" : "true");
+      btn.classList.toggle("on", theme !== "light");
+      btn.textContent = THEME_LABEL[theme];
     }
     if(themeMeta){
-      const c = getComputedStyle(root).getPropertyValue("--theme-meta").trim() || (dark ? "#1A1814" : "#8C1D2B");
+      const c = getComputedStyle(root).getPropertyValue("--theme-meta").trim() || "#8C1D2B";
       themeMeta.setAttribute("content", c);
     }
-    try{ localStorage.setItem(THEME_KEY, dark ? "dark" : "light"); }catch(e){}
+    try{ localStorage.setItem(THEME_KEY, theme); }catch(e){}
   }
 
   try{
@@ -4688,7 +4706,7 @@ const aartiSub = (function(){
   applyFs();
   try{
     const t = localStorage.getItem(THEME_KEY);
-    if(t === "dark" || t === "light") applyTheme(t);
+    if(t === "dark" || t === "sepia" || t === "light") applyTheme(t);
     else if(matchMedia("(prefers-color-scheme: dark)").matches) applyTheme("dark");
     else applyTheme("light");
   }catch(e){ applyTheme("light"); }
@@ -4702,8 +4720,9 @@ const aartiSub = (function(){
     fsIdx += 1; applyFs(); thokLite();
   });
   document.getElementById("themeToggle")?.addEventListener("click", () => {
-    const dark = root.getAttribute("data-theme") === "dark";
-    applyTheme(dark ? "light" : "dark");
+    const cur = root.getAttribute("data-theme") === "dark" ? "dark"
+      : root.getAttribute("data-theme") === "sepia" ? "sepia" : "light";
+    applyTheme(THEME_NEXT[cur]);
     thokLite();
   });
 
