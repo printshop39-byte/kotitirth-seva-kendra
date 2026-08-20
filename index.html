@@ -5202,6 +5202,7 @@ const aartiSub = (function(){
   function jap(fromAuto){
     const now = Date.now();
     if(!fromAuto && now - lastTap < 120) return;
+    if(!fromAuto) wakeOn(); // टॅप मोडमध्येही जप करताना स्क्रीन बंद होऊ नये
     lastTap = now;
     st.bead += 1;
     const idx = st.bead;
@@ -5308,6 +5309,18 @@ const aartiSub = (function(){
 
   addEventListener("seva-day-change", () => { st = load(); dakhav(); bol(""); });
   addEventListener("pagehide", stopAuto);
+
+  // टॅप मोडमध्ये मिळवलेला wake lock — जपमाळा पासून दुसरीकडे गेल्यावर सोडून द्या
+  // (Auto मोडचा wake lock startAuto/stopAuto स्वतः सांभाळतो, इथे हात लावत नाही)
+  const japPane = document.getElementById("t-aarti");
+  const japPanel = document.getElementById("panel-jap");
+  function releaseIfHidden(){
+    if(autoOn?.checked) return;
+    if(japPane?.hidden || japPanel?.hidden) wakeOff();
+  }
+  new MutationObserver(releaseIfHidden).observe(japPane, { attributes:true, attributeFilter:["hidden"] });
+  new MutationObserver(releaseIfHidden).observe(japPanel, { attributes:true, attributeFilter:["hidden"] });
+
   renderSel();
   switchMantra(MANTRAS[0].id);
 })();
