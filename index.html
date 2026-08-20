@@ -914,6 +914,7 @@ html[data-theme="dark"] .row.row-today{background:rgba(212,168,75,.20)}
 /* ---------- पंचमहायज्ञ ---------- */
 .panch{margin-top:14px}
 .panch h3{font-size:16px;color:var(--kumkum);margin-bottom:12px;text-align:center}
+.mantra-list-head{font-size:17px;color:var(--kumkum);margin:22px 0 4px;text-align:center}
 .yadnya{padding:11px 14px;background:rgba(181,71,20,.05);border-radius:10px}
 .yadnya b{display:block;font-size:15px;font-weight:600;color:var(--kumkum)}
 .yadnya span{display:block;font-size:14.5px;line-height:1.65;color:var(--shai);margin-top:2px}
@@ -4104,9 +4105,15 @@ const PAATH_SEARCH_ALIAS = [
         status: it.status, source: it.source, verifiedBy: it.verifiedBy, verifiedDate: it.verifiedDate
       })));
     }
-    // मंत्र नमुने — आरत्यांच्या पाठानंतर दाखवा
+    // मंत्र यादी — जपमाळा टॅबमध्ये दाखवा (जप करतानाच मंत्र वाचता यावा म्हणून)
     if(mantra?.items?.length){
-      const box = document.getElementById("paath");
+      const malaBox = document.getElementById("mala");
+      const heading = document.createElement("h3");
+      heading.className = "mantra-list-head";
+      heading.textContent = "मंत्र यादी";
+      const introP = document.createElement("p");
+      introP.className = "sintro";
+      introP.textContent = "जपासाठी उपयुक्त मंत्र — वाचण्यासाठी उघडा.";
       const wrap = document.createElement("div");
       wrap.className = "acclist";
       wrap.id = "mantraList";
@@ -4124,9 +4131,8 @@ const PAATH_SEARCH_ALIAS = [
           <div class="accbody"></div>
         </details>`;
       }).join("");
-      box.after(wrap);
+      malaBox.after(heading, introP, wrap);
       window.__refreshAccExtras?.();
-      window.__applyPaathFilter?.();
     }
   }catch(e){ /* offline / file:// — एम्बेड मजकूर चालू */ }
 })();
