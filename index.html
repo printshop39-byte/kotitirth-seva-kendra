@@ -5299,25 +5299,56 @@ const aartiSub = (function(){
       if(!audioCtx) audioCtx = new AC();
       if(audioCtx.state === "suspended") audioCtx.resume();
       const t = audioCtx.currentTime;
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.connect(gain); gain.connect(audioCtx.destination);
       if(kind === "mala"){
-        // माळ पूर्ण — मंद घंटानाद
+        // माळ पूर्ण — मंद घंटानाद (प्रकार कोणताही असो, तीच)
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(audioCtx.destination);
         osc.type = "sine";
         osc.frequency.setValueAtTime(587.33, t);
         gain.gain.setValueAtTime(0.0001, t);
         gain.gain.linearRampToValueAtTime(0.13, t + 0.02);
         gain.gain.exponentialRampToValueAtTime(0.0008, t + 1.1);
         osc.start(t); osc.stop(t + 1.15);
-      }else{
-        // प्रत्येक मणी — लाकडी खटक
+        return;
+      }
+      // प्रत्येक मणी — निवडलेल्या मण्याच्या प्रकारानुसार वेगळा, ओळखता येण्याजोगा आवाज
+      const half = kind === "half";
+      if(beadType === "sphatik"){
+        // स्फटिक — काचेसारखा किणकिणणारा आवाज (दोन सुर एकत्र)
+        [half ? 1500 : 1300, half ? 2250 : 1950].forEach((f, i) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.connect(gain); gain.connect(audioCtx.destination);
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(f, t);
+          gain.gain.setValueAtTime(0.0001, t);
+          gain.gain.linearRampToValueAtTime(i === 0 ? 0.13 : 0.05, t + 0.004);
+          gain.gain.exponentialRampToValueAtTime(0.0006, t + 0.16);
+          osc.start(t); osc.stop(t + 0.17);
+        });
+      }else if(beadType === "tulsi"){
+        // तुळशी — हलका, मऊ लाकडी क्लिक
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(audioCtx.destination);
         osc.type = "triangle";
-        osc.frequency.setValueAtTime(kind === "half" ? 260 : 220, t);
-        osc.frequency.exponentialRampToValueAtTime(60, t + 0.035);
-        gain.gain.setValueAtTime(0.15, t);
-        gain.gain.exponentialRampToValueAtTime(0.0008, t + 0.045);
-        osc.start(t); osc.stop(t + 0.05);
+        osc.frequency.setValueAtTime(half ? 340 : 300, t);
+        osc.frequency.exponentialRampToValueAtTime(95, t + 0.045);
+        gain.gain.setValueAtTime(0.14, t);
+        gain.gain.exponentialRampToValueAtTime(0.0007, t + 0.06);
+        osc.start(t); osc.stop(t + 0.07);
+      }else{
+        // रुद्राक्ष — जड, गडद लाकडी खटक
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(half ? 260 : 220, t);
+        osc.frequency.exponentialRampToValueAtTime(55, t + 0.05);
+        gain.gain.setValueAtTime(0.17, t);
+        gain.gain.exponentialRampToValueAtTime(0.0008, t + 0.065);
+        osc.start(t); osc.stop(t + 0.07);
       }
     }catch(e){}
   }
