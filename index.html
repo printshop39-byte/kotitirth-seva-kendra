@@ -998,6 +998,18 @@ html[data-theme="dark"] .row.row-today{background:rgba(212,168,75,.20)}
   background:var(--kumkum);border-color:var(--kumkum);color:#fff;
 }
 .mala-select button:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
+.mala-beadtype{
+  display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:12px;
+}
+.mala-beadtype button{
+  font-family:inherit;font-size:12.5px;font-weight:600;color:var(--shai-soft);
+  background:transparent;border:1.3px solid var(--line);border-radius:999px;
+  padding:5px 12px;cursor:pointer;transition:all .15s ease;
+}
+.mala-beadtype button[aria-selected="true"]{
+  background:var(--haldi);border-color:var(--haldi);color:#402d02;
+}
+.mala-beadtype button:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
 .mala-tip{
   font-size:14px;color:var(--shai-soft);line-height:1.55;margin-bottom:10px;
 }
@@ -1026,15 +1038,21 @@ html[data-theme="dark"] .row.row-today{background:rgba(212,168,75,.20)}
   transform:rotate(-90deg);transform-origin:100px 100px;
   transition:stroke-dashoffset .2s ease;
 }
+.mala-beads #beadsGroup{
+  transform-origin:100px 100px;transition:transform .35s cubic-bezier(.22,1,.36,1);
+}
 .mala-beads .bd{
-  fill:#E8D9BE;stroke:rgba(140,29,43,.28);stroke-width:.7;
-  transition:fill .15s ease, stroke .15s ease, r .15s ease;
+  stroke:rgba(0,0,0,.28);stroke-width:.8;
+  filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.35));
+  transition:filter .15s ease, stroke .15s ease, r .15s ease;
 }
 .mala-beads .bd.on{
-  fill:var(--kumkum);stroke:var(--haldi);stroke-width:1.1;
+  stroke:rgba(255,255,255,.45);stroke-width:1.1;
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,.4)) brightness(1.18);
 }
 .mala-beads .bd.meru{
-  fill:var(--haldi);stroke:#8a6208;stroke-width:1.4;
+  stroke:#7a5a06;stroke-width:1.3;
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,.5));
 }
 .mala-beads .bd.pulse{
   animation:malaPulse .45s ease-out;
@@ -1544,6 +1562,7 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
     <h2>जपमाळा</h2>
     <div class="mala" id="mala">
       <div class="mala-select" id="malaSelect" role="tablist" aria-label="जप मंत्र निवडा"></div>
+      <div class="mala-beadtype" id="malaBeadType" role="tablist" aria-label="मण्याचा प्रकार निवडा"></div>
       <p class="mala-tip" id="malaTip">आरतीनंतर १ माळ · रोज ११ माळी ‘श्री स्वामी समर्थ’ जप</p>
       <div class="mala-mantra" id="malaMantra">॥ श्री स्वामी समर्थ ॥</div>
       <div class="mala-sub" id="malaSub">एकदा दाबा = एक जप · डबल टॅप मोजत नाही</div>
@@ -5068,10 +5087,30 @@ const aartiSub = (function(){
 // ---------- जपमाळा (टॅप मुख्य · Auto टायमर ऐच्छिक · mic नाही · मंत्र निवडता येतो) ----------
 (function(){
   const MANTRAS = KENDRA.japMantras || [{ id:"swami", naav:"श्री स्वामी समर्थ", mantra:"॥ श्री स्वामी समर्थ ॥", beads:108, dailyGoal:11, tip:"" }];
+  const SVG_NS = "http://www.w3.org/2000/svg";
+  const BEAD_TYPES = [
+    { id:"rudraksha", naav:"रुद्राक्ष" },
+    { id:"tulsi", naav:"तुळशी" },
+    { id:"sphatik", naav:"स्फटिक" },
+  ];
+  const BEAD_GRAD_COLORS = {
+    rudraksha:["#8B5A3C","#5C3A22","#2E1D10"],
+    tulsi:["#D9B87A","#A9803F","#5E3F1D"],
+    sphatik:["#FFFFFF","#D8E4EE","#9FB4C4"],
+    meru:["#FFE9A8","#E9A812","#8A6208"],
+  };
+  const BT_KEY = "japMala.beadType.v1";
+  let beadType = (() => {
+    try{
+      const v = localStorage.getItem(BT_KEY);
+      return BEAD_TYPES.some(b => b.id === v) ? v : "rudraksha";
+    }catch(e){ return "rudraksha"; }
+  })();
   const svg   = document.getElementById("malaBeads");
   const tap   = document.getElementById("malaTap");
   const box   = document.getElementById("mala");
   const selBox = document.getElementById("malaSelect");
+  const beadTypeBox = document.getElementById("malaBeadType");
   const elMantra = document.getElementById("malaMantra");
   const elTip  = document.getElementById("malaTip");
   const elDen  = document.getElementById("malaDen");
@@ -5092,31 +5131,76 @@ const aartiSub = (function(){
 
   let cfg = MANTRAS[0], BEADS = cfg.beads || 108, GOAL = cfg.dailyGoal || 11, KEY = "japMala.v1";
   const CX = 100, CY = 100, R = 88, CIRC = 2 * Math.PI * R;
-  let nodes = [], track = null, prog = null;
+  let nodes = [], track = null, prog = null, beadsGroup = null;
+
+  function buildDefs(){
+    const defs = document.createElementNS(SVG_NS, "defs");
+    Object.keys(BEAD_GRAD_COLORS).forEach(key => {
+      const [c0, c1, c2] = BEAD_GRAD_COLORS[key];
+      const grad = document.createElementNS(SVG_NS, "radialGradient");
+      grad.setAttribute("id", "bg-" + key);
+      grad.setAttribute("cx", "35%"); grad.setAttribute("cy", "30%"); grad.setAttribute("r", "75%");
+      [[0, c0], [55, c1], [100, c2]].forEach(([off, col]) => {
+        const stop = document.createElementNS(SVG_NS, "stop");
+        stop.setAttribute("offset", off + "%");
+        stop.setAttribute("stop-color", col);
+        grad.appendChild(stop);
+      });
+      defs.appendChild(grad);
+    });
+    return defs;
+  }
 
   function buildRing(){
     while(svg.firstChild) svg.removeChild(svg.firstChild);
     nodes = [];
-    track = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    svg.appendChild(buildDefs());
+    track = document.createElementNS(SVG_NS, "circle");
     track.setAttribute("cx", CX); track.setAttribute("cy", CY); track.setAttribute("r", R);
     track.setAttribute("class", "track");
     svg.appendChild(track);
-    prog = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    prog = document.createElementNS(SVG_NS, "circle");
     prog.setAttribute("cx", CX); prog.setAttribute("cy", CY); prog.setAttribute("r", R);
     prog.setAttribute("class", "prog");
     prog.setAttribute("stroke-dasharray", CIRC.toFixed(2));
     prog.setAttribute("stroke-dashoffset", CIRC.toFixed(2));
     svg.appendChild(prog);
+    beadsGroup = document.createElementNS(SVG_NS, "g");
+    beadsGroup.setAttribute("id", "beadsGroup");
+    svg.appendChild(beadsGroup);
     for(let i = 0; i < BEADS; i++){
       const ang = -Math.PI/2 + (i / BEADS) * Math.PI * 2;
-      const c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      const c = document.createElementNS(SVG_NS, "circle");
       c.setAttribute("cx", (CX + R * Math.cos(ang)).toFixed(2));
       c.setAttribute("cy", (CY + R * Math.sin(ang)).toFixed(2));
-      c.setAttribute("r", i === 0 ? 5 : 3.1);
+      c.setAttribute("r", i === 0 ? 7 : 4.3);
       c.setAttribute("class", i === 0 ? "bd meru" : "bd");
-      svg.appendChild(c);
+      c.setAttribute("fill", i === 0 ? "url(#bg-meru)" : "url(#bg-" + beadType + ")");
+      beadsGroup.appendChild(c);
       nodes.push(c);
     }
+  }
+
+  function applyBeadFills(){
+    nodes.forEach((n, i) => {
+      if(i === 0) return;
+      n.setAttribute("fill", "url(#bg-" + beadType + ")");
+    });
+  }
+
+  function renderBeadType(){
+    if(!beadTypeBox) return;
+    beadTypeBox.innerHTML = BEAD_TYPES.map(b => `
+      <button type="button" role="tab" aria-selected="${b.id === beadType}" data-bt="${b.id}">${b.naav}</button>
+    `).join("");
+    beadTypeBox.querySelectorAll("button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        beadType = btn.dataset.bt;
+        try{ localStorage.setItem(BT_KEY, beadType); }catch(e){}
+        beadTypeBox.querySelectorAll("button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.bt === beadType)));
+        applyBeadFills();
+      });
+    });
   }
 
   function renderSel(){
@@ -5176,12 +5260,13 @@ const aartiSub = (function(){
     else elHint.textContent = st.bead === 0 && st.malas === 0 ? "दाबा" : "पुढचा जप";
     const offset = CIRC * (1 - st.bead / BEADS);
     prog.setAttribute("stroke-dashoffset", offset.toFixed(2));
+    if(beadsGroup) beadsGroup.style.transform = "rotate(" + (360 * st.bead / BEADS).toFixed(2) + "deg)";
     nodes.forEach((n, i) => {
       const on = i > 0 && i <= st.bead;
       if(on) n.setAttribute("class", "bd on");
       else if(i === 0) n.setAttribute("class", "bd meru");
       else n.setAttribute("class", "bd");
-      n.setAttribute("r", i === 0 ? 5 : (on ? 3.6 : 3.1));
+      n.setAttribute("r", i === 0 ? 7 : (on ? 5 : 4.3));
       if(pulseIdx === i){
         n.classList.remove("pulse");
         void n.getBoundingClientRect();
@@ -5203,6 +5288,37 @@ const aartiSub = (function(){
       if(kind === "half") navigator.vibrate([18, 40, 18]);
       else if(kind === "mala") navigator.vibrate([30, 50, 30, 50, 40]);
       else navigator.vibrate(14);
+    }catch(e){}
+  }
+
+  let audioCtx = null;
+  function khatak(kind){
+    try{
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if(!AC) return;
+      if(!audioCtx) audioCtx = new AC();
+      if(audioCtx.state === "suspended") audioCtx.resume();
+      const t = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      if(kind === "mala"){
+        // माळ पूर्ण — मंद घंटानाद
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(587.33, t);
+        gain.gain.setValueAtTime(0.0001, t);
+        gain.gain.linearRampToValueAtTime(0.13, t + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0008, t + 1.1);
+        osc.start(t); osc.stop(t + 1.15);
+      }else{
+        // प्रत्येक मणी — लाकडी खटक
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(kind === "half" ? 260 : 220, t);
+        osc.frequency.exponentialRampToValueAtTime(60, t + 0.035);
+        gain.gain.setValueAtTime(0.15, t);
+        gain.gain.exponentialRampToValueAtTime(0.0008, t + 0.045);
+        osc.start(t); osc.stop(t + 0.05);
+      }
     }catch(e){}
   }
 
@@ -5228,7 +5344,7 @@ const aartiSub = (function(){
     if(st.bead >= BEADS){
       st.bead = 0;
       st.malas += 1;
-      thok("mala");
+      thok("mala"); khatak("mala");
       tap.classList.remove("done");
       void tap.offsetWidth;
       tap.classList.add("done");
@@ -5237,9 +5353,9 @@ const aartiSub = (function(){
         : "॥ एक माळ पूर्ण — "+dev(st.malas)+" / "+dev(GOAL)+" ॥", true);
       dakhav(0);
     }else{
-      if(st.bead === 54){ thok("half"); bol("अर्धी माळ — श्रद्धा ठेवा", false); }
+      if(st.bead === 54){ thok("half"); khatak("half"); bol("अर्धी माळ — श्रद्धा ठेवा", false); }
       else {
-        thok("tick");
+        thok("tick"); khatak("tick");
         if(elMsg.textContent && !elMsg.classList.contains("ok")) bol("");
       }
       dakhav(idx);
@@ -5273,6 +5389,16 @@ const aartiSub = (function(){
   tap.addEventListener("keydown", e => {
     if(e.key === " " || e.key === "Enter"){ e.preventDefault(); jap(false); }
   });
+
+  // बोटाने मणी खाली ओढल्याचा भास — स्वाइप-डाउनने जप मोजला जातो (सामान्य टॅप click नेच मोजला जातो, इथे डबल मोजणी टाळली आहे)
+  let touchY = null;
+  tap.addEventListener("touchstart", e => { touchY = e.touches[0].clientY; }, { passive:true });
+  tap.addEventListener("touchend", e => {
+    if(touchY == null) return;
+    const dy = e.changedTouches[0].clientY - touchY;
+    touchY = null;
+    if(dy > 24){ e.preventDefault(); jap(false); }
+  }, { passive:false });
 
   autoOn?.addEventListener("change", () => {
     autoControls.hidden = !autoOn.checked;
@@ -5341,6 +5467,7 @@ const aartiSub = (function(){
   new MutationObserver(releaseIfHidden).observe(japPanel, { attributes:true, attributeFilter:["hidden"] });
 
   renderSel();
+  renderBeadType();
   switchMantra(MANTRAS[0].id);
 })();
 
