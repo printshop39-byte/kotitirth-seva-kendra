@@ -491,21 +491,6 @@
       ]
     },
     {
-      "id": "kavil-panduroga-mantra",
-      "title": "कावीळ व पंडुरोगाचा मंत्र",
-      "language": "sa",
-      "script": "Devanagari",
-      "status": "draft",
-      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३८-३९",
-      "sourcePage": 38,
-      "verifiedBy": null,
-      "verifiedDate": null,
-      "kadhi": "",
-      "ovya": [
-        "शुकेषु मे हरिमाणं रोपणाकासू दध्मसि ।<br>अथो हारिद्रवेशु मे हरिमाणं निदध्मसि ॥"
-      ]
-    },
-    {
       "id": "surya-mantra-2",
       "title": "सूर्य मंत्र",
       "language": "sa",
@@ -521,36 +506,6 @@
       ]
     },
     {
-      "id": "kalimalanashak-mantra",
-      "title": "कलिमलनाशक मंत्र",
-      "language": "sa",
-      "script": "Devanagari",
-      "status": "draft",
-      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३९",
-      "sourcePage": 39,
-      "verifiedBy": null,
-      "verifiedDate": null,
-      "kadhi": "",
-      "ovya": [
-        "कर्कोटकस्य नागस्य दमयन्त्या नलस्य च ।<br>ऋतुपर्णस्य राजर्षे कीर्तनं कलिनाशनम् ॥"
-      ]
-    },
-    {
-      "id": "santan-gopal-mantra",
-      "title": "संतान गोपाळ मंत्र",
-      "language": "sa",
-      "script": "Devanagari",
-      "status": "draft",
-      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३९",
-      "sourcePage": 39,
-      "verifiedBy": null,
-      "verifiedDate": null,
-      "kadhi": "",
-      "ovya": [
-        "देवकीसुतं गोविंद वासुदेव जगत्पते ।<br>देहि मे तनयं कृष्ण त्वामहं शरणागतः ॥"
-      ]
-    },
-    {
       "id": "annapurna-mantra",
       "title": "अन्नपूर्णा मंत्र",
       "language": "sa",
@@ -563,53 +518,6 @@
       "kadhi": "",
       "ovya": [
         "श्री ह्रीं क्लीं नमो भगवति अन्नपूर्णे ममाभिलषितमन्नं<br>देहि देहि स्वाहा । दर्शनसिद्धि भवति ॥"
-      ]
-    },
-    {
-      "id": "mulvyadhi-mantra",
-      "title": "मूळव्याधीसाठी मंत्र",
-      "language": "sa",
-      "script": "Devanagari",
-      "status": "draft",
-      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३९",
-      "sourcePage": 39,
-      "verifiedBy": null,
-      "verifiedDate": null,
-      "kadhi": "",
-      "note": "वरील मंत्र २१ वेळा पाण्यावर जपून ते अभिमंत्रित पाणी प्यावे.",
-      "ovya": [
-        "काकुता कां करकुता साकुता कलिता आकलिता येरी निरीजिर्रा ॥"
-      ]
-    },
-    {
-      "id": "shatru-nash-mantra",
-      "title": "शत्रू नाश मंत्र",
-      "language": "sa",
-      "script": "Devanagari",
-      "status": "draft",
-      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३९",
-      "sourcePage": 39,
-      "verifiedBy": null,
-      "verifiedDate": null,
-      "kadhi": "",
-      "ovya": [
-        "उदगादयमादित्यो विश्वेन सहसा सह ।<br>द्विषन्तं मह्यं रन्धयन्मो अहं द्विषतेरधम् ॥"
-      ]
-    },
-    {
-      "id": "cancer-mantra",
-      "title": "कॅन्सरचा (कर्करोगाचा) मंत्र व कृती",
-      "language": "sa",
-      "script": "Devanagari",
-      "status": "draft",
-      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३९",
-      "sourcePage": 39,
-      "verifiedBy": null,
-      "verifiedDate": null,
-      "kadhi": "",
-      "note": "वरील मंत्राचा कॅन्सर रुग्णाच्या नाडीवर त्रिकाळ १/१ माळ जप करावा. घशाच्या कॅन्सरसाठी रानभेंडीची मुळी रोज अनाशेपोटी मधात उगाळून देणे, सर्व प्रकारच्या कॅन्सरसाठी सप्तरंगी वनस्पतीचे खोड रोज अनाशेपोटी पाण्यामध्ये उगाळून देणे. टीप: सप्तरंगी व रानभेंडी मुळी श्री गुरुपीठात मोफत उपलब्ध.",
-      "ovya": [
-        "ॐ ऐं हां ह्रीं हुं हुं फट् स्वाहा महारुद्राय नमः ॥"
       ]
     },
     {
@@ -655,21 +563,6 @@
       "kadhi": "",
       "ovya": [
         "ह्रीम् कएईलह्रीम् हसकहलह्रीम् सकलह्रीम् ॥"
-      ]
-    },
-    {
-      "id": "runanashak-ganesh-mantra",
-      "title": "ऋणनाशक हरिद्राग\"णेश मन्त्र",
-      "language": "sa",
-      "script": "Devanagari",
-      "status": "draft",
-      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ४०",
-      "sourcePage": 40,
-      "verifiedBy": null,
-      "verifiedDate": null,
-      "kadhi": "",
-      "ovya": [
-        "ॐ गणेश ऋणं छिन्धि छिन्धि वरेण्यं हुं नमः फट् ॥"
       ]
     },
     {
