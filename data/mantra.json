@@ -381,21 +381,6 @@
       ]
     },
     {
-      "id": "vivah-mantra",
-      "title": "विवाहासाठी मंत्र",
-      "language": "sa",
-      "script": "Devanagari",
-      "status": "draft",
-      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३६",
-      "sourcePage": 36,
-      "verifiedBy": null,
-      "verifiedDate": null,
-      "kadhi": "",
-      "ovya": [
-        "ॐ दुं दुर्गे मम विवाह सत्वरं कुरु कुरु स्वाहा ॥"
-      ]
-    },
-    {
       "id": "gauri-mantra",
       "title": "गौरी मंत्र",
       "language": "sa",
@@ -408,21 +393,6 @@
       "kadhi": "",
       "ovya": [
         "ॐ गौरी शंकराधांगी यथा त्वं शंकरप्रिया ।<br>तथा मां कुरु कल्याणी कान्त कान्ता सुदुर्लभाम् ॥"
-      ]
-    },
-    {
-      "id": "saubhagyavardhak-mantra",
-      "title": "सौभाग्यवर्धक मंत्र",
-      "language": "sa",
-      "script": "Devanagari",
-      "status": "draft",
-      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३६",
-      "sourcePage": 36,
-      "verifiedBy": null,
-      "verifiedDate": null,
-      "kadhi": "",
-      "ovya": [
-        "ॐ ह्रीं कपालिनी कुल कुंडलिनी मे सिद्धि देहि भाग्यं देहि देहि स्वाहा ॥"
       ]
     },
     {
@@ -505,38 +475,6 @@
       ]
     },
     {
-      "id": "haravaleli-vyakti-mantra",
-      "title": "हरविलेली व्यक्ती सापडण्यासाठी मंत्र",
-      "language": "sa",
-      "script": "Devanagari",
-      "status": "draft",
-      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३८",
-      "sourcePage": 38,
-      "verifiedBy": null,
-      "verifiedDate": null,
-      "kadhi": "",
-      "ovya": [
-        "ॐ क्लीं कार्तवीर्यार्जुनो नाम राजा बाहु सहस्रवान् ।<br>यस्य स्मरणमात्रेण गतं नष्टं च लभ्यते क्लीं ॐ ॥"
-      ]
-    },
-    {
-      "id": "haravaleli-vastu-mantra",
-      "title": "हरविलेली वस्तु सापडण्यासाठी मंत्र",
-      "language": "sa",
-      "script": "Devanagari",
-      "status": "draft",
-      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३८",
-      "sourcePage": 38,
-      "verifiedBy": null,
-      "verifiedDate": null,
-      "kadhi": "",
-      "note": "पहिल्या ओळीचा उजवा भाग फोटोत पानाच्या कडेला कापला गेला आहे — तिथून पुढचा मजकूर दिसत नाही.",
-      "ovya": [
-        "१. फ्रों प्रीं क्लीं भ्रूं आं ह्रीं फ्रों श्रीं हुं फट् कार्तवीर्यार्जुनाय न...",
-        "२. कार्तवीर्यार्जुनो नाम राजा बाहु सहस्रवान् ।<br>तस्य संस्मरणादेव हतं नष्टं च लभ्यते ॥"
-      ]
-    },
-    {
       "id": "dhanvantari-mantra",
       "title": "धन्वंतरी मंत्र",
       "language": "sa",
@@ -550,36 +488,6 @@
       "note": "पहिल्या ओळीचा उजवा भाग फोटोत पानाच्या कडेला कापला गेला आहे — तिथून पुढचा मजकूर दिसत नाही.",
       "ovya": [
         "ॐ नमो भगवते वासुदेवाय धन्वंतरये अमृतकलश हस्ता...<br>सर्वामयविनाशाय त्रैलोक्यनाथाय महाविष्णवे स्वाहा ॥"
-      ]
-    },
-    {
-      "id": "sarvaroganashak-mantra",
-      "title": "सर्वरोगनाशक मंत्र",
-      "language": "sa",
-      "script": "Devanagari",
-      "status": "draft",
-      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३८",
-      "sourcePage": 38,
-      "verifiedBy": null,
-      "verifiedDate": null,
-      "kadhi": "",
-      "ovya": [
-        "अच्युत अनंत गोविंद नामोच्चारण भेषजात् ।<br>नश्यन्ति सकलः रोगः सत्यम् सत्यम् वदाम्यहम् ॥"
-      ]
-    },
-    {
-      "id": "hridayrog-mantra",
-      "title": "हृदयरोगाचा मंत्र",
-      "language": "sa",
-      "script": "Devanagari",
-      "status": "draft",
-      "source": "मंत्र विभाग — केंद्राने पाठवलेला फोटो, पृष्ठ ३८",
-      "sourcePage": 38,
-      "verifiedBy": null,
-      "verifiedDate": null,
-      "kadhi": "",
-      "ovya": [
-        "उद्यनध्य मित्रमिहं आरोहन्नुत्तरां दिवम् ।<br>हृद्रोगं मम सूर्य हरिमाणं च नाशय ॥"
       ]
     },
     {
