@@ -998,6 +998,14 @@ html[data-theme="dark"] .row.row-today{background:rgba(212,168,75,.20)}
   background:var(--kumkum);border-color:var(--kumkum);color:#fff;
 }
 .mala-select button:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
+.mala-select-badge{
+  display:inline-block;min-width:18px;margin-left:5px;padding:1px 6px;
+  border-radius:999px;font-size:11.5px;font-weight:700;
+  background:rgba(140,29,43,.12);color:var(--kumkum);
+}
+.mala-select button[aria-selected="true"] .mala-select-badge{
+  background:rgba(255,255,255,.25);color:#fff;
+}
 .mala-beadtype{
   display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:12px;
 }
@@ -5253,7 +5261,7 @@ const aartiSub = (function(){
 
   function renderSel(){
     selBox.innerHTML = MANTRAS.map(m => `
-      <button type="button" role="tab" aria-selected="${m.id === cfg.id}" data-mid="${m.id}" aria-controls="malaMantra">${m.naav}</button>
+      <button type="button" role="tab" aria-selected="${m.id === cfg.id}" data-mid="${m.id}" aria-controls="malaMantra">${m.naav} <span class="mala-select-badge" data-badge="${m.id}" title="या महिन्यातील माळा">०</span></button>
     `).join("");
     selBox.querySelectorAll("button").forEach(b => {
       b.addEventListener("click", () => switchMantra(b.dataset.mid));
@@ -5309,6 +5317,12 @@ const aartiSub = (function(){
     d.setDate(d.getDate() - n);
     return dayKey(d);
   }
+  function monthTotalFor(mantraId, ym, allHist){
+    const h2 = (allHist || loadHistory())[mantraId] || {};
+    let sum = 0;
+    Object.keys(h2).forEach(k => { if(k.indexOf(ym) === 0) sum += h2[k] || 0; });
+    return sum;
+  }
   function renderReport(){
     if(!mrChart) return;
     const hist = loadHistory()[cfg.id] || {};
@@ -5320,9 +5334,16 @@ const aartiSub = (function(){
 
     const now = istNow();
     const ym = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0");
-    let month = 0;
-    Object.keys(hist).forEach(k => { if(k.indexOf(ym) === 0) month += hist[k] || 0; });
+    const allHist = loadHistory();
+    const month = monthTotalFor(cfg.id, ym, allHist);
     if(mrMonth) mrMonth.textContent = dev(month);
+
+    if(selBox){
+      MANTRAS.forEach(m => {
+        const badge = selBox.querySelector('[data-badge="' + m.id + '"]');
+        if(badge) badge.textContent = dev(monthTotalFor(m.id, ym, allHist));
+      });
+    }
 
     const days = [];
     for(let i = 29; i >= 0; i--) days.push(hist[daysAgoKey(i)] || 0);
@@ -5342,13 +5363,9 @@ const aartiSub = (function(){
     });
 
     if(mrTable){
-      const allHist = loadHistory();
-      mrTable.innerHTML = MANTRAS.map(m => {
-        const h2 = allHist[m.id] || {};
-        let sum = 0;
-        Object.keys(h2).forEach(k => { if(k.indexOf(ym) === 0) sum += h2[k] || 0; });
-        return `<div class="mr-row"><span>${m.naav}</span><b>${dev(sum)} माळा</b></div>`;
-      }).join("");
+      mrTable.innerHTML = MANTRAS.map(m =>
+        `<div class="mr-row"><span>${m.naav}</span><b>${dev(monthTotalFor(m.id, ym, allHist))} माळा</b></div>`
+      ).join("");
     }
   }
 
