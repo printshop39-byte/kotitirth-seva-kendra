@@ -350,6 +350,27 @@ html[data-theme="dark"] .chip-fav{color:#F5E6C8;background:rgba(212,168,75,.22)}
 .acc-tools button.speaking{background:rgba(181,71,20,.12)}
 .acc-tools button.paused{background:rgba(233,168,18,.18);border-color:rgba(233,168,18,.5)}
 .acc-tools button.faved{background:rgba(233,168,18,.18);border-color:rgba(233,168,18,.5)}
+.mn-counter{
+  display:flex;align-items:center;gap:10px;margin:0 0 4px;padding:9px 10px;
+  border-radius:10px;background:rgba(140,29,43,.05);border:1px solid rgba(140,29,43,.12);
+}
+.mn-counter .mn-minus{
+  min-width:38px;min-height:38px;border-radius:9px;border:1px solid rgba(181,71,20,.35);
+  background:transparent;color:var(--kesari);font-size:16px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.mn-counter .mn-nums{flex:1;text-align:center}
+.mn-counter .mn-nums b{
+  display:block;font-family:var(--f-head);font-size:20px;font-weight:400;color:var(--kumkum);line-height:1.1;
+}
+.mn-counter .mn-nums i{font-style:normal;font-size:11.5px;color:var(--shai-soft)}
+.mn-counter .mn-plus{
+  min-height:38px;padding:8px 12px;border-radius:9px;border:0;
+  background:var(--kumkum);color:#fff;font-family:inherit;font-size:13px;font-weight:600;
+  cursor:pointer;white-space:nowrap;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.mn-month{font-size:12px;color:var(--shai-soft);margin:0 0 12px;text-align:center}
+.mn-month b{color:var(--kumkum);font-weight:700}
 .toast-soft{
   position:fixed;left:50%;bottom:calc(72px + env(safe-area-inset-bottom));
   transform:translateX(-50%) translateY(12px);opacity:0;pointer-events:none;
@@ -4206,7 +4227,7 @@ const PAATH_SEARCH_ALIAS = [
         const inner = `${(a.ovya || []).map(o => `<p class="ovi devanagari-sacred">${o}</p>`).join("")}${srcBadge(a)}`;
         paathLazyContent.set(key, inner);
         return `
-        <details class="acc" data-fav-key="${key.replace(/"/g,"&quot;")}" data-voice-name="${(a.title || "").replace(/"/g,"&quot;")}" data-cat="mantra"${a.audioId ? ` data-audio-id="${a.audioId}"` : ""}>
+        <details class="acc" data-fav-key="${key.replace(/"/g,"&quot;")}" data-voice-name="${(a.title || "").replace(/"/g,"&quot;")}" data-cat="mantra" data-mn-id="${(a.id || key).replace(/"/g,"&quot;")}"${a.audioId ? ` data-audio-id="${a.audioId}"` : ""}>
           <summary>
             <span class="ai">🕉️</span>
             <span class="at"><b>${a.title}</b><i>${a.kadhi || ""}</i></span>
@@ -5014,6 +5035,74 @@ const aartiSub = (function(){
     tools.appendChild(speak);
     tools.appendChild(fav);
     body.insertBefore(tools, body.firstChild);
+    if(details.dataset.mnId) ensureMnCounter(details, body, tools);
+  }
+
+  // ---- मंत्र यादीतील प्रत्येक मंत्रासाठी स्वतंत्र जप-मोजणी (रोज/मासिक नोंद) ----
+  const MN_KEY = "japMala.tapcount.v1";
+  function mnLoadAll(){
+    try{ return JSON.parse(localStorage.getItem(MN_KEY) || "{}"); }catch(e){ return {}; }
+  }
+  function mnSaveAll(all){
+    try{ localStorage.setItem(MN_KEY, JSON.stringify(all)); }catch(e){}
+  }
+  function mnToday(){ return dayKey(istNow()); }
+  function mnGetToday(id){
+    const all = mnLoadAll();
+    return (all[id] && all[id][mnToday()]) || 0;
+  }
+  function mnGetMonth(id){
+    const all = mnLoadAll();
+    const now = istNow();
+    const ym = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0");
+    const h = all[id] || {};
+    let sum = 0;
+    Object.keys(h).forEach(k => { if(k.indexOf(ym) === 0) sum += h[k] || 0; });
+    return sum;
+  }
+  function mnBump(id, delta){
+    const all = mnLoadAll();
+    if(!all[id]) all[id] = {};
+    const t = mnToday();
+    all[id][t] = Math.max(0, (all[id][t] || 0) + delta);
+    mnSaveAll(all);
+  }
+  function ensureMnCounter(details, body, afterEl){
+    const id = details.dataset.mnId;
+    const wrap = document.createElement("div");
+    wrap.className = "mn-counter";
+    const minus = document.createElement("button");
+    minus.type = "button"; minus.className = "mn-minus"; minus.textContent = "↩";
+    minus.setAttribute("aria-label", "एक जप मागे");
+    const nums = document.createElement("div");
+    nums.className = "mn-nums";
+    nums.innerHTML = `<b class="mn-today">०</b><i>आज जप</i>`;
+    const plus = document.createElement("button");
+    plus.type = "button"; plus.className = "mn-plus"; plus.textContent = "➕ जप मोजा";
+    wrap.appendChild(minus); wrap.appendChild(nums); wrap.appendChild(plus);
+    const monthP = document.createElement("p");
+    monthP.className = "mn-month";
+    monthP.innerHTML = `या महिन्यात एकूण <b class="mn-month-val">०</b> जप`;
+
+    function refresh(){
+      wrap.querySelector(".mn-today").textContent = dev(mnGetToday(id));
+      monthP.querySelector(".mn-month-val").textContent = dev(mnGetMonth(id));
+    }
+    plus.addEventListener("click", e => {
+      e.preventDefault(); e.stopPropagation();
+      mnBump(id, 1);
+      refresh();
+      try{ navigator.vibrate?.(14); }catch(err){}
+    });
+    minus.addEventListener("click", e => {
+      e.preventDefault(); e.stopPropagation();
+      if(mnGetToday(id) <= 0) return;
+      mnBump(id, -1);
+      refresh();
+    });
+    refresh();
+    body.insertBefore(wrap, afterEl.nextSibling);
+    body.insertBefore(monthP, wrap.nextSibling);
   }
 
   function refreshAccExtras(){
