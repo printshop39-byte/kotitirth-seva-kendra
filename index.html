@@ -4341,7 +4341,6 @@ const aartiSub = (function(){
   try{
     const t = localStorage.getItem(THEME_KEY);
     if(t === "dark" || t === "sepia" || t === "light") applyTheme(t);
-    else if(matchMedia("(prefers-color-scheme: dark)").matches) applyTheme("dark");
     else applyTheme("light");
   }catch(e){ applyTheme("light"); }
 
