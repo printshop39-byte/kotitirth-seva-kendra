@@ -104,7 +104,10 @@
     details += drow("सूर्योदय", P.sunrise ? esc(M.formatClock(P.sunrise)) : "—");
     details += drow("सूर्यास्त", P.sunset ? esc(M.formatClock(P.sunset)) : "—");
     details += drow("राहू काळ", esc((RAHU_KAAL[P.weekdayIndex] || {}).label || "—"), "pc-warn");
-    if (P.moonrise) details += drow("चंद्रोदय", esc(M.formatClock(P.moonrise)));
+    // चंद्रोदय दर २९.५ दिवसांतून एकदा एखाद्या तारखेला अजिबात होत नाही (रात्री उशिरा
+    // होत असल्याने मागच्या/पुढच्या तारखेला मोजला जातो) — हे सामान्य आहे, चूक नाही.
+    var moonriseNote = P.moonset ? "आज नाही — काल रात्री उशिरा झाला" : "आज नाही — रात्री उशिरा (उद्याच्या तारखेला) होईल";
+    details += drow("चंद्रोदय", P.moonrise ? esc(M.formatClock(P.moonrise)) : moonriseNote);
     if (P.moonset) details += drow("चंद्रास्त", esc(M.formatClock(P.moonset)));
     details += drow("चंद्रकला", dev(Math.round(P.moon.illumFraction * 100)) + "% प्रकाशित");
 
