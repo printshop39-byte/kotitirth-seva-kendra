@@ -104,10 +104,14 @@
     details += drow("सूर्योदय", P.sunrise ? esc(M.formatClock(P.sunrise)) : "—");
     details += drow("सूर्यास्त", P.sunset ? esc(M.formatClock(P.sunset)) : "—");
     details += drow("राहू काळ", esc((RAHU_KAAL[P.weekdayIndex] || {}).label || "—"), "pc-warn");
-    // चंद्रोदय दर २९.५ दिवसांतून एकदा एखाद्या तारखेला अजिबात होत नाही (रात्री उशिरा
-    // होत असल्याने मागच्या/पुढच्या तारखेला मोजला जातो) — हे सामान्य आहे, चूक नाही.
-    var moonriseNote = P.moonset ? "आज नाही — काल रात्री उशिरा झाला" : "आज नाही — रात्री उशिरा (उद्याच्या तारखेला) होईल";
-    details += drow("चंद्रोदय", P.moonrise ? esc(M.formatClock(P.moonrise)) : moonriseNote);
+    // चंद्रोदय दर २९.५ दिवसांतून एकदा एखाद्या तारखेला अजिबात होत नाही (रोज सुमारे ५०
+    // मिनिटे उशिरा होत असल्याने मागच्या/पुढच्या तारखेला मोजला जातो) — हे सामान्य आहे,
+    // चूक नाही. अशा वेळी पुढचा प्रत्यक्ष चंद्रोदय (आज रात्री उशिरा/पहाटे) दाखवतो.
+    var moonriseHtml;
+    if (P.moonrise) moonriseHtml = esc(M.formatClock(P.moonrise));
+    else if (P.moonriseNext) moonriseHtml = esc(M.formatClock(P.moonriseNext)) + ' <span style="font-weight:400;color:var(--shai-soft)">(आज रात्री उशिरा — मध्यरात्रीनंतर)</span>';
+    else moonriseHtml = "—";
+    details += drow("चंद्रोदय", moonriseHtml);
     if (P.moonset) details += drow("चंद्रास्त", esc(M.formatClock(P.moonset)));
     details += drow("चंद्रकला", dev(Math.round(P.moon.illumFraction * 100)) + "% प्रकाशित");
 

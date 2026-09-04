@@ -114,6 +114,10 @@
       var sunset = riseSet(A.Body.Sun, -1, sunrise || t0);
       var moonrise = riseSet(A.Body.Moon, +1, t0);
       var moonset = riseSet(A.Body.Moon, -1, t0);
+      // महिन्यातून १-२ दिवस आजच्या तारखेत चंद्रोदय बसतच नाही (सुमारे रोज ५० मिनिटे
+      // उशिरा होत असल्याने) — अशा वेळी पुढचा प्रत्यक्ष चंद्रोदय (आज रात्री उशिरा/पहाटे)
+      // दाखवण्यासाठी वेगळा शोध.
+      var moonriseNext = moonrise ? null : riseSet(A.Body.Moon, +1, dayEnd);
       var nextSr = sunset ? riseSet(A.Body.Sun, +1, new Date(sunset.getTime() + 3600000)) : null;
       var ref = sunrise || new Date(t0.getTime() + 6 * 3600000);
 
@@ -219,7 +223,7 @@
         istParts: ip,
         weekdayIndex: ip.wd,
         gregorian: new Date(Date.UTC(ip.y, ip.mo, ip.d, 6, 0, 0)),
-        sunrise: sunrise, sunset: sunset, moonrise: moonrise, moonset: moonset,
+        sunrise: sunrise, sunset: sunset, moonrise: moonrise, moonset: moonset, moonriseNext: moonriseNext,
         tithi: { num: tithiNum, paksha: paksha, endTime: tithiEnd, next: nextTithi },
         nakshatra: { num: nIdx + 1, endTime: nakEnd },
         yoga: { num: yIdx + 1, endTime: yogaEnd },
