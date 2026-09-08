@@ -957,6 +957,20 @@ html[data-theme="dark"] .row.row-today{background:rgba(212,168,75,.20)}
 @media(min-width:900px){.vsn-grid{grid-template-columns:1fr 1fr 1fr}}
 .vsn-grid span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
+.rangoli-wrap{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+  gap:12px;margin:4px 0;
+}
+.rgl-card{
+  background:#0a0a0a;border-radius:14px;padding:14px 10px 12px;
+  display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center;
+  border:1px solid #262626;
+}
+.rgl-card svg{width:78px;height:78px;flex:0 0 auto}
+.rgl-card b{font-size:13px;color:#fff;line-height:1.3}
+.rgl-card span{font-size:11.5px;color:#c7c7c7;line-height:1.4}
+.rangoli-week .rgl-card b{font-size:13.5px}
+
 .person{text-align:center;font-size:17px;font-weight:600}
 .person small{display:block;font-size:13px;letter-spacing:2px;color:var(--shai-soft);font-weight:400;margin-bottom:2px}
 
@@ -3098,6 +3112,270 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
     <div class="accbody">
       <div class="books" id="books"></div>
       <p class="note">उपलब्धतेसाठी केंद्रात विचारणा करा.</p>
+    </div>
+  </details>
+
+  <!-- सांस्कृतिक रांगोळी — collapsible -->
+  <details class="acc dh-acc">
+    <summary>
+      <span class="ai">🎨</span>
+      <span class="at"><b>सांस्कृतिक रांगोळी — पारंपरिक पद्धती</b><i>रांगोळीचे प्रकार व महत्त्व</i></span>
+      <span class="ac" aria-hidden="true">+</span>
+    </summary>
+    <div class="accbody">
+      <p>प्राचीन काळापासून दारात, अंगणात, तुळसी वृंदावनाजवळ, देवाजवळ, जेवतांना पाटा भोवती, पूजा मांडतांना नानाविध रांगोळ्या काढून शोभा वाढविली जाते. केवळ शोभेसाठी याची योजना केलेली नसून रांगोळ्यांच्या अंगी अगम्य शक्ती ओतप्रोत भरलेली असते, याची जाणीव आपणास नसते. रांगोळी म्हणजे विविध भौमितिक, अलंकारिक आकारांचा समूह होय. रांगोळी म्हणजे एक प्रकारची यंत्रेच होय. सडासंमार्जन करून त्यावर रांगोळी काढणे अत्यंत शुभ असते.</p>
+      <p>रांगोळी म्हणजे घराचा भाग्य कलश, रांगोळी म्हणजे गृहाचा संरक्षक याची पूर्ण जाण हिंदू संस्कृतीत आहे. आपण आज ती विसरलो. रांगोळी फक्त विविध सणांना कार्यक्रमांनाच न काढता दररोज नित्य काढावी.</p>
+      <p>रांगोळी म्हणजे फक्त सुशोभित करणारे साधनच नव्हे तर त्याच्या प्रत्येक प्रकाराला काही अर्थ आहे. रांगोळीचे विविध प्रकार व त्याचे महत्त्व पुढील प्रमाणे —</p>
+
+      <div class="rangoli-wrap">
+        <div class="rgl-card">
+          <svg viewBox="0 0 100 100" aria-hidden="true"><text x="50" y="72" font-size="64" text-anchor="middle" fill="#fff">ॐ</text></svg>
+          <b>१) ॐ</b>
+          <span>शुभ चिन्हाची ऊर्जा सत्तर हजार बोव्हीस (गूढ ऊर्जा) इतकी. भगवान शिवाचे प्रतीक. फक्त देवाजवळील रांगोळीत वापरावा.</span>
+        </div>
+        <div class="rgl-card">
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <g stroke="#fff" stroke-width="6" fill="none" stroke-linecap="square">
+              <path d="M50 50 V18 H74"/>
+              <path d="M50 50 V18 H74" transform="rotate(90 50 50)"/>
+              <path d="M50 50 V18 H74" transform="rotate(180 50 50)"/>
+              <path d="M50 50 V18 H74" transform="rotate(270 50 50)"/>
+            </g>
+            <circle cx="50" cy="50" r="4" fill="#fff"/>
+          </svg>
+          <b>२) स्वस्तिक</b>
+          <span>ऊर्जा 'एक लाख बोव्हीस'. सौभाग्य-संपन्नता देणारे, अत्यंत मंगलकारी शुभ चिन्ह. साक्षात विष्णूची प्रतिकृती मानली जाते.</span>
+        </div>
+        <div class="rgl-card">
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <defs><path id="rglPetalA" d="M50,50 C44,38 44,18 50,6 C56,18 56,38 50,50 Z"/></defs>
+            <g fill="none" stroke="#fff" stroke-width="2.5">
+              <use href="#rglPetalA"/><use href="#rglPetalA" transform="rotate(45 50 50)"/>
+              <use href="#rglPetalA" transform="rotate(90 50 50)"/><use href="#rglPetalA" transform="rotate(135 50 50)"/>
+              <use href="#rglPetalA" transform="rotate(180 50 50)"/><use href="#rglPetalA" transform="rotate(225 50 50)"/>
+              <use href="#rglPetalA" transform="rotate(270 50 50)"/><use href="#rglPetalA" transform="rotate(315 50 50)"/>
+            </g>
+            <g fill="#fff">
+              <circle cx="50" cy="8" r="2.4"/><circle cx="50" cy="8" r="2.4" transform="rotate(45 50 50)"/>
+              <circle cx="50" cy="8" r="2.4" transform="rotate(90 50 50)"/><circle cx="50" cy="8" r="2.4" transform="rotate(135 50 50)"/>
+              <circle cx="50" cy="8" r="2.4" transform="rotate(180 50 50)"/><circle cx="50" cy="8" r="2.4" transform="rotate(225 50 50)"/>
+              <circle cx="50" cy="8" r="2.4" transform="rotate(270 50 50)"/><circle cx="50" cy="8" r="2.4" transform="rotate(315 50 50)"/>
+              <circle cx="50" cy="50" r="2.6"/><circle cx="46" cy="50" r="2"/><circle cx="54" cy="50" r="2"/>
+            </g>
+          </svg>
+          <b>४) श्री लक्ष्मी पद्म</b>
+          <span>११ थेंबी रांगोळी — कमलाधिष्ठीत महालक्ष्मीचे प्रतीक. अखंड लक्ष्मी नांदावी म्हणून काढतात. कोयरी पूर्ण आठ पाकळ्यांची असावी.</span>
+        </div>
+        <div class="rgl-card">
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <defs><path id="rglSpikeA" d="M50,50 L46,22 L50,4 L54,22 Z"/></defs>
+            <g fill="none" stroke="#fff" stroke-width="2">
+              <use href="#rglSpikeA"/><use href="#rglSpikeA" transform="rotate(30 50 50)"/><use href="#rglSpikeA" transform="rotate(60 50 50)"/>
+              <use href="#rglSpikeA" transform="rotate(90 50 50)"/><use href="#rglSpikeA" transform="rotate(120 50 50)"/><use href="#rglSpikeA" transform="rotate(150 50 50)"/>
+              <use href="#rglSpikeA" transform="rotate(180 50 50)"/><use href="#rglSpikeA" transform="rotate(210 50 50)"/><use href="#rglSpikeA" transform="rotate(240 50 50)"/>
+              <use href="#rglSpikeA" transform="rotate(270 50 50)"/><use href="#rglSpikeA" transform="rotate(300 50 50)"/><use href="#rglSpikeA" transform="rotate(330 50 50)"/>
+            </g>
+            <g fill="#fff">
+              <circle cx="50" cy="4" r="2"/><circle cx="50" cy="4" r="2" transform="rotate(30 50 50)"/><circle cx="50" cy="4" r="2" transform="rotate(60 50 50)"/>
+              <circle cx="50" cy="4" r="2" transform="rotate(90 50 50)"/><circle cx="50" cy="4" r="2" transform="rotate(120 50 50)"/><circle cx="50" cy="4" r="2" transform="rotate(150 50 50)"/>
+              <circle cx="50" cy="4" r="2" transform="rotate(180 50 50)"/><circle cx="50" cy="4" r="2" transform="rotate(210 50 50)"/><circle cx="50" cy="4" r="2" transform="rotate(240 50 50)"/>
+              <circle cx="50" cy="4" r="2" transform="rotate(270 50 50)"/><circle cx="50" cy="4" r="2" transform="rotate(300 50 50)"/><circle cx="50" cy="4" r="2" transform="rotate(330 50 50)"/>
+              <circle cx="50" cy="50" r="3"/>
+            </g>
+          </svg>
+          <b>५) गायत्री पद्म</b>
+          <span>१३ थेंबी रांगोळी — गायत्रीचे अधिष्ठान. वाईट विघ्नांचा प्रतिकार करण्यासाठी काढतात. प्रभाव खूप पडतो.</span>
+        </div>
+        <div class="rgl-card">
+          <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2.5" aria-hidden="true">
+            <rect x="10" y="10" width="80" height="80"/>
+            <path d="M50,10 L90,50 L50,90 L10,50 Z"/>
+            <path d="M10,10 L90,90 M90,10 L10,90"/>
+          </svg>
+          <b>६) नवग्रहाची रांगोळी</b>
+          <span>कुंडलीप्रमाणे चौकट काढून त्यात त्या दिवशीचे ग्रह पंचांगावरून मांडतात. नवग्रह बाधा निरसन होते व ग्रहांची कृपा होते.</span>
+        </div>
+        <div class="rgl-card">
+          <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2.5" aria-hidden="true">
+            <path d="M50,15 L82,70 L18,70 Z"/>
+            <path d="M50,85 L18,30 L82,30 Z"/>
+            <circle cx="50" cy="50" r="6"/>
+            <circle cx="50" cy="8" r="4"/>
+            <path d="M50,15 V8"/>
+            <path d="M50,92 V85"/>
+            <path d="M12,42 L22,48 M88,42 L78,48 M12,58 L22,52 M88,58 L78,52"/>
+          </svg>
+          <b>७) कासव</b>
+          <span>दशावतारातील दुसरा अवतार. पृथ्वी कासवाच्या पाठीवर आहे असे पुराणात सांगितले आहे. मंदिरासमोर कासवाचे प्रतीक असते.</span>
+        </div>
+        <div class="rgl-card">
+          <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2.5" aria-hidden="true">
+            <defs><g id="rglHoof"><ellipse cx="-5" cy="0" rx="6" ry="10"/><ellipse cx="5" cy="0" rx="6" ry="10"/></g></defs>
+            <use href="#rglHoof" transform="translate(32,30)"/>
+            <use href="#rglHoof" transform="translate(65,55)"/>
+            <use href="#rglHoof" transform="translate(32,80)"/>
+          </svg>
+          <b>८) गोपद्म</b>
+          <span>गायीची पाऊले लक्ष्मीरूप मानून देवाजवळ, दाराजवळ, तुळशीजवळ काढतात. चातुर्मास्यात दररोज ३३ गोपद्म देवघरासमोर काढावीत.</span>
+        </div>
+      </div>
+
+      <p><b>३) शंख, चक्र, पद्म, परशु, त्रिशूळ</b> — ही सुध्दा शुभ चिन्हे आहेत. परंतु रांगोळीत काढण्याची आवश्यकता नाही.</p>
+
+      <p>स्वस्तिक या चिन्हाची पूजा म्हणजेच श्री गणेशाची पूजा होय. म्हणून स्वस्तिक काढल्यावर त्यावर हळद-कुंकू वाहण्याची पध्दत आहे.</p>
+      <blockquote class="mq">स्वस्तिक काढतांना — 'घरातील पीडा बाहेर जावो, बाहेरची लक्ष्मी आत येवो.'</blockquote>
+      <p>हे चिन्ह शुभ-लाभ देणारे, ऋध्दी-सिध्दी या शुभ देवतांचे प्रतीक मानण्यात येते. चुकून सुध्दा उलटे स्वस्तिक काढू नये, तिरपे स्वस्तिक काढू नये — विद्या, बुध्दी स्थिर राहत नाही, पराजय, अपयश मिळते. रिकामे स्वस्तिक म्हणजे टिंब नसलेले स्वस्तिक — टिंब असलेले स्वस्तिक स्थिर राहते म्हणून स्वस्तिकात टिंब द्यावे व आजूबाजूला दोन-दोन दांडे द्यावे, त्यामुळे स्वस्तिक स्वस्तिकबध्द होते. स्वस्तिकाचे चार हात म्हणजे धर्म, अर्थ, काम, मोक्ष असेही पुरूषार्थाचे प्रतीक मानले जाते. स्वस्तिक हे सूर्याचे प्रतीक असून, देवीचे आसन आहे. स्वस्तिकामुळे वाईट शक्तींचा प्रतिकार, संकटाचा नाश होतो.</p>
+
+      <p>रांगोळी काढण्यासाठी आंगण हे गोमयाने (शेणाने) सारवणे म्हणजे प्रदूषण दूर करणे होय. त्यामुळे बाहेरची बाधा नष्ट होते. शिराईने किंवा झाडूने झाडतांना घर्षणाने बेसूर उत्पन्न होतो त्यामुळे अलक्ष्मी दूर पळते. या घर्षणाने असंख्य ध्वनी कंपने निर्माण होतात. ही सर्व अस्ताव्यस्त असतात. त्यांना एका सुरात, सुस्थितीत आणण्याचे काम रांगोळी करते. अनेक टिंब, रेषा, कोन यामुळे विविध भौमितिक आकृत्या तयार होतात. रांगोळीच्या अणूपासून तयार होणारे हे कोन कर्कश अस्ताव्यस्त कंपने शोषून घेतात व सुसंगतपणे माधुर्य आणून वातावरण उत्साही व आल्हादायक करतात.</p>
+
+      <p>रांगोळीपासून वास्तू तर सुंदर, सुशोभित दिसतेच पण दूषित कंपनांपासून निर्माण होणाऱ्या परिणामास पायबंद घातला जातो. अशा प्रकारे रोजच्या जीवनात रांगोळीचे महत्त्व आहे. तसेच येणाऱ्या कोणत्याही व्यक्तीची नजर प्रथम रांगोळीवर पडते मग दारावर आणि नंतर घरात. रांगोळीत नजरेत असलेले अशुभत्व शोषण्याची क्षमता असते. त्यामुळे अशुभ शक्ती उंबऱ्याच्या बाहेरच स्थिरावते, आत पटकन येऊ शकत नाही.</p>
+
+      <div class="rangoli-wrap">
+        <div class="rgl-card">
+          <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2.5" aria-hidden="true">
+            <path d="M30,70 L34,92 H66 L70,70 Z"/>
+            <path d="M25,70 H75"/>
+            <path d="M50,70 V40"/>
+            <path d="M50,55 C40,50 34,40 36,28"/>
+            <path d="M50,50 C60,45 66,35 64,24"/>
+            <path d="M50,45 C46,40 44,34 46,26"/>
+            <circle cx="42" cy="80" r="3" fill="#fff" stroke="none"/>
+          </svg>
+          <b>९) तुळसी वृंदावन</b>
+        </div>
+        <div class="rgl-card">
+          <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" aria-hidden="true">
+            <path d="M50,50 C58,50 62,42 58,36 C52,28 40,30 36,40 C30,54 42,66 56,62 C72,58 78,40 68,26"/>
+            <path d="M38,80 L44,90 L32,90 Z"/>
+            <path d="M62,80 L68,90 L56,90 Z"/>
+          </svg>
+          <b>१०) चक्र</b>
+        </div>
+        <div class="rgl-card">
+          <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2.5" aria-hidden="true">
+            <ellipse cx="50" cy="50" rx="42" ry="16" transform="rotate(35 50 50)"/>
+            <ellipse cx="50" cy="50" rx="42" ry="16" transform="rotate(-35 50 50)"/>
+            <g fill="#fff" stroke="none">
+              <circle cx="50" cy="50" r="5"/><circle cx="14" cy="38" r="4"/><circle cx="86" cy="38" r="4"/>
+              <circle cx="14" cy="62" r="4"/><circle cx="86" cy="62" r="4"/>
+            </g>
+          </svg>
+          <b>११) तारका</b>
+        </div>
+        <div class="rgl-card">
+          <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2" aria-hidden="true">
+            <path d="M50,10 L78,32 L50,54 L22,32 Z"/>
+            <path d="M40,26 V38 M50,24 V44 M60,26 V38"/>
+            <path d="M50,54 V60 M38,55 C36,68 34,82 32,92 M50,55 V92 M62,55 C64,68 66,82 68,92"/>
+          </svg>
+          <b>१२) आकाशदीप</b>
+        </div>
+        <div class="rgl-card">
+          <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2.5" aria-hidden="true">
+            <g fill="#fff" stroke="none">
+              <path d="M50,8 L54,20 L46,20 Z"/><path d="M50,8 L54,20 L46,20 Z" transform="rotate(30 50 50)"/>
+              <path d="M50,8 L54,20 L46,20 Z" transform="rotate(60 50 50)"/><path d="M50,8 L54,20 L46,20 Z" transform="rotate(90 50 50)"/>
+              <path d="M50,8 L54,20 L46,20 Z" transform="rotate(120 50 50)"/><path d="M50,8 L54,20 L46,20 Z" transform="rotate(150 50 50)"/>
+              <path d="M50,8 L54,20 L46,20 Z" transform="rotate(180 50 50)"/><path d="M50,8 L54,20 L46,20 Z" transform="rotate(210 50 50)"/>
+              <path d="M50,8 L54,20 L46,20 Z" transform="rotate(240 50 50)"/><path d="M50,8 L54,20 L46,20 Z" transform="rotate(270 50 50)"/>
+              <path d="M50,8 L54,20 L46,20 Z" transform="rotate(300 50 50)"/><path d="M50,8 L54,20 L46,20 Z" transform="rotate(330 50 50)"/>
+            </g>
+            <ellipse cx="50" cy="50" rx="24" ry="22"/>
+            <path d="M32,80 L40,92 L24,92 Z"/>
+            <path d="M68,80 L76,92 L60,92 Z"/>
+          </svg>
+          <b>१३) सूर्य</b>
+        </div>
+        <div class="rgl-card">
+          <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="1.8" aria-hidden="true">
+            <defs>
+              <g id="rglUnit6">
+                <path d="M0,0 L0,-9 M0,0 L7.8,-4.5 M0,0 L7.8,4.5 M0,0 L0,9 M0,0 L-7.8,4.5 M0,0 L-7.8,-4.5"/>
+                <circle cx="0" cy="0" r="2" fill="#fff" stroke="none"/>
+              </g>
+            </defs>
+            <use href="#rglUnit6" transform="translate(50,50) scale(1.6)"/>
+            <use href="#rglUnit6" transform="translate(50,25) scale(1.6)"/>
+            <use href="#rglUnit6" transform="translate(72,37) scale(1.6)"/>
+            <use href="#rglUnit6" transform="translate(72,63) scale(1.6)"/>
+            <use href="#rglUnit6" transform="translate(50,75) scale(1.6)"/>
+            <use href="#rglUnit6" transform="translate(28,63) scale(1.6)"/>
+            <use href="#rglUnit6" transform="translate(28,37) scale(1.6)"/>
+          </svg>
+          <b>१४) पोपट कोयरी</b>
+        </div>
+      </div>
+
+      <p><b>सात वारांना देव/देव्हाऱ्यापुढे काढावयाच्या रांगोळ्या</b></p>
+      <div class="rangoli-wrap rangoli-week">
+        <div class="rgl-card">
+          <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="3" aria-hidden="true">
+            <rect x="26" y="26" width="48" height="48" transform="rotate(45 50 50)"/>
+            <circle cx="50" cy="50" r="3" fill="#fff" stroke="none"/>
+          </svg>
+          <b>सोमवार</b>
+          <span>विघ्न दूर होऊन प्रगती होते आणि चंद्राची पूजा केल्याचे पुण्य लाभते.</span>
+        </div>
+        <div class="rgl-card">
+          <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="3" aria-hidden="true">
+            <circle cx="50" cy="50" r="30"/>
+            <g fill="#fff" stroke="none">
+              <circle cx="50" cy="17" r="3"/><circle cx="71" cy="29" r="3"/><circle cx="83" cy="50" r="3"/>
+              <circle cx="71" cy="71" r="3"/><circle cx="50" cy="83" r="3"/><circle cx="29" cy="71" r="3"/>
+              <circle cx="17" cy="50" r="3"/><circle cx="29" cy="29" r="3"/>
+            </g>
+          </svg>
+          <b>मंगळवार</b>
+          <span>सर्व शत्रूंचा त्रास कमी होऊन, मंगळ ग्रहाच्या पूजनाचा लाभ होतो.</span>
+        </div>
+        <div class="rgl-card">
+          <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="3" aria-hidden="true">
+            <rect x="20" y="20" width="60" height="60"/>
+            <g fill="#fff" stroke="none"><circle cx="20" cy="20" r="3"/><circle cx="80" cy="20" r="3"/><circle cx="80" cy="80" r="3"/><circle cx="20" cy="80" r="3"/></g>
+          </svg>
+          <b>बुधवार</b>
+          <span>सर्व प्रकारच्या शास्त्रांचे ज्ञान मिळते आणि पती-पत्नी प्रेम वाढून घरात सुख शांती लाभते.</span>
+        </div>
+        <div class="rgl-card">
+          <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2.5" aria-hidden="true">
+            <circle cx="50" cy="50" r="34"/>
+            <path d="M50,22 L74,64 L26,64 Z"/>
+            <path d="M50,78 L26,36 L74,36 Z"/>
+          </svg>
+          <b>गुरुवार</b>
+          <span>संपत्ती प्राप्त होते आणि शास्त्राचे ज्ञान होऊन गुरू ग्रहांच्या पूजनांचा लाभ मिळतो.</span>
+        </div>
+        <div class="rgl-card">
+          <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2.5" aria-hidden="true">
+            <defs><ellipse id="rglPetal6" cx="50" cy="30" rx="10" ry="20"/></defs>
+            <use href="#rglPetal6" transform="rotate(0 50 50)"/><use href="#rglPetal6" transform="rotate(60 50 50)"/>
+            <use href="#rglPetal6" transform="rotate(120 50 50)"/><use href="#rglPetal6" transform="rotate(180 50 50)"/>
+            <use href="#rglPetal6" transform="rotate(240 50 50)"/><use href="#rglPetal6" transform="rotate(300 50 50)"/>
+            <circle cx="50" cy="50" r="4" fill="#fff" stroke="none"/>
+          </svg>
+          <b>शुक्रवार</b>
+          <span>मुला-मुलींचे विवाह योग्य ठिकाणी होतात किंवा योग जुळून येतात. जोडीदार चांगला लाभतो.</span>
+        </div>
+        <div class="rgl-card">
+          <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="4" aria-hidden="true">
+            <path d="M50,15 V85 M15,50 H85"/>
+            <circle cx="50" cy="50" r="14"/>
+            <g fill="#fff" stroke="none"><circle cx="50" cy="18" r="3"/><circle cx="50" cy="82" r="3"/><circle cx="18" cy="50" r="3"/><circle cx="82" cy="50" r="3"/></g>
+          </svg>
+          <b>शनिवार</b>
+          <span>तब्येत चांगली राहते आणि बाधा, विघ्न होत नाही.</span>
+        </div>
+        <div class="rgl-card">
+          <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="3" aria-hidden="true">
+            <path d="M50,15 L85,80 L15,80 Z"/>
+            <circle cx="50" cy="58" r="4" fill="#fff" stroke="none"/>
+          </svg>
+          <b>रविवार</b>
+          <span>हाती घेतलेले काम पूर्ण होऊन सिध्दी प्राप्त होते. आणि सूर्य पूजनाचा लाभ मिळतो.</span>
+        </div>
+      </div>
+
+      <p class="src-badge">मसुदा — केंद्राने पाठवलेल्या ग्रंथाच्या फोटोंवरून मजकूर जसाच्या तसा उतरवला; आकृत्या मूळ पानांतील रेखाचित्रांवरून, गडद पार्श्वभूमीवर पांढऱ्या रेषांत सुबक स्वरूपात पुन्हा तयार केल्या आहेत (हुबेहूब प्रत नव्हे).</p>
     </div>
   </details>
 
