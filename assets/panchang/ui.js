@@ -10,7 +10,7 @@
   "use strict";
   var KT = window.KT || {};
   var M = KT.PanchangMarathi, E = KT.PanchangEngine, FR = KT.FestivalRules,
-      Moon = KT.Moon, LE = KT.LocalEvents;
+      Moon = KT.Moon, LE = KT.LocalEvents, SU = KT.SiteUpdate;
 
   function ready(fn) {
     if (document.readyState === "loading")
@@ -275,16 +275,39 @@
 
   // "उद्याची आठवण" — फक्त होम-स्क्रीनवरून उघडलेल्या (installed PWA) वापरकर्त्यांना,
   // आणि फक्त आज कोणताही मोठा सण/स्थानिक कार्यक्रम नसेल तरच (गोंधळ/स्पॅम टाळण्यासाठी).
+  // return: उद्या दाखवण्यासारखे काही सापडले का (init() ला साइट-अपडेट सूचना
+  // दाखवायची की नाही हे ठरवण्यासाठी उपयोगी).
   function maybeShowTomorrowReminder(fest2, localEv2, todayIso) {
-    if (!isStandalonePWA()) return;
+    if (!isStandalonePWA()) return false;
     var candidates = buildCandidates(fest2, localEv2, function (c) { return !isRemindDismissed(todayIso, c.id); });
-    if (!candidates.length) return;
+    if (!candidates.length) return false;
     var pick = candidates[0];
     var item = { id: pick.id, nameMr: "उद्या: " + pick.nameMr, descMr: pick.descMr, ctaText: null };
     showAfterWelcome(function () {
       openModal(item, todayIso, {
         eyebrow: "🔔 उद्याची आठवण",
         onDismiss: function () { setRemindDismissed(todayIso, pick.id); }
+      });
+    });
+    return true;
+  }
+
+  // "साइटवर नवीन भर" — फक्त installed PWA वापरकर्त्यांना, आणि आज/उद्याची
+  // कोणतीही सूचना दाखवली जाणार नसेल तरच. पहिल्यांदाच अ‍ॅप उघडणाऱ्याला
+  // (आधीची कोणतीही आवृत्ती साठवलेली नसेल तर) दाखवत नाही — नुसते लक्षात ठेवते.
+  function seenUpdateKey() { return "panchang.siteUpdate.seen"; }
+  function maybeShowSiteUpdateNote() {
+    if (!isStandalonePWA()) return;
+    if (!SU || !SU.version) return;
+    var seen;
+    try { seen = localStorage.getItem(seenUpdateKey()); } catch (e) { return; }
+    if (seen === null) { try { localStorage.setItem(seenUpdateKey(), SU.version); } catch (e) {} return; }
+    if (seen === SU.version) return;
+    var item = { id: "site-update", nameMr: SU.titleMr || "साइटवर नवीन भर", descMr: SU.descMr || "", ctaText: null };
+    showAfterWelcome(function () {
+      openModal(item, "", {
+        eyebrow: "🆕 साइटवर नवीन भर",
+        onDismiss: function () { try { localStorage.setItem(seenUpdateKey(), SU.version); } catch (e) {} }
       });
     });
   }
@@ -310,6 +333,7 @@
       // स्थानिक "major/event" बॅजमध्ये दिसावे म्हणून observances मध्ये नको
       buildCard(root, P, fest, localEv);
       var shownToday = maybeShowModal(fest, localEv, iso);
+      var shownTomorrow = false;
       if (!shownToday) {
         try {
           var tomorrow = new Date(when.getTime() + 24 * 60 * 60 * 1000);
@@ -318,10 +342,11 @@
             var ip2 = P2.istParts;
             var fest2 = FR ? FR.evaluate(P2) : { major: [], observances: [] };
             var localEv2 = (LE && LE.forDate) ? LE.forDate(ip2.y, ip2.mo + 1, ip2.d) : [];
-            maybeShowTomorrowReminder(fest2, localEv2, iso);
+            shownTomorrow = maybeShowTomorrowReminder(fest2, localEv2, iso);
           }
         } catch (e) { try { console.error("[panchang] tomorrow-reminder failed:", e); } catch (_) {} }
       }
+      if (!shownToday && !shownTomorrow) maybeShowSiteUpdateNote();
     } catch (e) {
       try { console.error("[panchang] init failed:", e); } catch (_) {}
       root.innerHTML = '<p class="pc-fallback">आजचे पंचांग सध्या उपलब्ध नाही.</p>';
