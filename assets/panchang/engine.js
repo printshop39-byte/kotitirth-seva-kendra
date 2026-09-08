@@ -32,6 +32,16 @@
   var ayan = function (d) { return 23.8531 + 0.013969 * ((jd(d) - 2451545.0) / 365.25); };
 
   var TITHI_STEP = 12, NAK_STEP = 360 / 27, YOGA_STEP = 360 / 27, KARANA_STEP = 6;
+  var RASHI = ["मेष", "वृषभ", "मिथुन", "कर्क", "सिंह", "कन्या", "तुळ", "वृश्चिक", "धनु", "मकर", "कुंभ", "मीन"];
+  // अमांत मासावरून सहा ऋतू (चैत्र-वैशाख वसंत, ज्येष्ठ-आषाढ ग्रीष्म, इ.)
+  var RITU_OF_MASA = {
+    "चैत्र": "वसंत", "वैशाख": "वसंत",
+    "ज्येष्ठ": "ग्रीष्म", "आषाढ": "ग्रीष्म",
+    "श्रावण": "वर्षा", "भाद्रपद": "वर्षा",
+    "आश्विन": "शरद", "कार्तिक": "शरद",
+    "मार्गशीर्ष": "हेमंत", "पौष": "हेमंत",
+    "माघ": "शिशिर", "फाल्गुन": "शिशिर"
+  };
 
   function istMidnight(y, mo, d) { return new Date(Date.UTC(y, mo, d) - TZ * 60000); }
   function istPartsOf(date) {
@@ -88,6 +98,22 @@
     var rN = Math.floor(sidSunLon(new Date(N.getTime() - 1000)) / 30);
     if (rP !== rN) return { name: MONTH[rP], adhik: false };
     return { name: MONTH[rP], adhik: true };  // संक्रांत नाही → अधिक मास
+  }
+
+  // चैत्र शुद्ध प्रतिपदा (गुढी पाडवा) — ref च्या आधीची/बरोबरीची सर्वात अलीकडची चैत्र-मासारंभ अमावास्या
+  // शोधून त्याच्या दुसऱ्या दिवशी (शक/विक्रम वर्षारंभ). चैत्र मासारंभ = सूर्य मीन राशीत (rashi 11)
+  // असताना होणारी अमावास्या (masaAt() मधील MONTH[11]="चैत्र" शी सुसंगत).
+  function chaitraStart(ref) {
+    var nm = [], c = A.SearchMoonPhase(0, new Date(ref.getTime() - 400 * DAYMS), 45);
+    while (c && c.date.getTime() <= ref.getTime()) {
+      nm.push(c.date);
+      c = A.SearchMoonPhase(0, new Date(c.date.getTime() + 2 * DAYMS), 45);
+    }
+    for (var i = nm.length - 1; i >= 0; i--) {
+      var r = Math.floor(sidSunLon(new Date(nm[i].getTime() + 1000)) / 30);
+      if (r === 11) return nm[i];
+    }
+    return null;
   }
 
   // पाच कालखंडाचे क्षण (सूर्योदय-सूर्यास्त-रात्र)
@@ -151,6 +177,23 @@
 
       // ---- मास ----
       var masa = masaAt(ref);
+
+      // ---- राशी (सूर्य/चंद्र) ----
+      var sunRashiIdx = Math.floor(sidSunLon(ref) / 30);
+      var moonRashiIdx = Math.floor(sm / 30);
+
+      // ---- ऋतू (अमांत मासावरून) ----
+      var ritu = RITU_OF_MASA[masa.name] || null;
+
+      // ---- आयन : सूर्य मकर—मिथुन राशीत (rashi 9,10,11,0,1,2) = उत्तरायण, अन्यथा दक्षिणायन ----
+      var uttarayan = [9, 10, 11, 0, 1, 2].indexOf(sunRashiIdx) !== -1;
+      var ayanName = uttarayan ? "उत्तरायण" : "दक्षिणायन";
+
+      // ---- शक वर्ष / विक्रम संवत् (गुढी पाडव्यावरून) ----
+      var cs = chaitraStart(ref);
+      var csYear = cs ? istPartsOf(cs).y : null;
+      var shakeVarsh = csYear !== null ? csYear - 78 : null;
+      var vikramSamvat = csYear !== null ? csYear + 57 : null;
 
       // ---- चंद्रकला ----
       var illum = A.Illumination(A.Body.Moon, ref);
@@ -224,6 +267,8 @@
         weekdayIndex: ip.wd,
         gregorian: new Date(Date.UTC(ip.y, ip.mo, ip.d, 6, 0, 0)),
         sunrise: sunrise, sunset: sunset, moonrise: moonrise, moonset: moonset, moonriseNext: moonriseNext,
+        sunRashi: RASHI[sunRashiIdx], moonRashi: RASHI[moonRashiIdx],
+        ritu: ritu, ayan: ayanName, shake: shakeVarsh, vikramSamvat: vikramSamvat,
         tithi: { num: tithiNum, paksha: paksha, endTime: tithiEnd, next: nextTithi },
         nakshatra: { num: nIdx + 1, endTime: nakEnd },
         yoga: { num: yIdx + 1, endTime: yogaEnd },

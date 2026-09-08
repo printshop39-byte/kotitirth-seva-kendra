@@ -94,13 +94,19 @@
 
     // सविस्तर rows
     var details = "";
+    details += drow("विक्रम संवत्", P.vikramSamvat != null ? dev(P.vikramSamvat) : "—");
+    details += drow("शके", P.shake != null ? dev(P.shake) : "—");
     details += drow("वार", esc(M.weekday[P.weekdayIndex]));
+    details += drow("आयन", esc(P.ayan || "—"));
+    details += drow("ऋतू", esc(P.ritu || "—"));
     details += drow("पक्ष", esc(pakName));
     details += drow("मास", esc((P.masa.adhik ? "अधिक " : "") + (P.masa.name || "—")));
     details += drow("तिथी", esc(tithiName) + (tEnd ? ' <span style="font-weight:400;color:var(--shai-soft)">(' + tEnd + ")</span>" : ""));
     details += drow("नक्षत्र", esc(M.nakshatra[P.nakshatra.num - 1]) + (P.nakshatra.endTime ? ' <span style="font-weight:400;color:var(--shai-soft)">(' + endText(P.nakshatra.endTime, P.ref) + ")</span>" : ""));
     details += drow("योग", esc(M.yoga[P.yoga.num - 1]) + (P.yoga.endTime ? ' <span style="font-weight:400;color:var(--shai-soft)">(' + endText(P.yoga.endTime, P.ref) + ")</span>" : ""));
     details += drow("करण", esc(M.karanaName(P.karana.index)));
+    details += drow("चंद्र राशी", esc(P.moonRashi || "—"));
+    details += drow("सूर्य राशी", esc(P.sunRashi || "—"));
     details += drow("सूर्योदय", P.sunrise ? esc(M.formatClock(P.sunrise)) : "—");
     details += drow("सूर्यास्त", P.sunset ? esc(M.formatClock(P.sunset)) : "—");
     details += drow("राहू काळ", esc((RAHU_KAAL[P.weekdayIndex] || {}).label || "—"), "pc-warn");
