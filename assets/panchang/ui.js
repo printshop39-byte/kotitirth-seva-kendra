@@ -163,20 +163,34 @@
   function isDismissed(iso, id) { try { return localStorage.getItem(dismissKey(iso, id)) === "1"; } catch (e) { return false; } }
   function setDismissed(iso, id) { try { localStorage.setItem(dismissKey(iso, id), "1"); } catch (e) {} }
 
+  // होम-स्क्रीनवरून उघडलेले अ‍ॅप (installed PWA) आहे का — "उद्याची आठवण"
+  // फक्त याच वापरकर्त्यांना दाखवायची आहे (सामान्य ब्राउझर भेटीत आजचा मोडल पुरेसा आहे).
+  function isStandalonePWA() {
+    try {
+      return (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) ||
+             window.navigator.standalone === true;
+    } catch (e) { return false; }
+  }
+
+  function remindKey(todayIso, id) { return "panchang.remind." + todayIso + "." + id; }
+  function isRemindDismissed(todayIso, id) { try { return localStorage.getItem(remindKey(todayIso, id)) === "1"; } catch (e) { return false; } }
+  function setRemindDismissed(todayIso, id) { try { localStorage.setItem(remindKey(todayIso, id), "1"); } catch (e) {} }
+
   function sevaScroll() {
     // main च्या 🏠 आज पानावर वेळापत्रकाचा id "tlToday" आहे; आरती पानावर "tl".
     var el = document.getElementById("tlToday") || document.getElementById("tl") || document.getElementById("panchang");
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  function openModal(item, iso) {
+  function openModal(item, iso, opts) {
+    opts = opts || {};
     lastFocus = document.activeElement;
     var overlay = document.createElement("div");
     overlay.className = "pc-overlay";
     overlay.innerHTML =
       '<div class="pc-modal" role="dialog" aria-modal="true" aria-labelledby="pc-modal-title" aria-describedby="pc-modal-desc">' +
       '<button type="button" class="pc-modal-x" aria-label="बंद करा">×</button>' +
-      '<div class="pc-modal-eyebrow">🙏 आज विशेष दिवस</div>' +
+      '<div class="pc-modal-eyebrow">' + esc(opts.eyebrow || "🙏 आज विशेष दिवस") + "</div>" +
       '<h3 id="pc-modal-title">' + esc(item.nameMr) + "</h3>" +
       '<p id="pc-modal-desc">' + esc(item.descMr || "") + "</p>" +
       '<div class="pc-modal-acts">' +
@@ -191,7 +205,7 @@
       return modal.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])');
     }
     function close() {
-      setDismissed(iso, item.id);
+      (opts.onDismiss || function () { setDismissed(iso, item.id); })();
       overlay.remove();
       document.body.classList.remove("pc-modal-open");
       document.removeEventListener("keydown", onKey, true);
@@ -218,7 +232,7 @@
     var f = focusables(); if (f.length) f[0].focus();
   }
 
-  function maybeShowModal(fest, localEv, iso) {
+  function buildCandidates(fest, localEv, filterFn) {
     var candidates = [];
     fest.major.forEach(function (m) {
       candidates.push({ id: m.id, nameMr: m.nameMr, descMr: m.descMr,
@@ -229,24 +243,50 @@
         nameMr: e.titleMr, descMr: e.descMr, ctaText: e.ctaText, ctaTarget: e.ctaTarget || "seva",
         priority: (typeof e.priority === "number" ? e.priority : 5) });
     });
-    candidates = candidates.filter(function (c) { return !isDismissed(iso, c.id); });
-    if (!candidates.length) return;
+    candidates = candidates.filter(filterFn);
     candidates.sort(function (a, b) { return b.priority - a.priority; });
-    var pick = candidates[0];
-    // सण-मोडल फक्त welcome popup बंद झाल्यावरच दाखवा — त्यावर कधीही चढवू नका.
-    // welcome खूप वेळ उघडा राहिल्यास (वापरकर्ता बंद करत नसल्यास) मोडल वगळा
-    // (बॅज कार्डवर दिसतोच). यामुळे दोन modal एकावर एक कधीच येत नाहीत.
+    return candidates;
+  }
+
+  // सण-मोडल/आठवण फक्त welcome popup बंद झाल्यावरच दाखवायची — त्यावर कधीही चढवू नये.
+  // welcome खूप वेळ उघडा राहिल्यास (वापरकर्ता बंद करत नसल्यास) वगळा (बॅज कार्डवर दिसतोच).
+  // यामुळे दोन modal एकावर एक कधीच येत नाहीत.
+  function showAfterWelcome(fn) {
     setTimeout(function () {
       var waited = 0, MAXMS = 30000, STEP = 400;
       (function waitAndShow() {
-        if (document.querySelector(".pc-overlay")) return;       // आधीच एक सण-मोडल उघडा
+        if (document.querySelector(".pc-overlay")) return;       // आधीच एक मोडल उघडा
         if (document.querySelector(".welcome.open")) {           // welcome अजून उघडा आहे
           if (waited >= MAXMS) return;                           // इतका वेळ उघडा → वगळा (चढवू नका)
           waited += STEP; setTimeout(waitAndShow, STEP); return;
         }
-        openModal(pick, iso);                                    // welcome बंद — आता सुरक्षित
+        fn();                                                     // welcome बंद — आता सुरक्षित
       })();
     }, 550);
+  }
+
+  function maybeShowModal(fest, localEv, iso) {
+    var candidates = buildCandidates(fest, localEv, function (c) { return !isDismissed(iso, c.id); });
+    if (!candidates.length) return false;
+    var pick = candidates[0];
+    showAfterWelcome(function () { openModal(pick, iso); });
+    return true;
+  }
+
+  // "उद्याची आठवण" — फक्त होम-स्क्रीनवरून उघडलेल्या (installed PWA) वापरकर्त्यांना,
+  // आणि फक्त आज कोणताही मोठा सण/स्थानिक कार्यक्रम नसेल तरच (गोंधळ/स्पॅम टाळण्यासाठी).
+  function maybeShowTomorrowReminder(fest2, localEv2, todayIso) {
+    if (!isStandalonePWA()) return;
+    var candidates = buildCandidates(fest2, localEv2, function (c) { return !isRemindDismissed(todayIso, c.id); });
+    if (!candidates.length) return;
+    var pick = candidates[0];
+    var item = { id: pick.id, nameMr: "उद्या: " + pick.nameMr, descMr: pick.descMr, ctaText: null };
+    showAfterWelcome(function () {
+      openModal(item, todayIso, {
+        eyebrow: "🔔 उद्याची आठवण",
+        onDismiss: function () { setRemindDismissed(todayIso, pick.id); }
+      });
+    });
   }
 
   function init() {
@@ -269,7 +309,19 @@
       var localEv = (LE && LE.forDate) ? LE.forDate(ip.y, ip.mo + 1, ip.d) : [];
       // स्थानिक "major/event" बॅजमध्ये दिसावे म्हणून observances मध्ये नको
       buildCard(root, P, fest, localEv);
-      maybeShowModal(fest, localEv, iso);
+      var shownToday = maybeShowModal(fest, localEv, iso);
+      if (!shownToday) {
+        try {
+          var tomorrow = new Date(when.getTime() + 24 * 60 * 60 * 1000);
+          var P2 = E.compute(tomorrow);
+          if (P2 && P2.ok) {
+            var ip2 = P2.istParts;
+            var fest2 = FR ? FR.evaluate(P2) : { major: [], observances: [] };
+            var localEv2 = (LE && LE.forDate) ? LE.forDate(ip2.y, ip2.mo + 1, ip2.d) : [];
+            maybeShowTomorrowReminder(fest2, localEv2, iso);
+          }
+        } catch (e) { try { console.error("[panchang] tomorrow-reminder failed:", e); } catch (_) {} }
+      }
     } catch (e) {
       try { console.error("[panchang] init failed:", e); } catch (_) {}
       root.innerHTML = '<p class="pc-fallback">आजचे पंचांग सध्या उपलब्ध नाही.</p>';
