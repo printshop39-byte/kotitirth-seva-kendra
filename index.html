@@ -410,6 +410,14 @@ html[data-theme="dark"] .ovi.focus-verse{background:rgba(212,168,75,.18)}
   font-size:15px;color:var(--shai-soft);
   border-top:1px solid var(--line);padding-top:10px;
 }
+.hero-share{
+  display:inline-flex;align-items:center;gap:7px;margin:12px auto 0;
+  padding:9px 16px;border-radius:999px;font-weight:600;font-size:13.5px;
+  background:transparent;color:var(--kesari);border:1px dashed rgba(217,83,30,.5);
+  cursor:pointer;font-family:inherit;
+}
+.hero-share:active{transform:scale(.97)}
+.hero-share:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
 
 /* ---------- "आत्ता" पट्टी (मुख्य वैशिष्ट्य) ---------- */
 .now{
@@ -1404,6 +1412,7 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
   <div class="hero">
     <h1>श्री स्वामी समर्थ सेवा केंद्र (दिंडोरी प्रणित)<span class="hero-sub">आध्यात्मिक सेवा · बाल संस्कार</span></h1>
     <div class="place">📍 कोटितीर्थ, कोल्हापूर</div>
+    <button type="button" class="hero-share" id="bAppShare">📤 इतरांना पाठवा — QR/लिंक शिवाय</button>
   </div>
 
   <!-- होम स्क्रीनवर ठेवा — QR स्कॅन करून येणाऱ्यांना पानाच्या सर्वात वर लगेच दिसते -->
@@ -6903,6 +6912,24 @@ document.getElementById("bShare").addEventListener("click", async ()=>{
   if(navigator.share){ try{ await navigator.share(data); }catch(e){} }
   else { await navigator.clipboard.writeText(url);
          document.getElementById("bShare").textContent = "✅ लिंक कॉपी झाली"; }
+});
+
+// अ‍ॅप शेअर — पानाच्या सर्वात वर, कोणत्याही टॅबवरून एका टॅपमध्ये (QR/लिंक टाइप न करता)
+document.getElementById("bAppShare").addEventListener("click", async (ev)=>{
+  const btn = ev.currentTarget;
+  const url = location.origin + location.pathname;
+  const shareText = "🙏 श्री स्वामी समर्थ सेवा केंद्र (दिंडोरी प्रणित), कोटितीर्थ — आरत्या, पंचांग, जपमाळा सर्व एका ठिकाणी.";
+  const data = { title:"श्री स्वामी समर्थ सेवा केंद्र (दिंडोरी प्रणित), कोटितीर्थ", text:shareText, url };
+  if(navigator.share){
+    try{ await navigator.share(data); return; }
+    catch(e){ if(e && e.name === "AbortError") return; }
+  }
+  // navigator.share उपलब्ध नसल्यास — लिंक क्लिपबोर्डवर कॉपी करून WhatsApp शेअर उघडा
+  try{ await navigator.clipboard.writeText(url); }catch(e){}
+  const original = btn.textContent;
+  btn.textContent = "✅ लिंक कॉपी झाली";
+  setTimeout(()=>{ btn.textContent = original; }, 2500);
+  window.open("https://wa.me/?text=" + encodeURIComponent(shareText + " " + url), "_blank", "noopener");
 });
 </script>
 </body>
