@@ -449,6 +449,32 @@ html[data-theme="dark"] .ovi.focus-verse{background:rgba(212,168,75,.18)}
 .khula.bandh  .ktx b{color:#8C1D2B}
 .ktx i{font-style:normal;display:block;font-size:14px;color:var(--shai-soft);line-height:1.55;margin-top:2px}
 
+/* ---------- 📋 श्रावण समाप्ती कार्यक्रम फलक (तात्पुरता, chalkboard शैली) ---------- */
+.chalk-board{
+  background:#12283d;border-radius:var(--r);padding:20px 16px;margin-bottom:16px;
+  box-shadow:0 10px 26px rgba(10,20,35,.35);
+  font-family:var(--f-body);
+}
+.chalk-top{
+  background:#fdf8ec;color:#d61f2c;font-weight:700;text-align:center;
+  border:2px solid #3aa0d6;border-radius:8px;padding:7px 10px;margin-bottom:14px;font-size:17px;
+}
+.chalk-title{color:#f4efe0;text-align:center;font-size:21px;font-weight:600;margin-bottom:6px}
+.chalk-date{color:#f4efe0;text-align:center;font-weight:700;font-size:16px;margin-bottom:10px}
+.chalk-line{color:#eef2f6;text-align:center;margin:7px 0;line-height:1.55;font-size:14.5px}
+.chalk-line.chalk-strong{font-weight:700;font-size:15.5px}
+.chalk-underline{text-decoration:underline;text-decoration-style:wavy;text-decoration-color:#e6c66b;text-underline-offset:4px}
+.chalk-list{color:#ff6fc9;text-align:center;margin:10px 0;line-height:1.7;font-size:14.5px}
+.chalk-hl1{color:#ff6fc9}
+.chalk-hl2{color:#ffd23f}
+.chalk-hl3{color:#4fd7ec}
+.chalk-cols{
+  display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;margin-top:14px;
+  border-top:1px dashed rgba(255,255,255,.28);padding-top:14px;
+}
+.chalk-col{text-align:center}
+.chalk-col .chalk-line{margin:5px 0}
+
 /* ---------- 🔔 उत्सव-स्मरण बॅनर — उत्सवाच्या २४ तास आधी दिसतो ---------- */
 .usmaran{
   background:linear-gradient(135deg,rgba(233,168,18,.16),rgba(140,29,43,.08));
@@ -1449,6 +1475,34 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
   <!-- 🏠 आज — लँडिंग पान: आत्ताची स्थिती + आजचे वेळापत्रक -->
   <div class="pane" role="tabpanel" id="t-today" aria-labelledby="tb-today" tabindex="0">
   <section>
+    <!-- श्रावण समाप्ती कार्यक्रम फलक — तात्पुरता, शुक्र ११ सप्टें २०२६ रात्री १२ नंतर आपोआप लपेल -->
+    <div class="chalk-board" id="shSamaptiBoard" hidden>
+      <div class="chalk-top">॥ श्री स्वामी समर्थ ॥</div>
+      <div class="chalk-title"><span class="chalk-hl2">श्रावण समाप्ती</span> कार्यक्रम</div>
+      <div class="chalk-date">शुक्रवार दि. ११-९-२०२६</div>
+      <p class="chalk-line"><span class="chalk-hl1">सकाळी ८-०० वा. भूपाळी आरती प्रसाद</span></p>
+      <p class="chalk-line">आरतीनंतर</p>
+      <p class="chalk-line">खालील स्तोत्रांचे व <span class="chalk-hl2">मंत्रांचे</span> पठण हवन अभिषेक</p>
+      <p class="chalk-list">
+        १) संकल्प २) श्री शिवमहिम्न ३) श्री द्वादश ज्योतिर्लिंग स्तोत्र<br>
+        ४) श्री कालभैरवाष्टक ५) श्री महामृत्युंजय मंत्र ६) श्री संजीवनी मंत्र<br>
+        ७) अमृत संजीवनी मंत्र ८) श्रीसूक्त ९) श्री स्वामी समर्थ जप
+      </p>
+      <p class="chalk-line">सकाळी १०.३० नैवेद्य आरती प्रसाद</p>
+      <p class="chalk-line chalk-underline">दिवसभर केंद्रात वैयक्तिक सेवा करावी.</p>
+      <div class="chalk-cols">
+        <div class="chalk-col">
+          <p class="chalk-line">दु. ४.०० वा.</p>
+          <p class="chalk-line chalk-hl1">भगवान श्री शंकराची<br>विशेष सेवा</p>
+          <p class="chalk-line chalk-hl3">श्री शिवनामावली वाचून<br>१०८ बेलपत्रे अर्पण</p>
+        </div>
+        <div class="chalk-col">
+          <p class="chalk-line chalk-strong">विनंती</p>
+          <p class="chalk-line">सर्वांनी दु. ४.०० वा.<br><span class="chalk-hl1">१०८ बिल्वपत्र आणावे.</span></p>
+          <p class="chalk-line">सायं. ६.०० वा.<br><span class="chalk-hl3">नैवेद्य आरती तीर्थ प्रसाद</span></p>
+        </div>
+      </div>
+    </div>
     <!-- उत्सव-स्मरण बॅनर: सण/उत्सवाच्या २४ तास आधी दिसतो, अन्यथा लपलेला -->
     <div class="usmaran tilt-card" id="usmaran" hidden aria-live="polite">
       <div class="usm-top"><span class="usm-ico">🔔</span><span class="usm-when" id="usmWhen"></span></div>
@@ -6931,6 +6985,14 @@ document.getElementById("bAppShare").addEventListener("click", async (ev)=>{
   setTimeout(()=>{ btn.textContent = original; }, 2500);
   window.open("https://wa.me/?text=" + encodeURIComponent(shareText + " " + url), "_blank", "noopener");
 });
+
+// श्रावण समाप्ती कार्यक्रम फलक — आत्तापासून शुक्र ११ सप्टें २०२६ रात्री १२ पर्यंतच दाखवायचा, नंतर आपोआप लपेल
+(function(){
+  var el = document.getElementById("shSamaptiBoard");
+  if(!el) return;
+  var cutoff = new Date("2026-09-12T00:00:00+05:30");
+  if(new Date() < cutoff) el.hidden = false;
+})();
 </script>
 </body>
 </html>
