@@ -1475,33 +1475,26 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
   <!-- 🏠 आज — लँडिंग पान: आत्ताची स्थिती + आजचे वेळापत्रक -->
   <div class="pane" role="tabpanel" id="t-today" aria-labelledby="tb-today" tabindex="0">
   <section>
-    <!-- श्रावण समाप्ती कार्यक्रम फलक — तात्पुरता, शुक्र ११ सप्टें २०२६ रात्री १२ नंतर आपोआप लपेल -->
-    <div class="chalk-board" id="shSamaptiBoard" hidden>
+    <!-- श्री अनंत चतुर्दशी निमित्त सत्यनारायण पूजा फलक — तात्पुरता, शुक्र २५ सप्टें २०२६ रात्री १२ नंतर आपोआप लपेल -->
+    <div class="chalk-board" id="anantChaturdashiBoard" hidden>
       <div class="chalk-top">॥ श्री स्वामी समर्थ ॥</div>
-      <div class="chalk-title"><span class="chalk-hl2">श्रावण समाप्ती</span> कार्यक्रम</div>
-      <div class="chalk-date">शुक्रवार दि. ११-९-२०२६</div>
-      <p class="chalk-line"><span class="chalk-hl1">सकाळी ८-०० वा. भूपाळी आरती प्रसाद</span></p>
-      <p class="chalk-line">आरतीनंतर</p>
-      <p class="chalk-line">खालील स्तोत्रांचे व <span class="chalk-hl2">मंत्रांचे</span> पठण हवन अभिषेक</p>
-      <p class="chalk-list">
-        १) संस्कृत रुद्र २) श्री शिवमहिम्न ३) श्री द्वादश ज्योतिर्लिंग स्तोत्र<br>
-        ४) श्री कालभैरवाष्टक ५) श्री महामृत्युंजय मंत्र ६) श्री संजीवनी मंत्र<br>
-        ७) अमृत संजीवनी मंत्र ८) श्रीसूक्त ९) श्री स्वामी समर्थ जप
-      </p>
-      <p class="chalk-line">सकाळी १०.३० नैवेद्य आरती प्रसाद</p>
-      <p class="chalk-line chalk-underline">दिवसभर केंद्रात वैयक्तिक सेवा करावी.</p>
+      <div class="chalk-title"><span class="chalk-hl2">श्री अनंत चतुर्दशी</span> निमित्त<br>श्री सत्यनारायण पूजा</div>
+      <div class="chalk-date">शुक्रवार दि. २५-९-२०२६</div>
+      <p class="chalk-line">सकाळी ८-०० वा. भूपाळी आरती</p>
+      <p class="chalk-line">सकाळी १०-३० वा. <span class="chalk-hl1">नैवेद्य आरती प्रसाद</span></p>
+      <p class="chalk-line chalk-underline">दुपारी श्री सत्यनारायण पूजा</p>
       <div class="chalk-cols">
         <div class="chalk-col">
-          <p class="chalk-line">दु. ४.०० वा.</p>
-          <p class="chalk-line chalk-hl1">भगवान श्री शंकराची<br>विशेष सेवा</p>
-          <p class="chalk-line chalk-hl3">श्री शिवनामावली वाचून<br>१०८ बेलपत्रे अर्पण</p>
+          <p class="chalk-line">द. ३.४५ वा.</p>
+          <p class="chalk-line chalk-hl3">श्री विष्णुसहस्रनामावली वाचून<br>१००१ तुळशीपत्र अर्पण</p>
         </div>
         <div class="chalk-col">
-          <p class="chalk-line chalk-strong">विनंती</p>
-          <p class="chalk-line">सर्वांनी दु. ४.०० वा.<br><span class="chalk-hl1">१०८ बिल्वपत्र आणावे.</span></p>
-          <p class="chalk-line">सायं. ६.०० वा.<br><span class="chalk-hl3">नैवेद्य आरती तीर्थ प्रसाद</span></p>
+          <p class="chalk-line">सायं. ६.०० वा.</p>
+          <p class="chalk-line chalk-hl1">नैवेद्य आरती प्रसाद</p>
         </div>
       </div>
+      <p class="chalk-line chalk-strong">टीप</p>
+      <p class="chalk-line">सर्वांनी द. ३.४५ वा. <span class="chalk-hl2">१००१ तुळशीपत्र</span> आणावीत.</p>
     </div>
     <!-- उत्सव-स्मरण बॅनर: सण/उत्सवाच्या २४ तास आधी दिसतो, अन्यथा लपलेला -->
     <div class="usmaran tilt-card" id="usmaran" hidden aria-live="polite">
@@ -6995,11 +6988,11 @@ document.getElementById("bAppShare").addEventListener("click", async (ev)=>{
   window.open("https://wa.me/?text=" + encodeURIComponent(shareText + " " + url), "_blank", "noopener");
 });
 
-// श्रावण समाप्ती कार्यक्रम फलक — आत्तापासून शुक्र ११ सप्टें २०२६ रात्री १२ पर्यंतच दाखवायचा, नंतर आपोआप लपेल
+// श्री अनंत चतुर्दशी सत्यनारायण पूजा फलक — आत्तापासून शुक्र २५ सप्टें २०२६ रात्री १२ पर्यंतच दाखवायचा, नंतर आपोआप लपेल
 (function(){
-  var el = document.getElementById("shSamaptiBoard");
+  var el = document.getElementById("anantChaturdashiBoard");
   if(!el) return;
-  var cutoff = new Date("2026-09-12T00:00:00+05:30");
+  var cutoff = new Date("2026-09-26T00:00:00+05:30");
   if(new Date() < cutoff) el.hidden = false;
 })();
 </script>
