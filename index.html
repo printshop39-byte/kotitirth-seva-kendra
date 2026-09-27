@@ -2943,6 +2943,25 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
         </summary>
         <div class="accbody">
           <p>या काळाला पितृपक्ष म्हणतात. मृत झालेले पूर्वज या महालय काळात पृथ्वीवर येतात. त्यांच्या तिथीस जव, तीळ, हवन, पिंडदान, हिरण्यदान त्यांच्या नावाने करावे. सज्जनास जेवू घालावे.</p>
+          <p><b>पितृपक्ष श्राद्ध तिथी — २७ सप्टेंबर ते १० ऑक्टोबर</b></p>
+          <div class="rows" id="pitrupakshaTable">
+            <div class="row" data-date="2026-09-27"><b>२७ सप्टेंबर</b><span>प्रतिपदा श्राद्ध</span></div>
+            <div class="row" data-date="2026-09-28"><b>२८ सप्टेंबर</b><span>द्वितीया श्राद्ध</span></div>
+            <div class="row" data-date="2026-09-29"><b>२९ सप्टेंबर</b><span>तृतीया श्राद्ध व भरणी श्राद्ध</span></div>
+            <div class="row" data-date="2026-09-30"><b>३० सप्टेंबर</b><span>चतुर्थी व पंचमी श्राद्ध</span></div>
+            <div class="row" data-date="2026-10-01"><b>१ ऑक्टोबर</b><span>षष्ठी श्राद्ध</span></div>
+            <div class="row" data-date="2026-10-02"><b>२ ऑक्टोबर</b><span>सप्तमी श्राद्ध</span></div>
+            <div class="row" data-date="2026-10-03"><b>३ ऑक्टोबर</b><span>अष्टमी श्राद्ध</span></div>
+            <div class="row" data-date="2026-10-04"><b>४ ऑक्टोबर</b><span>नवमी श्राद्ध व अविधवा नवमी</span></div>
+            <div class="row" data-date="2026-10-05"><b>५ ऑक्टोबर</b><span>दशमी श्राद्ध</span></div>
+            <div class="row" data-date="2026-10-06"><b>६ ऑक्टोबर</b><span>एकादशी श्राद्ध</span></div>
+            <div class="row" data-date="2026-10-07"><b>७ ऑक्टोबर</b><span>द्वादशी श्राद्ध व संन्यासी महालय</span></div>
+            <div class="row" data-date="2026-10-08"><b>८ ऑक्टोबर</b><span>त्रयोदशी श्राद्ध</span></div>
+            <div class="row" data-date="2026-10-09"><b>९ ऑक्टोबर</b><span>चतुर्दशी श्राद्ध व शस्त्रादिहत पितृश्राद्ध</span></div>
+            <div class="row" data-date="2026-10-10"><b>१० ऑक्टोबर</b><span>सर्वपित्री दर्श अमावास्या श्राद्ध</span></div>
+          </div>
+          <p class="note">टीप — पौर्णिमा श्राद्ध खालील तारखांपैकी एका दिवशी करावे: २९ सप्टेंबर, किंवा २, ३, ७, १० ऑक्टोबर २०२६.</p>
+          <p class="src-badge">स्रोत: अखिल भारतीय श्री स्वामी समर्थ गुरुपीठ, त्र्यंबकेश्वर (नाशिक) — केंद्राने पाठवलेल्या फलकावरून जसेच्या तसे उतरवले.</p>
           <p>पितृस्तुती पठण करावी. तसेच या दिवशी व प्रत्येक अमावास्येला दुपारी बारा वाजता एका पोळीवर थोडा भात, थोडे तूप, ५-७ काळे तिळाचे दाणे घेऊन खालील मंत्र दक्षिणाभिमुख बसून १ माळ जप करून अंती त्या माळेचा स्पर्श त्या भातास करणे. यामुळे अघोर पितरांनाही सद्गती लाभते.</p>
           <blockquote class="mq">मध्वः सोमास्याधिना मदाय प्रत्नो होता विवासते वाम् ।<br>बर्हिष्मती रतिर्विश्रिता गीरिषा यांत नासत्योप वाजैः ॥</blockquote>
           <p>मंत्र जप श्राध्द दिवशी १ माळ करावा. अधिक माहितीसाठी मासिक अंक "श्री स्वामी समर्थ सेवा" याचा उपयोग करावा. घरात सवाष्ण स्त्री वा सती गेलेली असल्यास अविधवा नवमीस श्राध्द घालावे. ज्या पितरांची तिथी माहीत नसल्यास त्यांच्या नावाने अमावास्येस श्राध्द घालावे तसेच ब्राह्मणास हिरण्यदान द्यावे व अमावास्या मागणाऱ्या स्त्रिला शिधा दान करावे.</p>
@@ -6910,6 +6929,17 @@ if("serviceWorker" in navigator){
   }
   if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", renderRahuWeek);
   else renderRahuWeek();
+
+  // पितृपक्ष श्राद्ध तिथी तक्ता — आजची तारीख ठळक दाखवते
+  function markPitrupakshaToday(){
+    const box = document.getElementById("pitrupakshaTable");
+    if(!box) return;
+    const now = istNow();
+    const iso = now.getFullYear() + "-" + pad2(now.getMonth()+1) + "-" + pad2(now.getDate());
+    box.querySelectorAll(".row").forEach(r => r.classList.toggle("row-today", r.dataset.date === iso));
+  }
+  if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", markPitrupakshaToday);
+  else markPitrupakshaToday();
 
   document.getElementById("btnRahuRemind")?.addEventListener("click", e => {
     const btn = e.currentTarget;
