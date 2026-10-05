@@ -1481,6 +1481,32 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
       <p class="note" id="pitrupakshaTodayNote"></p>
       <p class="note">अधिक माहिती व पितरांची सेवा — 'कार्यक्रम' या विभागात पाहा.</p>
     </div>
+    <!-- शारदीय नवरात्र उत्सव फलक — तात्पुरता, ७ ऑक्टो २०२६ पासून मंगळ २० ऑक्टो २०२६ रात्री १२ पर्यंत दिसतो, नंतर आपोआप लपेल -->
+    <div class="chalk-board" id="navratraBoard" hidden>
+      <div class="chalk-top">॥ श्री स्वामी समर्थ ॥</div>
+      <div class="chalk-title"><span class="chalk-hl2">शारदीय नवरात्र</span> उत्सव</div>
+      <div class="chalk-date">रविवार दि. ११-१०-२०२६ ते मंगळवार दि. २०-१०-२०२६</div>
+      <p class="chalk-line chalk-strong">रविवार दि. ११-१०-२०२६</p>
+      <p class="chalk-line">सकाळी ८-०० वा. <span class="chalk-hl1">भूपाळी आरती</span></p>
+      <p class="chalk-line chalk-underline">दिवसभर सर्वांनी केंद्रात वैयक्तिक खालील सेवा करावी</p>
+      <p class="chalk-list">
+        १) श्री दुर्गासप्तशती पाठ<br>
+        २) श्री नवार्णव मंत्र<br>
+        ३) श्री स्वामी समर्थ जप
+      </p>
+      <div class="chalk-cols">
+        <div class="chalk-col">
+          <p class="chalk-line">स. १०.३० वा.</p>
+          <p class="chalk-line chalk-hl3">नैवेद्य आरती प्रसाद</p>
+        </div>
+        <div class="chalk-col">
+          <p class="chalk-line">सायं. ६-०० वा.</p>
+          <p class="chalk-line chalk-hl3">नैवेद्य आरती प्रसाद</p>
+        </div>
+      </div>
+      <p class="chalk-line chalk-strong">टिप</p>
+      <p class="chalk-line">१) केंद्रात केलेल्या वैयक्तिक सेवेची नोंद चित्रगुप्त वहीमध्ये करावी.<br>२) सोबत <span class="chalk-hl1">श्री दुर्गासप्तशती पोथी</span> आणावी.</p>
+    </div>
     <!-- उत्सव-स्मरण बॅनर: सण/उत्सवाच्या २४ तास आधी दिसतो, अन्यथा लपलेला -->
     <div class="usmaran tilt-card" id="usmaran" hidden aria-live="polite">
       <div class="usm-top"><span class="usm-ico">🔔</span><span class="usm-when" id="usmWhen"></span></div>
@@ -7212,6 +7238,16 @@ document.getElementById("bAppShare").addEventListener("click", async (ev)=>{
   if(!el) return;
   var start = new Date("2026-10-07T00:00:00+05:30");
   var end = new Date("2026-10-27T00:00:00+05:30");
+  var now = new Date();
+  if(now >= start && now < end) el.hidden = false;
+})();
+
+// शारदीय नवरात्र उत्सव फलक (आज टॅब) — ७ ऑक्टो २०२६ पासून २० ऑक्टो २०२६ रात्री १२ पर्यंतच दाखवायचा
+(function(){
+  var el = document.getElementById("navratraBoard");
+  if(!el) return;
+  var start = new Date("2026-10-07T00:00:00+05:30");
+  var end = new Date("2026-10-21T00:00:00+05:30");
   var now = new Date();
   if(now >= start && now < end) el.hidden = false;
 })();
