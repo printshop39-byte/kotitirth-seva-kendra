@@ -1507,6 +1507,43 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
       <p class="chalk-line chalk-strong">टिप</p>
       <p class="chalk-line">१) केंद्रात केलेल्या वैयक्तिक सेवेची नोंद चित्रगुप्त वहीमध्ये करावी.<br>२) सोबत <span class="chalk-hl1">श्री दुर्गासप्तशती पोथी</span> आणावी.</p>
     </div>
+    <!-- श्री दुर्गाष्टमी व गायत्री माता उत्सव फलक — तात्पुरता, १६ ऑक्टो २०२६ पासून सोमवार १९ ऑक्टो २०२६ रात्री १२ पर्यंत दिसतो, नंतर आपोआप लपेल -->
+    <div class="chalk-board" id="durgashtamiBoard" hidden>
+      <div class="chalk-top">॥ श्री स्वामी समर्थ ॥</div>
+      <div class="chalk-title"><span class="chalk-hl2">श्री दुर्गाष्टमी</span></div>
+      <p class="chalk-line chalk-strong">सोमवार दि. १९-१०-२०२६</p>
+      <p class="chalk-line">सकाळी ८-०० वा. <span class="chalk-hl1">भूपाळी आरती</span></p>
+      <p class="chalk-line chalk-underline">आरतीनंतर</p>
+      <p class="chalk-line">श्री दुर्गासप्तशती पोथीचे <span class="chalk-hl1">पठण व हवन</span></p>
+      <div class="chalk-cols">
+        <div class="chalk-col">
+          <p class="chalk-line">सकाळी १०.३० वा.</p>
+          <p class="chalk-line chalk-hl3">नैवेद्य आरती प्रसाद</p>
+        </div>
+        <div class="chalk-col">
+          <p class="chalk-line">सायं. ६.०० वा.</p>
+          <p class="chalk-line chalk-hl3">नैवेद्य आरती प्रसाद</p>
+        </div>
+      </div>
+      <p class="chalk-line">टिप — केंद्रात वाढ केलेल्या सेवेकऱ्यांनी वाटलेले पुरण आणावे.</p>
+
+      <div class="chalk-title" style="margin-top:16px;padding-top:14px;border-top:1px dashed rgba(255,255,255,.28)"><span class="chalk-hl2">श्री गायत्री माता</span> उत्सव</div>
+      <p class="chalk-line chalk-strong">मंगळवार दि. २०-१०-२०२६</p>
+      <p class="chalk-line">सकाळी ८-०० वा. <span class="chalk-hl1">भूपाळी आरती</span></p>
+      <p class="chalk-line chalk-underline">आरतीनंतर</p>
+      <p class="chalk-line">श्री गायत्री मंत्राचे <span class="chalk-hl1">पठण व हवन</span></p>
+      <div class="chalk-cols">
+        <div class="chalk-col">
+          <p class="chalk-line">स. १०.३० वा.</p>
+          <p class="chalk-line chalk-hl3">नैवेद्य आरती प्रसाद</p>
+        </div>
+        <div class="chalk-col">
+          <p class="chalk-line">सायं. ६.०० वा.</p>
+          <p class="chalk-line chalk-hl3">नैवेद्य आरती प्रसाद</p>
+        </div>
+      </div>
+      <p class="chalk-line">टिप — शक्य होईल ही त्या दिवशी काळे वस्त्र अथवा वस्तू वापरू नये.</p>
+    </div>
     <!-- उत्सव-स्मरण बॅनर: सण/उत्सवाच्या २४ तास आधी दिसतो, अन्यथा लपलेला -->
     <div class="usmaran tilt-card" id="usmaran" hidden aria-live="polite">
       <div class="usm-top"><span class="usm-ico">🔔</span><span class="usm-when" id="usmWhen"></span></div>
@@ -7279,6 +7316,14 @@ document.getElementById("bAppShare").addEventListener("click", async (ev)=>{
   var end = new Date("2026-10-21T00:00:00+05:30");
   var now = new Date();
   if(now >= start && now < end) el.hidden = false;
+})();
+
+// श्री दुर्गाष्टमी व गायत्री माता उत्सव फलक (आज टॅब) — आजपासून सोमवार १९ ऑक्टो २०२६ रात्री १२ पर्यंतच दाखवायचा
+(function(){
+  var el = document.getElementById("durgashtamiBoard");
+  if(!el) return;
+  var end = new Date("2026-10-20T00:00:00+05:30");
+  if(new Date() < end) el.hidden = false;
 })();
 </script>
 </body>
