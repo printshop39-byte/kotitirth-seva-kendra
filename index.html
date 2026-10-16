@@ -1544,6 +1544,15 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
       </div>
       <p class="chalk-line">टिप — शक्य होईल ही त्या दिवशी काळे वस्त्र अथवा वस्तू वापरू नये.</p>
     </div>
+    <!-- दिपावली संच फलक — तात्पुरता, १६ ऑक्टो २०२६ पासून ८ नोव्हेंबर २०२६ रात्री १२ पर्यंत दिसतो, नंतर आपोआप लपेल -->
+    <div class="chalk-board" id="diwaliSanchBoard" hidden>
+      <div class="chalk-top">॥ श्री स्वामी समर्थ ॥</div>
+      <div class="chalk-title"><span class="chalk-hl2">दिपावली संच</span></div>
+      <p class="chalk-line">घरात सुख-शांती, <span class="chalk-hl1">लक्ष्मीप्राप्ती</span> व <span class="chalk-hl1">वास्तुदोष निवारण्यासाठी</span> दिपावली काळात करावयाची विशेष सेवा —</p>
+      <p class="chalk-line chalk-strong chalk-hl2">दिपावली संच</p>
+      <p class="chalk-line chalk-underline">वरील सेवा दि. १-११-२०२६ पासून घरच्या घरी करावयाची आहे.</p>
+      <p class="chalk-line">त्यापूर्वी सर्वांनी <span class="chalk-hl1">दिपावली संच</span> घेऊन जावे.</p>
+    </div>
     <!-- उत्सव-स्मरण बॅनर: सण/उत्सवाच्या २४ तास आधी दिसतो, अन्यथा लपलेला -->
     <div class="usmaran tilt-card" id="usmaran" hidden aria-live="polite">
       <div class="usm-top"><span class="usm-ico">🔔</span><span class="usm-when" id="usmWhen"></span></div>
@@ -7323,6 +7332,14 @@ document.getElementById("bAppShare").addEventListener("click", async (ev)=>{
   var el = document.getElementById("durgashtamiBoard");
   if(!el) return;
   var end = new Date("2026-10-21T00:00:00+05:30");
+  if(new Date() < end) el.hidden = false;
+})();
+
+// दिपावली संच फलक (आज टॅब) — आजपासून ८ नोव्हेंबर २०२६ रात्री १२ पर्यंतच दाखवायचा
+(function(){
+  var el = document.getElementById("diwaliSanchBoard");
+  if(!el) return;
+  var end = new Date("2026-11-09T00:00:00+05:30");
   if(new Date() < end) el.hidden = false;
 })();
 </script>
