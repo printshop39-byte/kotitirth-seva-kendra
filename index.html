@@ -7584,12 +7584,12 @@ document.getElementById("bAppShare").addEventListener("click", async (ev)=>{
   if(new Date() >= cutoff) el.hidden = true;
 })();
 
-// नवरात्र विशेष — ७ ऑक्टो २०२६ पासून २५ ऑक्टो २०२६ (कोजागरी पौर्णिमा) रात्री १२ पर्यंतच दाखवायचे, बाकी वेळी लपलेले
+// नवरात्र विशेष — ७ ऑक्टो २०२६ पासून २६ ऑक्टो २०२६ पहाटे १ वाजेपर्यंतच दाखवायचे (कोजागरी पूजा १२-१२:३९ दरम्यान असल्याने), बाकी वेळी लपलेले
 (function(){
   var el = document.getElementById("navratraVisheshSection");
   if(!el) return;
   var start = new Date("2026-10-07T00:00:00+05:30");
-  var end = new Date("2026-10-26T00:00:00+05:30");
+  var end = new Date("2026-10-26T01:00:00+05:30");
   var now = new Date();
   if(now >= start && now < end) el.hidden = false;
 })();
