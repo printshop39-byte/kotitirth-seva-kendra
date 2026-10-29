@@ -1553,6 +1553,12 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
       <p class="chalk-line chalk-underline">वरील सेवा दि. १-११-२०२६ पासून घरच्या घरी करावयाची आहे.</p>
       <p class="chalk-line">त्यापूर्वी सर्वांनी <span class="chalk-hl1">दिपावली संच</span> घेऊन जावे.</p>
     </div>
+    <!-- दिवाळी विशेष — कार्यक्रम विभागाकडे निर्देश करणारी सूचना पट्टी, तात्पुरती (२९ ऑक्टो ते २५ नोव्हें २०२६ रात्री १२) -->
+    <a href="#karyakram" class="usmaran tilt-card" id="diwaliHighlightBanner" hidden style="display:block;text-decoration:none;color:inherit">
+      <div class="usm-top"><span class="usm-ico">🪔</span><span class="usm-when">दिवाळी विशेष</span></div>
+      <div class="usm-naav">वसुबारस ते कार्तिक स्वामी पूजन</div>
+      <div class="usm-body"><p>धनत्रयोदशी, लक्ष्मीपूजन, पाडवा, भाऊबीज, तुलसी विवाह इ. सणांची सविस्तर माहिती — मांडणीचे फोटो व सर्व मंत्रांसह — अधिक माहिती चित्रासहित 'कार्यक्रम' विभागात आहे.</p></div>
+    </a>
     <!-- उत्सव-स्मरण बॅनर: सण/उत्सवाच्या २४ तास आधी दिसतो, अन्यथा लपलेला -->
     <div class="usmaran tilt-card" id="usmaran" hidden aria-live="polite">
       <div class="usm-top"><span class="usm-ico">🔔</span><span class="usm-when" id="usmWhen"></span></div>
@@ -7624,6 +7630,14 @@ document.getElementById("bAppShare").addEventListener("click", async (ev)=>{
 // दिवाळी विशेष — आजपासून २५ नोव्हेंबर २०२६ रात्री १२ पर्यंतच दाखवायचे, बाकी वेळी लपलेले
 (function(){
   var el = document.getElementById("diwaliVisheshSection");
+  if(!el) return;
+  var end = new Date("2026-11-25T00:00:00+05:30");
+  if(new Date() < end) el.hidden = false;
+})();
+
+// दिवाळी विशेष — कार्यक्रम विभागाकडे निर्देश करणारी सूचना पट्टी (आज टॅब) — आजपासून २५ नोव्हेंबर २०२६ रात्री १२ पर्यंतच दाखवायची
+(function(){
+  var el = document.getElementById("diwaliHighlightBanner");
   if(!el) return;
   var end = new Date("2026-11-25T00:00:00+05:30");
   if(new Date() < end) el.hidden = false;
