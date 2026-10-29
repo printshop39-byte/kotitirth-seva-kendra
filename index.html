@@ -7641,6 +7641,13 @@ document.getElementById("bAppShare").addEventListener("click", async (ev)=>{
   if(!el) return;
   var end = new Date("2026-11-25T00:00:00+05:30");
   if(new Date() < end) el.hidden = false;
+  // टॅप केल्यावर कार्यक्रम टॅबवर गेल्यानंतर थेट "दिवाळी विशेष" विभागापर्यंत स्क्रोल करावे
+  el.addEventListener("click", function(){
+    setTimeout(function(){
+      var target = document.getElementById("diwaliVisheshSection");
+      if(target) target.scrollIntoView({ behavior:"smooth", block:"start" });
+    }, 400);
+  });
 })();
 </script>
 </body>
