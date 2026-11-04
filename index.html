@@ -1636,6 +1636,15 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
       <p class="chalk-line chalk-underline">वरील सेवा दि. १-११-२०२६ पासून घरच्या घरी करावयाची आहे.</p>
       <p class="chalk-line">त्यापूर्वी सर्वांनी <span class="chalk-hl1">दिपावली संच</span> घेऊन जावे.</p>
     </div>
+    <!-- अन्नदान (महाप्रसाद) फलक — तात्पुरता, ४ नोव्हेंबर २०२६ पासून २८ नोव्हेंबर २०२६ रात्री १२ पर्यंत दिसतो, नंतर आपोआप लपेल -->
+    <div class="chalk-board" id="annadanBoard" hidden>
+      <div class="chalk-top">॥ श्री स्वामी समर्थ ॥</div>
+      <div class="chalk-title"><span class="chalk-hl2">अन्नदान (महाप्रसाद)</span></div>
+      <p class="chalk-line">अखिल भारतीय <span class="chalk-hl1">श्री स्वामी समर्थ गुरुपीठ</span> श्री क्षेत्र त्र्यंबकेश्वर येथे दि. <span class="chalk-hl3">२१-११-२०२६</span> चे मासिक मिटिंगचे वेळी होणारा</p>
+      <p class="chalk-line chalk-strong chalk-hl2">महाप्रसाद</p>
+      <p class="chalk-line">आपल्या कोल्हापूर जिल्ह्याच्या वतीने संपन्न होणार आहे.</p>
+      <p class="chalk-line chalk-underline">तरी सर्वांनी पुस्तक स्टॉलवर देणगी स्वरूपात पावती करून या <span class="chalk-hl1">अन्नदान</span> सेवेमध्ये सहभाग द्यावा.</p>
+    </div>
     <!-- दिवाळी विशेष — कार्यक्रम विभागाकडे निर्देश करणारी सूचना पट्टी, तात्पुरती (२९ ऑक्टो ते १ डिसें २०२६ रात्री १२) -->
     <a href="#karyakram" class="usmaran tilt-card" id="diwaliHighlightBanner" hidden style="display:block;text-decoration:none;color:inherit">
       <div class="usm-top"><span class="usm-ico">🪔</span><span class="usm-when">दिवाळी विशेष</span></div>
@@ -7924,6 +7933,14 @@ document.getElementById("bAppShare").addEventListener("click", async (ev)=>{
   var el = document.getElementById("diwaliSanchBoard");
   if(!el) return;
   var end = new Date("2026-11-09T00:00:00+05:30");
+  if(new Date() < end) el.hidden = false;
+})();
+
+// अन्नदान (महाप्रसाद) फलक (आज टॅब) — आजपासून २८ नोव्हेंबर २०२६ रात्री १२ पर्यंतच दाखवायचा
+(function(){
+  var el = document.getElementById("annadanBoard");
+  if(!el) return;
+  var end = new Date("2026-11-29T00:00:00+05:30");
   if(new Date() < end) el.hidden = false;
 })();
 
