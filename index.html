@@ -1050,6 +1050,7 @@ html[data-theme="dark"] .alert-box > b{color:#F08A8A}
 .info-card .ic{font-size:22px;display:block;margin-bottom:6px}
 .info-card b{display:block;font-size:13.5px;color:var(--kumkum);margin-bottom:4px}
 .info-card p{font-size:12.5px;line-height:1.5;color:var(--shai-soft);margin:0}
+.info-card p .yg{color:var(--kesari);font-weight:700}
 @media (max-width:360px){.info-grid{grid-template-columns:1fr}}
 .badge-note{
   display:inline-block;font-size:12.5px;font-weight:600;color:var(--kesari);
@@ -1650,6 +1651,11 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
       <div class="usm-top"><span class="usm-ico">🪔</span><span class="usm-when">दिवाळी विशेष</span></div>
       <div class="usm-naav">वसुबारस ते कालभैरव जयंती</div>
       <div class="usm-body"><p>धनत्रयोदशी, लक्ष्मीपूजन, पाडवा, भाऊबीज, तुलसी विवाह इ. सणांची सविस्तर माहिती — मांडणीचे फोटो व सर्व मंत्रांसह — अधिक माहिती चित्रासहित 'कार्यक्रम' विभागात आहे.</p></div>
+    </a>
+    <!-- श्रीदत्तजयंती सप्ताह — आजचा/उद्याचा विशेष याग सूचना पट्टी, तात्पुरती (१७ ते २४ डिसें २०२६) -->
+    <a href="#karyakram" class="usmaran tilt-card" id="visheshYaagBanner" hidden style="display:block;text-decoration:none;color:inherit">
+      <div class="usm-top"><span class="usm-ico">🔥</span><span class="usm-when" id="vyWhen"></span></div>
+      <div class="usm-naav" id="vyNaav"></div>
     </a>
     <!-- उत्सव-स्मरण बॅनर: सण/उत्सवाच्या २४ तास आधी दिसतो, अन्यथा लपलेला -->
     <div class="usmaran tilt-card" id="usmaran" hidden aria-live="polite">
@@ -2527,12 +2533,12 @@ footer{text-align:center;margin-top:30px;font-size:14px;color:var(--shai-soft);l
           <div class="info-grid">
             <div class="info-card"><span class="ic">📅</span><b>बुधवार, दि. १६ डिसेंबर</b><p>ग्रामदेवता सन्मान, मंडल मांडणी</p></div>
             <div class="info-card"><span class="ic">📅</span><b>गुरुवार, दि. १७ डिसेंबर</b><p>मंडल स्थापना, अग्निस्थापना, स्थापित देवता हवन</p></div>
-            <div class="info-card"><span class="ic">📅</span><b>शुक्रवार, दि. १८ डिसेंबर</b><p>नित्यस्वाहाकार, गणेश याग/मनोबोध याग</p></div>
-            <div class="info-card"><span class="ic">📅</span><b>शनिवार, दि. १९ डिसेंबर</b><p>नित्य स्वाहाकार, स्वामी याग</p></div>
-            <div class="info-card"><span class="ic">📅</span><b>रविवार, दि. २० डिसेंबर</b><p>नित्य स्वाहाकार, गीताई याग</p></div>
-            <div class="info-card"><span class="ic">📅</span><b>सोमवार, दि. २१ डिसेंबर</b><p>नित्य स्वाहाकार, चंडी याग</p></div>
-            <div class="info-card"><span class="ic">📅</span><b>मंगळवार, दि. २२ डिसेंबर</b><p>नित्य स्वाहाकार, रुद्र याग/मल्हारी याग</p></div>
-            <div class="info-card"><span class="ic">📅</span><b>बुधवार, दि. २३ डिसेंबर</b><p>नित्य स्वाहाकार, बली पूर्णाहुती · दुपारी १२:३९ वा. श्रीदत्त जन्मोत्सव</p></div>
+            <div class="info-card"><span class="ic">📅</span><b>शुक्रवार, दि. १८ डिसेंबर</b><p>नित्यस्वाहाकार, <span class="yg">गणेश याग/मनोबोध याग</span></p></div>
+            <div class="info-card"><span class="ic">📅</span><b>शनिवार, दि. १९ डिसेंबर</b><p>नित्य स्वाहाकार, <span class="yg">स्वामी याग</span></p></div>
+            <div class="info-card"><span class="ic">📅</span><b>रविवार, दि. २० डिसेंबर</b><p>नित्य स्वाहाकार, <span class="yg">गीताई याग</span></p></div>
+            <div class="info-card"><span class="ic">📅</span><b>सोमवार, दि. २१ डिसेंबर</b><p>नित्य स्वाहाकार, <span class="yg">चंडी याग</span></p></div>
+            <div class="info-card"><span class="ic">📅</span><b>मंगळवार, दि. २२ डिसेंबर</b><p>नित्य स्वाहाकार, <span class="yg">रुद्र याग/मल्हारी याग</span></p></div>
+            <div class="info-card"><span class="ic">📅</span><b>बुधवार, दि. २३ डिसेंबर</b><p>नित्य स्वाहाकार, <span class="yg">बली पूर्णाहुती</span> · दुपारी १२:३९ वा. श्रीदत्त जन्मोत्सव</p></div>
             <div class="info-card"><span class="ic">📅</span><b>गुरुवार, दि. २४ डिसेंबर</b><p>श्री सत्यदत्त पूजन, देवता विसर्जन, अखंड नाम-जप-यज्ञ सप्ताह सांगता</p></div>
           </div>
 
@@ -8187,6 +8193,54 @@ document.getElementById("bAppShare").addEventListener("click", async (ev)=>{
   var end = new Date("2026-12-25T00:00:00+05:30");
   var now = new Date();
   if(now >= start && now < end) el.hidden = false;
+})();
+
+// श्रीदत्तजयंती सप्ताह — आज टॅबवर "आजचा/उद्याचा विशेष याग" सूचना पट्टी
+// नियम (तात्पुरता — केंद्राकडून अंतिम सूचना आल्यावर जुळवून घेता येईल):
+// दुपारी १२ पूर्वी आजचा याग दाखवायचा; दुपारी १२ नंतर उद्याचा याग (असल्यास) दाखवायचा.
+(function(){
+  var el = document.getElementById("visheshYaagBanner");
+  if(!el) return;
+  var VISHESH_YAAG = {
+    "2026-12-18": "गणेश याग / मनोबोध याग",
+    "2026-12-19": "स्वामी याग",
+    "2026-12-20": "गीताई याग",
+    "2026-12-21": "चंडी याग",
+    "2026-12-22": "रुद्र याग / मल्हारी याग",
+    "2026-12-23": "बली पूर्णाहुती (श्रीदत्त जन्मोत्सव — दुपारी १२:३९)"
+  };
+  // डिव्हाइसची local timezone IST नसली तरीही बरोबर काम करावे म्हणून
+  // UTC वेळेत ५:३० तास जोडून, UTC-गेटर्सनीच भारतीय स्थानिक तारीख/तास काढतो.
+  function istParts(ms){
+    var d = new Date(ms + 5.5*60*60*1000);
+    var y = d.getUTCFullYear(), m = ("0"+(d.getUTCMonth()+1)).slice(-2), dd = ("0"+d.getUTCDate()).slice(-2);
+    return { iso: y + "-" + m + "-" + dd, hour: d.getUTCHours() };
+  }
+  var nowMs = Date.now();
+  var today = istParts(nowMs);
+  var tomorrow = istParts(nowMs + 24*60*60*1000);
+  var todayISO = today.iso, tomorrowISO = tomorrow.iso, hh = today.hour;
+
+  var naav = "", when = "";
+  if(hh < 12 && VISHESH_YAAG[todayISO]){
+    naav = VISHESH_YAAG[todayISO]; when = "🔸 आजचा विशेष याग";
+  } else if(VISHESH_YAAG[tomorrowISO]){
+    naav = VISHESH_YAAG[tomorrowISO]; when = "🔸 उद्याचा विशेष याग";
+  } else if(VISHESH_YAAG[todayISO]){
+    naav = VISHESH_YAAG[todayISO]; when = "🔸 आजचा विशेष याग";
+  }
+
+  if(naav){
+    document.getElementById("vyWhen").textContent = when;
+    document.getElementById("vyNaav").textContent = naav;
+    el.hidden = false;
+    el.addEventListener("click", function(){
+      setTimeout(function(){
+        var target = document.getElementById("margashirshaVisheshSection");
+        if(target){ target.hidden = false; target.scrollIntoView({ behavior:"smooth", block:"start" }); }
+      }, 400);
+    });
+  }
 })();
 </script>
 </body>
