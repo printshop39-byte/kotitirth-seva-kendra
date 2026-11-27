@@ -8254,7 +8254,8 @@ document.getElementById("bAppShare").addEventListener("click", async (ev)=>{
 })();
 
 // श्रीदत्तजयंती सप्ताह — प्रत्येक विशेष यागाची स्वतंत्र सूचना पट्टी
-// प्रत्येक पट्टी त्या यागाच्या आदल्या दिवसापासून (रात्री १२ पासून) त्याच दिवसाच्या अखेरपर्यंत (रात्री १२ पर्यंत) दिसते.
+// प्रत्येक पट्टी त्या यागाच्या आदल्या दिवशी दुपारी १२ पासून सुरू होऊन, यागाच्या दिवशी सकाळी ११ पर्यंत
+// दिसते — जेणेकरून सेवेकऱ्यांना आदल्या दिवसापासूनच तयारीसाठी पुरेसा वेळ मिळेल.
 (function(){
   var YAAG_DAYS = [
     { id:"yaagBanner18", date:"2026-12-18" },
@@ -8270,8 +8271,8 @@ document.getElementById("bAppShare").addEventListener("click", async (ev)=>{
     var el = document.getElementById(item.id);
     if(!el) return;
     var dayStart = new Date(item.date + "T00:00:00+05:30");
-    var start = new Date(dayStart.getTime() - 24*60*60*1000); // आदल्या दिवशी रात्री १२ पासून
-    var end   = new Date(dayStart.getTime() + 24*60*60*1000); // त्याच दिवशी रात्री १२ पर्यंत
+    var start = new Date(dayStart.getTime() - 24*60*60*1000 + 12*60*60*1000); // आदल्या दिवशी दुपारी १२ पासून
+    var end   = new Date(dayStart.getTime() + 11*60*60*1000);                 // यागाच्या दिवशी सकाळी ११ पर्यंत
     if(now >= start && now < end){
       el.hidden = false;
       el.addEventListener("click", function(){
